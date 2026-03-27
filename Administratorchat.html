@@ -593,7 +593,7 @@
         : isMikeAnderson
         ? `
             <div class="shortcut-row">
-              ${shortcutItems.map((item, index) => `
+              ${shortcutItems.slice(0, 5).map((item, index) => `
                 <a href="#" class="shortcut-card drive-card"${index === 0 ? ' data-diary-modal=\"mike-diary-1\"' : index === 1 ? ' data-diary-modal=\"mike-diary-2\"' : index === 2 ? ' data-diary-modal=\"mike-diary-3\"' : index === 3 ? ' data-diary-modal=\"mike-diary-4\"' : index === 4 ? ' data-diary-modal=\"mike-diary-5\"' : ''}><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>${item}</span></a>
               `).join('')}
             </div>
@@ -690,9 +690,9 @@
             <div><dt>Family:</dt><dd>Pending</dd></div>
             <div><dt>School:</dt><dd>Pending</dd></div>
           `;
-      const fileId = isMarryBrown ? 'No.2' : isMikeAnderson ? 'No.1' : isDanielHayes ? 'No.3' : isCoreBennett ? 'No.4' : isLilyThompson ? 'No.5' : 'No.--';
-      const statusLabel = isMarryBrown || isDanielHayes ? 'Deceased' : isCoreBennett || isMikeAnderson || isLilyThompson ? 'Alive' : 'Pending';
-      const statusClass = isMarryBrown || isDanielHayes
+      const fileId = isMarryBrown ? 'No.2' : isMikeAnderson ? 'No.1' : isDanielHayes ? 'No.3' : isSofiaRossi ? 'No.4' : isCoreBennett ? 'No.4' : isLilyThompson ? 'No.5' : 'No.--';
+      const statusLabel = isMarryBrown || isDanielHayes || isSofiaRossi ? 'Deceased' : isCoreBennett || isMikeAnderson || isLilyThompson ? 'Alive' : 'Pending';
+      const statusClass = isMarryBrown || isDanielHayes || isSofiaRossi
         ? 'allery-status-badge'
         : isCoreBennett || isMikeAnderson || isLilyThompson
         ? 'allery-status-badge alive-status-badge'
@@ -745,6 +745,10 @@
               <a href="DanielNews.html" class="allery-report-bar allery-report-link">
                 <span>Death Report</span><span class="accordion-arrow">›</span>
               </a>
+            ` : isSofiaRossi ? `
+              <a href="SofiaNews.html" class="allery-report-bar allery-report-link">
+                <span>Death Report</span><span class="accordion-arrow">›</span>
+              </a>
             ` : ''}
 
             <button type="button" class="allery-report-bar allery-accordion" data-target="scaffold-report-${name.replace(/\s+/g, '-').toLowerCase()}" aria-expanded="false">
@@ -778,7 +782,9 @@
               </div>
               <form class="lily-chat-composer">
                 <input type="text" class="lily-chat-input" placeholder="Type here..." autocomplete="off" />
-                <button type="submit" class="lily-chat-send" aria-label="Send">☺</button>
+                <button type="submit" class="lily-chat-send" aria-label="Send">
+                  <img src="assets/images/huiche.png" alt="" class="lily-send-icon" aria-hidden="true" />
+                </button>
               </form>
             </section>
           ` : ''}
@@ -833,6 +839,14 @@
       bubble.textContent = text;
       messageList.appendChild(bubble);
       return bubble;
+    }
+
+    function splitLilyReply(text) {
+      return String(text || '')
+        .split(/\n{2,}/)
+        .map(part => part.trim())
+        .filter(Boolean)
+        .slice(0, 3);
     }
 
     function spawnBackgroundError() {
@@ -1079,8 +1093,11 @@
           const reply = String(data?.reply || '').trim();
           typingBubble.remove();
           if (!reply) return;
-          appendLilyBubble(messageList, reply, 'assistant');
-          history.push({ role: 'assistant', content: reply });
+          const replyParts = splitLilyReply(reply);
+          replyParts.forEach((part) => {
+            appendLilyBubble(messageList, part, 'assistant');
+          });
+          history.push({ role: 'assistant', content: replyParts.join('\n\n') || reply });
           lilyChatHistory.set(sidebar, history.slice(-12));
           lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
           window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
