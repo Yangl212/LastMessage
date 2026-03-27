@@ -849,6 +849,10 @@
         .slice(0, 3);
     }
 
+    function delay(ms) {
+      return new Promise((resolve) => window.setTimeout(resolve, ms));
+    }
+
     function spawnBackgroundError() {
       const popup = document.createElement('div');
       popup.className = 'retro-error background-error';
@@ -1089,18 +1093,28 @@
           }
           return data;
         })
-        .then((data) => {
+        .then(async (data) => {
           const reply = String(data?.reply || '').trim();
           typingBubble.remove();
           if (!reply) return;
           const replyParts = splitLilyReply(reply);
-          replyParts.forEach((part) => {
+          for (let index = 0; index < replyParts.length; index += 1) {
+            const part = replyParts[index];
+            if (index === 0) {
+              await delay(650);
+            } else {
+              const followTyping = appendLilyBubble(messageList, '...', 'typing');
+              lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
+              window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+              await delay(1050 + index * 250);
+              followTyping.remove();
+            }
             appendLilyBubble(messageList, part, 'assistant');
-          });
+            lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
+            window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+          }
           history.push({ role: 'assistant', content: replyParts.join('\n\n') || reply });
           lilyChatHistory.set(sidebar, history.slice(-12));
-          lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
-          window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
         })
         .catch((error) => {
           typingBubble.remove();
