@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Midnight Direct Channel</title>
+  <meta name="description" content="Direct secure chat with Midnight.">
+  <link rel="stylesheet" href="css/midnight_chat.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-left">
+      <div class="brand-dot" aria-hidden="true"></div>
+      <strong>Direct Channel — Midnight</strong>
+    </div>
+    <div class="header-right">
+      <a class="logout" href="chat.html">Back to Group Chat</a>
+    </div>
+  </header>
+
+  <div class="app app-single">
+    <main class="pane pane-center" aria-live="polite">
+      <div class="chat-header">
+        <div>
+          <h2>Midnight</h2>
+          <p class="chat-subtitle">Encrypted direct line for sensitive updates</p>
+        </div>
+      </div>
+
+      <section id="messages" class="messages" aria-label="Direct messages">
+        <div class="date-stamp">October 31, 2024</div>
+        <article class="msg me">
+          <div class="bubble">
+            <header class="meta"><span class="user">You</span><span class="time">08:14</span></header>
+            <p>I have completed the 49th task. I will finish the 50th task on November 13.</p>
+          </div>
+        </article>
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span><span class="time">08:15</span></header>
+            <p>Alright. You will be reborn.</p>
+          </div>
+        </article>
+
+        <div class="date-stamp">November 14, 2024</div>
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span><span class="time">09:02</span></header>
+            <p>Bliss in the Pure Land.</p>
+          </div>
+        </article>
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span><span class="time">09:04</span></header>
+            <p>AlleryLin has been archived.</p>
+          </div>
+        </article>
+      </section>
+
+      <form id="composer" class="composer" autocomplete="off" aria-label="Direct message composer">
+        <textarea id="input" rows="1" placeholder="Message Midnight - Press Enter to send, Shift+Enter for new line"></textarea>
+        <button class="send" type="submit" aria-label="Send direct message">Send</button>
+      </form>
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    <small>(2/20)</small>
+  </footer>
+
+  <script src="js/chat-base.js" defer></script>
+  <script src="js/midnight_chat.js" defer></script>
+</body>
+</html>
+
+

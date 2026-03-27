@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>News Report | Daniel Hayes</title>
+  <meta name="description" content="Newspaper-style report covering the death of Daniel Hayes." />
+  <style>
+    :root {
+      --paper: #f7f1e8;
+      --paper-edge: #e9dfd0;
+      --ink: #171411;
+      --muted: #6f665e;
+      --rule: #bcae9b;
+      --accent: #8b1e1e;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #d9d5cf;
+      color: var(--ink);
+    }
+
+    body {
+      padding: 22px;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .paper {
+      max-width: var(--max);
+      margin: 0 auto;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.34) 0%, rgba(255,255,255,0) 8%),
+        var(--paper);
+      border: 1px solid var(--paper-edge);
+      box-shadow:
+        0 26px 60px rgba(0,0,0,.12),
+        inset 0 0 0 1px rgba(255,255,255,.35);
+      padding: 26px 28px 32px;
+    }
+
+    .masthead {
+      display: grid;
+      grid-template-columns: 160px 1fr 180px;
+      align-items: end;
+      gap: 18px;
+      border-bottom: 4px double var(--ink);
+      padding-bottom: 18px;
+    }
+
+    .masthead-side {
+      font: 700 11px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+    }
+
+    .barcode {
+      width: 58px;
+      height: 46px;
+      margin-bottom: 8px;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          #151515 0 3px,
+          transparent 3px 5px,
+          #151515 5px 6px,
+          transparent 6px 9px,
+          #151515 9px 12px,
+          transparent 12px 15px
+        );
+    }
+
+    .masthead-center {
+      text-align: center;
+    }
+
+    .paper-name {
+      margin: 0;
+      font: 700 28px/1.05 "Times New Roman", Georgia, serif;
+      letter-spacing: -.03em;
+    }
+
+    .paper-word {
+      margin: 4px 0 0;
+      font: 700 clamp(68px, 10vw, 118px)/.9 "Times New Roman", Georgia, serif;
+      letter-spacing: -.08em;
+    }
+
+    .paper-subline {
+      margin-top: 8px;
+      color: var(--muted);
+      font: 700 11px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+
+    .top-strip {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 20px;
+      padding-top: 18px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 18px;
+    }
+
+    .kicker-block {
+      padding-right: 12px;
+      border-right: 1px solid var(--rule);
+    }
+
+    .kicker {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font: 700 11px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+
+    .teaser-title {
+      margin: 0 0 10px;
+      font: 700 26px/1.02 Georgia, "Times New Roman", serif;
+      letter-spacing: -.04em;
+    }
+
+    .teaser-text {
+      margin: 0;
+      color: #3d3834;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .hero-wrap {
+      display: block;
+    }
+
+    .hero-headline {
+      margin: 0 0 14px;
+      font: 700 clamp(34px, 5vw, 60px)/1.03 Georgia, "Times New Roman", serif;
+      letter-spacing: -.05em;
+    }
+
+    .hero-dek {
+      margin: 0;
+      color: #302c28;
+      font-size: 19px;
+      line-height: 1.6;
+    }
+
+    .hero-figure,
+    .portrait-card,
+    .media-card {
+      background: rgba(255,255,255,.35);
+      border: 1px solid var(--rule);
+      padding: 10px;
+    }
+
+    .hero-figure img,
+    .portrait-card img,
+    .media-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .portrait-card img {
+      filter: grayscale(.08);
+    }
+
+    .caption {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font: 700 11px/1.45 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr) 250px;
+      gap: 22px;
+      padding-top: 22px;
+    }
+
+    .sidebar-note,
+    .fact-box {
+      border-top: 3px solid var(--ink);
+      padding-top: 14px;
+    }
+
+    .sidebar-note h2,
+    .fact-box h2,
+    .media-section h2 {
+      margin: 0 0 10px;
+      font: 700 12px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--accent);
+    }
+
+    .sidebar-note p,
+    .fact-box p,
+    .fact-box dd {
+      margin: 0 0 12px;
+      font-size: 15px;
+      line-height: 1.62;
+      color: #36312d;
+    }
+
+    .fact-box dl {
+      margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .fact-box dt {
+      font: 700 11px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .article-columns {
+      column-count: 2;
+      column-gap: 26px;
+      column-rule: 1px solid var(--rule);
+      font-size: 18px;
+      line-height: 1.78;
+    }
+
+    .article-columns p {
+      margin: 0 0 18px;
+      break-inside: avoid;
+    }
+
+    .dateline {
+      margin: 0 0 14px;
+      color: var(--accent);
+      font: 700 12px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+    }
+
+    .media-section {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .media-section h2 {
+      margin: 0 0 14px;
+      font: 700 12px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--accent);
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+
+    .media-card img {
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    .bottom-rule {
+      margin-top: 28px;
+      border-top: 4px double var(--ink);
+      padding-top: 10px;
+      color: var(--muted);
+      font: 700 11px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    @media (max-width: 1020px) {
+      .masthead,
+      .top-strip,
+      .story-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .kicker-block {
+        border-right: 0;
+        padding-right: 0;
+      }
+
+      .article-columns {
+        column-count: 1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 10px;
+      }
+
+      .paper {
+        padding: 18px 16px 22px;
+      }
+
+      .paper-word {
+        font-size: 64px;
+      }
+
+      .hero-headline {
+        font-size: 36px;
+      }
+
+      .article-columns,
+      .sidebar-note p,
+      .fact-box p,
+      .fact-box dd,
+      .teaser-text,
+      .hero-dek {
+        font-size: 16px;
+      }
+
+      .media-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="paper">
+    <header class="masthead">
+      <div class="masthead-side">
+        <div class="barcode"></div>
+        <div>May 2024 Edition</div>
+        <div>Metro Region</div>
+      </div>
+
+      <div class="masthead-center">
+        <p class="paper-name">The Report Insight</p>
+        <p class="paper-word">NEWS.</p>
+        <div class="paper-subline">Independent community bulletin since 1990</div>
+      </div>
+
+      <div class="masthead-side" style="text-align:right;">
+        <div>Special Feature</div>
+        <div>Social Crisis Report</div>
+        <div>Page 03</div>
+      </div>
+    </header>
+
+    <section class="top-strip">
+      <div class="kicker-block">
+        <p class="kicker">News Report</p>
+        <h2 class="teaser-title">A student death that raises more questions than answers.</h2>
+        <p class="teaser-text">
+          Investigators say prolonged bullying, emotional neglect, and misleading online influence may all have contributed to the death of a 15-year-old student from Westbrook High School.
+        </p>
+      </div>
+
+      <div class="hero-wrap">
+        <figure class="hero-figure">
+          <img src="assets/images/danielnews-1.png" alt="Illustrative image related to school bullying." />
+          <figcaption class="caption">Investigators say the victim endured prolonged bullying, which they believe may have played a significant role in his death.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="story-grid">
+      <aside class="sidebar-note">
+        <h2>Community Note</h2>
+        <p>
+          Neighbors described the household as quiet. Several residents said they rarely saw the boy outside except when leaving for school.
+        </p>
+        <p>
+          Educators and local officials are urging families to pay closer attention to emotional distress and digital exposure among adolescents.
+        </p>
+      </aside>
+
+      <article>
+        <p class="dateline">News Report</p>
+        <div class="article-columns">
+          <p>
+            A 15-year-old boy, a student at Westbrook High School, was found dead at home on May 12, 2024, in what authorities have preliminarily ruled as a suicide by wrist laceration.
+          </p>
+
+          <p>
+            According to the initial investigation, the victim had been subjected to prolonged bullying, which is believed to have had a significant negative impact on his mental health and may have contributed to the incident.
+          </p>
+
+          <p>
+            The boy was raised in a single-parent household by his father. Investigations indicate that due to long working hours, the father paid limited attention to the boy’s psychological condition and failed to recognize warning signs in time.
+          </p>
+
+          <p>
+            Meanwhile, the boy had gradually been exposed to misleading content online and, without proper guidance, became increasingly involved, ultimately leading to the tragedy.
+          </p>
+        </div>
+      </article>
+
+      <aside class="fact-box">
+        <h2>Case Summary</h2>
+        <dl>
+          <div>
+            <dt>Victim</dt>
+            <dd>Male, 15, student at Westbrook High School</dd>
+          </div>
+          <div>
+            <dt>Preliminary Ruling</dt>
+            <dd>Suicide by wrist laceration</dd>
+          </div>
+          <div>
+            <dt>Household</dt>
+            <dd>Raised by single father</dd>
+          </div>
+          <div>
+            <dt>Investigative Concern</dt>
+            <dd>Bullying, emotional neglect, and misleading online influence</dd>
+          </div>
+        </dl>
+      </aside>
+    </section>
+
+    <section class="media-section">
+      <h2>Related Visuals</h2>
+      <div class="media-grid">
+        <figure class="media-card">
+          <img src="assets/images/Daniel.png" alt="Portrait of Daniel Hayes." />
+          <figcaption class="caption">Daniel Hayes, a student at Westbrook High School, was found dead at home on May 12, 2024.</figcaption>
+        </figure>
+
+        <figure class="media-card">
+          <img src="assets/images/danielnew-2.png" alt="A school hallway connected to the report." />
+          <figcaption class="caption">Westbrook High School, where investigators believe prolonged bullying may have significantly affected the victim’s mental state.</figcaption>
+        </figure>
+
+        <figure class="media-card">
+          <img src="assets/images/danielnew-3.png" alt="A mobile phone chat screen referenced in the investigation." />
+          <figcaption class="caption">Authorities are reviewing the victim’s digital history after reports that he had been exposed to misleading online content.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="bottom-rule">
+      <span>Public attention is shifting toward hidden online harm among teenagers.</span>
+      <span>Report Insight Archive</span>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>System Access Loading</title>
+  <link rel="stylesheet" href="css/danger_loading.css" />
+</head>
+<body>
+  <main class="loading-wrap">
+    <p class="status">WARNING: Unauthorized archive access detected</p>
+    <h1>Decrypting Restricted Records...</h1>
+
+    <div class="bar-shell" aria-label="Loading progress">
+      <div class="bar-fill" id="barFill"></div>
+    </div>
+    <p class="percent" id="percent">0%</p>
+  </main>
+
+  <script>
+    (function () {
+      const fill = document.getElementById('barFill');
+      const percent = document.getElementById('percent');
+      let value = 0;
+
+      const timer = window.setInterval(function () {
+        value += 1;
+        if (fill) fill.style.width = value + '%';
+        if (percent) percent.textContent = value + '%';
+
+        if (value >= 100) {
+          window.clearInterval(timer);
+          if (percent) percent.textContent = '100% - ACCESSING...';
+        }
+      }, 80);
+    })();
+  </script>
+</body>
+</html>

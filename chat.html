@@ -1,0 +1,319 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blue Whale Chat Group</title>
+  <meta name="description" content="In-browser chat-style interface for the ARG.">
+  <link rel="stylesheet" href="css/chat.css" />
+</head>
+<body class="progress-collapsed">
+  <header class="app-header">
+    <div class="header-left">
+      <div class="brand-dot" aria-hidden="true"></div>
+      <strong>Blue Whale Chat Group</strong>
+    </div>
+    <div class="header-right">
+      <div class="user-pill" aria-label="Current user AlleyLin">
+        <img src="assets/images/AlleyLin.jpg" alt="" class="user-avatar">
+        <span class="user-name">AlleyLin</span>
+      </div>
+      <a class="logout" href="login.html">Logout</a>
+    </div>
+  </header>
+
+  <div class="app app-two">
+    <main class="pane pane-center" aria-live="polite">
+      <div class="chat-header">
+        <h2>General</h2>
+      </div>
+
+      <section id="messages" class="messages" aria-label="Messages">
+        <div class="date-stamp">09:00</div>
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span></header>
+            <p>Welcome. I’m glad you’re here!</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span></header>
+            <p>I’m Midnight. I work as a psychological counselor, and I’ll be here with you.</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">No. 9</span></header>
+            <p>New member spotted! Welcome to the chaos.</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">NewUser_x7a93</span></header>
+            <p>Hi… everyone.</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">No. 9</span></header>
+            <p>So what brought you here?</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">No. 9</span></header>
+            <p>I mean… people usually come here because something hurt them.</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span></header>
+            <p>It’s okay. No.9 didn’t mean to rush you.</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span></header>
+            <p>When you have a moment, please change your default password so your account feels a little more personal.</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span></header>
+            <p>For now, your password is the same as the last part of your ID. You can change it whenever you like.</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">NewUser_x7a93</span></header>
+            <p>Thank you. I heard something about a 30-day check-in program… could you explain what that is?</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span></header>
+            <p>That’s not something you need to worry about right now. You’re welcome to look around the chat first, or read through the group guidelines.</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span></header>
+            <p>If anything feels unclear, just ask me here.</p>
+          </div>
+        </article>
+
+        <div class="chat-divider" role="separator" aria-label="Message boundary"></div>
+
+      </section>
+
+      <form id="composer" class="composer" autocomplete="off" aria-label="Message composer">
+        <textarea id="input" rows="1" placeholder="Message - Press Enter to send, Shift+Enter for new line"></textarea>
+        <button class="send" type="submit" aria-label="Send message">Send</button>
+      </form>
+    </main>
+
+    <aside class="pane pane-right" aria-label="Members">
+      <div class="pane-title">Group Guidelines</div>
+      <ul class="announcement-list" id="announcementList" aria-label="Announcements">
+        <li><button type="button" class="announcement-item" data-announcement-id="a1">About Blue Whale Chat Group</button></li>
+        <li><button type="button" class="announcement-item" data-announcement-id="a2">30-Day Reflection Progress</button></li>
+        <li><button type="button" class="announcement-item" data-announcement-id="a3">Administrator Recruitment</button></li>
+      </ul>
+      <div class="pane-title">Members</div>
+      <ul class="members" id="memberList">
+        <li
+          data-member="Midnight"
+          data-status="online"
+          data-avatar="assets/images/member-Midnight.jpeg"
+          data-registered="2023-07-19"
+          data-role="Administrator"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status online"></span> Midnight</li>
+        <li
+          data-member="No. 2"
+          data-status="offline"
+          data-avatar="assets/images/member-dd.jpg"
+          data-registered="2024-02-03"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status offline"></span> No. 2</li>
+        <li
+          data-member="No. 3"
+          data-status="offline"
+          data-avatar="assets/images/member-dd.jpg"
+          data-registered="2022-11-28"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status offline"></span> No. 3</li>
+        <li
+          data-member="No. 4"
+          data-status="offline"
+          data-avatar="assets/images/member-dd.jpg"
+          data-registered="2023-04-15"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status offline"></span> No. 4</li>
+        <li
+          data-member="No. 5"
+          data-status="online"
+          data-avatar="assets/images/member-no7.png"
+          data-registered="2023-09-05"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status online"></span> No. 5</li>
+        <li
+          data-member="You"
+          data-status="online"
+          data-avatar="assets/images/AlleyLin.jpg"
+          data-registered="2022-05-30"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status online"></span> You</li>
+        <li
+          data-member="No. 7"
+          data-status="online"
+          data-avatar="assets/images/member-no13.png"
+          data-registered="2022-05-30"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status online"></span> No. 7</li>
+        <li
+          data-member="NewUser_x7a93"
+          data-status="online"
+          data-avatar="assets/images/newuser.png"
+          data-registered="2024-05-01"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status online"></span> NewUser_x7a93</li>
+      </ul>
+    </aside>
+  </div>
+
+  <button type="button" class="progress-toggle" id="progressToggle" aria-expanded="false" aria-controls="progressFooter">
+    <img src="assets/images/up.png" alt="" class="progress-toggle-icon" aria-hidden="true" />
+  </button>
+
+  <footer class="app-footer progress-footer" id="progressFooter">
+    <div class="progress-meter" aria-label="Progress 10 percent">
+      <div class="progress-track">
+        <div class="progress-fill"></div>
+      </div>
+      <span class="progress-value">10%</span>
+    </div>
+  </footer>
+
+  <div class="modal" id="memberModal" role="dialog" aria-modal="true" aria-labelledby="modalName" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel" role="document">
+      <button type="button" class="modal-close" aria-label="Close member info" data-close>&times;</button>
+      <img src="assets/images/avatar.png" alt="" class="modal-avatar" id="modalAvatar" />
+      <div class="modal-details">
+        <h3 class="modal-name" id="modalName"></h3>
+        <p class="modal-status"><span class="status" id="modalStatusDot" aria-hidden="true"></span><span id="modalStatusLabel"></span></p>
+        <p class="modal-role" id="modalRole"></p>
+        <p class="modal-registered" id="modalRegistered"></p>
+        <button type="button" class="modal-action" id="modalMessageButton">Send Message</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="announcementModal" role="dialog" aria-modal="true" aria-labelledby="announcementTitle" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel announcement-panel" role="document">
+      <button type="button" class="modal-close" aria-label="Close announcement" data-close>&times;</button>
+      <div class="modal-details">
+        <h3 class="modal-name" id="announcementTitle">Announcement</h3>
+        <p class="modal-role" id="announcementBody">Content placeholder.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/chat-base.js" defer></script>
+  <script src="js/chat.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('progressToggle');
+      const body = document.body;
+      const progressFill = document.querySelector('.progress-fill');
+      const progressValue = document.querySelector('.progress-value');
+      const toggleIcon = document.querySelector('.progress-toggle-icon');
+      let progressTextTimer = null;
+      if (!toggle || !body) return;
+
+      const replayProgressAnimation = () => {
+        if (!progressFill) return;
+        progressFill.style.animation = 'none';
+        void progressFill.offsetWidth;
+        progressFill.style.animation = '';
+      };
+
+      const replayProgressValue = () => {
+        if (!progressValue) return;
+        const frames = ['1%', '3%', '8%', '5%', '2%', '9%', '4%', '7%', '6%', '8%', '5%', '10%'];
+        let index = 0;
+
+        if (progressTextTimer) {
+          window.clearInterval(progressTextTimer);
+          progressTextTimer = null;
+        }
+
+        progressValue.textContent = frames[0];
+        progressTextTimer = window.setInterval(() => {
+          index += 1;
+          progressValue.textContent = frames[Math.min(index, frames.length - 1)];
+
+          if (index >= frames.length - 1) {
+            window.clearInterval(progressTextTimer);
+            progressTextTimer = null;
+            progressValue.textContent = '10%';
+          }
+        }, 80);
+      };
+
+      toggle.addEventListener('click', () => {
+        const isOpen = body.classList.toggle('progress-open');
+        body.classList.toggle('progress-collapsed', !isOpen);
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (toggleIcon) {
+          toggleIcon.src = isOpen ? 'assets/images/down.png' : 'assets/images/up.png';
+        }
+        if (isOpen) {
+          replayProgressAnimation();
+          replayProgressValue();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
+
+

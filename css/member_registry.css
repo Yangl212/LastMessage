@@ -1,0 +1,213 @@
+:root{
+  --grid:#d7dce2;
+  --grid-strong:#c5ccd5;
+  --head:#eef3f8;
+  --text:#1f2937;
+  --bg:#f7fafc;
+  --cell:#ffffff;
+  --accent:#2a7fff;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:15px/1.45 "Segoe UI", Calibri, Arial, sans-serif;
+}
+
+.sheet-wrap{
+  max-width:860px;
+  margin:28px auto;
+  padding:0 16px;
+}
+
+h1{
+  margin:0 0 14px;
+  font-size:20px;
+  font-weight:700;
+}
+
+.sheet{
+  border:1px solid var(--grid-strong);
+  background:var(--cell);
+  overflow:auto;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  table-layout:fixed;
+}
+
+th,td{
+  border:1px solid var(--grid);
+  padding:10px 12px;
+  text-align:left;
+  min-height:40px;
+}
+
+th{
+  background:var(--head);
+  font-weight:700;
+}
+
+tbody td{
+  background:var(--cell);
+}
+
+tbody tr:hover td{
+  background:#f9fcff;
+}
+
+td:focus-within{
+  outline:2px solid var(--accent);
+  outline-offset:-2px;
+}
+
+.death-col{
+  display:none;
+}
+
+.night-toggle{
+  position:fixed;
+  right:16px;
+  bottom:16px;
+  border:1px solid var(--grid-strong);
+  background:#ffffff;
+  color:#111827;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+
+.night-toggle:hover{
+  filter:brightness(.98);
+}
+
+body.midnight-mode{
+  --grid:#3b4350;
+  --grid-strong:#4a5566;
+  --head:#1b2330;
+  --text:#e5e7eb;
+  --bg:#0f1723;
+  --cell:#151c28;
+}
+
+body.midnight-mode tbody tr:hover td{
+  background:#1a2331;
+}
+
+body.midnight-mode .night-toggle{
+  background:#111827;
+  color:#e5e7eb;
+  border-color:#4b5563;
+}
+
+body.midnight-mode .death-col{
+  display:table-cell;
+}
+
+body.midnight-mode .death-col a{
+  color:#dbeafe;
+  text-decoration:underline;
+}
+
+body.midnight-mode .report-redacted{
+  display:block;
+  width:88%;
+  height:14px;
+  background:#ffffff;
+  border:0;
+  border-radius:2px;
+  margin:2px 0;
+  box-shadow:0 0 0 1px rgba(255,255,255,.25), 0 1px 2px rgba(0,0,0,.25);
+  cursor:pointer;
+}
+
+.modal[hidden]{
+  display:none;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal-backdrop{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.78);
+}
+
+.modal-panel{
+  position:relative;
+  z-index:1;
+  width:min(420px,100%);
+  background:#000000;
+  border:2px solid #dc2626;
+  border-radius:12px;
+  padding:24px 22px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  text-align:center;
+  box-shadow:0 25px 60px rgba(0,0,0,0.55);
+}
+
+.modal-panel h2{
+  margin:0;
+  font-size:22px;
+  color:#f87171;
+  text-transform:uppercase;
+  letter-spacing:.03em;
+}
+
+#identityInput{
+  width:min(320px,100%);
+  margin:0 auto;
+  border:1px solid #dc2626;
+  border-radius:8px;
+  padding:10px 12px;
+  font:14px/1.4 "Segoe UI", Calibri, Arial, sans-serif;
+  text-align:center;
+  color:#fca5a5;
+  background:rgba(220,38,38,0.08);
+}
+
+#identityInput::placeholder{
+  color:#f87171;
+  opacity:.75;
+}
+
+.identity-error{
+  color:#ef4444;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+
+#identityConfirm{
+  align-self:center;
+  border:1px solid #dc2626;
+  background:rgba(220,38,38,0.12);
+  color:#f87171;
+  border-radius:8px;
+  padding:8px 14px;
+  font-weight:700;
+  letter-spacing:.04em;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+
+#identityConfirm:hover{
+  background:rgba(220,38,38,0.2);
+}

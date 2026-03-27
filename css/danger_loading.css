@@ -1,0 +1,64 @@
+:root{
+  --bg:#020202;
+  --red:#ef4444;
+  --red-soft:#f87171;
+  --line:#7f1d1d;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(239,68,68,.12), transparent 30%),
+    radial-gradient(circle at 80% 70%, rgba(239,68,68,.1), transparent 34%),
+    var(--bg);
+  color:var(--red-soft);
+  font:16px/1.5 "Segoe UI", Arial, sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.loading-wrap{
+  width:min(720px,92vw);
+  border:1px solid var(--line);
+  background:rgba(127,29,29,.08);
+  padding:28px 22px;
+  box-shadow:0 24px 60px rgba(0,0,0,.6);
+}
+
+.status{
+  margin:0 0 10px;
+  text-transform:uppercase;
+  letter-spacing:.08em;
+  font-weight:700;
+  color:var(--red);
+}
+
+h1{
+  margin:0 0 18px;
+  font-size:28px;
+  letter-spacing:.02em;
+}
+
+.bar-shell{
+  height:22px;
+  border:1px solid var(--line);
+  background:#120707;
+  overflow:hidden;
+}
+
+.bar-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg, #dc2626 0%, #f87171 100%);
+  box-shadow:0 0 14px rgba(248,113,113,.45);
+}
+
+.percent{
+  margin:10px 0 0;
+  font-weight:800;
+  letter-spacing:.06em;
+  color:#fecaca;
+}

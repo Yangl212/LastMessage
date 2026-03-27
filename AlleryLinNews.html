@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Teen Found Dead in Riverside Home, Investigation Ongoing</title>
+  <meta
+    name="description"
+    content="News-style article covering the death of Allery Lin in Riverside, New York."
+  />
+  <style>
+    :root {
+      --page: #f3f0ea;
+      --paper: #fffdf9;
+      --ink: #171717;
+      --muted: #686868;
+      --line: #ddd5ca;
+      --accent: #9f1f1f;
+      --max: 1180px;
+      --sidebar: 300px;
+      --gutter: 32px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top, rgba(0, 0, 0, 0.06), transparent 24%),
+        var(--page);
+      color: var(--ink);
+    }
+
+    body {
+      font: 17px/1.7 Georgia, "Times New Roman", serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 253, 249, 0.9);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .masthead {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      font: 700 13px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .edition {
+      color: var(--muted);
+      font: 500 12px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .page-shell {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 32px 24px 56px;
+    }
+
+    .headline-block {
+      max-width: 860px;
+      margin-bottom: 30px;
+    }
+
+    .section-kicker {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font: 700 12px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font: 700 clamp(34px, 5vw, 62px)/1.04 Georgia, "Times New Roman", serif;
+      letter-spacing: -0.03em;
+    }
+
+    .dek {
+      margin: 0;
+      max-width: 780px;
+      color: #343434;
+      font-size: 21px;
+      line-height: 1.45;
+    }
+
+    .meta-row {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: var(--muted);
+      font: 500 13px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .lead-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) var(--sidebar);
+      gap: var(--gutter);
+      align-items: start;
+    }
+
+    .hero-card,
+    .portrait-card {
+      margin: 0;
+      background: var(--paper);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 24px 54px rgba(0, 0, 0, 0.08);
+    }
+
+    .hero-card img,
+    .portrait-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .caption {
+      margin: 0;
+      padding: 12px 14px 14px;
+      color: var(--muted);
+      font: 500 12px/1.45 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      border-top: 1px solid var(--line);
+    }
+
+    .article-layout {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) var(--sidebar);
+      gap: var(--gutter);
+    }
+
+    .article-body {
+      background: var(--paper);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 20px 46px rgba(0, 0, 0, 0.06);
+      padding: 34px 34px 28px;
+    }
+
+    .dateline {
+      margin: 0 0 22px;
+      font: 700 19px/1.5 Georgia, "Times New Roman", serif;
+    }
+
+    .article-body p {
+      margin: 0 0 18px;
+      font-size: 20px;
+    }
+
+    .article-aside {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      width: 100%;
+    }
+
+    .portrait-card,
+    .aside-card {
+      width: 100%;
+    }
+
+    .portrait-card img {
+      max-height: 420px;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .aside-card {
+      background: rgba(255, 253, 249, 0.84);
+      border: 1px solid var(--line);
+      padding: 18px 18px 16px;
+    }
+
+    .aside-card h2 {
+      margin: 0 0 10px;
+      font: 700 14px/1.3 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .aside-card p {
+      margin: 0;
+      color: #444;
+      font: 16px/1.6 Georgia, "Times New Roman", serif;
+    }
+
+    .footer-rule {
+      margin-top: 36px;
+      height: 1px;
+      background: var(--line);
+    }
+
+    @media (max-width: 980px) {
+      .lead-grid,
+      .article-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .portrait-card {
+        max-width: 420px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-shell {
+        padding: 22px 16px 40px;
+      }
+
+      .article-body {
+        padding: 24px 20px 18px;
+      }
+
+      .article-body p {
+        font-size: 18px;
+      }
+
+      .dek {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="masthead">
+      <div class="brand">Metro Dispatch</div>
+      <div class="edition">Local News | New York</div>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="headline-block">
+      <p class="section-kicker">Breaking</p>
+      <h1>Teen Found Dead in Riverside Home, Investigation Ongoing</h1>
+      <p class="dek">
+        Authorities say there is no immediate evidence of foul play, though the death of Riverside High School student Allery Lin remains under review.
+      </p>
+      <div class="meta-row">
+        <span>New York, NY</span>
+        <span>April 15</span>
+        <span>Staff Report</span>
+      </div>
+    </section>
+
+    <section class="lead-grid" aria-label="Lead visuals">
+      <figure class="hero-card">
+        <img src="assets/images/AlleryNews-1.png" alt="Emergency scene outside a Riverside residence." />
+        <figcaption class="caption">
+          Authorities responded late Sunday evening after a family member placed an emergency call from the Riverside residence.
+        </figcaption>
+      </figure>
+
+      <figure class="portrait-card">
+        <img src="assets/images/AlleryNews-2.JPG" alt="Portrait of Allery Lin." />
+        <figcaption class="caption">
+          Allery Lin, 16, was a student at Riverside High School. Classmates described her as quiet and academically focused. Counseling resources were made available on campus following confirmation of her death.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="article-layout">
+      <article class="article-body">
+        <p class="dateline">New York, NY — April 15</p>
+
+        <p>
+          A 16-year-old high school student, identified as Allery Lin, was found dead in her home late Sunday evening, according to local authorities. Emergency services responded to a call from a family member and pronounced her deceased at the scene.
+        </p>
+
+        <p>
+          Preliminary reports suggest the cause of death was self-inflicted injuries. Officials stated that there is currently no evidence of foul play, though the case remains under review.
+        </p>
+
+        <p>
+          Lin was a student at Riverside High School and was described by peers as quiet and academically driven. School representatives declined to comment in detail but confirmed that counseling services have been made available to students.
+        </p>
+
+        <p>
+          Neighbors reported limited recent interaction with the family, noting that Lin had not been seen outside frequently in recent weeks.
+        </p>
+
+        <p>
+          Authorities have not released further details at this time. The investigation is ongoing.
+        </p>
+
+        <div class="footer-rule"></div>
+      </article>
+
+      <aside class="article-aside">
+        <section class="aside-card">
+          <h2>Case Status</h2>
+          <p>Ongoing review. Authorities say no confirmed evidence of foul play has been identified so far.</p>
+        </section>
+
+        <section class="aside-card">
+          <h2>School Response</h2>
+          <p>Riverside High School confirmed counseling resources are being made available to students following the incident.</p>
+        </section>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,58 @@
+:root{
+  --bg:#f3f5f8;
+  --card:#ffffff;
+  --text:#1f2937;
+  --muted:#6b7280;
+  --line:#dbe2ea;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font:17px/1.75 Georgia, "Times New Roman", serif;
+}
+
+.news-header{
+  background:#ffffff;
+  border-bottom:1px solid var(--line);
+  padding:14px 20px;
+}
+
+.brand{
+  font:700 15px/1.2 "Segoe UI", Arial, sans-serif;
+  letter-spacing:.06em;
+  text-transform:uppercase;
+  color:#111827;
+}
+
+.article-wrap{
+  max-width:900px;
+  margin:24px auto 36px;
+  padding:0 16px;
+}
+
+.article-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  padding:24px 22px;
+}
+
+h1{
+  margin:0 0 14px;
+  font-size:34px;
+  line-height:1.2;
+}
+
+.hero-image{
+  width:100%;
+  max-height:460px;
+  object-fit:cover;
+  border:1px solid var(--line);
+  margin:2px 0 16px;
+}
+
+p{
+  margin:0 0 14px;
+}

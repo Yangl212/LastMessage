@@ -1,0 +1,62 @@
+@import url('./chat-base.css');
+
+.date-stamp{
+  margin:18px 0 6px;
+  text-align:center;
+  font-size:13px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  font-weight:600;
+}
+
+.chat-divider{
+  margin:18px 0 8px;
+  border-top:1px solid #d3dae2;
+}
+
+/* Announcements */
+.announcement-list{
+  list-style:none;
+  margin:0;
+  padding:8px;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+.announcement-item{
+  width:100%;
+  text-align:left;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:10px 12px;
+  color:var(--text);
+  cursor:pointer;
+  transition:background .2s ease, border-color .2s ease, transform .15s ease;
+}
+.announcement-item:hover{
+  background:#eef2ff;
+  border-color:var(--accent);
+  transform:translateY(-1px);
+}
+.announcement-item:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:2px;
+}
+.announcement-panel{
+  max-width:520px;
+}
+#announcementBody{
+  white-space:pre-line;
+  line-height:1.7;
+}
+#announcementBody a{
+  color:var(--accent);
+  font-weight:700;
+}
+#announcementBody .progress-row{
+  display:flex;
+  gap:28px;
+  margin:4px 0;
+}

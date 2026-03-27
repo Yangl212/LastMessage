@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>14-Year-Old Girl Found Dead at Home; Questions Remain</title>
+  <meta
+    name="description"
+    content="Local-news style article covering the death of Marry Brown and the continuing investigation into possible outside influence."
+  />
+  <style>
+    :root {
+      --page: #eef1f5;
+      --panel: #ffffff;
+      --ink: #15171a;
+      --muted: #65707c;
+      --line: #d6dde6;
+      --accent: #b11313;
+      --accent-dark: #7d0e0e;
+      --accent-soft: #f6dede;
+      --max: 1180px;
+      --sidebar: 320px;
+      --gutter: 28px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        linear-gradient(180deg, #f8fafc 0%, #eef1f5 220px, #eef1f5 100%);
+      color: var(--ink);
+      font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .top-ribbon {
+      background: #121417;
+      color: #f4f7fb;
+      border-bottom: 3px solid var(--accent);
+    }
+
+    .top-ribbon-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.18em;
+    }
+
+    .live-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ff4d4d;
+      box-shadow: 0 0 0 6px rgba(255, 77, 77, 0.16);
+    }
+
+    .site-nav {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .site-nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .site-nav-inner .active {
+      color: var(--accent);
+    }
+
+    .page-shell {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 26px 24px 56px;
+    }
+
+    .alert-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      align-items: center;
+      margin-bottom: 22px;
+      padding: 10px 14px;
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      color: #581010;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .headline-block {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 250px;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 26px;
+    }
+
+    .headline-copy h1 {
+      margin: 0 0 14px;
+      font: 800 clamp(34px, 4.6vw, 56px)/1.02 Arial, "Helvetica Neue", Helvetica, sans-serif;
+      letter-spacing: -0.04em;
+    }
+
+    .headline-copy p {
+      margin: 0;
+      max-width: 760px;
+      color: #30363d;
+      font: 19px/1.5 Arial, "Helvetica Neue", Helvetica, sans-serif;
+    }
+
+    .byline-box {
+      padding: 14px 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 14px 28px rgba(16, 24, 32, 0.06);
+    }
+
+    .byline-box strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+
+    .byline-box span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .lead-grid,
+    .story-layout,
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) var(--sidebar);
+      gap: var(--gutter);
+      align-items: start;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    .hero-card,
+    .side-photo,
+    .gallery-card,
+    .story-card,
+    .fact-card,
+    .quote-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 34px rgba(16, 24, 32, 0.06);
+    }
+
+    .hero-card img,
+    .side-photo img,
+    .gallery-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .caption {
+      margin: 0;
+      padding: 10px 14px 13px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .side-photo img {
+      max-height: 360px;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .story-layout {
+      margin-top: 26px;
+    }
+
+    .story-card {
+      padding: 28px 28px 18px;
+    }
+
+    .story-card p {
+      margin: 0 0 18px;
+      font-size: 19px;
+      line-height: 1.7;
+    }
+
+    .dateline {
+      margin: 0 0 18px;
+      color: var(--accent-dark);
+      font-size: 16px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .aside-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .fact-card {
+      padding: 18px;
+    }
+
+    .fact-card h2,
+    .quote-card h2 {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .fact-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .fact-list div {
+      display: grid;
+      gap: 2px;
+    }
+
+    .fact-list dt {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .fact-list dd {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.45;
+      color: #222;
+    }
+
+    .quote-card {
+      padding: 20px 18px;
+      border-top: 4px solid var(--accent);
+    }
+
+    .quote-card blockquote {
+      margin: 0;
+      color: #222;
+      font: 700 24px/1.45 Arial, "Helvetica Neue", Helvetica, sans-serif;
+      letter-spacing: -0.03em;
+    }
+
+    .gallery-grid {
+      margin-top: 28px;
+    }
+
+    .gallery-stack {
+      display: grid;
+      gap: var(--gutter);
+    }
+
+    .footer-rule {
+      margin-top: 34px;
+      height: 1px;
+      background: var(--line);
+    }
+
+    @media (max-width: 980px) {
+      .headline-block,
+      .lead-grid,
+      .story-layout,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .side-photo {
+        max-width: 420px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .top-ribbon-inner,
+      .site-nav-inner,
+      .page-shell {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .headline-copy h1 {
+        font-size: 36px;
+      }
+
+      .headline-copy p,
+      .story-card p,
+      .quote-card blockquote {
+        font-size: 17px;
+      }
+
+      .story-card {
+        padding: 22px 18px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-ribbon">
+    <div class="top-ribbon-inner">
+      <div class="brand">CityWatch 12</div>
+      <div class="live-tag"><span class="live-dot"></span>Developing Story</div>
+    </div>
+  </div>
+
+  <nav class="site-nav">
+    <div class="site-nav-inner">
+      <span>Home</span>
+      <span>Crime</span>
+      <span class="active">Local News</span>
+      <span>Education</span>
+      <span>Community</span>
+    </div>
+  </nav>
+
+  <main class="page-shell">
+    <div class="alert-strip">
+      <span>Teen Death Investigation</span>
+      <span>Parents say there were no warning signs</span>
+      <span>Authorities reviewing possible outside influence</span>
+    </div>
+
+    <section class="headline-block">
+      <div class="headline-copy">
+        <h1>14-Year-Old Girl Found Dead at Home; Questions Remain Over Possible Outside Influence</h1>
+        <p>
+          Investigators say the death of Marry Brown, confirmed as suicide by wrist laceration, has left her family devastated and prompted broader concern about hidden online influence.
+        </p>
+      </div>
+
+      <div class="byline-box">
+        <strong>Local Desk</strong>
+        <span>New York, NY</span>
+        <span>Updated March 27, 2026</span>
+        <span>CityWatch 12 Staff</span>
+      </div>
+    </section>
+
+    <section class="lead-grid">
+      <figure class="hero-card">
+        <img src="assets/images/marrynews-3.png" alt="Police vehicles and investigators gathered at the scene outside the home." />
+        <figcaption class="caption">
+          Police vehicles remained outside the home for several hours as investigators processed the scene and interviewed family members.
+        </figcaption>
+      </figure>
+
+      <figure class="side-photo">
+        <img src="assets/images/marrynews-1.png" alt="Portrait photograph of Marry Brown." />
+        <figcaption class="caption">
+          Marry Brown, 14, was remembered by relatives as quiet, sensitive, and well-behaved.
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="story-layout">
+      <article class="story-card">
+        <p class="dateline">New York, NY</p>
+
+        <p>
+          A 14-year-old girl was found dead at home in what authorities have confirmed as a suicide by wrist laceration.
+        </p>
+
+        <p>
+          According to her parents, the girl had shown no prior signs of self-harm behavior. They stated that she had never exhibited tendencies toward harming herself, making the incident both sudden and incomprehensible to the family.
+        </p>
+
+        <p>
+          Investigators noted that the method used appeared unusually precise and deliberate, suggesting a level of familiarity not typically expected. Authorities have not ruled out the possibility of external influence or instruction.
+        </p>
+
+        <p>
+          The parents are reported to be in extreme distress following the incident. In statements given to local media, they described their daughter as “quiet, sensitive, and well-behaved,” and expressed deep grief and confusion over her sudden death.
+        </p>
+
+        <p>
+          “We don’t understand how this could happen,” they said. “There were no signs. Nothing that could have prepared us for this.”
+        </p>
+
+        <p>
+          The case has raised concerns among local authorities, who are urging parents to pay closer attention to the mental health and online activity of adolescents.
+        </p>
+      </article>
+
+      <aside class="aside-stack">
+        <section class="fact-card">
+          <h2>What We Know</h2>
+          <dl class="fact-list">
+            <div>
+              <dt>Victim</dt>
+              <dd>Marry Brown, 14</dd>
+            </div>
+            <div>
+              <dt>Confirmed Cause</dt>
+              <dd>Suicide by wrist laceration</dd>
+            </div>
+            <div>
+              <dt>Family Statement</dt>
+              <dd>No prior signs of self-harm behavior</dd>
+            </div>
+            <div>
+              <dt>Current Focus</dt>
+              <dd>Possible outside influence or instruction</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="quote-card">
+          <h2>Parents' Reaction</h2>
+          <blockquote>
+            “We don’t understand how this could happen.”
+          </blockquote>
+        </section>
+      </aside>
+    </section>
+
+    <section class="gallery-grid">
+      <div class="gallery-stack">
+        <figure class="gallery-card">
+          <img src="assets/images/marrynews-2.png" alt="Marry Brown's parents crying after speaking with investigators." />
+          <figcaption class="caption">
+            Marry Brown's parents were seen in visible distress as they spoke briefly with local media and investigators.
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="gallery-stack">
+        <figure class="gallery-card">
+          <img src="assets/images/marrynews-4.png" alt="Marry Brown's bedroom during the investigation." />
+          <figcaption class="caption">
+            Authorities documented the teenager's room as part of the continuing review into the circumstances surrounding her death.
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="footer-rule"></div>
+  </main>
+</body>
+</html>

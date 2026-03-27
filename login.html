@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Login | Blue Whale Chat Group</title>
+  <link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+  <div class="page-dim" id="pageDim" aria-hidden="true"></div>
+  <main class="login-page">
+    <section class="login-card" id="loginCard" aria-label="Login form">
+      <header class="login-header" id="loginDragHandle">
+        <h1 class="title">Blue Whale Chat Group</h1>
+        <p class="subtitle">Blue Whale Chat Group — Login</p>
+      </header>
+
+      <form id="loginForm" class="form" autocomplete="off">
+        <label class="field">
+          <span class="field-label">Username</span>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            placeholder="Enter your username"
+            autocomplete="off"
+            required
+          />
+        </label>
+
+        <label class="field">
+          <span class="field-label">Password</span>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="Enter your password"
+            autocomplete="off"
+            required
+          />
+        </label>
+
+        <p id="errorMsg" class="error" aria-live="polite"></p>
+
+        <button type="submit" class="btn-login">Login</button>
+      </form>
+    </section>
+  </main>
+
+  <button type="button" class="admin-entry" id="adminEntry" hidden>Administrator Access</button>
+
+  <script src="js/login.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Incoming Signal</title>
+  <link rel="stylesheet" href="css/introduction.css" />
+</head>
+
+<body>
+  <div class="call-screen" id="callScreen">
+    <div class="call-glow"></div>
+
+    <div class="call-card" id="callCard">
+      <p class="call-label">INCOMING SIGNAL</p>
+      <h1 class="call-title">Unknown Contact</h1>
+      <p class="call-status">Ringing...</p>
+      <div class="call-actions">
+        <button class="btn accept" id="answerBtn">Answer</button>
+      </div>
+      <audio id="ringtone" src="assets/audio/ringtone.mp3" preload="auto" loop></audio>
+    </div>
+
+    <div class="briefing hidden" id="briefing">
+      <div class="audio-shell">
+        <div class="audio-header">
+          <div class="audio-title">Call Log</div>
+          <div class="audio-status" id="audioStatus">Listening...</div>
+        </div>
+        <p class="audio-hint">Please listen to or read the chat carefully. It contains critical information.</p>
+        <canvas id="waveform" width="960" height="220" aria-label="Audio waveform visualization"></canvas>
+        <div class="audio-controls">
+          <audio id="callAudio" controls preload="auto">
+            <source src="assets/audio/call-log.mp3" type="audio/mp3">
+            Place call-log.mp3 inside assets/audio/.
+          </audio>
+        </div>
+      </div>
+      <div class="case-card transcript-card">
+        <h2 class="case-title">Transcript</h2>
+        <ul id="transcriptList" class="transcript-list" aria-live="polite"></ul>
+        <a class="btn mission no-underline" href="chat.html">Accept Mission</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/introduction.js" defer></script>
+</body>
+</html>
