@@ -47,6 +47,9 @@ module.exports = async (req, res) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
+        flags: {
+          supportsDestroySite: true
+        },
         reply: [
           'yeah... then we should stop it.',
           'if this place is really doing that, i’m with you.',

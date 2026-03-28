@@ -294,6 +294,33 @@
           </div>
         </div>
       </div>
+
+      <div class="core-attack-overlay" id="coreAttackOverlay" aria-hidden="true" hidden>
+        <div class="core-attack-rgb core-attack-rgb-a"></div>
+        <div class="core-attack-rgb core-attack-rgb-b"></div>
+        <div class="core-attack-noise"></div>
+        <div class="core-attack-scanlines"></div>
+        <div class="core-attack-code">
+          <span>root@core:~# inject --silent --mask "midnight"</span>
+          <span>compiling overflow packet...</span>
+          <span>bridging diary nodes</span>
+          <span>trace: support_destroy:lily = true</span>
+          <span>trace: support_destroy:core = true</span>
+          <span>escalating privilege...</span>
+          <span>opening socket /admin-shell</span>
+          <span>shard.write(glitch_map[site])</span>
+          <span>panic: render tree desync</span>
+          <span>panic: route integrity lost</span>
+          <span>site teardown pending</span>
+        </div>
+        <span class="core-attack-bar core-attack-bar-1"></span>
+        <span class="core-attack-bar core-attack-bar-2"></span>
+        <span class="core-attack-bar core-attack-bar-3"></span>
+        <span class="core-attack-bar core-attack-bar-4"></span>
+        <span class="core-attack-block core-attack-block-1"></span>
+        <span class="core-attack-block core-attack-block-2"></span>
+        <span class="core-attack-block core-attack-block-3"></span>
+      </div>
     </section>
   </main>
 
@@ -343,7 +370,14 @@
       'Lily Thompson': '/api/lily-chat',
       'Core Bennett': '/api/core-chat'
     };
+    const DESTROY_SUPPORT_KEYS = {
+      'Lily Thompson': 'lastmessage:support-destroy:lily',
+      'Core Bennett': 'lastmessage:support-destroy:core'
+    };
+    const DESTROY_READY_KEY = 'lastmessage:destroy-site-ready';
+    const DESTROY_TRIGGERED_KEY = 'lastmessage:destroy-site-triggered';
     const ADMIN_ERROR_FLAG = 'administratorchat:error-triggered';
+    const coreAttackOverlay = document.getElementById('coreAttackOverlay');
     let backgroundErrorInterval = null;
     let alleryUnlocked = false;
     const mikeDiaryEntries = {
@@ -857,6 +891,45 @@
       return new Promise((resolve) => window.setTimeout(resolve, ms));
     }
 
+    function recordDestroySupport(memberName, flags) {
+      if (!flags || flags.supportsDestroySite !== true) return;
+      const supportKey = DESTROY_SUPPORT_KEYS[memberName];
+      if (!supportKey) return;
+      try {
+        window.localStorage.setItem(supportKey, 'true');
+        const hasLily = window.localStorage.getItem(DESTROY_SUPPORT_KEYS['Lily Thompson']) === 'true';
+        const hasCore = window.localStorage.getItem(DESTROY_SUPPORT_KEYS['Core Bennett']) === 'true';
+        if (hasLily && hasCore) {
+          window.localStorage.setItem(DESTROY_READY_KEY, 'true');
+        }
+      } catch (_error) {
+        // Ignore storage failures; this state is only a local progression marker.
+      }
+    }
+
+    function hasDestroyReadyState() {
+      try {
+        return window.localStorage.getItem(DESTROY_READY_KEY) === 'true';
+      } catch (_error) {
+        return false;
+      }
+    }
+
+    function triggerCoreSiteAttack() {
+      if (!coreAttackOverlay || document.body.classList.contains('core-site-attack')) return;
+      try {
+        window.localStorage.setItem(DESTROY_TRIGGERED_KEY, 'true');
+      } catch (_error) {
+        // Ignore storage failures; visual effect can still run.
+      }
+      coreAttackOverlay.hidden = false;
+      requestAnimationFrame(() => {
+        document.body.classList.add('core-site-attack');
+        coreAttackOverlay.classList.add('is-visible');
+        coreAttackOverlay.setAttribute('aria-hidden', 'false');
+      });
+    }
+
     function spawnBackgroundError() {
       const popup = document.createElement('div');
       popup.className = 'retro-error background-error';
@@ -1100,6 +1173,7 @@
         })
         .then(async (data) => {
           const reply = String(data?.reply || '').trim();
+          recordDestroySupport(memberName, data?.flags);
           typingBubble.remove();
           if (!reply) return;
           const replyParts = splitLilyReply(reply);
@@ -1118,7 +1192,28 @@
             lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
             window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
           }
-          history.push({ role: 'assistant', content: replyParts.join('\n\n') || reply });
+          let assistantTranscript = replyParts.join('\n\n') || reply;
+          const shouldTriggerCoreAttack =
+            memberName === 'Core Bennett' &&
+            data?.flags?.supportsDestroySite === true &&
+            hasDestroyReadyState();
+
+          if (shouldTriggerCoreAttack) {
+            const prepTyping = appendLilyBubble(messageList, '...', 'typing');
+            lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
+            window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+            await delay(900);
+            prepTyping.remove();
+            const finalAttackLine = "I'm ready to bring this site down.";
+            appendLilyBubble(messageList, finalAttackLine, 'assistant');
+            assistantTranscript = `${assistantTranscript}\n\n${finalAttackLine}`;
+            lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
+            window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+            await delay(420);
+            triggerCoreSiteAttack();
+          }
+
+          history.push({ role: 'assistant', content: assistantTranscript });
           lilyChatHistory.set(sidebar, history.slice(-12));
         })
         .catch((error) => {

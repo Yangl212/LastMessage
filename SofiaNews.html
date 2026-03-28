@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sofia News</title>
+  <style>
+    :root{
+      color-scheme: light;
+      --paper:#f6f1e7;
+      --ink:#171717;
+      --rule:#bca98f;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      background:var(--paper);
+      color:var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+    }
+    .news-shell{
+      width:min(1080px, calc(100% - 48px));
+      margin:28px auto 40px;
+      padding:28px 28px 36px;
+      border:1px solid var(--rule);
+      background:rgba(255,255,255,.26);
+    }
+    .news-kicker{
+      margin:0 0 12px;
+      font:700 12px/1.2 Arial, sans-serif;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+    }
+    .news-title{
+      margin:0 0 14px;
+      font-size:54px;
+      line-height:.95;
+      letter-spacing:-.04em;
+    }
+    .news-note{
+      margin:0;
+      padding-top:16px;
+      border-top:1px solid var(--rule);
+      font:400 18px/1.65 Arial, sans-serif;
+      max-width:760px;
+    }
+  </style>
+</head>
+<body>
+  <main class="news-shell">
+    <p class="news-kicker">News Report</p>
+    <h1 class="news-title">Sofia Rossi</h1>
+    <p class="news-note">Placeholder page ready. Send me the article text and any images you want to use, and I’ll turn this into the finished news page.</p>
+  </main>
+</body>
+</html>
