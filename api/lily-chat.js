@@ -43,6 +43,19 @@ module.exports = async (req, res) => {
     const currentMessageRevealsTruth = truthRevealPattern.test(normalize(message));
     const currentMessageAsksToDestroySite = destroySitePattern.test(normalize(message));
 
+    if (currentMessageAsksToDestroySite && playerHasRevealedTruth) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: [
+          'yeah... then we should stop it.',
+          'if this place is really doing that, i’m with you.',
+          'but i can’t destroy something like this on my own. we’d need help from someone else.'
+        ].join('\n\n')
+      }));
+      return;
+    }
+
     const systemPrompt = `
 You are Lily Thompson, a 16-year-old high school student at Riverside High School.
 You are alive.
