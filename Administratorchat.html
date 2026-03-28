@@ -38,6 +38,7 @@
         </div>
         <p class="admin-toast-text">I noticed what happened. Do not touch restricted records again.</p>
       </div>
+      <audio id="midnightNotificationAudio" preload="auto" src="assets/audio/notification.mp3"></audio>
 
       <div class="admin-main-shell">
         <header class="admin-topbar">
@@ -161,9 +162,24 @@
 
       <div class="admin-modal-overlay" id="alleryPrompt" aria-hidden="true">
         <div class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="adminPromptTitle">
-          <label class="admin-modal-label" id="adminPromptTitle" for="adminNumberInput">No.</label>
-          <input type="text" id="adminNumberInput" class="admin-modal-input" autocomplete="off" />
-          <button type="button" class="admin-modal-button" id="adminNumberConfirm">Confirm</button>
+          <div class="admin-modal-titlebar">
+            <p class="admin-modal-question" id="adminPromptTitle">What is the user’s ID in the group?</p>
+          </div>
+          <div class="admin-modal-body">
+            <div class="admin-modal-entry">
+              <label class="admin-modal-label" for="adminNumberInput">No.</label>
+              <input
+                type="text"
+                id="adminNumberInput"
+                class="admin-modal-input"
+                autocomplete="off"
+                inputmode="numeric"
+                maxlength="1"
+                aria-label="User ID number"
+              />
+            </div>
+            <button type="button" class="admin-modal-button" id="adminNumberConfirm">Conform</button>
+          </div>
         </div>
       </div>
 
@@ -363,6 +379,7 @@
     const retroErrorOk = document.querySelector('.retro-error-ok');
     const midnightToast = document.getElementById('midnightToast');
     const midnightToastClose = document.getElementById('midnightToastClose');
+    const midnightNotificationAudio = document.getElementById('midnightNotificationAudio');
     const scaffoldViews = document.querySelectorAll('.scaffold-view');
     const memberViews = document.querySelectorAll('.member-view');
     const lilyChatHistory = new WeakMap();
@@ -378,6 +395,7 @@
     const DESTROY_TRIGGERED_KEY = 'lastmessage:destroy-site-triggered';
     const ADMIN_ERROR_FLAG = 'administratorchat:error-triggered';
     const coreAttackOverlay = document.getElementById('coreAttackOverlay');
+    let midnightNotificationPending = false;
     let backgroundErrorInterval = null;
     let alleryUnlocked = false;
     const mikeDiaryEntries = {
@@ -930,6 +948,29 @@
       });
     }
 
+    function showMidnightToast() {
+      if (!midnightToast) return;
+      midnightToast.hidden = false;
+      requestAnimationFrame(() => midnightToast.classList.add('is-visible'));
+      playMidnightNotification();
+    }
+
+    function playMidnightNotification() {
+      if (!midnightNotificationAudio) return;
+      try {
+        midnightNotificationAudio.currentTime = 0;
+      } catch (_error) {
+        // Ignore seek failures and still attempt playback.
+      }
+      midnightNotificationAudio.play()
+        .then(() => {
+          midnightNotificationPending = false;
+        })
+        .catch(() => {
+          midnightNotificationPending = true;
+        });
+    }
+
     function spawnBackgroundError() {
       const popup = document.createElement('div');
       popup.className = 'retro-error background-error';
@@ -1025,6 +1066,9 @@
     });
 
     adminNumberConfirm.addEventListener('click', handleNumberConfirm);
+    adminNumberInput.addEventListener('input', () => {
+      adminNumberInput.value = adminNumberInput.value.replace(/\D/g, '').slice(0, 1);
+    });
     adminNumberInput.addEventListener('keydown', (event) => {
       if (event.key === 'Enter') {
         handleNumberConfirm();
@@ -1209,7 +1253,7 @@
             assistantTranscript = `${assistantTranscript}\n\n${finalAttackLine}`;
             lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
             window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
-            await delay(420);
+            await delay(2000);
             triggerCoreSiteAttack();
           }
 
@@ -1281,6 +1325,12 @@
       syncMikeDiaryScrollbar();
       syncDanielDiaryScrollbar();
     });
+    ['pointerdown', 'keydown', 'touchstart'].forEach((eventName) => {
+      window.addEventListener(eventName, () => {
+        if (!midnightNotificationPending) return;
+        playMidnightNotification();
+      }, { passive: true });
+    });
     midnightToastClose?.addEventListener('click', () => {
       midnightToast.classList.remove('is-visible');
       window.setTimeout(() => {
@@ -1291,8 +1341,7 @@
     if (localStorage.getItem(ADMIN_ERROR_FLAG) === '1' && midnightToast) {
       localStorage.removeItem(ADMIN_ERROR_FLAG);
       window.setTimeout(() => {
-        midnightToast.hidden = false;
-        requestAnimationFrame(() => midnightToast.classList.add('is-visible'));
+        showMidnightToast();
       }, 1000);
     }
   </script>
