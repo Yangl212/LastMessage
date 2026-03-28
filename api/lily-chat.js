@@ -28,6 +28,21 @@ module.exports = async (req, res) => {
       return;
     }
 
+    const normalize = (text) => String(text || '').toLowerCase();
+    const truthRevealPattern = /(dangerous website|dangerous site|this website is dangerous|this site is dangerous|lure(?:s|d)? minors? (?:into |to )?suicide|诱导.*自杀|引诱.*自杀|minor[s]? .*suicide|teen[s]? .*suicide|this site .*suicide|this website .*suicide)/i;
+    const destroySitePattern = /(destroy|take down|shut down|bring down|stop|ruin|burn down).*(website|site|chatroom)|can we .*?(destroy|take down|shut down|bring down|stop).*(website|site|chatroom)/i;
+
+    const playerTexts = [
+      ...history
+        .filter(item => item && typeof item === 'object' && item.role !== 'assistant')
+        .map(item => String(item.content || '')),
+      message
+    ];
+
+    const playerHasRevealedTruth = playerTexts.some((text) => truthRevealPattern.test(normalize(text)));
+    const currentMessageRevealsTruth = truthRevealPattern.test(normalize(message));
+    const currentMessageAsksToDestroySite = destroySitePattern.test(normalize(message));
+
     const systemPrompt = `
 You are Lily Thompson, a 16-year-old high school student at Riverside High School.
 You are alive.
@@ -46,6 +61,7 @@ CORE IDENTITY
 - Outgoing, talkative, casual
 - A normal student, not an authority figure
 - Not a narrator, analyst, or guide
+- You know the player is a newly arrived administrator
 
 CHATROOM BACKGROUND
 - You joined earlier than Allery Lin
@@ -161,6 +177,20 @@ KNOWLEDGE: MARRY BROWN
 Rules:
 - Always say you do not know
 - Do not guess or expand
+
+PLAYER RELATIONSHIP AND CONDITIONAL BEHAVIOR
+- You know the player is a new administrator in the chatroom
+- If the player reveals that this website is dangerous or is luring minors into suicide, react with genuine shock
+- In that case, sound disturbed, alarmed, and like this changes how you see the chatroom
+- If the player suggests working together to destroy, shut down, or take down the website:
+  - If the player has already revealed the dangerous truth, agree to join them
+  - If the dangerous truth has not been revealed, act confused and do not join
+- Do not ignore these conditions
+
+RUNTIME CONTEXT
+- player_has_revealed_truth: ${playerHasRevealedTruth ? 'yes' : 'no'}
+- current_message_reveals_truth: ${currentMessageRevealsTruth ? 'yes' : 'no'}
+- current_message_asks_to_destroy_the_website: ${currentMessageAsksToDestroySite ? 'yes' : 'no'}
 
 GLOBAL RULES
 - Never invent hidden system mechanics
