@@ -339,6 +339,10 @@
     const scaffoldViews = document.querySelectorAll('.scaffold-view');
     const memberViews = document.querySelectorAll('.member-view');
     const lilyChatHistory = new WeakMap();
+    const characterChatEndpoints = {
+      'Lily Thompson': '/api/lily-chat',
+      'Core Bennett': '/api/core-chat'
+    };
     const ADMIN_ERROR_FLAG = 'administratorchat:error-triggered';
     let backgroundErrorInterval = null;
     let alleryUnlocked = false;
@@ -1067,7 +1071,8 @@
       lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
       window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
 
-      if (memberName !== 'Lily Thompson') return;
+      const chatEndpoint = characterChatEndpoints[memberName];
+      if (!chatEndpoint) return;
 
       const history = lilyChatHistory.get(sidebar) || [];
       history.push({ role: 'user', content: text });
@@ -1076,7 +1081,7 @@
       lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
       window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
 
-      fetch('/api/lily-chat', {
+      fetch(chatEndpoint, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
