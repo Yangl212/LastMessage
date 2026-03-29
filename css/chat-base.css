@@ -45,7 +45,16 @@ body{
   background:var(--panel);
   border:1px solid var(--border);
   border-radius:999px;
+  cursor:pointer;
+  appearance:none;
+  -webkit-appearance:none;
+  font:inherit;
+  line-height:inherit;
+  transition:transform .15s ease, box-shadow .2s ease, filter .2s ease;
 }
+.user-pill:hover{filter:brightness(.99); box-shadow:0 0 12px rgba(15,23,42,.08)}
+.user-pill:active{transform:translateY(1px)}
+.user-pill:focus-visible{outline:2px solid rgba(15,23,42,.22); outline-offset:2px}
 .user-avatar{
   width:28px;
   height:28px;
@@ -113,6 +122,17 @@ body{
 }
 
 .msg{display:flex; gap:10px; margin:10px 0}
+.msg-avatar{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  object-fit:cover;
+  flex:0 0 34px;
+  align-self:flex-start;
+  border:1px solid var(--border);
+  background:#eef2f7;
+  box-shadow:0 8px 18px rgba(6,24,44,.06);
+}
 .bubble{
   background:var(--bubble);
   border:1px solid var(--border);

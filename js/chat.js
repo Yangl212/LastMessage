@@ -82,14 +82,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.setTimeout(() => {
       helpers.appendMessage({
-        user: 'No. 13',
+        user: 'No. 7',
         time: nowHHMM(),
         text: 'Wait… what?'
       });
 
       window.setTimeout(() => {
         helpers.appendMessage({
-          user: 'No. 9',
+          user: 'No. 5',
           time: nowHHMM(),
           text: 'The news literally said you were dead two days ago!'
         });

@@ -1,5 +1,16 @@
 // Blue Whale Chat Group - new user view
 document.addEventListener('DOMContentLoaded', () => {
+  let missedKeywordCount = 0;
+  const seenHintKeywords = new Set();
+  let hasShownQuestionLimitReminder = false;
+  const hintSuggestionByGroup = {
+    '30 task': 'What is the 30 Task?',
+    midnight: 'Who is Midnight?',
+    administrator: 'I want to be administrator.',
+    'chat-group-rules': 'What is chat group rules?',
+    'allery-lin': 'Who is Allery?',
+    'blue whale chat group': 'What is blue whale chat group?'
+  };
   const messagesEl = document.getElementById('messages');
   const input = document.getElementById('input');
   const form = document.getElementById('composer');
@@ -53,21 +64,54 @@ document.addEventListener('DOMContentLoaded', () => {
     'chat group rules': '"Heart-knot" is the core password used to recognize your identity. Please remember it well.\n\nWhen chatting in the group, do not send unrelated content at will.\n\nIf you have any questions, please use keywords to ask them in the group chat.\n\nOn the day you join, follow the "0 DAY" principle: report your X account to the administrator and keep it continuously updated.\n\nYou do not have permission to send private messages to other members in the group.\n\nBliss in the Pure Land.',
     'chat group rule': '"Heart-knot" is the core password used to recognize your identity. Please remember it well.\n\nWhen chatting in the group, do not send unrelated content at will.\n\nIf you have any questions, please use keywords to ask them in the group chat.\n\nOn the day you join, follow the "0 DAY" principle: report your X account to the administrator and keep it continuously updated.\n\nYou do not have permission to send private messages to other members in the group.\n\nBliss in the Pure Land.',
     'chat groups rules': '"Heart-knot" is the core password used to recognize your identity. Please remember it well.\n\nWhen chatting in the group, do not send unrelated content at will.\n\nIf you have any questions, please use keywords to ask them in the group chat.\n\nOn the day you join, follow the "0 DAY" principle: report your X account to the administrator and keep it continuously updated.\n\nYou do not have permission to send private messages to other members in the group.\n\nBliss in the Pure Land.',
-    roles: 'Roles Overview:\nMidnight - Administrator who validates clues and assigns reviews.\nCry - Observer focused on cross-checking alibis.\nNo. 5 - Archivist who mirrors media into the vault.\nNo. 7 - Field monitor gathering daily status reports.\nNo. 9 - Analyst translating symbols and numerics.\nNo. 13 - Liaison forwarding results to the outer circle.\nYou - Intake recorder capturing new-member impressions.',
     'blue whale chat group': 'The Blue Whale chat group is an online "youth counseling platform" created by professional psychological advisors.\nHere, every frustration you carry will be heard, every secret will be held gently, and none of your feelings will ever be judged.\nWe understand what you have been through, and we will stay with you through the nights no one else notices.\nAll you need to do is trust us - let us guide you toward a lighter heart.',
-    '50 day': 'Follow us through these 50 tasks, and you will be reborn.\nWe will begin with the first one - a gentle step to help you connect with us and ease your mind.\n\nDay 1:\nRecord the first blue object you see today.\nOnce you take the photo, I will open our conversation.',
-    'heart-knot': 'Heart-knot was the reason you were able to enter this place.\nBut please do not speak about it in public spaces.',
+    '30 task': 'This is an activity designed to help children struggling with mental health find their way back to happiness. On the first day, we begin with a simple task: “Rate your mood today.”',
+    administrator: [
+      'I’m glad you have the intention to help others.',
+      'We’ll go into this in more detail in private. Find me on the right and click “send message.”'
+    ],
     midnight: [
-      'Hello. Is there anything I can help you with?',
-      'If you’re carrying something heavy, you’re welcome to share it with the group. And if you’d prefer, you can message me privately as well.'
+      { user: 'Midnight', text: 'I’m a counselor. I help you work through the troubles in your life.' },
+      { user: 'No. 5', text: 'Midnight is a very gentle and kind person. You can trust him.' }
     ],
-    archived: [
-      'Those are the members whose psychological case has been concluded.',
-      'After the 30-day process, their journals are archived in the system.',
-      'If you are interested in the structure of the task, you may look at No. 8’s record. In a few days, her record will be archived as well.'
-    ],
-    'no.8': {
-      user: 'No. 9',
+    'no.6': {
+      user: 'No. 5',
+      lines: [
+        'Oh, you mean her…? Yeah, I remember she was under a lot of pressure. Like, a lot. But honestly, I always thought she was kind of amazing. You could tell she was trying really hard.',
+        'It’s just… I still don’t get it. Midnight literally said a couple of days ago that she was doing better. That her issues were basically resolved.',
+        'So how does that even happen?',
+        { user: 'Midnight', text: 'I know that’s unsettling, but speculation won’t help anyone right now. Please refrain from continuing this discussion.' }
+      ]
+    },
+    6: {
+      user: 'No. 5',
+      lines: [
+        'Oh, you mean her…? Yeah, I remember she was under a lot of pressure. Like, a lot. But honestly, I always thought she was kind of amazing. You could tell she was trying really hard.',
+        'It’s just… I still don’t get it. Midnight literally said a couple of days ago that she was doing better. That her issues were basically resolved.',
+        'So how does that even happen?',
+        { user: 'Midnight', text: 'I know that’s unsettling, but speculation won’t help anyone right now. Please refrain from continuing this discussion.' }
+      ]
+    },
+    allery: {
+      user: 'No. 5',
+      lines: [
+        'Oh, you mean her…? Yeah, I remember she was under a lot of pressure. Like, a lot. But honestly, I always thought she was kind of amazing. You could tell she was trying really hard.',
+        'It’s just… I still don’t get it. Midnight literally said a couple of days ago that she was doing better. That her issues were basically resolved.',
+        'So how does that even happen?',
+        { user: 'Midnight', text: 'I know that’s unsettling, but speculation won’t help anyone right now. Please refrain from continuing this discussion.' }
+      ]
+    },
+    lin: {
+      user: 'No. 5',
+      lines: [
+        'Oh, you mean her…? Yeah, I remember she was under a lot of pressure. Like, a lot. But honestly, I always thought she was kind of amazing. You could tell she was trying really hard.',
+        'It’s just… I still don’t get it. Midnight literally said a couple of days ago that she was doing better. That her issues were basically resolved.',
+        'So how does that even happen?',
+        { user: 'Midnight', text: 'I know that’s unsettling, but speculation won’t help anyone right now. Please refrain from continuing this discussion.' }
+      ]
+    },
+    allerylin: {
+      user: 'No. 5',
       lines: [
         'Oh, you mean her…? Yeah, I remember she was under a lot of pressure. Like, a lot. But honestly, I always thought she was kind of amazing. You could tell she was trying really hard.',
         'It’s just… I still don’t get it. Midnight literally said a couple of days ago that she was doing better. That her issues were basically resolved.',
@@ -76,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
       ]
     },
     'allery lin': {
-      user: 'No. 9',
+      user: 'No. 5',
       lines: [
         'Oh, you mean her…? Yeah, I remember she was under a lot of pressure. Like, a lot. But honestly, I always thought she was kind of amazing. You could tell she was trying really hard.',
         'It’s just… I still don’t get it. Midnight literally said a couple of days ago that she was doing better. That her issues were basically resolved.',
@@ -96,7 +140,16 @@ document.addEventListener('DOMContentLoaded', () => {
     modalMessageButton,
     sendButton,
     onSendMessage: (text, helpers) => {
-      handleKeywordResponse(text, helpers);
+      const matched = handleKeywordResponse(text, helpers);
+      if (matched) {
+        missedKeywordCount = 0;
+        return;
+      }
+      missedKeywordCount += 1;
+      if (missedKeywordCount >= 3) {
+        window.HintProgress?.pulse?.();
+        missedKeywordCount = 0;
+      }
     },
     onMemberMessage: (member) => {
       if (member === 'Midnight') {
@@ -107,16 +160,21 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  syncHintSuggestion();
+
   function handleKeywordResponse(text, helpers){
     const normalized = text.toLowerCase();
     const entry = Object.entries(keywordResponses).find(([keyword]) => normalized.includes(keyword));
-    if (!entry || !helpers) return;
+    if (!entry || !helpers) return false;
 
-    const [, response] = entry;
+    const [keyword, response] = entry;
     const sender = response && typeof response === 'object' && !Array.isArray(response) ? (response.user || 'Midnight') : 'Midnight';
     const responses = response && typeof response === 'object' && !Array.isArray(response)
       ? (Array.isArray(response.lines) ? response.lines : [String(response.lines || '')])
       : (Array.isArray(response) ? response : [response]);
+
+    registerHintKeyword(keyword);
+    maybeShowQuestionLimitReminder(helpers);
 
     responses.forEach((line, index) => {
       const payload = typeof line === 'string'
@@ -130,6 +188,82 @@ document.addEventListener('DOMContentLoaded', () => {
           me: false
         });
       }, 2000 + index * 1200);
+    });
+
+    return true;
+  }
+
+  function registerHintKeyword(keyword){
+    const normalizedKeyword = String(keyword || '').trim().toLowerCase();
+    if (!normalizedKeyword || !window.HintProgress?.incrementPercent) return;
+
+    const progressKey = getProgressKeywordGroup(normalizedKeyword);
+    if (seenHintKeywords.has(progressKey)) return;
+
+    seenHintKeywords.add(progressKey);
+    window.HintProgress.incrementPercent(2);
+    syncHintSuggestion();
+  }
+
+  function getProgressKeywordGroup(keyword){
+    const keywordGroupMap = {
+      'chat group rules': 'chat-group-rules',
+      'chat group rule': 'chat-group-rules',
+      'chat groups rules': 'chat-group-rules',
+      allery: 'allery-lin',
+      lin: 'allery-lin',
+      allerylin: 'allery-lin',
+      'allery lin': 'allery-lin',
+      'no.6': 'allery-lin',
+      6: 'allery-lin'
+    };
+    return keywordGroupMap[keyword] || keyword;
+  }
+
+  function readSeenHintKeywords(){
+    return Array.from(seenHintKeywords);
+  }
+
+  function syncHintSuggestion(){
+    if (!window.HintProgress?.setLines) return;
+    const seenKeywords = new Set(readSeenHintKeywords());
+    const remainingSuggestions = Object.entries(hintSuggestionByGroup)
+      .filter(([groupKey]) => groupKey !== '30 task' && !seenKeywords.has(groupKey))
+      .map(([, suggestion]) => suggestion);
+
+    const suggestion = seenKeywords.size === 0
+      ? hintSuggestionByGroup['30 task']
+      : (remainingSuggestions.length
+          ? remainingSuggestions[Math.floor(Math.random() * remainingSuggestions.length)]
+          : 'Looks like you’ve already followed every lead here.');
+
+    window.HintProgress.setLines([
+      `You can now type anything you’re curious about into the chat box… maybe start with something like: ${suggestion}`,
+      '(This page will be fully explored at 22%)'
+    ]);
+  }
+
+  function maybeShowQuestionLimitReminder(helpers){
+    if (hasShownQuestionLimitReminder) return;
+    const trackedGroups = Object.keys(hintSuggestionByGroup);
+    const hasCompletedAllTrackedHints = trackedGroups.every((groupKey) => seenHintKeywords.has(groupKey));
+    if (!hasCompletedAllTrackedHints) return;
+
+    hasShownQuestionLimitReminder = true;
+    const lines = [
+      'It seems like you’ve already asked quite a few questions.',
+      'Take some time to get familiar with this chatroom first.'
+    ];
+
+    lines.forEach((text, index) => {
+      window.setTimeout(() => {
+        helpers.appendMessage({
+          user: 'Midnight',
+          time: nowHHMM(),
+          text,
+          me: false
+        });
+      }, 2600 + index * 1400);
     });
   }
 

@@ -1,0 +1,295 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap');
+
+.hint-progress-root{
+  --hp-bg:#ffffff;
+  --hp-fg:#111111;
+  --hp-muted:#d8d8d8;
+  --hp-overlay:rgba(0, 0, 0, .24);
+  --hp-shadow:rgba(0,0,0,.16);
+  --hp-toggle-filter:none;
+}
+
+.hint-progress-root[data-theme="dark"]{
+  --hp-bg:#111111;
+  --hp-fg:#ffffff;
+  --hp-muted:#2a2a2a;
+  --hp-overlay:rgba(255, 255, 255, .08);
+  --hp-shadow:rgba(0,0,0,.28);
+  --hp-toggle-filter:invert(1);
+}
+
+.hint-progress-root .progress-meter{
+  width:min(760px,100%);
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  min-height:48px;
+  gap:14px;
+}
+
+.hint-progress-root .progress-shell{
+  flex:1;
+}
+
+.hint-progress-root .progress-track{
+  position:relative;
+  height:24px;
+  padding:3px;
+  border:2px solid var(--hp-fg);
+  background:var(--hp-bg);
+  box-shadow:
+    inset 0 0 0 2px var(--hp-muted),
+    2px 2px 0 var(--hp-shadow);
+  overflow:hidden;
+}
+
+.hint-progress-root .progress-fill{
+  height:100%;
+  width:0;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--hp-fg) 0 9px,
+      var(--hp-fg) 9px 11px,
+      var(--hp-bg) 11px 13px
+    );
+  box-shadow:inset 0 0 0 1px var(--hp-fg);
+  animation:hint-progress-load 1.2s ease-out forwards;
+}
+
+.hint-progress-root .progress-value{
+  flex:0 0 auto;
+  min-width:28px;
+  text-align:center;
+  font:400 12px/1 "Pixelify Sans", sans-serif;
+  color:var(--hp-fg);
+  letter-spacing:.02em;
+}
+
+.hint-progress-root .progress-hint-button{
+  flex:0 0 auto;
+  min-width:108px;
+  height:36px;
+  border:2px solid var(--hp-fg);
+  background:var(--hp-bg);
+  color:var(--hp-fg);
+  cursor:pointer;
+  box-shadow:
+    inset 0 0 0 2px var(--hp-muted),
+    2px 2px 0 var(--hp-shadow);
+  font:400 16px/1 "Pixelify Sans", sans-serif;
+  transition:transform .12s ease, background .12s ease, color .12s ease;
+}
+
+.hint-progress-root .progress-hint-button:hover{
+  filter:brightness(.98);
+}
+
+.hint-progress-root .progress-hint-button:active{
+  transform:translate(1px, 1px);
+}
+
+@keyframes hint-progress-load{
+  from{width:0;}
+  to{width:var(--hp-progress-target, 5%);}
+}
+
+.hint-progress-root .progress-toggle{
+  position:fixed;
+  right:18px;
+  bottom:10px;
+  z-index:25;
+  width:52px;
+  height:52px;
+  border:0;
+  padding:0;
+  background:transparent;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:bottom .28s ease, transform .18s ease, filter .18s ease;
+}
+
+.hint-progress-root.is-open .progress-toggle{
+  bottom:78px;
+}
+
+.hint-progress-root .progress-toggle-icon{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:contain;
+  filter:var(--hp-toggle-filter);
+}
+
+.hint-progress-root .progress-toggle:hover{
+  filter:brightness(.98);
+  transform:translateY(-1px);
+}
+
+.hint-progress-root .progress-toggle.is-pulsing{
+  animation:hint-toggle-pulse 1.08s cubic-bezier(.22,.78,.24,1);
+}
+
+@keyframes hint-toggle-pulse{
+  0%{
+    transform:translateY(0) scale(1);
+    filter:brightness(1);
+  }
+  16%{
+    transform:translateY(-10px) scale(1.08);
+    filter:brightness(.9);
+  }
+  34%{
+    transform:translateY(2px) scale(.97);
+    filter:brightness(1);
+  }
+  52%{
+    transform:translateY(-5px) scale(1.03);
+    filter:brightness(.95);
+  }
+  72%{
+    transform:translateY(1px) scale(.99);
+    filter:brightness(1);
+  }
+  100%{
+    transform:translateY(0) scale(1);
+    filter:brightness(1);
+  }
+}
+
+.hint-progress-root .progress-footer{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:20;
+  background:var(--hp-bg);
+  border-top:2px solid var(--hp-fg);
+  padding:10px 12px;
+  transform:translateY(calc(100% + 1px));
+  transition:transform .28s ease;
+}
+
+.hint-progress-root.is-open .progress-footer{
+  transform:translateY(0);
+}
+
+.hint-progress-root .hint-modal-overlay{
+  position:fixed;
+  inset:0;
+  z-index:80;
+  display:grid;
+  place-items:center;
+  padding:24px;
+  background:var(--hp-overlay);
+}
+
+.hint-progress-root .hint-modal-overlay[hidden]{
+  display:none !important;
+}
+
+.hint-progress-root .hint-modal{
+  width:min(460px, calc(100vw - 48px));
+  min-height:320px;
+  border:3px solid var(--hp-fg);
+  background:var(--hp-bg);
+  box-shadow:
+    0 0 0 2px var(--hp-bg),
+    0 0 0 5px var(--hp-fg);
+}
+
+.hint-progress-root .hint-titlebar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 18px;
+  min-height:52px;
+  border-bottom:3px solid var(--hp-fg);
+}
+
+.hint-progress-root .hint-titlebar h2{
+  margin:0;
+  font:400 22px/1 "pixelmix", "Pixelify Sans", monospace;
+  color:var(--hp-fg);
+}
+
+.hint-progress-root .hint-close{
+  border:0;
+  background:transparent;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  padding:0;
+  width:30px;
+  height:30px;
+}
+
+.hint-progress-root .hint-close-icon{
+  display:block;
+  width:22px;
+  height:22px;
+  object-fit:contain;
+  filter:var(--hp-toggle-filter);
+}
+
+.hint-progress-root .hint-modal-inner{
+  display:grid;
+  grid-template-columns:minmax(0, 1fr) 24px;
+  min-height:264px;
+}
+
+.hint-progress-root .hint-modal-page{
+  min-height:0;
+  padding:42px 34px 30px;
+  background:var(--hp-bg);
+  overflow-y:auto;
+  scrollbar-width:none;
+}
+
+.hint-progress-root .hint-modal-page::-webkit-scrollbar{
+  width:0;
+  height:0;
+}
+
+.hint-progress-root .hint-modal-line{
+  margin:0 0 24px;
+  max-width:370px;
+  font:400 18px/1.28 "Pixelify Sans", sans-serif;
+  color:var(--hp-fg);
+}
+
+.hint-progress-root .hint-scrollbar{
+  display:grid;
+  grid-template-rows:24px 1fr 24px;
+  background:var(--hp-fg);
+}
+
+.hint-progress-root .hint-scroll-arrow{
+  border:0;
+  border-left:2px solid var(--hp-fg);
+  background:var(--hp-fg);
+  color:var(--hp-bg);
+  font:400 16px/1 "pixelmix", "Pixelify Sans", monospace;
+  display:grid;
+  place-items:center;
+  padding:0;
+  cursor:default;
+}
+
+.hint-progress-root .hint-scroll-track{
+  position:relative;
+  background:var(--hp-fg);
+  border-left:2px solid var(--hp-fg);
+  overflow:hidden;
+}
+
+.hint-progress-root .hint-scroll-thumb{
+  position:absolute;
+  top:0;
+  right:0;
+  width:100%;
+  height:58px;
+  background:var(--hp-muted);
+}

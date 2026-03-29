@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Administratorchat</title>
   <meta name="description" content="Administrative archive dashboard." />
+  <link rel="stylesheet" href="css/hint-progress.css" />
   <link rel="stylesheet" href="css/administrator_chat.css" />
 </head>
 <body>
@@ -302,10 +303,10 @@
         <div class="retro-error" id="retroError" aria-hidden="true">
           <div class="retro-error-titlebar">
             <span>Error</span>
-            <button type="button" class="retro-error-close" aria-label="Close">×</button>
+            <button type="button" class="retro-error-close" aria-label="Close"><img src="assets/images/exit.png" alt="" class="retro-error-close-icon" /></button>
           </div>
           <div class="retro-error-body">
-            <p>ERROR</p>
+            <p>WRONG INPUT</p>
             <button type="button" class="retro-error-ok">OK</button>
           </div>
         </div>
@@ -778,6 +779,8 @@
                 ? `<div class="allery-photo-block scaffold-photo-block marry-photo-block"><img src="assets/images/Marry.png" alt="Marry Brown" class="allery-photo" /></div>`
                 : isDanielHayes
                 ? `<div class="allery-photo-block scaffold-photo-block"><img src="assets/images/Daniel.png" alt="Daniel Hayes" class="allery-photo" /></div>`
+                : isLilyThompson
+                ? `<div class="allery-photo-block scaffold-photo-block"><img src="assets/images/lily.png" alt="Lily Thompson" class="allery-photo" /></div>`
                 : `<div class="scaffold-photo-placeholder">Photo</div>`}
 
               <div class="allery-profile-copy">
@@ -978,21 +981,24 @@
       popup.innerHTML = `
         <div class="retro-error-titlebar">
           <span>Error</span>
-          <span class="retro-error-close" aria-hidden="true">×</span>
+          <span class="retro-error-close" aria-hidden="true"><img src="assets/images/exit.png" alt="" class="retro-error-close-icon" /></span>
         </div>
         <div class="retro-error-body">
-          <p>ERROR</p>
+          <p>WRONG INPUT</p>
         </div>
       `;
-
-      const left = 6 + Math.random() * 58;
-      const top = 8 + Math.random() * 54;
-      popup.style.left = `${left}%`;
-      popup.style.top = `${top}%`;
+      adminErrorScreen.appendChild(popup);
+      const popupWidth = popup.offsetWidth || 320;
+      const popupHeight = popup.offsetHeight || 180;
+      const margin = 20;
+      const maxLeft = Math.max(margin, window.innerWidth - popupWidth - margin);
+      const maxTop = Math.max(margin, window.innerHeight - popupHeight - margin);
+      const left = margin + Math.random() * Math.max(1, maxLeft - margin);
+      const top = margin + Math.random() * Math.max(1, maxTop - margin);
+      popup.style.left = `${left}px`;
+      popup.style.top = `${top}px`;
       popup.style.transform = 'none';
       popup.style.zIndex = '1';
-
-      adminErrorScreen.appendChild(popup);
     }
 
     function closeAlleryPrompt() {
@@ -1022,6 +1028,7 @@
     function handleNumberConfirm() {
       if (adminNumberInput.value.trim() === '6') {
         alleryUnlocked = true;
+        window.HintProgress?.setPercent?.(38);
         closeAlleryPrompt();
         updateMemberView('Allery Lin', 'allery-lin');
         return;
@@ -1345,5 +1352,17 @@
       }, 1000);
     }
   </script>
+  <script>
+    window.HintProgressConfig = {
+      theme: 'dark',
+      percent: 30,
+      title: 'Hint',
+      autoCloseMs: 5000,
+      lines: [
+        'Hint content pending.'
+      ]
+    };
+  </script>
+  <script src="js/hint-progress.js" defer></script>
 </body>
 </html>

@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const VALID_USERNAME = 'NewUser_x7a93';
   const VALID_PASSWORD = 'x7a93';
+  const MONITORED_USERNAME = 'allerylin';
+  const MONITORED_PASSWORD = '20090414';
   let dragOffsetX = 0;
   let dragOffsetY = 0;
   let isDragging = false;
@@ -20,6 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const username = usernameInput.value.trim();
     const password = passwordInput.value;
+
+    if (username.toLowerCase() === MONITORED_USERNAME && password === MONITORED_PASSWORD) {
+      errorMsg.textContent = '';
+      window.location.href = 'surveillance_warning.html';
+      return;
+    }
 
     if (username === VALID_USERNAME && password === VALID_PASSWORD) {
       errorMsg.textContent = '';

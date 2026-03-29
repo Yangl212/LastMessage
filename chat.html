@@ -5,19 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Blue Whale Chat Group</title>
   <meta name="description" content="In-browser chat-style interface for the ARG.">
+  <link rel="stylesheet" href="css/hint-progress.css" />
   <link rel="stylesheet" href="css/chat.css" />
 </head>
-<body class="progress-collapsed">
+<body>
   <header class="app-header">
     <div class="header-left">
       <div class="brand-dot" aria-hidden="true"></div>
       <strong>Blue Whale Chat Group</strong>
     </div>
     <div class="header-right">
-      <div class="user-pill" aria-label="Current user AlleyLin">
+      <button type="button" class="user-pill" aria-label="Current user AlleyLin">
         <img src="assets/images/AlleyLin.jpg" alt="" class="user-avatar">
         <span class="user-name">AlleyLin</span>
-      </div>
+      </button>
       <a class="logout" href="login.html">Logout</a>
     </div>
   </header>
@@ -46,7 +47,7 @@
 
         <article class="msg">
           <div class="bubble">
-            <header class="meta"><span class="user">No. 9</span></header>
+            <header class="meta"><span class="user">No. 5</span></header>
             <p>New member spotted! Welcome to the chaos.</p>
           </div>
         </article>
@@ -60,14 +61,14 @@
 
         <article class="msg">
           <div class="bubble">
-            <header class="meta"><span class="user">No. 9</span></header>
+            <header class="meta"><span class="user">No. 5</span></header>
             <p>So what brought you here?</p>
           </div>
         </article>
 
         <article class="msg">
           <div class="bubble">
-            <header class="meta"><span class="user">No. 9</span></header>
+            <header class="meta"><span class="user">No. 5</span></header>
             <p>I mean… people usually come here because something hurt them.</p>
           </div>
         </article>
@@ -75,7 +76,7 @@
         <article class="msg">
           <div class="bubble">
             <header class="meta"><span class="user">Midnight</span></header>
-            <p>It’s okay. No.9 didn’t mean to rush you.</p>
+            <p>It’s okay. No.5 didn’t mean to rush you.</p>
           </div>
         </article>
 
@@ -156,7 +157,7 @@
         <li
           data-member="No. 3"
           data-status="offline"
-          data-avatar="assets/images/member-dd.jpg"
+          data-avatar="assets/images/No.3.png"
           data-registered="2022-11-28"
           data-role="Member"
           tabindex="0"
@@ -166,7 +167,7 @@
         <li
           data-member="No. 4"
           data-status="offline"
-          data-avatar="assets/images/member-dd.jpg"
+          data-avatar="assets/images/No.4.png"
           data-registered="2023-04-15"
           data-role="Member"
           tabindex="0"
@@ -176,7 +177,7 @@
         <li
           data-member="No. 5"
           data-status="online"
-          data-avatar="assets/images/member-no7.png"
+          data-avatar="assets/images/No.5.jpg"
           data-registered="2023-09-05"
           data-role="Member"
           tabindex="0"
@@ -196,7 +197,7 @@
         <li
           data-member="No. 7"
           data-status="online"
-          data-avatar="assets/images/member-no13.png"
+          data-avatar="assets/images/No.7.jpg"
           data-registered="2022-05-30"
           data-role="Member"
           tabindex="0"
@@ -216,19 +217,6 @@
       </ul>
     </aside>
   </div>
-
-  <button type="button" class="progress-toggle" id="progressToggle" aria-expanded="false" aria-controls="progressFooter">
-    <img src="assets/images/up.png" alt="" class="progress-toggle-icon" aria-hidden="true" />
-  </button>
-
-  <footer class="app-footer progress-footer" id="progressFooter">
-    <div class="progress-meter" aria-label="Progress 10 percent">
-      <div class="progress-track">
-        <div class="progress-fill"></div>
-      </div>
-      <span class="progress-value">10%</span>
-    </div>
-  </footer>
 
   <div class="modal" id="memberModal" role="dialog" aria-modal="true" aria-labelledby="modalName" hidden>
     <div class="modal-backdrop" data-close></div>
@@ -256,62 +244,80 @@
     </div>
   </div>
 
+  <div class="setting-modal-overlay" id="settingModal" hidden>
+    <div class="setting-modal" role="dialog" aria-modal="true" aria-labelledby="settingModalTitle">
+      <div class="setting-titlebar">
+        <h2 id="settingModalTitle">SETTING</h2>
+        <button type="button" class="setting-close" id="settingModalClose" aria-label="Close setting">
+          <img src="assets/images/exit.png" alt="" class="setting-close-icon" />
+        </button>
+      </div>
+      <div class="setting-body">
+        <div class="setting-avatar-wrap">
+          <img src="assets/images/AlleyLin.jpg" alt="AlleyLin" class="setting-avatar" />
+        </div>
+        <div class="setting-info">
+          <h3 class="setting-id">No.6</h3>
+          <p class="setting-line">Username: AlleyLin</p>
+          <p class="setting-line">
+            Password:
+            <button type="button" class="setting-password" id="settingPassword" aria-label="Reveal password">********</button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="js/chat-base.js" defer></script>
   <script src="js/chat.js" defer></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const toggle = document.getElementById('progressToggle');
-      const body = document.body;
-      const progressFill = document.querySelector('.progress-fill');
-      const progressValue = document.querySelector('.progress-value');
-      const toggleIcon = document.querySelector('.progress-toggle-icon');
-      let progressTextTimer = null;
-      if (!toggle || !body) return;
+      const userPill = document.querySelector('.user-pill');
+      const settingModal = document.getElementById('settingModal');
+      const settingModalClose = document.getElementById('settingModalClose');
+      const settingPassword = document.getElementById('settingPassword');
 
-      const replayProgressAnimation = () => {
-        if (!progressFill) return;
-        progressFill.style.animation = 'none';
-        void progressFill.offsetWidth;
-        progressFill.style.animation = '';
+      const closeSettingModal = () => {
+        if (!settingModal) return;
+        settingModal.hidden = true;
       };
 
-      const replayProgressValue = () => {
-        if (!progressValue) return;
-        const frames = ['1%', '3%', '8%', '5%', '2%', '9%', '4%', '7%', '6%', '8%', '5%', '10%'];
-        let index = 0;
+      userPill?.addEventListener('click', () => {
+        if (!settingModal) return;
+        settingModal.hidden = false;
+      });
 
-        if (progressTextTimer) {
-          window.clearInterval(progressTextTimer);
-          progressTextTimer = null;
+      settingModalClose?.addEventListener('click', closeSettingModal);
+
+      settingModal?.addEventListener('click', (event) => {
+        if (event.target === settingModal) {
+          closeSettingModal();
         }
+      });
 
-        progressValue.textContent = frames[0];
-        progressTextTimer = window.setInterval(() => {
-          index += 1;
-          progressValue.textContent = frames[Math.min(index, frames.length - 1)];
+      settingPassword?.addEventListener('click', () => {
+        settingPassword.textContent = settingPassword.textContent === '********' ? '20090414' : '********';
+      });
 
-          if (index >= frames.length - 1) {
-            window.clearInterval(progressTextTimer);
-            progressTextTimer = null;
-            progressValue.textContent = '10%';
-          }
-        }, 80);
-      };
-
-      toggle.addEventListener('click', () => {
-        const isOpen = body.classList.toggle('progress-open');
-        body.classList.toggle('progress-collapsed', !isOpen);
-        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        if (toggleIcon) {
-          toggleIcon.src = isOpen ? 'assets/images/down.png' : 'assets/images/up.png';
-        }
-        if (isOpen) {
-          replayProgressAnimation();
-          replayProgressValue();
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && settingModal && !settingModal.hidden) {
+          closeSettingModal();
         }
       });
     });
+
+    window.HintProgressConfig = {
+      theme: 'light',
+      percent: 5,
+      title: 'Hint',
+      autoCloseMs: 5000,
+      lines: [
+        'Read through the existing chat logs carefully…',
+        'The logout button is in the top right corner. Maybe I can just take over a new user’s account.'
+      ]
+    };
   </script>
+  <script src="js/hint-progress.js" defer></script>
 </body>
 </html>
 

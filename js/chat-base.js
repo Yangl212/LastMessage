@@ -36,6 +36,12 @@
 
     if (!messagesEl || !input || !form) return null;
 
+    const memberAvatarMap = new Map();
+    memberList?.querySelectorAll('[data-member]').forEach((item) => {
+      memberAvatarMap.set(item.dataset.member || '', item.dataset.avatar || 'assets/images/avatar.png');
+    });
+    memberAvatarMap.set('System', 'assets/images/avatar.png');
+
     const modalName = memberModal?.querySelector('#modalName');
     const modalStatusLabel = memberModal?.querySelector('#modalStatusLabel');
     const modalStatusDot = memberModal?.querySelector('#modalStatusDot');
@@ -46,6 +52,17 @@
 
     let lastMemberTrigger = null;
     let composerLocked = false;
+
+    messagesEl.querySelectorAll('.msg').forEach((article) => {
+      if (article.classList.contains('me') || article.classList.contains('system')) return;
+      if (article.querySelector('.msg-avatar')) return;
+      const user = article.querySelector('.meta .user')?.textContent?.trim() || '';
+      const avatar = document.createElement('img');
+      avatar.className = 'msg-avatar';
+      avatar.src = memberAvatarMap.get(user) || 'assets/images/avatar.png';
+      avatar.alt = `${user} avatar`;
+      article.insertBefore(avatar, article.firstChild);
+    });
 
     const autoGrow = () => {
       input.style.height = 'auto';
@@ -67,13 +84,14 @@
       const text = input.value.trim();
       if (!text) return;
       const time = nowHHMM();
+      const currentUserName = document.querySelector('.user-pill .user-name')?.textContent?.trim() || 'You';
 
       if (ownMessageTimePlacement === 'center') {
         appendCenteredTime(time);
       }
 
       appendMessage({
-        user: 'You',
+        user: currentUserName,
         time,
         text,
         me: true,
@@ -138,6 +156,15 @@
       if (me) classNames.push('me');
       if (variant) classNames.push(variant);
       article.className = classNames.join(' ');
+
+      if (variant !== 'system') {
+        const avatar = document.createElement('img');
+        avatar.className = 'msg-avatar';
+        const ownAvatar = document.querySelector('.user-pill .user-avatar')?.getAttribute('src') || 'assets/images/avatar.png';
+        avatar.src = me ? ownAvatar : (memberAvatarMap.get(user) || 'assets/images/avatar.png');
+        avatar.alt = `${user} avatar`;
+        article.appendChild(avatar);
+      }
 
       const bubble = document.createElement('div');
       bubble.className = 'bubble';

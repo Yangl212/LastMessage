@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Login | Blue Whale Chat Group</title>
+  <link rel="stylesheet" href="css/hint-progress.css" />
   <link rel="stylesheet" href="css/login.css" />
 </head>
 <body>
@@ -48,7 +49,19 @@
   </main>
 
   <button type="button" class="admin-entry" id="adminEntry" hidden>Administrator Access</button>
-
   <script src="js/login.js" defer></script>
+  <script>
+    window.HintProgressConfig = {
+      theme: 'light',
+      percent: 8,
+      title: 'Hint',
+      autoCloseMs: 5000,
+      lines: [
+        'What was the username of the newest member again…',
+        'NewUser_x7a93?'
+      ]
+    };
+  </script>
+  <script src="js/hint-progress.js" defer></script>
 </body>
 </html>

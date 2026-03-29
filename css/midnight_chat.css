@@ -1,5 +1,19 @@
 @import url('./chat.css');
 
+.chat-header{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.chat-header-avatar{
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  object-fit:cover;
+  flex:0 0 auto;
+}
+
 body.newuser-midnight .pane-center{
   position:relative;
   flex:1;

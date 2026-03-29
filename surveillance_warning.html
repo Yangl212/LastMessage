@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Surveillance Notice</title>
+  <link rel="stylesheet" href="css/warning.css" />
+  <style>
+    .warning-panel{
+      opacity:0;
+      transform:scale(.97);
+      transition:opacity .28s ease, transform .28s ease;
+    }
+
+    body.notice-visible .warning-panel{
+      opacity:1;
+      transform:scale(1);
+    }
+  </style>
+</head>
+<body>
+  <main class="warning-page" aria-live="polite">
+    <div class="warning-panel" role="alert">
+      <p class="warning-text">You are not Allery. You are under surveillance.</p>
+    </div>
+  </main>
+  <script>
+    window.setTimeout(() => {
+      document.body.classList.add('notice-visible');
+    }, 2000);
+  </script>
+</body>
+</html>
