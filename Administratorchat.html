@@ -1185,6 +1185,18 @@
       return row;
     }
 
+    function setCharacterComposerLocked(sidebar, locked) {
+      const input = sidebar?.querySelector('.lily-chat-input');
+      const send = sidebar?.querySelector('.lily-chat-send');
+      if (input) {
+        input.disabled = !!locked;
+        input.placeholder = locked ? 'Make a choice to continue...' : 'Type here...';
+      }
+      if (send) {
+        send.disabled = !!locked;
+      }
+    }
+
     function splitLilyReply(text) {
       return String(text || '')
         .split(/\n{2,}/)
@@ -1523,12 +1535,12 @@
           for (let index = 0; index < replyParts.length; index += 1) {
             const part = replyParts[index];
             if (index === 0) {
-              await delay(650);
+              await delay(memberName === 'Mike Anderson' ? 2300 : 650);
             } else {
               const followTyping = appendLilyBubble(messageList, '...', 'typing');
               lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
               window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
-              await delay(1050 + index * 250);
+              await delay((memberName === 'Mike Anderson' ? 1450 : 1050) + index * 250);
               followTyping.remove();
             }
             appendLilyBubble(messageList, part, 'assistant');
@@ -1536,11 +1548,18 @@
             window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
           }
           if (Array.isArray(data?.choices) && data.choices.length) {
+            setCharacterComposerLocked(sidebar, true);
+            const note = document.createElement('div');
+            note.className = 'lily-choice-note';
+            note.textContent = '(This choice will affect later endings)';
             appendLilyChoices(messageList, data.choices, async (choice, row) => {
               if (!choice?.id) return;
               row.remove();
+              note.remove();
+              setCharacterComposerLocked(sidebar, false);
               await sendCharacterChat(sidebar, memberName, `__CHOICE__:${choice.id}`, choice.label);
             });
+            messageList.appendChild(note);
             lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
             window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
           }

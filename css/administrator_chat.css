@@ -1101,6 +1101,15 @@ body{
   transform:translateY(1px);
 }
 
+.lily-choice-note{
+  align-self:flex-start;
+  margin-left:-58px;
+  padding:8px 10px;
+  background:#111;
+  color:#fff;
+  font:400 10px/1.35 "Pixelify Sans", sans-serif;
+}
+
 .lily-media-box{
   position:absolute;
   top:190px;
@@ -1172,6 +1181,15 @@ body{
 
 .lily-chat-send:hover{
   background:#222;
+}
+
+.lily-chat-input:disabled{
+  color:#666;
+}
+
+.lily-chat-send:disabled{
+  opacity:.45;
+  cursor:default;
 }
 
 .lily-chat-send:active{
