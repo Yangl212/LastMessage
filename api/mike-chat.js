@@ -89,8 +89,14 @@ module.exports = async (req, res) => {
           '...Can you understand me?'
         ].join('\n\n'),
         choices: [
-          { id: 'understand', label: 'Understand' },
-          { id: 'dont_understand', label: "Don't understand" }
+          {
+            id: 'dont_understand',
+            label: "You're wrong to do this. You don't have the right to decide who lives or dies."
+          },
+          {
+            id: 'understand',
+            label: "I can understand your mindset. You're trying to help them in your own way."
+          }
         ]
       }));
       return;

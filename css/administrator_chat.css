@@ -1078,18 +1078,21 @@ body{
   align-self:flex-start;
   margin-left:-58px;
   display:flex;
+  flex-direction:column;
   gap:8px;
-  flex-wrap:wrap;
+  width:248px;
+  max-width:calc(100% + 58px);
 }
 
 .lily-choice-button{
-  min-width:108px;
-  height:34px;
-  padding:0 12px;
+  width:100%;
+  min-height:44px;
+  padding:8px 12px;
   border:2px solid #111;
   background:#fff;
   color:#111;
-  font:400 11px/1 "Pixelify Sans", sans-serif;
+  font:400 10px/1.35 "Pixelify Sans", sans-serif;
+  text-align:left;
   cursor:pointer;
 }
 
