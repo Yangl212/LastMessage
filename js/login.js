@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const VALID_PASSWORD = 'x7a93';
   const MONITORED_USERNAME = 'allerylin';
   const MONITORED_PASSWORD = '20090414';
+  const NEW_USER_REGISTERED_KEY = 'bwNewUserRegisteredDate';
   let dragOffsetX = 0;
   let dragOffsetY = 0;
   let isDragging = false;
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const username = usernameInput.value.trim();
     const password = passwordInput.value;
 
-    if (username.toLowerCase() === MONITORED_USERNAME && password === MONITORED_PASSWORD) {
+    if (username.toLowerCase() === MONITORED_USERNAME.toLowerCase() && password === MONITORED_PASSWORD) {
       errorMsg.textContent = '';
       window.location.href = 'surveillance_warning.html';
       return;
@@ -32,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (username === VALID_USERNAME && password === VALID_PASSWORD) {
       errorMsg.textContent = '';
       sessionStorage.setItem('bwUsername', username);
+      localStorage.setItem(NEW_USER_REGISTERED_KEY, formatLoginDate(new Date()));
       window.location.href = 'chat_newuser.html';
     } else {
       errorMsg.textContent = 'Incorrect username or password.';
@@ -103,5 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (adminEntry && !adminUnlocked) {
       adminEntry.hidden = true;
     }
+  }
+
+  function formatLoginDate(date) {
+    return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
   }
 });

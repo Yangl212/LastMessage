@@ -14,6 +14,10 @@ document.addEventListener('DOMContentLoaded', () => {
     input,
     form,
     sendButton,
+    ownAvatarSrc: 'assets/images/AlleyLin.jpg',
+    memberAvatarOverrides: {
+      Midnight: 'assets/images/member-Midnight.jpeg'
+    },
     onSendMessage: (text, helpers) => {
       if (sequenceStarted || !helpers) return;
       sequenceStarted = true;

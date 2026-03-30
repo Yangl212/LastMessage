@@ -27,6 +27,11 @@
   gap:14px;
 }
 
+.hint-progress-root .progress-meter-label-only{
+  justify-content:center;
+  gap:0;
+}
+
 .hint-progress-root .progress-shell{
   flex:1;
 }
@@ -55,6 +60,13 @@
     );
   box-shadow:inset 0 0 0 1px var(--hp-fg);
   animation:hint-progress-load 1.2s ease-out forwards;
+}
+
+.hint-progress-root .progress-fill.is-empty{
+  width:0 !important;
+  animation:none !important;
+  box-shadow:none;
+  background:none;
 }
 
 .hint-progress-root .progress-value{
@@ -176,6 +188,7 @@
   transform:translateY(0);
 }
 
+
 .hint-progress-root .hint-modal-overlay{
   position:fixed;
   inset:0;
@@ -240,6 +253,34 @@
   min-height:264px;
 }
 
+.hint-progress-root .hint-modal-actions{
+  display:flex;
+  justify-content:center;
+  padding:0 24px 24px;
+}
+
+.hint-progress-root .hint-action-button{
+  min-width:164px;
+  height:46px;
+  border:3px solid var(--hp-fg);
+  background:var(--hp-bg);
+  color:var(--hp-fg);
+  box-shadow:
+    inset 0 0 0 2px var(--hp-muted),
+    2px 2px 0 var(--hp-shadow);
+  font:400 22px/1 "Pixelify Sans", sans-serif;
+  cursor:pointer;
+  transition:transform .12s ease, filter .12s ease;
+}
+
+.hint-progress-root .hint-action-button:hover{
+  filter:brightness(.98);
+}
+
+.hint-progress-root .hint-action-button:active{
+  transform:translate(1px, 1px);
+}
+
 .hint-progress-root .hint-modal-page{
   min-height:0;
   padding:42px 34px 30px;
@@ -264,6 +305,7 @@
   display:grid;
   grid-template-rows:24px 1fr 24px;
   background:var(--hp-fg);
+  align-self:stretch;
 }
 
 .hint-progress-root .hint-scroll-arrow{

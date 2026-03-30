@@ -1074,6 +1074,33 @@ body{
   word-break:break-word;
 }
 
+.lily-choice-row{
+  align-self:flex-start;
+  margin-left:-58px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.lily-choice-button{
+  min-width:108px;
+  height:34px;
+  padding:0 12px;
+  border:2px solid #111;
+  background:#fff;
+  color:#111;
+  font:400 11px/1 "Pixelify Sans", sans-serif;
+  cursor:pointer;
+}
+
+.lily-choice-button:hover{
+  background:#ececec;
+}
+
+.lily-choice-button:active{
+  transform:translateY(1px);
+}
+
 .lily-media-box{
   position:absolute;
   top:190px;

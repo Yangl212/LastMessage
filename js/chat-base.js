@@ -25,11 +25,13 @@
       form,
       quickSearch,
       memberList,
+      memberAvatarOverrides = {},
       memberModal,
       modalMessageButton,
       sendButton,
       showTime = true,
       ownMessageTimePlacement = 'inline',
+      ownAvatarSrc = '',
       onSendMessage,
       onMemberMessage
     } = options;
@@ -40,6 +42,9 @@
     memberList?.querySelectorAll('[data-member]').forEach((item) => {
       memberAvatarMap.set(item.dataset.member || '', item.dataset.avatar || 'assets/images/avatar.png');
     });
+    Object.entries(memberAvatarOverrides || {}).forEach(([member, avatar]) => {
+      memberAvatarMap.set(member, avatar || 'assets/images/avatar.png');
+    });
     memberAvatarMap.set('System', 'assets/images/avatar.png');
 
     const modalName = memberModal?.querySelector('#modalName');
@@ -47,19 +52,21 @@
     const modalStatusDot = memberModal?.querySelector('#modalStatusDot');
     const modalAvatar = memberModal?.querySelector('#modalAvatar');
     const modalRegistered = memberModal?.querySelector('#modalRegistered');
-    const modalRole = memberModal?.querySelector('#modalRole');
     const modalCloseBtn = memberModal?.querySelector('.modal-close');
 
     let lastMemberTrigger = null;
     let composerLocked = false;
 
     messagesEl.querySelectorAll('.msg').forEach((article) => {
-      if (article.classList.contains('me') || article.classList.contains('system')) return;
+      if (article.classList.contains('system')) return;
       if (article.querySelector('.msg-avatar')) return;
       const user = article.querySelector('.meta .user')?.textContent?.trim() || '';
       const avatar = document.createElement('img');
       avatar.className = 'msg-avatar';
-      avatar.src = memberAvatarMap.get(user) || 'assets/images/avatar.png';
+      const fallbackOwnAvatar = document.querySelector('.user-pill .user-avatar')?.getAttribute('src') || 'assets/images/avatar.png';
+      avatar.src = article.classList.contains('me')
+        ? (ownAvatarSrc || fallbackOwnAvatar)
+        : (memberAvatarMap.get(user) || 'assets/images/avatar.png');
       avatar.alt = `${user} avatar`;
       article.insertBefore(avatar, article.firstChild);
     });
@@ -160,7 +167,7 @@
       if (variant !== 'system') {
         const avatar = document.createElement('img');
         avatar.className = 'msg-avatar';
-        const ownAvatar = document.querySelector('.user-pill .user-avatar')?.getAttribute('src') || 'assets/images/avatar.png';
+        const ownAvatar = ownAvatarSrc || document.querySelector('.user-pill .user-avatar')?.getAttribute('src') || 'assets/images/avatar.png';
         avatar.src = me ? ownAvatar : (memberAvatarMap.get(user) || 'assets/images/avatar.png');
         avatar.alt = `${user} avatar`;
         article.appendChild(avatar);
@@ -210,10 +217,6 @@
         modalAvatar.src = avatarSrc;
         modalAvatar.alt = `${modalName.textContent} avatar`;
       }
-      if (modalRole) {
-        const roleText = item.dataset.role || '';
-        modalRole.textContent = roleText ? `Role: ${roleText}` : '';
-      }
       if (modalRegistered) {
         modalRegistered.textContent = item.dataset.registered ? `Registered Time: ${item.dataset.registered}` : '';
       }
@@ -230,9 +233,6 @@
       if (!memberModal) return;
       memberModal.hidden = true;
       modalCloseBtn?.blur();
-      if (modalRole) {
-        modalRole.textContent = '';
-      }
       if (modalRegistered) {
         modalRegistered.textContent = '';
       }

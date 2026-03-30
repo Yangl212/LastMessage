@@ -10,6 +10,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const theme = config.theme === 'dark' ? 'dark' : 'light';
   const autoCloseMs = Number(config.autoCloseMs ?? 5000);
   const title = config.title || 'Hint';
+  const buttonLabel = typeof config.buttonLabel === 'string' && config.buttonLabel.trim()
+    ? config.buttonLabel.trim()
+    : title;
+  const footerLabelOnly = config.footerLabelOnly === true;
+  const valueLabel = typeof config.valueLabel === 'string' && config.valueLabel.trim()
+    ? config.valueLabel.trim()
+    : '';
+  const showProgressFill = config.showProgressFill !== false;
+  const actionButtonLabel = typeof config.actionButtonLabel === 'string' && config.actionButtonLabel.trim()
+    ? config.actionButtonLabel.trim()
+    : '';
+  const actionButtonHref = typeof config.actionButtonHref === 'string' && config.actionButtonHref.trim()
+    ? config.actionButtonHref.trim()
+    : '';
   const lines = Array.isArray(config.lines) && config.lines.length
     ? config.lines
     : ['Hint content pending.'];
@@ -45,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   const storedPercent = readStoredPercent();
   if (storedPercent !== null) currentPercent = storedPercent;
-  const displayPercent = formatPercent(currentPercent);
+  const displayPercent = valueLabel || formatPercent(currentPercent);
 
   root.className = 'hint-progress-root';
   root.dataset.theme = theme;
@@ -55,16 +69,22 @@ document.addEventListener('DOMContentLoaded', () => {
       <img src="assets/images/hint.png" alt="" class="progress-toggle-icon" aria-hidden="true" />
     </button>
 
-    <footer class="app-footer progress-footer" id="progressFooter">
-      <div class="progress-meter" aria-label="Progress ${displayPercent}">
-        <span class="progress-value">${displayPercent}</span>
-        <div class="progress-shell">
-          <div class="progress-track">
-            <div class="progress-fill"></div>
-          </div>
+    <footer class="app-footer progress-footer${footerLabelOnly ? ' progress-footer-compact' : ''}" id="progressFooter">
+      ${footerLabelOnly ? `
+        <div class="progress-meter progress-meter-label-only" aria-label="${buttonLabel}">
+          <button type="button" class="progress-hint-button">${buttonLabel}</button>
         </div>
-        <button type="button" class="progress-hint-button">${title}</button>
-      </div>
+      ` : `
+        <div class="progress-meter" aria-label="Progress ${displayPercent}">
+          <span class="progress-value">${displayPercent}</span>
+          <div class="progress-shell">
+            <div class="progress-track">
+              <div class="progress-fill${showProgressFill ? '' : ' is-empty'}"></div>
+            </div>
+          </div>
+          <button type="button" class="progress-hint-button">${buttonLabel}</button>
+        </div>
+      `}
     </footer>
 
     <div class="hint-modal-overlay" hidden>
@@ -87,6 +107,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <button type="button" class="hint-scroll-arrow">⌄</button>
           </div>
         </div>
+        ${actionButtonLabel ? `
+          <div class="hint-modal-actions">
+            <button type="button" class="hint-action-button">${actionButtonLabel}</button>
+          </div>
+        ` : ''}
       </div>
     </div>
   `;
@@ -101,6 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const hintModal = root.querySelector('.hint-modal-overlay');
   const hintModalClose = root.querySelector('.hint-close');
   const hintModalPage = root.querySelector('.hint-modal-page');
+  const hintActionButton = root.querySelector('.hint-action-button');
 
   let progressTextTimer = null;
   let progressAutoCloseTimer = null;
@@ -122,8 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function syncDisplayedPercent() {
     const formatted = formatPercent(currentPercent);
-    if (progressValue) progressValue.textContent = formatted;
-    root.style.setProperty('--hp-progress-target', formatted);
+    if (progressValue) progressValue.textContent = valueLabel || formatted;
+    root.style.setProperty('--hp-progress-target', showProgressFill ? formatted : '0%');
   }
 
   function replayProgressAnimation() {
@@ -144,15 +170,15 @@ document.addEventListener('DOMContentLoaded', () => {
       progressTextTimer = null;
     }
 
-    progressValue.textContent = frames[0];
+    progressValue.textContent = valueLabel || frames[0];
     progressTextTimer = window.setInterval(() => {
       index += 1;
-      progressValue.textContent = frames[Math.min(index, frames.length - 1)];
+      progressValue.textContent = valueLabel || frames[Math.min(index, frames.length - 1)];
 
       if (index >= frames.length - 1) {
         window.clearInterval(progressTextTimer);
         progressTextTimer = null;
-        progressValue.textContent = formatPercent(currentPercent);
+        progressValue.textContent = valueLabel || formatPercent(currentPercent);
       }
     }, 80);
   }
@@ -234,6 +260,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (event.target === hintModal) {
       closeHintModal();
     }
+  });
+
+  hintActionButton?.addEventListener('click', () => {
+    if (actionButtonHref) {
+      window.location.href = actionButtonHref;
+      return;
+    }
+    closeHintModal();
   });
 
   document.addEventListener('keydown', (event) => {
