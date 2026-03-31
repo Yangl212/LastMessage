@@ -467,6 +467,17 @@ body{
   font-weight:600;
 }
 
+.mike-overview-card{
+  display:flex;
+  flex-direction:column;
+  min-height:210px;
+}
+
+.mike-overview-card .docs-card-action{
+  margin-top:auto;
+  margin-left:auto;
+}
+
 .docs-shortcuts,
 .docs-panel,
 .docs-sidebar{
@@ -1089,15 +1100,15 @@ body{
   min-height:44px;
   padding:8px 12px;
   border:2px solid #111;
-  background:#fff;
-  color:#111;
+  background:#111;
+  color:#fff;
   font:400 10px/1.35 "Pixelify Sans", sans-serif;
-  text-align:left;
+  text-align:center;
   cursor:pointer;
 }
 
 .lily-choice-button:hover{
-  background:#ececec;
+  background:#242424;
 }
 
 .lily-choice-button:active{
@@ -1108,9 +1119,12 @@ body{
   align-self:flex-start;
   margin-left:-58px;
   padding:8px 10px;
-  background:#111;
-  color:#fff;
+  width:248px;
+  max-width:calc(100% + 58px);
+  background:#fff;
+  color:#111;
   font:400 10px/1.35 "Pixelify Sans", sans-serif;
+  text-align:center;
 }
 
 .lily-media-box{
@@ -1438,6 +1452,23 @@ body{
   display:grid;
   grid-template-rows:48px 1fr;
   overflow:hidden;
+  transform:translateY(10px) scale(.97);
+  opacity:0;
+}
+
+.admin-modal-overlay.is-visible .admin-modal{
+  animation:adminPromptIn .24s cubic-bezier(.2, .85, .22, 1) forwards;
+}
+
+@keyframes adminPromptIn{
+  from{
+    transform:translateY(10px) scale(.97);
+    opacity:0;
+  }
+  to{
+    transform:translateY(0) scale(1);
+    opacity:1;
+  }
 }
 
 .admin-modal-titlebar{

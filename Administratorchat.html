@@ -63,13 +63,12 @@
             <section class="docs-shortcuts">
               <h3>Shortcut</h3>
               <div class="shortcut-row">
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 5</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 6</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 7</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-5"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 5</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-6"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 6</span></a>
               </div>
             </section>
 
@@ -205,6 +204,27 @@
                 <span class="diary-scroll-thumb" id="marryDiaryThumb"></span>
               </div>
               <button type="button" class="diary-scroll-arrow" id="marryDiaryDown">⌄</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diary-overlay" id="alleryDiaryOverlay" aria-hidden="true" hidden>
+        <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="alleryDiaryTitle">
+          <div class="diary-titlebar">
+            <h2 id="alleryDiaryTitle">Diary 1</h2>
+            <button type="button" class="diary-close" id="alleryDiaryClose" aria-label="Close diary"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          </div>
+          <div class="diary-modal-inner">
+            <div class="diary-modal-page" id="alleryDiaryPage">
+              <p class="diary-modal-line">Content pending.</p>
+            </div>
+            <div class="diary-scrollbar" aria-hidden="true">
+              <button type="button" class="diary-scroll-arrow" id="alleryDiaryUp">⌃</button>
+              <div class="diary-scroll-track" id="alleryDiaryTrack">
+                <span class="diary-scroll-thumb" id="alleryDiaryThumb"></span>
+              </div>
+              <button type="button" class="diary-scroll-arrow" id="alleryDiaryDown">⌄</button>
             </div>
           </div>
         </div>
@@ -391,6 +411,14 @@
     const alleryPrompt = document.getElementById('alleryPrompt');
     const adminNumberInput = document.getElementById('adminNumberInput');
     const adminNumberConfirm = document.getElementById('adminNumberConfirm');
+    const alleryDiaryOverlay = document.getElementById('alleryDiaryOverlay');
+    const alleryDiaryClose = document.getElementById('alleryDiaryClose');
+    const alleryDiaryPage = document.getElementById('alleryDiaryPage');
+    const alleryDiaryTrack = document.getElementById('alleryDiaryTrack');
+    const alleryDiaryThumb = document.getElementById('alleryDiaryThumb');
+    const alleryDiaryUp = document.getElementById('alleryDiaryUp');
+    const alleryDiaryDown = document.getElementById('alleryDiaryDown');
+    const alleryDiaryTitle = document.getElementById('alleryDiaryTitle');
     const marryDiaryOverlay = document.getElementById('marryDiaryOverlay');
     const marryDiaryClose = document.getElementById('marryDiaryClose');
     const marryDiaryPage = document.getElementById('marryDiaryPage');
@@ -457,7 +485,91 @@
     const coreAttackOverlay = document.getElementById('coreAttackOverlay');
     let midnightNotificationPending = false;
     let backgroundErrorInterval = null;
-    let alleryUnlocked = false;
+    let pendingMemberAccess = null;
+    const unlockedMemberPanels = new Set();
+    const memberAccessAnswers = {
+      'Mike Anderson': '1',
+      'Allery Lin': '6',
+      'Sofia Rossi': '4',
+      'Core Bennett': '7',
+      'Daniel Hayes': '3',
+      'Lily Thompson': '5',
+      'Marry Brown': '2'
+    };
+    const alleryDiaryEntries = {
+      '1': {
+        title: 'Diary 1',
+        lines: [
+          '2025.12.28',
+          'Today, I entered that chatroom for the first time.',
+          'At first, it was only out of curiosity. I did not expect to see Sofia there.',
+          'I had always assumed that she would not be involved in something like this.',
+          'What surprised me even more was that she seemed to be seeking help for certain psychological concerns.'
+        ]
+      },
+      '2': {
+        title: 'Diary 2',
+        lines: [
+          '2026.01.06',
+          'Midnight has been consistently gentle in his manner of speaking.',
+          'I have begun to follow the so-called “30-day tasks.”',
+          'Although I was hesitant at first, I have noticed a certain degree of relief while carrying them out.'
+        ]
+      },
+      '3': {
+        title: 'Diary 3',
+        lines: [
+          '2026.02.15',
+          'Today, I realized that No.5 is actually Lily.',
+          'This came as a surprise to me.',
+          'She has always been outgoing and lively, and it is difficult to associate her with this place.',
+          'Perhaps I could try speaking with her.',
+          'If she is here, then she may also have her own concerns.'
+        ]
+      },
+      '4': {
+        title: 'Diary 4',
+        lines: [
+          '2026.03.07',
+          'Today, the results of the mock examination were released.',
+          'The outcome was far from satisfactory.',
+          'Compared to before, the decline is significant, and difficult to accept.',
+          'I can feel the way others look at me.',
+          'No one says anything directly, but the change is unmistakable.',
+          'It is not an intense feeling, but it is constant, and difficult to ignore.',
+          'I no longer want to go to school.'
+        ]
+      },
+      '5': {
+        title: 'Diary 5',
+        lines: [
+          '2026.03.12',
+          'Midnight remains as calm and patient as ever.',
+          'He responds in a way that is neither forceful nor dismissive.',
+          'Instead, he seems to guide me toward thinking for myself.',
+          'At times, I feel as though he resembles an older brother.',
+          'He does not provide direct answers, yet his presence is strangely reassuring.',
+          'I find myself gradually relying on these conversations.'
+        ]
+      },
+      '6': {
+        title: 'Diary 6',
+        lines: [
+          '2026.03.18',
+          'Today, I asked Midnight a question.',
+          'I wanted to know why he created this chatroom.',
+          'What led him to establish something like this.',
+          'He did not answer immediately.',
+          'Instead, he told me a story.',
+          'It was about someone named Marry.',
+          'He spoke about her experiences, and what she had endured.',
+          'According to him, this chatroom exists so that similar situations would not happen again.',
+          'I am not certain that I fully understand what he meant.',
+          'However, as he spoke, I could sense a strong emotion behind his words.',
+          'It was not sadness. It felt more like something firm, almost resolute.'
+        ]
+      }
+    };
     const mikeDiaryEntries = {
       '1': {
         title: 'Diary 1',
@@ -607,11 +719,8 @@
         title: 'Diary 4',
         lines: [
           '2025.08.26',
-          'Also… Allery is in that chatroom too.',
-          'That honestly surprised me.',
-          'She used to be the kind of person who only cared about studying, right?',
-          'This just doesn’t feel like something she’d get into.',
-          'It’s kind of strange.'
+          'Oh my god… Sofia was in the chat before me?',
+          'I’ve heard of her, she’s a year above me.'
         ]
       },
       '5': {
@@ -627,7 +736,6 @@
         ]
       }
     };
-
     function syncDiaryScrollbar(page, track, thumb) {
       if (!page || !track || !thumb) return;
       const maxScroll = page.scrollHeight - page.clientHeight;
@@ -647,6 +755,10 @@
 
     function syncMarryDiaryScrollbar() {
       syncDiaryScrollbar(marryDiaryPage, marryDiaryTrack, marryDiaryThumb);
+    }
+
+    function syncAlleryDiaryScrollbar() {
+      syncDiaryScrollbar(alleryDiaryPage, alleryDiaryTrack, alleryDiaryThumb);
     }
 
     function syncMikeDiaryScrollbar() {
@@ -672,6 +784,18 @@
       }
       if (mikeDiaryPage) {
         mikeDiaryPage.innerHTML = entry.lines
+          .map((line) => `<p class="diary-modal-line">${line}</p>`)
+          .join('');
+      }
+    }
+
+    function setAlleryDiaryContent(entryKey) {
+      const entry = alleryDiaryEntries[entryKey] || alleryDiaryEntries['1'];
+      if (alleryDiaryTitle) {
+        alleryDiaryTitle.textContent = entry.title;
+      }
+      if (alleryDiaryPage) {
+        alleryDiaryPage.innerHTML = entry.lines
           .map((line) => `<p class="diary-modal-line">${line}</p>`)
           .join('');
       }
@@ -726,6 +850,20 @@
       });
     }
 
+    function openAlleryDiary(entryKey = '1') {
+      if (!alleryDiaryOverlay) return;
+      setAlleryDiaryContent(entryKey);
+      alleryDiaryOverlay.hidden = false;
+      if (alleryDiaryPage) {
+        alleryDiaryPage.scrollTop = 0;
+      }
+      requestAnimationFrame(() => {
+        alleryDiaryOverlay.classList.add('is-visible');
+        alleryDiaryOverlay.setAttribute('aria-hidden', 'false');
+        syncAlleryDiaryScrollbar();
+      });
+    }
+
     function closeMarryDiary() {
       if (!marryDiaryOverlay) return;
       marryDiaryOverlay.classList.remove('is-visible');
@@ -733,6 +871,17 @@
       window.setTimeout(() => {
         if (!marryDiaryOverlay.classList.contains('is-visible')) {
           marryDiaryOverlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function closeAlleryDiary() {
+      if (!alleryDiaryOverlay) return;
+      alleryDiaryOverlay.classList.remove('is-visible');
+      alleryDiaryOverlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!alleryDiaryOverlay.classList.contains('is-visible')) {
+          alleryDiaryOverlay.hidden = true;
         }
       }, 180);
     }
@@ -864,15 +1013,18 @@
       const isSofiaRossi = name === 'Sofia Rossi';
       const isCoreBennett = name === 'Core Bennett';
       const isLilyThompson = name === 'Lily Thompson';
+      const isNewUser = name === 'New user';
       const usesPixelChat = isLilyThompson || isCoreBennett || isMikeAnderson;
-      const shortcutItems = isMarryBrown
+      const shortcutItems = isMarryBrown || isNewUser
         ? []
         : isDanielHayes || isSofiaRossi
         ? ['Diary 1', 'Diary 2', 'Diary 3']
         : isLilyThompson
         ? ['Diary 1', 'Diary 2', 'Diary 3', 'Diary 4', 'Diary 5']
         : ['Diary 1', 'Diary 2', 'Diary 3', 'Diary 4', 'Diary 5', 'Diary 6', 'Diary 7'];
-      const shortcutMarkup = name === 'Marry Brown'
+      const shortcutMarkup = isNewUser
+        ? `<div class="docs-empty-state">Empty</div>`
+        : name === 'Marry Brown'
         ? `
             <div class="shortcut-row">
               <a href="#" class="shortcut-card drive-card" data-diary-modal="marry-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>For marry</span></a>
@@ -919,29 +1071,37 @@
           `;
       const diaryCards = isMarryBrown
         ? ``
+        : isNewUser
+        ? ``
         : isMikeAnderson
         ? `
-            <a href="#" class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></a>
+            <article class="docs-card drive-card mike-overview-card"><h3>30 task Overview</h3><p>All Task Requirements</p><span class="docs-card-action">Under developmen</span></article>
           `
         : isSofiaRossi
         ? `
-            <a href="#" class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></a>
-            <a href="#" class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></a>
-            <a href="#" class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></a>
+            <article class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
           `
         : isLilyThompson
         ? `
-            <a href="#" class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></a>
-            <a href="#" class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></a>
-            <a href="#" class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></a>
-            <a href="#" class="docs-card drive-card"><h3>Diary 4</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></a>
-            <a href="#" class="docs-card drive-card"><h3>Diary 5</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></a>
+            <article class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 4</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 5</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+          `
+        : isDanielHayes
+        ? `
+            <article class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
           `
         : `
-            <a href="#" class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></a>
-            <a href="#" class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></a>
-            <a href="#" class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></a>
-            <a href="#" class="docs-card drive-card"><h3>Diary 4</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></a>
+            <article class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 4</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
           `;
       const infoItems = isMarryBrown
         ? `
@@ -1024,7 +1184,7 @@
           </section>
 
           <h3 class="docs-subtitle">30 Task</h3>
-          ${isMarryBrown ? `<div class="docs-empty-state">Empty</div>` : ''}
+          ${isMarryBrown || isNewUser ? `<div class="docs-empty-state">Empty</div>` : ''}
           ${diaryCards ? `<div class="docs-card-grid">${diaryCards}</div>` : ''}
         </div>
 
@@ -1322,12 +1482,46 @@
       }, 2000);
     }
 
+    function activateMemberLinkByPanel(panelId) {
+      memberLinks.forEach((item) => {
+        item.classList.toggle('active', item.dataset.panel === panelId);
+      });
+    }
+
+    function openMemberAccessPrompt(name, panelId) {
+      pendingMemberAccess = { name, panelId };
+      adminNumberInput.value = '';
+      adminMain.classList.add('is-blurred');
+      alleryPrompt.classList.remove('is-visible');
+      alleryPrompt.setAttribute('aria-hidden', 'true');
+      void alleryPrompt.offsetWidth;
+      alleryPrompt.classList.add('is-visible');
+      alleryPrompt.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(() => adminNumberInput.focus());
+    }
+
     function handleNumberConfirm() {
-      if (adminNumberInput.value.trim() === '6') {
-        alleryUnlocked = true;
-        window.HintProgress?.setPercent?.(38);
+      if (!pendingMemberAccess) return;
+      const expectedAnswer = memberAccessAnswers[pendingMemberAccess.name];
+      if (adminNumberInput.value.trim() === expectedAnswer) {
+        unlockedMemberPanels.add(pendingMemberAccess.panelId);
+        if (pendingMemberAccess.name === 'Allery Lin') {
+          window.HintProgress?.setPercent?.(35);
+          window.HintProgress?.setLines?.([
+            'Maybe Allery’s diary has clues to unlock the other pages.'
+          ]);
+        } else if (pendingMemberAccess.name === 'Lily Thompson') {
+          window.HintProgress?.setPercent?.(45);
+          window.HintProgress?.setLines?.([
+            'Unlocked the ability to chat with Lily! Maybe we can get more information from the conversation.'
+          ]);
+        }
+        activateMemberLinkByPanel(pendingMemberAccess.panelId);
+        updateMemberView(pendingMemberAccess.name, pendingMemberAccess.panelId);
+        memberPath.textContent = `Member / ${pendingMemberAccess.name}`;
+        memberTitle.textContent = pendingMemberAccess.name;
         closeAlleryPrompt();
-        updateMemberView('Allery Lin', 'allery-lin');
+        pendingMemberAccess = null;
         return;
       }
 
@@ -1335,9 +1529,8 @@
     }
 
     function updateMemberView(name, panelId) {
-      const resolvedPanelId = name === 'Allery Lin' && !alleryUnlocked ? 'mike-primary' : panelId;
       memberViews.forEach((view) => {
-        view.hidden = view.dataset.memberView !== resolvedPanelId;
+        view.hidden = view.dataset.memberView !== panelId;
       });
     }
 
@@ -1346,9 +1539,15 @@
         event.preventDefault();
         const name = link.dataset.member || link.textContent.trim();
         const panelId = link.dataset.panel || 'mike-primary';
+        const requiresPrompt = name !== 'New user' && !unlockedMemberPanels.has(panelId);
 
         memberLinks.forEach((item) => item.classList.remove('active'));
         link.classList.add('active');
+
+        if (requiresPrompt) {
+          openMemberAccessPrompt(name, panelId);
+          return;
+        }
         closeMarryDiary();
         closeMikeDiary();
         closeDanielDiary();
@@ -1357,15 +1556,8 @@
         memberPath.textContent = `Member / ${name}`;
         memberTitle.textContent = name;
         updateMemberView(name, panelId);
-
-        if (name === 'Allery Lin' && !alleryUnlocked) {
-          adminMain.classList.add('is-blurred');
-          alleryPrompt.classList.add('is-visible');
-          alleryPrompt.setAttribute('aria-hidden', 'false');
-          requestAnimationFrame(() => adminNumberInput.focus());
-        } else {
-          closeAlleryPrompt();
-        }
+        closeAlleryPrompt();
+        pendingMemberAccess = null;
       });
     });
 
@@ -1378,6 +1570,15 @@
         handleNumberConfirm();
       }
     });
+
+    if (activeLink) {
+      const initialName = activeLink.dataset.member || 'Mike Anderson';
+      const initialPanelId = activeLink.dataset.panel || 'mike-primary';
+      const needsInitialPrompt = initialName !== 'New user' && !unlockedMemberPanels.has(initialPanelId);
+      if (needsInitialPrompt) {
+        openMemberAccessPrompt(initialName, initialPanelId);
+      }
+    }
 
     alleryChatTrigger?.addEventListener('click', (event) => {
       event.preventDefault();
@@ -1433,6 +1634,13 @@
       if (lilyDiaryTrigger) {
         event.preventDefault();
         openLilyDiary(lilyDiaryTrigger.getAttribute('data-diary-modal').replace('lily-diary-', ''));
+        return;
+      }
+
+      const alleryDiaryTrigger = event.target.closest('[data-diary-modal^="allery-diary-"]');
+      if (alleryDiaryTrigger) {
+        event.preventDefault();
+        openAlleryDiary(alleryDiaryTrigger.getAttribute('data-diary-modal').replace('allery-diary-', ''));
         return;
       }
 
@@ -1647,6 +1855,14 @@
     marryDiaryDown?.addEventListener('click', () => {
       marryDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
     });
+    alleryDiaryClose?.addEventListener('click', closeAlleryDiary);
+    alleryDiaryPage?.addEventListener('scroll', syncAlleryDiaryScrollbar);
+    alleryDiaryUp?.addEventListener('click', () => {
+      alleryDiaryPage?.scrollBy({ top: -120, behavior: 'smooth' });
+    });
+    alleryDiaryDown?.addEventListener('click', () => {
+      alleryDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
+    });
     mikeDiaryClose?.addEventListener('click', closeMikeDiary);
     mikeDiaryPage?.addEventListener('scroll', syncMikeDiaryScrollbar);
     mikeDiaryUp?.addEventListener('click', () => {
@@ -1681,6 +1897,7 @@
     });
     window.addEventListener('resize', () => {
       syncMarryDiaryScrollbar();
+      syncAlleryDiaryScrollbar();
       syncMikeDiaryScrollbar();
       syncDanielDiaryScrollbar();
       syncSofiaDiaryScrollbar();
@@ -1714,7 +1931,7 @@
       autoCloseMs: 5000,
       lines: [
         'This seems to be the backend of the chatroom…',
-        'Use the information you already have to gain more access and uncover the truth.'
+        'By the way, Allery Lin’s number is…6?'
       ]
     };
   </script>
