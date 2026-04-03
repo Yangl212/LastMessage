@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Surveillance Notice</title>
+  <link rel="stylesheet" href="css/hint-progress.css" />
   <link rel="stylesheet" href="css/warning.css" />
   <style>
     .warning-panel{
@@ -29,5 +30,69 @@
       document.body.classList.add('notice-visible');
     }, 2000);
   </script>
+  <script>
+    window.HintProgressConfig = {
+      theme: 'dark',
+      percent: 0,
+      title: 'BAD ENDING 2',
+      buttonLabel: 'BAD ENDING 2',
+      footerLabelOnly: true,
+      autoCloseMs: 5000,
+      valueLabel: 'ERROR',
+      showProgressFill: false,
+      lines: [
+        'Midnight discovered that you had impersonated Allery Lin and blocked your IP address.',
+        'Perhaps approaching him as a new user would have been a better way to get closer.'
+      ],
+      actionButtonLabel: 'Restart',
+      actionButtonHref: 'chat.html'
+    };
+  </script>
+  <style>
+    .hint-progress-root .hint-modal {
+      display: grid;
+      grid-template-rows: 52px 1fr;
+    }
+
+    .hint-progress-root .hint-modal-inner {
+      min-height: 0;
+      height: auto;
+      align-items: stretch;
+    }
+
+    .hint-progress-root .hint-modal-page {
+      min-height: 0;
+      max-height: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-bottom: 34px;
+    }
+
+    .hint-progress-root .hint-modal-actions {
+      margin-top: auto;
+      padding: 24px 0 0;
+      justify-content: center;
+    }
+
+    .hint-progress-root .hint-scrollbar {
+      align-self: stretch;
+      height: auto;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const moveRestartIntoBody = () => {
+        const modalPage = document.querySelector('.hint-progress-root .hint-modal-page');
+        const modalActions = document.querySelector('.hint-progress-root .hint-modal-actions');
+        if (!modalPage || !modalActions) return;
+        if (modalActions.parentElement === modalPage) return;
+        modalPage.appendChild(modalActions);
+      };
+
+      requestAnimationFrame(moveRestartIntoBody);
+    });
+  </script>
+  <script src="js/hint-progress.js" defer></script>
 </body>
 </html>

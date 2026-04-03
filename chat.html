@@ -8,27 +8,17 @@
   <link rel="stylesheet" href="css/hint-progress.css" />
   <link rel="stylesheet" href="css/chat.css" />
 </head>
-<body>
+<body class="chat-retro">
   <header class="app-header">
     <div class="header-left">
       <div class="brand-dot" aria-hidden="true"></div>
-      <strong>Blue Whale Chat Group</strong>
-    </div>
-    <div class="header-right">
-      <button type="button" class="user-pill" aria-label="Current user AlleyLin">
-        <img src="assets/images/AlleyLin.jpg" alt="" class="user-avatar">
-        <span class="user-name">AlleyLin</span>
-      </button>
-      <a class="logout" href="login.html">Logout</a>
+      <strong># Blue Whale Chat Group</strong>
     </div>
   </header>
 
   <div class="app app-two">
     <main class="pane pane-center" aria-live="polite">
-      <div class="chat-header">
-        <h2>General</h2>
-      </div>
-
+      <div class="messages-shell">
       <section id="messages" class="messages" aria-label="Messages">
         <div class="date-stamp">09:00</div>
         <article class="msg">
@@ -94,17 +84,30 @@
           </div>
         </article>
 
-        <div class="chat-divider" role="separator" aria-label="Message boundary"></div>
-
       </section>
+        <div class="messages-scrollbar" id="messagesScrollbar" hidden aria-hidden="true">
+          <button type="button" class="messages-scrollbar-btn up" id="messagesScrollUp" aria-label="Scroll up"></button>
+          <div class="messages-scrollbar-track" id="messagesScrollTrack">
+            <div class="messages-scrollbar-thumb" id="messagesScrollThumb"></div>
+          </div>
+          <button type="button" class="messages-scrollbar-btn down" id="messagesScrollDown" aria-label="Scroll down"></button>
+        </div>
+      </div>
 
       <form id="composer" class="composer" autocomplete="off" aria-label="Message composer">
-        <textarea id="input" rows="1" placeholder="Message - Press Enter to send, Shift+Enter for new line"></textarea>
+        <textarea id="input" rows="1" placeholder="Your message"></textarea>
         <button class="send" type="submit" aria-label="Send message">Send</button>
       </form>
     </main>
 
     <aside class="pane pane-right" aria-label="Members">
+      <div class="sidebar-topbar">
+        <button type="button" class="user-pill" aria-label="Current user AlleyLin">
+          <img src="assets/images/AlleyLin.jpg" alt="" class="user-avatar">
+          <span class="user-name">AlleyLin</span>
+        </button>
+        <a class="logout" href="login.html">Logout</a>
+      </div>
       <div class="pane-title">Group Guidelines</div>
       <ul class="announcement-list" id="announcementList" aria-label="Announcements">
         <li><button type="button" class="announcement-item" data-announcement-id="a1">About Blue Whale Chat Group</button></li>
@@ -200,13 +203,17 @@
   <div class="modal" id="memberModal" role="dialog" aria-modal="true" aria-labelledby="modalName" hidden>
     <div class="modal-backdrop" data-close></div>
     <div class="modal-panel" role="document">
-      <button type="button" class="modal-close" aria-label="Close member info" data-close>&times;</button>
-      <img src="assets/images/avatar.png" alt="" class="modal-avatar" id="modalAvatar" />
-      <div class="modal-details">
+      <div class="member-titlebar">
         <h3 class="modal-name" id="modalName"></h3>
-        <p class="modal-status"><span class="status" id="modalStatusDot" aria-hidden="true"></span><span id="modalStatusLabel"></span></p>
-        <p class="modal-registered" id="modalRegistered"></p>
-        <button type="button" class="modal-action" id="modalMessageButton">Send Message</button>
+        <button type="button" class="modal-close member-close" aria-label="Close member info" data-close><img src="assets/images/exit.png" alt="" class="announcement-close-icon" /></button>
+      </div>
+      <div class="member-body">
+        <img src="assets/images/avatar.png" alt="" class="modal-avatar" id="modalAvatar" />
+        <div class="modal-details">
+          <p class="modal-status"><span class="status" id="modalStatusDot" aria-hidden="true"></span><span id="modalStatusLabel"></span></p>
+          <p class="modal-registered" id="modalRegistered"></p>
+          <button type="button" class="modal-action" id="modalMessageButton">Send Message</button>
+        </div>
       </div>
     </div>
   </div>
@@ -214,9 +221,11 @@
   <div class="modal" id="announcementModal" role="dialog" aria-modal="true" aria-labelledby="announcementTitle" hidden>
     <div class="modal-backdrop" data-close></div>
     <div class="modal-panel announcement-panel" role="document">
-      <button type="button" class="modal-close" aria-label="Close announcement" data-close>&times;</button>
-      <div class="modal-details">
-        <h3 class="modal-name" id="announcementTitle">Announcement</h3>
+      <div class="announcement-titlebar">
+        <h3 class="announcement-title" id="announcementTitle">Announcement</h3>
+        <button type="button" class="announcement-close" aria-label="Close announcement" data-close><img src="assets/images/exit.png" alt="" class="announcement-close-icon" /></button>
+      </div>
+      <div class="announcement-body-wrap">
         <p class="modal-role" id="announcementBody">Content placeholder.</p>
       </div>
     </div>
@@ -256,6 +265,12 @@
       const settingModalClose = document.getElementById('settingModalClose');
       const settingPassword = document.getElementById('settingPassword');
       const newUserMember = document.querySelector('[data-member="NewUser_x7a93"]');
+      const messages = document.getElementById('messages');
+      const messagesScrollbar = document.getElementById('messagesScrollbar');
+      const messagesScrollTrack = document.getElementById('messagesScrollTrack');
+      const messagesScrollThumb = document.getElementById('messagesScrollThumb');
+      const messagesScrollUp = document.getElementById('messagesScrollUp');
+      const messagesScrollDown = document.getElementById('messagesScrollDown');
       let hintPulseTimeout = null;
 
       if (newUserMember) {
@@ -291,6 +306,45 @@
         }
       });
 
+      const syncMessagesScrollbar = () => {
+        if (!messages || !messagesScrollbar || !messagesScrollTrack || !messagesScrollThumb) return;
+        const { scrollTop, scrollHeight, clientHeight } = messages;
+        const needsScrollbar = scrollHeight > clientHeight + 1;
+        messagesScrollbar.hidden = !needsScrollbar;
+        if (!needsScrollbar) return;
+
+        const trackHeight = messagesScrollTrack.clientHeight;
+        const thumbHeight = Math.max(52, Math.round((clientHeight / scrollHeight) * trackHeight));
+        const maxThumbTravel = Math.max(0, trackHeight - thumbHeight);
+        const scrollProgress = scrollHeight - clientHeight <= 0 ? 0 : scrollTop / (scrollHeight - clientHeight);
+        const thumbTop = Math.round(scrollProgress * maxThumbTravel);
+
+        messagesScrollThumb.style.height = `${thumbHeight}px`;
+        messagesScrollThumb.style.transform = `translateY(${thumbTop}px)`;
+      };
+
+      messages?.addEventListener('scroll', syncMessagesScrollbar);
+      window.addEventListener('resize', syncMessagesScrollbar);
+      window.addEventListener('load', syncMessagesScrollbar);
+
+      messagesScrollUp?.addEventListener('click', () => {
+        messages?.scrollBy({ top: -140, behavior: 'smooth' });
+      });
+
+      messagesScrollDown?.addEventListener('click', () => {
+        messages?.scrollBy({ top: 140, behavior: 'smooth' });
+      });
+
+      messagesScrollTrack?.addEventListener('click', (event) => {
+        if (!messages || !messagesScrollTrack || event.target === messagesScrollThumb) return;
+        const rect = messagesScrollTrack.getBoundingClientRect();
+        const clickY = event.clientY - rect.top;
+        const thumbRect = messagesScrollThumb.getBoundingClientRect();
+        const thumbCenter = thumbRect.top - rect.top + thumbRect.height / 2;
+        const direction = clickY < thumbCenter ? -1 : 1;
+        messages.scrollBy({ top: direction * Math.max(160, messages.clientHeight * 0.6), behavior: 'smooth' });
+      });
+
       hintPulseTimeout = window.setTimeout(() => {
         window.HintProgress?.pulse?.();
       }, 60000);
@@ -305,6 +359,8 @@
       function formatLoginDate(date) {
         return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
       }
+
+      syncMessagesScrollbar();
     });
 
     window.HintProgressConfig = {

@@ -139,6 +139,27 @@
       openMemberDetails(item);
     });
 
+    messagesEl?.addEventListener('click', (event) => {
+      const avatar = event.target.closest('.msg-avatar');
+      if (!avatar) return;
+      const article = avatar.closest('.msg');
+      if (!article || article.classList.contains('system')) return;
+
+      let item = null;
+      if (article.classList.contains('me')) {
+        item = memberList?.querySelector('[data-member="You"]');
+      } else {
+        const messageUser = article.querySelector('.meta .user')?.textContent?.trim() || '';
+        if (!messageUser) return;
+        item = Array.from(memberList?.querySelectorAll('[data-member]') || []).find((entry) => {
+          return (entry.dataset.member || '').trim() === messageUser;
+        }) || null;
+      }
+
+      if (!item) return;
+      openMemberDetails(item);
+    });
+
     memberModal?.addEventListener('click', (event) => {
       if (event.target.closest('[data-close]')) {
         closeModal();
@@ -240,7 +261,9 @@
         delete modalMessageButton.dataset.member;
       }
       if (lastMemberTrigger) {
-        lastMemberTrigger.focus();
+        if (typeof lastMemberTrigger.blur === 'function') {
+          lastMemberTrigger.blur();
+        }
         lastMemberTrigger = null;
       }
     }

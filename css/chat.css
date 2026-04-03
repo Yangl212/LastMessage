@@ -1,5 +1,22 @@
 @import url('./chat-base.css');
 
+@font-face{
+  font-family:"Minecraftia-Regular";
+  src:url("../assets/fonts/Minecraftia-Regular.ttf") format("truetype");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+
+@font-face{
+  font-family:"ChironGoRoundTC";
+  src:url("../assets/fonts/ChironGoRoundTC-VariableFont_wght.ttf") format("truetype");
+  font-weight:100 900;
+  font-style:normal;
+  font-display:swap;
+}
+
+
 .date-stamp{
   margin:18px 0 6px;
   text-align:center;
@@ -13,16 +30,39 @@
 /* system messages */
 .msg.system{justify-content:center}
 .msg.system .bubble{
-  background:#fee2e2;
-  border-color:#f87171;
+  background:#f5d9d9;
+  border:none;
   color:#7f1d1d;
-  max-width:520px;
+  max-width:720px;
+  width:100%;
   text-align:center;
   font-weight:600;
+  border-radius:0;
+  box-shadow:none;
+  padding:12px 14px 14px;
 }
-.msg.system .meta{justify-content:center; color:#b91c1c}
-.msg.system .meta .user{color:#b91c1c}
+.msg.system .meta{
+  justify-content:center;
+  color:#9f2b2b;
+  margin:0 0 10px;
+}
+.msg.system .meta .user{
+  display:block;
+  width:100%;
+  text-align:center;
+  color:#9f2b2b;
+}
 .msg.system .meta .time{color:#c2410c}
+.msg.system .bubble p{
+  display:block;
+  margin:0;
+  padding:14px 18px;
+  background:#fff;
+  border:2px solid #111;
+  border-radius:18px;
+  color:#9f2b2b;
+  text-align:center;
+}
 
 .chat-divider{
   margin:18px 0 8px;
@@ -58,10 +98,53 @@
   outline:2px solid var(--accent);
   outline-offset:2px;
 }
+
 .announcement-panel{
-  max-width:520px;
+  max-width:620px;
+  width:min(620px, calc(100vw - 56px));
+  display:block;
+  padding:0;
+  border:3px solid #111;
+  border-radius:22px;
+  background:#fff;
+  box-shadow:8px 12px 0 #111;
+  overflow:hidden;
 }
+
+.announcement-titlebar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  min-height:54px;
+  padding:0 18px;
+  border-bottom:3px solid #111;
+  background:#fff;
+}
+
+.announcement-title{
+  margin:0;
+  font:700 16px/1.1 "ChironGoRoundTC","Minecraftia-Regular",sans-serif;
+  color:#111;
+}
+
+.announcement-close{
+  border:0;
+  background:transparent;
+  color:#111;
+  font:400 28px/1 "pixelmix","Pixelify Sans",monospace;
+  width:32px;
+  height:32px;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+}
+
+.announcement-body-wrap{
+  padding:24px 28px 28px;
+}
+
 #announcementBody{
+  margin:0;
   white-space:pre-line;
   line-height:1.7;
 }
@@ -93,9 +176,9 @@
   width:min(500px, calc(100vw - 104px));
   min-height:236px;
   border:3px solid #111;
-  background:#f7f7f7;
+  background:#fff;
   box-shadow:
-    0 0 0 2px #f7f7f7,
+    0 0 0 2px #fff,
     0 0 0 5px #111;
 }
 
@@ -180,4 +263,654 @@
 .setting-password:hover{
   text-decoration:underline;
   text-underline-offset:4px;
+}
+
+/* Chat header right-side controls */
+.chat-header-right{
+  display:flex; align-items:center; gap:10px;
+}
+.member-count{
+  font-size:11px; color:rgba(255,255,255,0.75);
+}
+.chat-icon-btn{
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.35);
+  color:rgba(255,255,255,0.85);
+  border-radius:4px;
+  padding:3px 8px;
+  cursor:pointer;
+  font-size:14px;
+  line-height:1;
+}
+.chat-icon-btn:hover{background:rgba(255,255,255,0.12);}
+.chat-icon-btn:focus-visible{outline:2px solid rgba(255,255,255,0.5); outline-offset:2px;}
+
+body.chat-retro,
+body.chat-retro button,
+body.chat-retro input,
+body.chat-retro textarea,
+body.chat-retro .user,
+body.chat-retro .time,
+body.chat-retro .date-stamp,
+body.chat-retro .announcement-item,
+body.chat-retro .members li,
+body.chat-retro .bubble p,
+body.chat-retro .meta,
+body.chat-retro .chat-header h2,
+body.chat-retro .pane-title,
+body.chat-retro .user-name,
+body.chat-retro .logout,
+body.chat-retro .send,
+body.chat-retro .member-count,
+body.chat-retro .chat-icon-btn{
+  font-family:"ChironGoRoundTC","SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+
+
+body.chat-retro{
+  background:#fff;
+  color:#111;
+  height:100vh;
+}
+
+body.chat-retro .app-header,
+body.chat-retro .pane,
+body.chat-retro .messages,
+body.chat-retro .composer,
+body.chat-retro .pane-right,
+body.chat-retro .pane-center,
+body.chat-retro .app.app-two{
+  background:#fff;
+}
+
+body.chat-retro .app-header{
+  border-bottom:2px solid #111;
+  padding:4px 14px;
+}
+
+body.chat-retro .brand-dot{
+  display:none;
+}
+
+body.chat-retro .header-left strong{
+  font-size:15px;
+  letter-spacing:0;
+}
+
+body.chat-retro .user-pill{
+  background:#fff;
+  border:2px solid #111;
+  border-radius:14px;
+  box-shadow:none;
+  padding:6px 10px;
+}
+
+body.chat-retro .user-avatar{
+  width:30px;
+  height:30px;
+  border:2px solid #111;
+}
+
+body.chat-retro .logout{
+  background:#fff;
+  color:#111;
+  border:2px solid #111;
+  border-radius:4px;
+  box-shadow:none;
+  padding:7px 14px;
+}
+
+body.chat-retro .app.app-two{
+  gap:0;
+}
+
+body.chat-retro .pane-center{
+  border-right:2px solid #111;
+}
+
+body.chat-retro .pane-right{
+  border-left:none;
+  overflow-y:auto;
+}
+
+body.chat-retro .sidebar-topbar{
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  gap:12px;
+  position:fixed;
+  top:18px;
+  right:14px;
+  width:292px;
+  padding:0;
+  z-index:11;
+}
+
+body.chat-retro .chat-header{
+  background:#fff;
+  color:#111;
+  border-bottom:2px solid #111;
+  min-height:54px;
+  padding:12px 16px;
+}
+
+body.chat-retro .chat-header h2,
+body.chat-retro .member-count,
+body.chat-retro .chat-icon-btn{
+  color:#111;
+}
+
+body.chat-retro .chat-icon-btn{
+  border:2px solid #111;
+  background:#fff;
+  border-radius:6px;
+  padding:4px 8px;
+}
+
+body.chat-retro .chat-icon-btn:hover{
+  background:#f5f5f5;
+}
+
+body.chat-retro .messages{
+  height:100%;
+  min-height:0;
+  padding:18px 34px 18px 16px;
+  scrollbar-width:none;
+}
+
+body.chat-retro .messages-shell{
+  position:relative;
+  flex:1;
+  min-height:0;
+}
+
+body.chat-retro .messages::-webkit-scrollbar{
+  width:0;
+  height:0;
+}
+
+body.chat-retro .messages-scrollbar{
+  position:absolute;
+  top:18px;
+  right:8px;
+  bottom:18px;
+  width:18px;
+  display:flex;
+  flex-direction:column;
+  align-items:stretch;
+  z-index:2;
+}
+
+body.chat-retro .messages-scrollbar-btn{
+  width:18px;
+  height:18px;
+  border:none;
+  background:#111;
+  padding:0;
+  cursor:pointer;
+  position:relative;
+}
+
+body.chat-retro .messages-scrollbar-btn::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:0;
+  height:0;
+  transform:translate(-50%, -50%);
+  border-left:5px solid transparent;
+  border-right:5px solid transparent;
+}
+
+body.chat-retro .messages-scrollbar-btn.up::before{
+  border-bottom:7px solid #fff;
+}
+
+body.chat-retro .messages-scrollbar-btn.down::before{
+  border-top:7px solid #fff;
+}
+
+body.chat-retro .messages-scrollbar-track{
+  flex:1;
+  background:#111;
+  position:relative;
+}
+
+body.chat-retro .messages-scrollbar-thumb{
+  position:absolute;
+  top:0;
+  left:0;
+  right:0;
+  min-height:52px;
+  background:#fff;
+  border-left:2px solid #111;
+  border-right:2px solid #111;
+}
+
+body.chat-retro .date-stamp{
+  font-size:12px;
+  color:#111;
+  letter-spacing:0;
+}
+
+body.chat-retro .msg{
+  gap:10px;
+  margin:14px 0;
+}
+
+body.chat-retro .msg-avatar{
+  width:40px;
+  height:40px;
+  border:2px solid #111;
+  border-radius:8px;
+  box-shadow:none;
+  background:#fff;
+  cursor:pointer;
+}
+
+body.chat-retro .bubble{
+  background:transparent;
+  border:none;
+  border-radius:0;
+  padding:0;
+  box-shadow:none;
+  max-width:640px;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+}
+
+body.chat-retro .meta{
+  margin:0 0 6px 6px;
+  font-size:11px;
+  color:#111;
+}
+
+body.chat-retro .user,
+body.chat-retro .time{
+  color:#111;
+}
+
+body.chat-retro .bubble p{
+  margin:0;
+  display:inline-block;
+  padding:12px 16px;
+  background:#fff;
+  border:2px solid #111;
+  border-radius:12px;
+  line-height:1.6;
+}
+
+body.chat-retro .msg.me .bubble{
+  background:transparent;
+  border:none;
+  box-shadow:none;
+  align-items:flex-end;
+}
+
+body.chat-retro .msg.me .meta,
+body.chat-retro .msg.me .meta .time,
+body.chat-retro .msg.me .bubble p{
+  color:#fff;
+}
+
+body.chat-retro .msg.me .meta{
+  margin:0 14px 6px 0;
+  color:#111;
+}
+
+body.chat-retro .msg.me .meta .user{
+  color:#111;
+}
+
+body.chat-retro .msg.me .bubble p{
+  background:#111;
+  border-color:#111;
+}
+
+body.chat-retro .msg.system{
+  justify-content:center;
+}
+
+body.chat-retro .msg.system .bubble{
+  width:min(620px, 100%);
+  max-width:620px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background:#f5d9d9;
+  border:2px solid #111;
+  border-radius:18px;
+  padding:14px 18px;
+  box-shadow:none;
+}
+
+body.chat-retro .msg.system .meta{
+  margin:0 0 10px;
+  justify-content:center;
+}
+
+body.chat-retro .msg.system .meta .user{
+  display:block;
+  text-align:center;
+  color:#9f2b2b;
+}
+
+body.chat-retro .msg.system .bubble p{
+  display:block;
+  width:100%;
+  margin:0;
+  padding:0;
+  background:transparent;
+  border:none;
+  border-radius:0;
+  text-align:center;
+  color:#9f2b2b;
+  font-weight:600;
+}
+
+body.chat-retro .chat-divider{
+  border-top:2px solid #111;
+  margin:18px 0 10px;
+}
+
+body.chat-retro .app.app-two{
+  min-height:0;
+  grid-template-rows:1fr;
+}
+
+body.chat-retro .pane-center{
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+  overflow:hidden;
+}
+
+body.chat-retro .composer{
+  flex-shrink:0;
+  margin-top:auto;
+  border-top:2px solid #111;
+  padding:12px 16px;
+  gap:10px;
+}
+
+body.chat-retro #input{
+  border:2px solid #111;
+  border-radius:4px;
+  background:#fff;
+  box-shadow:none;
+  min-height:44px;
+}
+
+body.chat-retro .send{
+  background:#fff;
+  color:#111;
+  border:2px solid #111;
+  border-radius:8px;
+  min-width:92px;
+}
+
+body.chat-retro .send:hover{
+  background:#111;
+  color:#fff;
+}
+
+body.chat-retro .pane-title{
+  border-bottom:2px solid #111;
+  padding:12px 14px;
+}
+
+body.chat-retro .pane-right .pane-title:first-of-type{
+  margin-top:58px;
+}
+
+body.chat-retro .announcement-list,
+body.chat-retro .members{
+  padding:8px 10px;
+}
+
+body.chat-retro .announcement-item,
+body.chat-retro .members li{
+  background:#fff;
+  border:2px solid #111;
+  border-radius:10px;
+}
+
+body.chat-retro .members li{
+  margin-bottom:8px;
+}
+
+body.chat-retro .announcement-item:hover,
+body.chat-retro .members li:hover{
+  background:#f5f5f5;
+  transform:none;
+}
+
+body.chat-retro .bubble p{
+  font-family:"ChironGoRoundTC","SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+body.chat-retro .msg .meta .user{
+  font-family:"Minecraftia-Regular","Minecraftia",monospace;
+}
+
+
+body.chat-retro .app.app-two{
+  grid-template-columns:minmax(0, 1fr) 320px;
+}
+
+
+body.chat-retro .members{
+  padding:4px 14px 10px;
+}
+
+body.chat-retro .members li{
+  background:transparent;
+  border:none;
+  border-radius:0;
+  margin:0;
+  padding:11px 2px 11px 2px;
+}
+
+body.chat-retro .members li:hover{
+  background:#f5f5f5;
+  color:#111;
+  border-radius:10px;
+}
+
+body.chat-retro .members .status{
+  margin-right:6px;
+}
+
+
+body.chat-retro .header-left{
+  align-items:flex-end;
+  padding-top:4px;
+}
+
+body.chat-retro .header-left strong{
+  display:block;
+  line-height:1;
+}
+
+
+body.chat-retro .app-header{
+  background:#111;
+  color:#fff;
+  border-bottom:2px solid #111;
+  width:calc(100% - 320px);
+  max-width:calc(100% - 320px);
+  align-self:flex-start;
+  margin-right:0;
+  padding:20px 14px;
+}
+
+body.chat-retro .header-left,
+body.chat-retro .header-right{
+  padding-top:0;
+}
+
+body.chat-retro .header-left strong,
+body.chat-retro .user-name{
+  color:#fff;
+}
+
+body.chat-retro .app-header .user-pill,
+body.chat-retro .app-header .logout{
+  background:#111;
+  color:#fff;
+  border-color:#fff;
+}
+
+body.chat-retro .app-header .user-pill:hover,
+body.chat-retro .app-header .logout:hover{
+  background:#fff;
+  color:#111;
+}
+
+body.chat-retro .sidebar-topbar .user-pill,
+body.chat-retro .sidebar-topbar .logout{
+  background:#fff;
+  color:#111;
+  border:2px solid #111;
+}
+
+body.chat-retro .sidebar-topbar .user-pill{
+  min-width:154px;
+  justify-content:center;
+}
+
+body.chat-retro .sidebar-topbar .logout{
+  min-width:132px;
+}
+
+body.chat-retro .sidebar-topbar .user-name{
+  color:#111;
+}
+
+body.chat-retro .sidebar-topbar .user-pill:hover,
+body.chat-retro .sidebar-topbar .logout:hover{
+  background:#111;
+  color:#fff;
+}
+
+body.chat-retro .sidebar-topbar .user-pill:hover .user-name{
+  color:#fff;
+}
+
+
+body.chat-retro .announcement-item,
+body.chat-retro #announcementBody{
+  font-family:"ChironGoRoundTC","SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+body.chat-retro #announcementTitle{
+  font-family:"ChironGoRoundTC","SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:700;
+}
+
+
+.announcement-close-icon{
+  width:22px;
+  height:22px;
+  object-fit:contain;
+  display:block;
+}
+
+body.chat-retro #memberModal .modal-panel{
+  max-width:468px;
+  width:min(468px, calc(100vw - 48px));
+  display:block;
+  padding:0;
+  border:3px solid #111;
+  border-radius:22px;
+  background:#fff;
+  box-shadow:8px 12px 0 #111;
+  overflow:hidden;
+}
+
+body.chat-retro #memberModal .member-titlebar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  min-height:54px;
+  padding:0 16px;
+  border-bottom:3px solid #111;
+  background:#fff;
+}
+
+body.chat-retro #memberModal .member-close{
+  position:static;
+  border:0;
+  background:transparent;
+  width:32px;
+  height:32px;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  color:#111;
+}
+
+body.chat-retro #memberModal .member-body{
+  display:flex;
+  gap:18px;
+  align-items:flex-start;
+  padding:20px 22px 22px;
+}
+
+body.chat-retro #memberModal .modal-avatar{
+  width:96px;
+  height:96px;
+  border-radius:18px;
+  border:2px solid #111;
+  object-fit:cover;
+  background:#fff;
+}
+
+body.chat-retro #memberModal .modal-details{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  flex:1;
+  min-width:0;
+}
+
+body.chat-retro #memberModal .modal-name{
+  margin:0;
+  font:700 16px/1.1 "ChironGoRoundTC","Minecraftia-Regular",sans-serif;
+  color:#111;
+}
+
+body.chat-retro #memberModal .modal-status,
+body.chat-retro #memberModal .modal-registered{
+  margin:0;
+  color:#6b7280;
+  font-family:"ChironGoRoundTC","SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+body.chat-retro #memberModal .modal-status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+body.chat-retro #memberModal .modal-action{
+  align-self:flex-end;
+  padding:9px 16px;
+  background:#fff;
+  color:#111;
+  border:2px solid #111;
+  border-radius:12px;
+  font-family:"ChironGoRoundTC","SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:none;
+}
+
+body.chat-retro #memberModal .modal-action:hover{
+  background:#111;
+  color:#fff;
+  box-shadow:none;
 }

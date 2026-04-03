@@ -298,7 +298,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   announcementModal?.addEventListener('click', (e) => {
-    if (e.target.dataset?.close !== undefined || e.target.classList.contains('modal-backdrop')) {
+    if (e.target.closest('[data-close]') || e.target.classList.contains('modal-backdrop')) {
       closeAnnouncement();
     }
   });
