@@ -48,7 +48,35 @@
     </section>
   </main>
 
-  <button type="button" class="admin-entry" id="adminEntry" hidden>Administrator Access</button>
+  <section class="admin-entry" id="adminEntry" hidden aria-label="Administrator Access">
+    <div class="admin-entry-noise" aria-hidden="true">
+      <span class="admin-entry-block admin-entry-block--accent admin-entry-block--tl"></span>
+      <span class="admin-entry-block admin-entry-block--accent admin-entry-block--tr"></span>
+      <span class="admin-entry-block admin-entry-block--accent admin-entry-block--bl"></span>
+      <span class="admin-entry-block admin-entry-block--accent admin-entry-block--br"></span>
+      <span class="admin-entry-block admin-entry-block--accent admin-entry-block--out-1"></span>
+      <span class="admin-entry-block admin-entry-block--accent admin-entry-block--out-2"></span>
+      <span class="admin-entry-block admin-entry-block--accent admin-entry-block--out-3"></span>
+      <span class="admin-entry-block admin-entry-block--bg admin-entry-block--in-2"></span>
+      <span class="admin-entry-block admin-entry-block--bg admin-entry-block--in-3"></span>
+      <span class="admin-entry-block admin-entry-block--bg admin-entry-block--in-4"></span>
+      <span class="admin-entry-block admin-entry-block--bg admin-entry-block--in-5"></span>
+      <span class="admin-entry-block admin-entry-block--bg admin-entry-block--in-6"></span>
+    </div>
+    <div class="admin-entry-banner">
+      <span class="admin-entry-mask admin-entry-mask--two" aria-hidden="true"></span>
+      <span class="admin-entry-mask admin-entry-mask--three" aria-hidden="true"></span>
+      <span class="admin-entry-mask admin-entry-mask--four" aria-hidden="true"></span>
+      <button type="button" class="admin-entry-title" id="adminEntryAction">Access</button>
+    </div>
+    <div class="admin-entry-code" aria-hidden="true">
+      <div class="admin-entry-code-window">
+        <div class="admin-entry-code-line" data-admin-line="0"></div>
+        <div class="admin-entry-code-line" data-admin-line="1"></div>
+        <div class="admin-entry-code-line admin-entry-code-line--typing" data-admin-line="2"></div>
+      </div>
+    </div>
+  </section>
   <script src="js/login.js" defer></script>
   <script>
     window.HintProgressConfig = {

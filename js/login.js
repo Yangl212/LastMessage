@@ -7,16 +7,35 @@ document.addEventListener('DOMContentLoaded', () => {
   const dragHandle = document.getElementById('loginDragHandle');
   const pageDim = document.getElementById('pageDim');
   const adminEntry = document.getElementById('adminEntry');
+  const adminEntryAction = document.getElementById('adminEntryAction');
+  const adminCodeLines = Array.from(document.querySelectorAll('[data-admin-line]'));
 
   const VALID_USERNAME = 'NewUser_x7a93';
   const VALID_PASSWORD = 'x7a93';
   const MONITORED_USERNAME = 'allerylin';
   const MONITORED_PASSWORD = '20090414';
   const NEW_USER_REGISTERED_KEY = 'bwNewUserRegisteredDate';
+  const ADMIN_CODE_SNIPPET = [
+    '<body class="chat-retro">',
+    '  <header class="app-header">',
+    '    <div class="header-left">',
+    '      <div class="brand-dot" aria-hidden="true"></div>',
+    '      <strong># Blue Whale Chat Group</strong>',
+    '    </div>',
+    '  </header>',
+    '',
+    '  <div class="app app-two">',
+    '    <main class="pane pane-center" aria-live="polite">',
+    '      <div class="messages-shell">',
+    '      <section id="messages" class="messages" aria-label="Messages">',
+    '        <div class="date-stamp">09:00</div>',
+    '        <article class="msg">'
+  ];
   let dragOffsetX = 0;
   let dragOffsetY = 0;
   let isDragging = false;
   let adminUnlocked = false;
+  let adminCodeStarted = false;
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -73,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateDragState();
   });
 
-  adminEntry?.addEventListener('click', () => {
+  adminEntryAction?.addEventListener('click', () => {
     window.location.href = 'Administratorchat.html';
   });
 
@@ -100,7 +119,19 @@ document.addEventListener('DOMContentLoaded', () => {
       loginCard.classList.add('is-fading-out');
       window.setTimeout(() => {
         loginCard.hidden = true;
-        if (adminEntry) adminEntry.hidden = false;
+        if (adminEntry) {
+          adminEntry.hidden = false;
+          adminEntry.classList.remove('is-entering');
+          void adminEntry.offsetWidth;
+          adminEntry.classList.add('is-entering');
+          if (!adminCodeStarted) {
+            adminCodeStarted = true;
+            startAdminCodeLoop();
+          }
+          window.setTimeout(() => {
+            adminEntry.classList.remove('is-entering');
+          }, 460);
+        }
       }, 320);
     } else if (adminEntry && !adminUnlocked) {
       adminEntry.hidden = true;
@@ -109,5 +140,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function formatLoginDate(date) {
     return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
+  }
+
+  async function startAdminCodeLoop() {
+    if (adminCodeLines.length === 0) return;
+
+    let index = 0;
+    renderAdminCodeWindow(index);
+
+    while (true) {
+      await wait(480);
+
+      adminCodeLines[0].textContent = ADMIN_CODE_SNIPPET[index % ADMIN_CODE_SNIPPET.length];
+      adminCodeLines[1].textContent = ADMIN_CODE_SNIPPET[(index + 1) % ADMIN_CODE_SNIPPET.length];
+      adminCodeLines[2].textContent = '';
+
+      await typeAdminCodeLine(
+        adminCodeLines[2],
+        ADMIN_CODE_SNIPPET[(index + 2) % ADMIN_CODE_SNIPPET.length]
+      );
+
+      await wait(620);
+      index = (index + 1) % ADMIN_CODE_SNIPPET.length;
+    }
+  }
+
+  function renderAdminCodeWindow(startIndex) {
+    adminCodeLines.forEach((line, lineIndex) => {
+      line.textContent = ADMIN_CODE_SNIPPET[(startIndex + lineIndex) % ADMIN_CODE_SNIPPET.length];
+    });
+  }
+
+  async function typeAdminCodeLine(element, text) {
+    element.textContent = '';
+
+    for (let i = 0; i <= text.length; i += 1) {
+      element.textContent = text.slice(0, i);
+      await wait(18);
+    }
+  }
+
+  function wait(ms) {
+    return new Promise(resolve => {
+      window.setTimeout(resolve, ms);
+    });
   }
 });
