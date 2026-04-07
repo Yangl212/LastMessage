@@ -1548,6 +1548,44 @@ body{
   transform:translateY(1px);
 }
 
+.midnight-become-overlay{
+  position:fixed;
+  inset:0;
+  z-index:120;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px;
+  background:rgba(0, 0, 0, .68);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .22s ease;
+}
+
+.midnight-become-overlay[hidden]{
+  display:none !important;
+}
+
+.midnight-become-overlay.is-visible{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.midnight-become-modal{
+  width:min(520px, calc(100vw - 64px));
+  padding:34px 40px;
+  border:4px solid #111;
+  background:#fff;
+  box-shadow:12px 12px 0 #111;
+}
+
+.midnight-become-text{
+  margin:0;
+  color:#111;
+  text-align:center;
+  font:400 24px/1.35 "pixelmix", "Pixelify Sans", monospace;
+}
+
 .diary-overlay{
   position:absolute;
   inset:0;

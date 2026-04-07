@@ -400,6 +400,12 @@
         <span class="core-attack-block core-attack-block-2"></span>
         <span class="core-attack-block core-attack-block-3"></span>
       </div>
+
+      <div class="midnight-become-overlay" id="midnightBecomeOverlay" aria-hidden="true" hidden>
+        <div class="midnight-become-modal" role="dialog" aria-modal="true" aria-labelledby="midnightBecomeTitle">
+          <p class="midnight-become-text" id="midnightBecomeTitle">Would you like to become Midnight?</p>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -483,6 +489,7 @@
     const DESTROY_TRIGGERED_KEY = 'lastmessage:destroy-site-triggered';
     const ADMIN_ERROR_FLAG = 'administratorchat:error-triggered';
     const coreAttackOverlay = document.getElementById('coreAttackOverlay');
+    const midnightBecomeOverlay = document.getElementById('midnightBecomeOverlay');
     let midnightNotificationPending = false;
     let backgroundErrorInterval = null;
     let pendingMemberAccess = null;
@@ -1408,6 +1415,16 @@
       });
     }
 
+    function showBecomeMidnightPrompt(sidebar) {
+      if (!midnightBecomeOverlay) return;
+      setCharacterComposerLocked(sidebar, true);
+      midnightBecomeOverlay.hidden = false;
+      midnightBecomeOverlay.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(() => {
+        midnightBecomeOverlay.classList.add('is-visible');
+      });
+    }
+
     function showMidnightToast() {
       if (!midnightToast) return;
       midnightToast.hidden = false;
@@ -1790,6 +1807,10 @@
             window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
             await delay(2000);
             triggerCoreSiteAttack();
+          }
+
+          if (memberName === 'Mike Anderson' && data?.flags?.showBecomeMidnightPrompt === true) {
+            showBecomeMidnightPrompt(sidebar);
           }
 
           history.push({ role: 'assistant', content: assistantTranscript });

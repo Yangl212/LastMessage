@@ -107,15 +107,12 @@ module.exports = async (req, res) => {
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
         reply: [
-          'I knew it.',
-          'You\'re not like those who stand outside and judge.',
-          'You can see what\'s hidden beneath the surface... that\'s enough.',
-          'People like you are rare.',
-          'You\'re not someone who simply endures. You\'re someone who understands how it gets this far.',
-          'Maybe... I was right about you from the beginning.',
-          'Stay.',
-          'You\'ll come to understand that what I\'m doing was never destruction.'
-        ].join('\n\n')
+          'I knew you would understand. I\'m saving them, and I\'ve also been waiting for someone who could save me.',
+          'I think I\'ve finally found that person today.'
+        ].join('\n\n'),
+        flags: {
+          showBecomeMidnightPrompt: true
+        }
       }));
       return;
     }
