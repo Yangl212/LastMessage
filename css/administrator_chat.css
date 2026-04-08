@@ -1572,7 +1572,7 @@ body{
 }
 
 .midnight-become-modal{
-  width:min(800px, calc(100vw - 88px));
+  width:min(640px, calc(100vw - 104px));
   border:6px solid #c40010;
   background:#000;
   box-shadow:none;
@@ -1587,8 +1587,8 @@ body{
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:58px;
-  padding:84px 48px 64px;
+  gap:44px;
+  padding:62px 40px 48px;
   background:#000;
 }
 
@@ -1596,24 +1596,24 @@ body{
   margin:0;
   color:#c40010;
   text-align:center;
-  font:400 34px/1.3 "pixelmix", "Pixelify Sans", monospace;
+  font:400 28px/1.3 "pixelmix", "Pixelify Sans", monospace;
 }
 
 .midnight-become-actions{
   display:flex;
   justify-content:center;
-  gap:96px;
+  gap:64px;
   width:100%;
 }
 
 .midnight-become-button{
-  min-width:248px;
-  min-height:100px;
+  min-width:180px;
+  min-height:82px;
   border:0;
   background:#c40010;
   color:#000;
   cursor:pointer;
-  font:400 40px/1 "pixelmix", "Pixelify Sans", monospace;
+  font:400 30px/1 "pixelmix", "Pixelify Sans", monospace;
   transition:transform .14s ease, filter .14s ease;
 }
 

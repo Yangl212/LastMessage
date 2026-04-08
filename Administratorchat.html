@@ -1440,6 +1440,7 @@
         button.classList.add('is-pressed');
         window.setTimeout(() => {
           button.classList.remove('is-pressed');
+          window.location.href = 'midnight_loading.html';
         }, 180);
       });
     });
@@ -1829,6 +1830,7 @@
           }
 
           if (memberName === 'Mike Anderson' && data?.flags?.showBecomeMidnightPrompt === true) {
+            await delay(3000);
             showBecomeMidnightPrompt(sidebar);
           }
 

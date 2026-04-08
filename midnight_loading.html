@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Midnight Loading</title>
+  <style>
+    :root{
+      --bg:#050505;
+      --red:#c40010;
+      --red-soft:#ef4444;
+      --line:#2b2b2b;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+
+    body{
+      margin:0;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(196,0,16,.12), transparent 24%),
+        radial-gradient(circle at 76% 72%, rgba(196,0,16,.1), transparent 28%),
+        var(--bg);
+      color:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family:"pixelmix", "Pixelify Sans", monospace;
+    }
+
+    .midnight-loading{
+      width:min(680px, calc(100vw - 56px));
+      padding:34px 30px 28px;
+      border:3px solid var(--red);
+      background:#080808;
+      box-shadow:12px 12px 0 rgba(0,0,0,.45);
+    }
+
+    .midnight-loading h1{
+      margin:0 0 12px;
+      color:var(--red-soft);
+      font-size:28px;
+      font-weight:400;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+
+    .midnight-loading p{
+      margin:0 0 22px;
+      color:#f6b1b6;
+      font-size:15px;
+      line-height:1.45;
+    }
+
+    .bar-shell{
+      height:24px;
+      border:2px solid var(--red);
+      background:#130506;
+      overflow:hidden;
+    }
+
+    .bar-fill{
+      height:100%;
+      width:0%;
+      background:linear-gradient(90deg, #9f0713 0%, #ef4444 100%);
+      animation:fillBar 4.8s linear forwards;
+    }
+
+    .status-line{
+      margin-top:12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      color:#fff;
+      font-size:14px;
+    }
+
+    .loading-dots::after{
+      content:"";
+      display:inline-block;
+      width:1.8em;
+      animation:dots 1.2s steps(4, end) infinite;
+      overflow:hidden;
+      vertical-align:bottom;
+    }
+
+    @keyframes fillBar{
+      from{width:0%}
+      to{width:100%}
+    }
+
+    @keyframes dots{
+      0%{content:""}
+      25%{content:"."}
+      50%{content:".."}
+      75%{content:"..."}
+      100%{content:""}
+    }
+  </style>
+</head>
+<body>
+  <main class="midnight-loading" aria-label="Loading">
+    <h1>Initializing Transfer</h1>
+    <p>The succession protocol is being prepared. Please wait while the next stage is loaded.</p>
+    <div class="bar-shell" aria-hidden="true">
+      <div class="bar-fill"></div>
+    </div>
+    <div class="status-line">
+      <span>Preparing Midnight route</span>
+      <span class="loading-dots">Loading</span>
+    </div>
+  </main>
+</body>
+</html>
