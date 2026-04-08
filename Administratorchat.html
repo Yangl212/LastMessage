@@ -403,7 +403,14 @@
 
       <div class="midnight-become-overlay" id="midnightBecomeOverlay" aria-hidden="true" hidden>
         <div class="midnight-become-modal" role="dialog" aria-modal="true" aria-labelledby="midnightBecomeTitle">
-          <p class="midnight-become-text" id="midnightBecomeTitle">Would you like to become Midnight?</p>
+          <div class="midnight-become-topbar" aria-hidden="true"></div>
+          <div class="midnight-become-body">
+            <p class="midnight-become-text" id="midnightBecomeTitle">Do you want to be Midnight?</p>
+            <div class="midnight-become-actions">
+              <button type="button" class="midnight-become-button" data-midnight-choice="yes-left">YES</button>
+              <button type="button" class="midnight-become-button" data-midnight-choice="yes-right">YES</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -490,6 +497,7 @@
     const ADMIN_ERROR_FLAG = 'administratorchat:error-triggered';
     const coreAttackOverlay = document.getElementById('coreAttackOverlay');
     const midnightBecomeOverlay = document.getElementById('midnightBecomeOverlay');
+    const midnightBecomeButtons = document.querySelectorAll('[data-midnight-choice]');
     let midnightNotificationPending = false;
     let backgroundErrorInterval = null;
     let pendingMemberAccess = null;
@@ -1424,6 +1432,17 @@
         midnightBecomeOverlay.classList.add('is-visible');
       });
     }
+
+    midnightBecomeButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        button.classList.remove('is-pressed');
+        void button.offsetWidth;
+        button.classList.add('is-pressed');
+        window.setTimeout(() => {
+          button.classList.remove('is-pressed');
+        }, 180);
+      });
+    });
 
     function showMidnightToast() {
       if (!midnightToast) return;
