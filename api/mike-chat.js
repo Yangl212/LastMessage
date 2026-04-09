@@ -132,14 +132,14 @@ module.exports = async (req, res) => {
         choices: [
           {
             id: 'controlling_them',
-            title: '激进',
-            displayLabel: '激进',
+            title: 'Aggressive',
+            displayLabel: 'Aggressive',
             label: "This not helping them! You're controlling them, pushing them step by step toward death."
           },
           {
             id: 'another_way',
-            title: '稳健',
-            displayLabel: '稳健',
+            title: 'Steady',
+            displayLabel: 'Steady',
             label: "I just feel like...maybe there's another way."
           }
         ]

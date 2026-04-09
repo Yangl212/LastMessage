@@ -1667,9 +1667,9 @@ body{
 
 .police-evidence-modal{
   width:min(720px, calc(100vw - 64px));
-  border:4px solid #111;
-  background:#d7d7d7;
-  box-shadow:10px 10px 0 rgba(0, 0, 0, .38);
+  border:2px solid #111;
+  background:#fff;
+  box-shadow:6px 6px 0 rgba(0, 0, 0, .18);
 }
 
 .police-evidence-titlebar{
@@ -1677,22 +1677,24 @@ body{
   align-items:center;
   justify-content:space-between;
   gap:16px;
-  min-height:48px;
-  padding:0 10px 0 16px;
-  background:#111;
-  color:#fff;
+  min-height:52px;
+  padding:0 12px 0 20px;
+  background:#fff;
+  color:#111;
+  border-bottom:2px solid #111;
 }
 
 .police-evidence-titlebar h2{
   margin:0;
-  font:400 20px/1 "pixelmix", "Pixelify Sans", monospace;
+  font:400 22px/1 "Pixelify Sans", sans-serif;
+  color:#111;
 }
 
 .police-evidence-close{
   width:34px;
   height:34px;
-  border:2px solid #fff;
-  background:#d7d7d7;
+  border:none;
+  background:transparent;
   padding:0;
   display:grid;
   place-items:center;
@@ -1706,45 +1708,71 @@ body{
 }
 
 .police-evidence-body{
-  padding:24px 24px 28px;
+  padding:0;
+}
+
+.police-evidence-email{
+  padding:20px 24px 24px;
 }
 
 .police-evidence-copy{
-  margin:0 0 20px;
+  margin:0 0 12px;
   color:#111;
-  font:400 20px/1.35 "pixelmix", "Pixelify Sans", monospace;
+  font:400 16px/1.5 "Pixelify Sans", sans-serif;
+}
+
+.police-evidence-copy:last-child{
+  margin-bottom:0;
+}
+
+.police-evidence-signature{
+  text-align:right;
+}
+
+.police-evidence-section-divider{
+  height:2px;
+  background:#111;
+}
+
+.police-evidence-log{
+  background:#fff;
+}
+
+.police-evidence-log-title{
+  margin:0;
+  padding:14px 24px;
+  font:400 20px/1 "Pixelify Sans", sans-serif;
+  color:#111;
+  text-align:center;
 }
 
 .police-evidence-grid{
   display:grid;
   grid-template-columns:repeat(3, minmax(0, 1fr));
-  gap:16px;
+  gap:0;
+  padding:24px 32px 28px;
 }
 
 .police-evidence-folder{
-  min-height:150px;
-  border:3px solid #111;
-  background:#efefef;
   color:#111;
   text-decoration:none;
   display:flex;
   flex-direction:column;
   align-items:center;
-  justify-content:center;
-  gap:14px;
-  padding:16px 12px;
-  font:400 18px/1.25 "Pixelify Sans", sans-serif;
+  justify-content:flex-start;
+  gap:10px;
+  padding:12px 8px;
+  font:400 15px/1.25 "Pixelify Sans", sans-serif;
   text-align:center;
-  transition:transform .12s ease, background .12s ease;
+  transition:opacity .12s ease;
 }
 
 .police-evidence-folder:hover{
-  transform:translateY(-2px);
-  background:#fff7c8;
+  opacity:.7;
 }
 
 .police-evidence-folder:active{
-  transform:translateY(1px);
+  opacity:.5;
 }
 
 .police-evidence-folder-icon{
@@ -2772,8 +2800,7 @@ body.core-site-attack .admin-main-shell{
   }
 
   .police-evidence-folder{
-    min-height:104px;
-    font-size:16px;
+    font-size:14px;
   }
 
   .allery-info-tabs{

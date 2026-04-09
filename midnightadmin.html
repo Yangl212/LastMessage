@@ -394,26 +394,35 @@
       <div class="police-evidence-overlay" id="policeEvidenceOverlay" aria-hidden="true" hidden>
         <div class="police-evidence-modal" role="dialog" aria-modal="true" aria-labelledby="policeEvidenceTitle">
           <div class="police-evidence-titlebar">
-            <h2 id="policeEvidenceTitle">看图</h2>
+            <h2 id="policeEvidenceTitle">Email from the police</h2>
             <button type="button" class="police-evidence-close" id="policeEvidenceClose" aria-label="Close evidence window">
               <img src="assets/images/exit.png" alt="" class="police-evidence-close-icon" />
             </button>
           </div>
           <div class="police-evidence-body">
-            <p class="police-evidence-copy">下面三个文件夹都是可以点开的</p>
-            <div class="police-evidence-grid">
-              <a href="MarryNews.html" class="police-evidence-folder" target="_blank" rel="noreferrer">
-                <img src="assets/images/folder.png" alt="" class="police-evidence-folder-icon" />
-                <span>Marry Brown</span>
-              </a>
-              <a href="DanielNews.html" class="police-evidence-folder" target="_blank" rel="noreferrer">
-                <img src="assets/images/folder.png" alt="" class="police-evidence-folder-icon" />
-                <span>Daniel Hayes</span>
-              </a>
-              <a href="SofiaNews.html" class="police-evidence-folder" target="_blank" rel="noreferrer">
-                <img src="assets/images/folder.png" alt="" class="police-evidence-folder-icon" />
-                <span>Sofia Rossi</span>
-              </a>
+            <div class="police-evidence-email">
+              <p class="police-evidence-copy">All units,</p>
+              <p class="police-evidence-copy">Collect as much evidence as possible.<br>Officers have already been dispatched to apprehend Midnight.<br>Please preserve all evidence and assist them in locating him.</p>
+              <p class="police-evidence-copy police-evidence-signature">— Police Department</p>
+            </div>
+            <div class="police-evidence-section-divider"></div>
+            <div class="police-evidence-log">
+              <h3 class="police-evidence-log-title">Evidence Log</h3>
+              <div class="police-evidence-section-divider"></div>
+              <div class="police-evidence-grid">
+                <a href="MarryNews.html" class="police-evidence-folder" target="_blank" rel="noreferrer">
+                  <img src="assets/images/folderblack.png" alt="" class="police-evidence-folder-icon" />
+                  <span>Marry Brown</span>
+                </a>
+                <a href="DanielNews.html" class="police-evidence-folder" target="_blank" rel="noreferrer">
+                  <img src="assets/images/folderblack.png" alt="" class="police-evidence-folder-icon" />
+                  <span>Daniel Hayes</span>
+                </a>
+                <a href="SofiaNews.html" class="police-evidence-folder" target="_blank" rel="noreferrer">
+                  <img src="assets/images/folderblack.png" alt="" class="police-evidence-folder-icon" />
+                  <span>Sofia Rossi</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -1528,7 +1537,7 @@
           policeEvidenceOverlay.classList.add('is-visible');
         });
         policeEvidenceTimeoutId = null;
-      }, 5000);
+      }, 3000);
     }
 
     function showMidnightToast() {
