@@ -1670,6 +1670,59 @@ body{
   border:2px solid #111;
   background:#fff;
   box-shadow:6px 6px 0 rgba(0, 0, 0, .18);
+  transform:scale(1);
+  transform-origin:center center;
+  transition:transform .28s cubic-bezier(.34,1.56,.64,1);
+}
+
+.police-evidence-overlay.from-button{
+  align-items:flex-end;
+  justify-content:flex-start;
+  padding:0 24px 72px 24px;
+}
+
+.police-evidence-overlay.from-button .police-evidence-modal{
+  transform-origin:bottom left;
+}
+
+.police-evidence-overlay.from-button:not(.is-visible) .police-evidence-modal{
+  transform:scale(0);
+}
+
+.evidence-reopen-btn{
+  position:fixed;
+  bottom:24px;
+  left:24px;
+  z-index:120;
+  background:#111;
+  color:#fff;
+  border:2px solid #fff;
+  padding:8px 14px 8px 10px;
+  font:400 13px/1 "Pixelify Sans", sans-serif;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  transition:background .12s ease, transform .1s ease;
+}
+
+.evidence-reopen-btn[hidden]{
+  display:none !important;
+}
+
+.evidence-reopen-btn:hover{
+  background:#333;
+}
+
+.evidence-reopen-btn:active{
+  transform:translateY(1px);
+}
+
+.evidence-reopen-icon{
+  width:20px;
+  height:auto;
+  image-rendering:pixelated;
+  filter:invert(1);
 }
 
 .police-evidence-titlebar{

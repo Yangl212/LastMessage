@@ -451,6 +451,11 @@
         </div>
       </div>
 
+      <button type="button" class="evidence-reopen-btn" id="evidenceReopenBtn" aria-label="Reopen evidence email" hidden>
+        <img src="assets/images/folderblack.png" alt="" class="evidence-reopen-icon" />
+        <span>Evidence</span>
+      </button>
+
       <div class="admin-countdown" id="adminCountdown" aria-live="polite" hidden>
         <span class="admin-countdown-label">Access Revoked In</span>
         <strong class="admin-countdown-time" id="adminCountdownTime">03:00</strong>
@@ -542,6 +547,7 @@
     const midnightBecomeButtons = document.querySelectorAll('[data-midnight-choice]');
     const policeEvidenceOverlay = document.getElementById('policeEvidenceOverlay');
     const policeEvidenceClose = document.getElementById('policeEvidenceClose');
+    const evidenceReopenBtn = document.getElementById('evidenceReopenBtn');
     const adminCountdown = document.getElementById('adminCountdown');
     const adminCountdownTime = document.getElementById('adminCountdownTime');
     let midnightNotificationPending = false;
@@ -1549,13 +1555,15 @@
         policeEvidenceTimeoutId = null;
       }
       if (!policeEvidenceOverlay) return;
+      const fromButton = policeEvidenceOverlay.classList.contains('from-button');
       policeEvidenceOverlay.classList.remove('is-visible');
       policeEvidenceOverlay.setAttribute('aria-hidden', 'true');
       window.setTimeout(() => {
         if (!policeEvidenceOverlay.classList.contains('is-visible')) {
           policeEvidenceOverlay.hidden = true;
+          policeEvidenceOverlay.classList.remove('from-button');
         }
-      }, 180);
+      }, fromButton ? 300 : 180);
     }
 
     function showPoliceEvidencePrompt(mode) {
@@ -1569,12 +1577,14 @@
         window.clearTimeout(policeEvidenceTimeoutId);
       }
       policeEvidenceTimeoutId = window.setTimeout(() => {
+        policeEvidenceOverlay.classList.remove('from-button');
         policeEvidenceOverlay.hidden = false;
         policeEvidenceOverlay.setAttribute('aria-hidden', 'false');
         requestAnimationFrame(() => {
           policeEvidenceOverlay.classList.add('is-visible');
         });
         policeEvidenceTimeoutId = null;
+        if (evidenceReopenBtn) evidenceReopenBtn.hidden = false;
       }, 3000);
     }
 
@@ -2100,6 +2110,15 @@
       if (event.target === policeEvidenceOverlay) {
         closePoliceEvidencePrompt();
       }
+    });
+    evidenceReopenBtn?.addEventListener('click', () => {
+      if (!policeEvidenceOverlay) return;
+      policeEvidenceOverlay.classList.add('from-button');
+      policeEvidenceOverlay.hidden = false;
+      policeEvidenceOverlay.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(() => {
+        policeEvidenceOverlay.classList.add('is-visible');
+      });
     });
 
     if (localStorage.getItem(ADMIN_ERROR_FLAG) === '1' && midnightToast) {
