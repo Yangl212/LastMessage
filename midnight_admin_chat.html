@@ -1,0 +1,757 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blue Whale Chat Group</title>
+  <meta name="description" content="In-browser chat-style interface for the ARG.">
+  <link rel="stylesheet" href="css/hint-progress.css" />
+  <link rel="stylesheet" href="css/chat.css" />
+</head>
+<body class="chat-retro">
+  <header class="app-header">
+    <div class="header-left">
+      <div class="brand-dot" aria-hidden="true"></div>
+      <strong># Blue Whale Chat Group</strong>
+    </div>
+  </header>
+
+  <div class="app app-two">
+    <main class="pane pane-center" aria-live="polite">
+      <div class="messages-shell">
+      <section id="messages" class="messages" aria-label="Messages"></section>
+        <div class="messages-scrollbar" id="messagesScrollbar" hidden aria-hidden="true">
+          <button type="button" class="messages-scrollbar-btn up" id="messagesScrollUp" aria-label="Scroll up"></button>
+          <div class="messages-scrollbar-track" id="messagesScrollTrack">
+            <div class="messages-scrollbar-thumb" id="messagesScrollThumb"></div>
+          </div>
+          <button type="button" class="messages-scrollbar-btn down" id="messagesScrollDown" aria-label="Scroll down"></button>
+        </div>
+      </div>
+
+      <form id="composer" class="composer" autocomplete="off" aria-label="Message composer">
+        <textarea id="input" rows="1" placeholder="Your message"></textarea>
+        <button class="send" type="submit" aria-label="Send message">Send</button>
+      </form>
+    </main>
+
+    <aside class="pane pane-right" aria-label="Members">
+      <div class="sidebar-topbar">
+        <button type="button" class="user-pill" aria-label="Current user Midnight">
+          <img src="assets/images/newuser.png" alt="" class="user-avatar">
+          <span class="user-name">Midnight</span>
+        </button>
+        <a class="logout" href="midnightadmin.html">Admin Access</a>
+      </div>
+      <div class="pane-title">Group Guidelines</div>
+      <ul class="announcement-list" id="announcementList" aria-label="Announcements">
+        <li><button type="button" class="announcement-item" data-announcement-id="a1">About Blue Whale Chat Group</button></li>
+        <li><button type="button" class="announcement-item" data-announcement-id="a2">30-Day Reflection Progress</button></li>
+        <li><button type="button" class="announcement-item" data-announcement-id="a3">Administrator Recruitment</button></li>
+      </ul>
+      <div class="pane-title">Members</div>
+      <ul class="members" id="memberList">
+        <li
+          data-member="Newuser_s3p0w"
+          data-status="online"
+          data-avatar="assets/images/Adrian.png"
+          data-registered="2026.4.9"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+          hidden
+        ><span class="status online"></span> Newuser_s3p0w</li>
+        <li
+          data-member="You"
+          data-status="online"
+          data-avatar="assets/images/newuser.png"
+          data-registered="2024-05-01"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status online"></span> You</li>
+        <li
+          data-member="No. 1"
+          data-status="offline"
+          data-avatar="assets/images/member-Midnight.jpeg"
+          data-registered="2024.01.08"
+          data-role="Administrator"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status offline"></span> No. 1</li>
+        <li
+          data-member="No. 2"
+          data-status="offline"
+          data-avatar="assets/images/member-dd.jpg"
+          data-registered="N/A"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status offline"></span> No. 2</li>
+        <li
+          data-member="No. 3"
+          data-status="offline"
+          data-avatar="assets/images/No.3.png"
+          data-registered="2024.01.10"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status offline"></span> No. 3</li>
+        <li
+          data-member="No. 4"
+          data-status="offline"
+          data-avatar="assets/images/No.4.png"
+          data-registered="2025.05.30"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status offline"></span> No. 4</li>
+        <li
+          data-member="No. 5"
+          data-status="online"
+          data-avatar="assets/images/No.5.jpg"
+          data-registered="2025.08.21"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status online"></span> No. 5</li>
+        <li
+          data-member="No. 6"
+          data-status="online"
+          data-avatar="assets/images/AlleyLin.jpg"
+          data-registered="2025.12.28"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status online"></span> No. 6</li>
+        <li
+          data-member="No. 7"
+          data-status="online"
+          data-avatar="assets/images/No.7.jpg"
+          data-registered="2026.3.1"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status online"></span> No. 7</li>
+      </ul>
+    </aside>
+  </div>
+
+  <div class="modal" id="memberModal" role="dialog" aria-modal="true" aria-labelledby="modalName" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel" role="document">
+      <div class="member-titlebar">
+        <h3 class="modal-name" id="modalName"></h3>
+        <button type="button" class="modal-close member-close" aria-label="Close member info" data-close><img src="assets/images/exit.png" alt="" class="announcement-close-icon" /></button>
+      </div>
+      <div class="member-body">
+        <img src="assets/images/avatar.png" alt="" class="modal-avatar" id="modalAvatar" />
+        <div class="modal-details">
+          <p class="modal-status"><span class="status" id="modalStatusDot" aria-hidden="true"></span><span id="modalStatusLabel"></span></p>
+          <p class="modal-registered" id="modalRegistered"></p>
+          <button type="button" class="modal-action" id="modalMessageButton">Send Message</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="announcementModal" role="dialog" aria-modal="true" aria-labelledby="announcementTitle" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel announcement-panel" role="document">
+      <div class="announcement-titlebar">
+        <h3 class="announcement-title" id="announcementTitle">Announcement</h3>
+        <button type="button" class="announcement-close" aria-label="Close announcement" data-close><img src="assets/images/exit.png" alt="" class="announcement-close-icon" /></button>
+      </div>
+      <div class="announcement-body-wrap">
+        <p class="modal-role" id="announcementBody">Content placeholder.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="setting-modal-overlay" id="settingModal" hidden>
+    <div class="setting-modal" role="dialog" aria-modal="true" aria-labelledby="settingModalTitle">
+      <div class="setting-titlebar">
+        <h2 id="settingModalTitle">SETTING</h2>
+        <button type="button" class="setting-close" id="settingModalClose" aria-label="Close setting">
+          <img src="assets/images/exit.png" alt="" class="setting-close-icon" />
+        </button>
+      </div>
+      <div class="setting-body">
+        <div class="setting-avatar-wrap">
+          <img src="assets/images/newuser.png" alt="Midnight" class="setting-avatar" />
+        </div>
+        <div class="setting-info">
+          <h3 class="setting-id">No.8</h3>
+          <p class="setting-line">Username: NewUser_x7a93</p>
+          <p class="setting-line">
+            Password:
+            <button type="button" class="setting-password" id="settingPassword" aria-label="Reveal password">x7a93</button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="join-request-overlay" id="joinRequestOverlay" hidden>
+    <div class="join-request-modal" role="dialog" aria-modal="true" aria-labelledby="joinRequestTitle">
+      <div class="join-request-titlebar">
+        <h2 id="joinRequestTitle">New user join request</h2>
+      </div>
+      <div class="join-request-body">
+        <div class="join-request-left">
+          <img src="assets/images/Adrian.png" alt="Adrian Vale" class="join-request-avatar" />
+          <div class="join-request-meta-group">
+            <p class="join-request-meta">Gender: Male</p>
+            <p class="join-request-meta">Age: 13</p>
+            <p class="join-request-meta">Login location: New York, NY, USA</p>
+          </div>
+        </div>
+        <div class="join-request-info">
+          <h3 class="join-request-name">Adrian Vale</h3>
+          <p class="join-request-label">Psychological Condition</p>
+          <p class="join-request-description">Chronic anxiety with mild paranoia, accompanied by insomnia and hypervigilance</p>
+        </div>
+        <button type="button" class="join-request-accept" id="joinRequestAccept">Accept</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="join-request-notice" id="joinRequestNotice" hidden>
+    <div class="join-request-notice-icon" aria-hidden="true">
+      <img src="assets/images/chaticon.png" alt="" class="join-request-notice-icon-image" />
+    </div>
+    <div class="join-request-notice-copy">
+      <p class="join-request-notice-title">You have a new message</p>
+      <p class="join-request-notice-text">Adrian Vale wants to join the room!</p>
+    </div>
+    <button type="button" class="join-request-notice-more" id="joinRequestMore">More</button>
+  </div>
+
+  <script src="js/chat-base.js" defer></script>
+  <script src="js/chat.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const NEW_USER_REGISTERED_KEY = 'bwNewUserRegisteredDate';
+      const userPill = document.querySelector('.user-pill');
+      const settingModal = document.getElementById('settingModal');
+      const settingModalClose = document.getElementById('settingModalClose');
+      const settingPassword = document.getElementById('settingPassword');
+      const newUserMember = document.querySelector('[data-member="NewUser_x7a93"]');
+      const messages = document.getElementById('messages');
+      const messagesScrollbar = document.getElementById('messagesScrollbar');
+      const messagesScrollTrack = document.getElementById('messagesScrollTrack');
+      const messagesScrollThumb = document.getElementById('messagesScrollThumb');
+      const messagesScrollUp = document.getElementById('messagesScrollUp');
+      const messagesScrollDown = document.getElementById('messagesScrollDown');
+      const joinRequestOverlay = document.getElementById('joinRequestOverlay');
+      const joinRequestAccept = document.getElementById('joinRequestAccept');
+      const joinRequestNotice = document.getElementById('joinRequestNotice');
+      const joinRequestMore = document.getElementById('joinRequestMore');
+      const composer = document.getElementById('composer');
+      const composerInput = document.getElementById('input');
+      const composerSend = composer?.querySelector('.send');
+      const pendingJoinMember = memberList?.querySelector('[data-member="Newuser_s3p0w"]');
+      let hintPulseTimeout = null;
+
+      if (newUserMember) {
+        const registeredDate = localStorage.getItem(NEW_USER_REGISTERED_KEY) || formatLoginDate(new Date());
+        newUserMember.dataset.registered = registeredDate;
+      }
+
+      const closeSettingModal = () => {
+        if (!settingModal) return;
+        settingModal.hidden = true;
+      };
+
+      userPill?.addEventListener('click', () => {
+        if (!settingModal) return;
+        settingModal.hidden = false;
+      });
+
+      settingModalClose?.addEventListener('click', closeSettingModal);
+
+      settingModal?.addEventListener('click', (event) => {
+        if (event.target === settingModal) {
+          closeSettingModal();
+        }
+      });
+
+      settingPassword?.addEventListener('click', () => {
+        settingPassword.textContent = settingPassword.textContent === 'x7a93' ? '********' : 'x7a93';
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && settingModal && !settingModal.hidden) {
+          closeSettingModal();
+        }
+      });
+
+      const syncMessagesScrollbar = () => {
+        if (!messages || !messagesScrollbar || !messagesScrollTrack || !messagesScrollThumb) return;
+        const { scrollTop, scrollHeight, clientHeight } = messages;
+        const needsScrollbar = scrollHeight > clientHeight + 1;
+        messagesScrollbar.hidden = !needsScrollbar;
+        if (!needsScrollbar) return;
+
+        const trackHeight = messagesScrollTrack.clientHeight;
+        const thumbHeight = Math.max(52, Math.round((clientHeight / scrollHeight) * trackHeight));
+        const maxThumbTravel = Math.max(0, trackHeight - thumbHeight);
+        const scrollProgress = scrollHeight - clientHeight <= 0 ? 0 : scrollTop / (scrollHeight - clientHeight);
+        const thumbTop = Math.round(scrollProgress * maxThumbTravel);
+
+        messagesScrollThumb.style.height = `${thumbHeight}px`;
+        messagesScrollThumb.style.transform = `translateY(${thumbTop}px)`;
+      };
+
+      messages?.addEventListener('scroll', syncMessagesScrollbar);
+      window.addEventListener('resize', syncMessagesScrollbar);
+      window.addEventListener('load', syncMessagesScrollbar);
+
+      messagesScrollUp?.addEventListener('click', () => {
+        messages?.scrollBy({ top: -140, behavior: 'smooth' });
+      });
+
+      messagesScrollDown?.addEventListener('click', () => {
+        messages?.scrollBy({ top: 140, behavior: 'smooth' });
+      });
+
+      messagesScrollTrack?.addEventListener('click', (event) => {
+        if (!messages || !messagesScrollTrack || event.target === messagesScrollThumb) return;
+        const rect = messagesScrollTrack.getBoundingClientRect();
+        const clickY = event.clientY - rect.top;
+        const thumbRect = messagesScrollThumb.getBoundingClientRect();
+        const thumbCenter = thumbRect.top - rect.top + thumbRect.height / 2;
+        const direction = clickY < thumbCenter ? -1 : 1;
+        messages.scrollBy({ top: direction * Math.max(160, messages.clientHeight * 0.6), behavior: 'smooth' });
+      });
+
+      hintPulseTimeout = window.setTimeout(() => {
+        window.HintProgress?.pulse?.();
+      }, 60000);
+
+      window.addEventListener('pagehide', () => {
+        if (hintPulseTimeout) {
+          window.clearTimeout(hintPulseTimeout);
+          hintPulseTimeout = null;
+        }
+      }, { once: true });
+
+      window.setTimeout(() => {
+        if (joinRequestNotice) {
+          joinRequestNotice.hidden = false;
+          joinRequestNotice.classList.remove('is-visible');
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              joinRequestNotice.classList.add('is-visible');
+            });
+          });
+        }
+      }, 900);
+
+      joinRequestMore?.addEventListener('click', () => {
+        if (joinRequestNotice) {
+          joinRequestNotice.classList.remove('is-visible');
+          joinRequestNotice.hidden = true;
+        }
+        if (joinRequestOverlay) {
+          joinRequestOverlay.hidden = false;
+        }
+      });
+
+      joinRequestAccept?.addEventListener('click', async () => {
+        if (joinRequestOverlay) {
+          joinRequestOverlay.hidden = true;
+        }
+        await autoSendWelcomeMessage();
+      });
+
+      function formatLoginDate(date) {
+        return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
+      }
+
+      async function autoSendWelcomeMessage() {
+        if (!composer || !composerInput || !composerSend) return;
+
+        const firstMessage = `Welcome. I’m glad you’re here!`;
+        const secondMessage = `I’m Midnight. I work as a psychological counselor, and I’ll be here with you.`;
+        const typeDelayMs = 92;
+
+        document.body.classList.add('midnight-auto-input-lock');
+        composerInput.readOnly = true;
+        composerSend.disabled = true;
+
+        if (pendingJoinMember) {
+          pendingJoinMember.hidden = false;
+        }
+
+        appendCenteredSystemMessage('Welcome Newuser_s3p0w !');
+        await new Promise((resolve) => window.setTimeout(resolve, 560));
+        await typeAndSend(firstMessage, typeDelayMs);
+        await new Promise((resolve) => window.setTimeout(resolve, 720));
+        await typeAndSend(secondMessage, typeDelayMs);
+        await new Promise((resolve) => window.setTimeout(resolve, 2000));
+        appendIncomingMessage('Newuser_s3p0w', 'Hello, can you help me?');
+        await new Promise((resolve) => window.setTimeout(resolve, 720));
+        await typeAndSend('Sure!', typeDelayMs);
+        await new Promise((resolve) => window.setTimeout(resolve, 500));
+        window.location.href = 'Ending1.html';
+
+        composerInput.readOnly = false;
+        composerSend.disabled = false;
+        document.body.classList.remove('midnight-auto-input-lock');
+      }
+
+      async function typeAndSend(message, typeDelayMs) {
+        composerInput.value = '';
+        composerInput.dispatchEvent(new Event('input', { bubbles: true }));
+
+        for (const char of message) {
+          composerInput.value += char;
+          composerInput.dispatchEvent(new Event('input', { bubbles: true }));
+          await new Promise((resolve) => window.setTimeout(resolve, typeDelayMs));
+        }
+
+        await new Promise((resolve) => window.setTimeout(resolve, 280));
+        composer.requestSubmit();
+      }
+
+      function appendCenteredSystemMessage(text) {
+        if (!messages) return;
+        const article = document.createElement('article');
+        article.className = 'msg system midnight-welcome-system';
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+
+        const body = document.createElement('p');
+        body.textContent = text;
+
+        bubble.appendChild(body);
+        article.appendChild(bubble);
+        messages.appendChild(article);
+        messages.scrollTop = messages.scrollHeight;
+        syncMessagesScrollbar();
+      }
+
+      function appendIncomingMessage(user, text) {
+        if (!messages) return;
+        const article = document.createElement('article');
+        article.className = 'msg';
+
+        const avatar = document.createElement('img');
+        avatar.className = 'msg-avatar';
+        avatar.src = pendingJoinMember?.dataset.avatar || 'assets/images/avatar.png';
+        avatar.alt = `${user} avatar`;
+
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+
+        const header = document.createElement('header');
+        header.className = 'meta';
+        header.innerHTML = `<span class="user">${user}</span>`;
+
+        const body = document.createElement('p');
+        body.textContent = text;
+
+        bubble.appendChild(header);
+        bubble.appendChild(body);
+        article.appendChild(avatar);
+        article.appendChild(bubble);
+        messages.appendChild(article);
+        messages.scrollTop = messages.scrollHeight;
+        syncMessagesScrollbar();
+      }
+
+      syncMessagesScrollbar();
+    });
+
+    window.HintProgressConfig = {
+      theme: 'light',
+      percent: 5,
+      title: 'Hint',
+      autoCloseMs: 5000,
+      lines: [
+        'Read through the existing chat logs carefully…',
+        'The logout button is in the top right corner. Maybe I can just take over a new user’s account.'
+      ]
+    };
+  </script>
+  <script src="js/hint-progress.js" defer></script>
+  <style>
+    .join-request-overlay{
+      position:fixed;
+      inset:0;
+      display:grid;
+      place-items:center;
+      background:rgba(0,0,0,.42);
+      z-index:1300;
+      padding:24px;
+    }
+
+    .join-request-overlay[hidden]{
+      display:none !important;
+    }
+
+    .join-request-notice{
+      position:fixed;
+      top:100px;
+      right:360px;
+      width:min(360px, calc(100vw - 620px));
+      min-height:72px;
+      display:grid;
+      grid-template-columns:40px 1fr 86px;
+      align-items:center;
+      gap:10px;
+      padding:10px 12px;
+      background:#fff;
+      border:2px solid #111;
+      border-radius:16px;
+      box-shadow:none;
+      z-index:1250;
+      font-family:"ChironGoRoundTC-VariableFont_wght","SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+      color:#111;
+      opacity:0;
+      transform:translate3d(56px, 0, 0) scale(.985);
+      transition:transform .44s cubic-bezier(.16, 1, .3, 1), opacity .26s ease;
+      will-change:transform, opacity;
+      pointer-events:none;
+    }
+
+    .join-request-notice[hidden]{
+      display:none !important;
+    }
+
+    .join-request-notice.is-visible{
+      opacity:1;
+      transform:translate3d(0, 0, 0) scale(1);
+      pointer-events:auto;
+    }
+
+    .join-request-notice-icon{
+      display:grid;
+      place-items:center;
+    }
+
+    .join-request-notice-icon-image{
+      width:30px;
+      height:30px;
+      object-fit:contain;
+    }
+
+    .join-request-notice-copy{
+      min-width:0;
+    }
+
+    .join-request-notice-title{
+      margin:0 0 2px;
+      font-size:13px;
+      line-height:1;
+      font-weight:700;
+      color:#111;
+    }
+
+    .join-request-notice-text{
+      margin:0;
+      font-size:11px;
+      line-height:1.16;
+      font-weight:560;
+      color:#111;
+    }
+
+    .join-request-notice-more{
+      justify-self:end;
+      min-width:78px;
+      min-height:42px;
+      border:2px solid #111;
+      border-radius:9px;
+      background:#fff;
+      color:#111;
+      font-family:"ChironGoRoundTC-VariableFont_wght","SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-size:15px;
+      line-height:1;
+      font-weight:500;
+      cursor:pointer;
+      transition:background-color .16s ease,color .16s ease;
+    }
+
+    .join-request-notice-more:hover{
+      background:#111;
+      color:#fff;
+    }
+
+    .sidebar-topbar .logout{
+      min-width:106px;
+      min-height:46px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:6px 12px;
+      font-size:14px;
+      line-height:1.1;
+      white-space:nowrap;
+    }
+
+    #memberList [hidden]{
+      display:none !important;
+    }
+
+    .midnight-welcome-system .bubble{
+      width:auto;
+      max-width:none;
+      min-width:0;
+      background:#e5e7eb;
+      border-color:#a3aab5;
+      padding:10px 16px;
+      border-radius:14px;
+    }
+
+    .midnight-welcome-system .bubble p{
+      color:#6b7280;
+      text-align:center;
+      font-size:14px;
+      font-weight:600;
+    }
+
+    .join-request-modal{
+      width:min(588px, calc(100vw - 188px));
+      background:#fff;
+      border:4px solid #111;
+      border-radius:18px;
+      box-shadow:10px 10px 0 #111;
+      overflow:hidden;
+    }
+
+    .join-request-titlebar{
+      min-height:48px;
+      border-bottom:4px solid #111;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:0 18px;
+      font-family:"ChironGoRoundTC-VariableFont_wght","SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+    }
+
+    .join-request-titlebar h2{
+      margin:0;
+      font-size:15px;
+      font-weight:620;
+      color:#111;
+    }
+
+    .join-request-body{
+      display:grid;
+      grid-template-columns:122px 1fr 118px;
+      gap:16px;
+      align-items:start;
+      padding:18px 20px 22px;
+      font-family:"ChironGoRoundTC-VariableFont_wght","SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+      color:#111;
+    }
+
+    .join-request-left{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:12px;
+      align-self:start;
+      padding-top:0;
+    }
+
+    .join-request-avatar{
+      width:118px;
+      height:118px;
+      object-fit:cover;
+      background:#d9d9d9;
+    }
+
+    .join-request-info{
+      align-self:start;
+    }
+
+    .join-request-name{
+      margin:0 0 12px;
+      font-size:20px;
+      line-height:1.08;
+      font-weight:700;
+      color:#111;
+    }
+
+    .join-request-label{
+      margin:0 0 8px;
+      font-size:14px;
+      line-height:1.2;
+      font-weight:560;
+      color:#111;
+    }
+
+    .join-request-description{
+      margin:0;
+      max-width:278px;
+      font-size:14px;
+      line-height:1.28;
+      color:#111;
+    }
+
+    .join-request-meta-group{
+      display:flex;
+      flex-direction:column;
+      gap:2px;
+    }
+
+    .join-request-meta{
+      margin:0;
+      font-size:12px;
+      line-height:1.24;
+      color:#111;
+    }
+
+    .join-request-accept{
+      align-self:end;
+      justify-self:start;
+      margin-left:-18px;
+      min-width:132px;
+      min-height:46px;
+      border:4px solid #111;
+      background:#fff;
+      color:#111;
+      font-family:"ChironGoRoundTC-VariableFont_wght","SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-size:15px;
+      font-weight:620;
+      line-height:1;
+      cursor:pointer;
+      transition:background-color .16s ease,color .16s ease;
+    }
+
+    .join-request-accept:hover{
+      background:#111;
+      color:#fff;
+    }
+
+    body.midnight-auto-input-lock .app,
+    body.midnight-auto-input-lock .app-header,
+    body.midnight-auto-input-lock .hint-progress-root{
+      pointer-events:none;
+    }
+
+    body.midnight-auto-input-lock{
+      cursor:progress;
+    }
+
+    @media (max-width: 1180px){
+      .join-request-notice{
+        right:24px;
+        width:min(360px, calc(100vw - 48px));
+      }
+    }
+  </style>
+</body>
+</html>

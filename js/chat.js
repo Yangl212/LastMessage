@@ -13,8 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const announcementTitle = document.getElementById('announcementTitle');
   const announcementBody = document.getElementById('announcementBody');
 
-  let interventionQueued = false;
-
   const announcements = [
     {
       id: 'a1',
@@ -62,9 +60,6 @@ document.addEventListener('DOMContentLoaded', () => {
     sendButton,
     showTime: false,
     ownMessageTimePlacement: 'center',
-    onSendMessage: (_text, helpers) => {
-      scheduleRemovalSequence(helpers);
-    },
     onMemberMessage: (member) => {
       if (member === 'You') {
         alert('You cannot chat with yourself.');
@@ -75,38 +70,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
-
-  function scheduleRemovalSequence(helpers){
-    if (!helpers || interventionQueued) return;
-    interventionQueued = true;
-
-    window.setTimeout(() => {
-      helpers.appendMessage({
-        user: 'No. 7',
-        time: nowHHMM(),
-        text: 'Wait… what?'
-      });
-
-      window.setTimeout(() => {
-        helpers.appendMessage({
-          user: 'No. 5',
-          time: nowHHMM(),
-          text: 'The news literally said you were dead two days ago!'
-        });
-
-        window.setTimeout(() => {
-          helpers.appendMessage({
-            user: 'System',
-            time: nowHHMM(),
-            text: 'The system has removed you from the group.',
-            variant: 'system'
-          });
-
-          helpers.lockComposer('Access revoked.');
-        }, 2000);
-      }, 1000);
-    }, 2000);
-  }
 
   function nowHHMM(){
     const d = new Date();

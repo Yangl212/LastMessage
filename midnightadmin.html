@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Administratorchat</title>
+  <meta name="description" content="Administrative archive dashboard." />
+  <link rel="stylesheet" href="css/hint-progress.css" />
+  <link rel="stylesheet" href="css/administrator_chat.css" />
+</head>
+<body>
+  <main class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand">
+        <span>Administrator</span>
+      </div>
+
+      <div class="sidebar-section-title">Member</div>
+
+      <nav class="sidebar-nav" aria-label="Members">
+        <a href="#" class="sidebar-link active" data-member="Mike Anderson" data-panel="mike-primary">Mike Anderson</a>
+        <a href="#" class="sidebar-link" data-member="Allery Lin" data-panel="allery-lin">Allery Lin</a>
+        <a href="#" class="sidebar-link" data-member="Sofia Rossi" data-panel="sofia-rossi">Sofia Rossi</a>
+        <a href="#" class="sidebar-link" data-member="Core Bennett" data-panel="core-bennett">Core Bennett</a>
+        <a href="#" class="sidebar-link" data-member="Daniel Hayes" data-panel="daniel-hayes">Daniel Hayes</a>
+        <a href="#" class="sidebar-link" data-member="Lily Thompson" data-panel="lily-thompson">Lily Thompson</a>
+        <a href="#" class="sidebar-link" data-member="Marry Brown" data-panel="mike-secondary">Marry Brown</a>
+        <a href="#" class="sidebar-link" data-member="New user" data-panel="new-user">New user</a>
+      </nav>
+
+    </aside>
+
+    <section class="admin-main">
+      <div class="admin-toast" id="midnightToast" hidden>
+        <button type="button" class="admin-toast-close" id="midnightToastClose" aria-label="Close notification">×</button>
+        <div class="admin-toast-head">
+          <span class="admin-toast-name">Midnight</span>
+          <span class="admin-toast-label">new message</span>
+        </div>
+        <p class="admin-toast-text">I noticed what happened. Do not touch restricted records again.</p>
+      </div>
+      <audio id="midnightNotificationAudio" preload="auto" src="assets/audio/notification.mp3"></audio>
+
+      <div class="admin-main-shell">
+        <header class="admin-topbar">
+          <div class="topbar-path" id="memberPath">Member / Mike Anderson</div>
+        </header>
+
+        <div class="admin-header">
+          <div class="admin-title-wrap">
+          <div class="admin-folder"></div>
+          <h1 id="memberTitle">Mike Anderson</h1>
+        </div>
+        <div class="admin-tabs" aria-label="Views">
+          <button type="button" class="admin-tab active">Records</button>
+        </div>
+      </div>
+
+        <section class="allery-docs member-view scaffold-view" id="defaultBoardView" data-member-view="mike-primary" data-display-name="Mike Anderson" hidden></section>
+
+        <section class="allery-docs member-view" id="alleryDriveView" data-member-view="allery-lin" aria-label="Allery Lin records" hidden>
+          <div class="docs-main">
+            <section class="docs-shortcuts">
+              <h3>Shortcut</h3>
+              <div class="shortcut-row">
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-5"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 5</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-6"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 6</span></a>
+              </div>
+            </section>
+
+            <div class="docs-card-grid">
+              <a href="#" class="docs-card drive-card" aria-label="Open Outline and Production Notes">
+                <h3>Diary 1</h3>
+                <p>Research context, the Blue Whale Chat Group concept, and the interactive system outline.</p>
+                <span class="docs-card-action">Connect</span>
+              </a>
+
+              <a href="#" class="docs-card drive-card" aria-label="Open Final Thesis Outline">
+                <h3>Diary 2</h3>
+                <p>Fragmented traces, embedded narrative clues, screenshots, and the evidence map draft.</p>
+                <span class="docs-card-action">Connect</span>
+              </a>
+
+              <a href="#" class="docs-card drive-card" aria-label="Open Reference List">
+                <h3>Diary 3</h3>
+                <p>ARG papers, trace-based narrative research, and player agency references collected so far.</p>
+                <span class="docs-card-action">Connect</span>
+              </a>
+
+              <a href="#" class="docs-card drive-card" aria-label="Open Personal Fragments">
+                <h3>Diary 4</h3>
+                <p>Private journal excerpts, sleep notes, pressure logs, and deleted self-recorded fragments.</p>
+                <span class="docs-card-action">Connect</span>
+              </a>
+            </div>
+
+          </div>
+
+          <aside class="docs-sidebar">
+            <div class="allery-info-tabs">
+              <button type="button" class="allery-tab active">Information</button>
+              <button type="button" class="allery-tab" id="alleryChatTrigger">Chat</button>
+            </div>
+
+            <section class="allery-profile-panel">
+              <div class="allery-profile-main">
+                <div class="allery-photo-block">
+                  <img src="assets/images/Allery.png" alt="Allery Lin" class="allery-photo" />
+                </div>
+
+                <div class="allery-profile-copy">
+                  <h3>Allery Lin</h3>
+                  <dl class="allery-info-list">
+                    <div><dt>Date of Birth:</dt><dd>2009</dd></div>
+                    <div><dt>Citizen:</dt><dd>Chinese</dd></div>
+                    <div><dt>Gender:</dt><dd>Female</dd></div>
+                    <div><dt>Languages:</dt><dd>English, Mandarin</dd></div>
+                    <div><dt>Marital Status:</dt><dd>Single</dd></div>
+                    <div><dt>Location:</dt><dd>NY</dd></div>
+                    <div><dt>Family:</dt><dd>Lives with parents</dd></div>
+                    <div><dt>School:</dt><dd>Riverside High School</dd></div>
+                  </dl>
+                </div>
+              </div>
+
+              <div class="allery-profile-footer">
+                <span class="allery-file-id">No.6</span>
+                <span class="allery-status-badge">Deceased</span>
+              </div>
+
+              <a href="AlleryLinNews.html" class="allery-report-bar allery-report-link">
+                <span>Death Report</span><span class="accordion-arrow">›</span>
+              </a>
+
+              <button type="button" class="allery-report-bar allery-accordion" data-target="deathRecordPanel" aria-expanded="false">
+                <span>Record</span><span class="accordion-arrow">›</span>
+              </button>
+
+              <div class="allery-report-panel" id="deathRecordPanel" hidden>
+                <dl class="allery-death-list">
+                  <div><dt>Date of Death:</dt><dd>April 14</dd></div>
+                  <div><dt>Cause of Death:</dt><dd>Wrist cutting (Suicide)</dd></div>
+                  <div><dt>Location:</dt><dd>40.1810, -73.9534</dd></div>
+                  <div><dt>Task Process:</dt><dd>Complete</dd></div>
+                </dl>
+              </div>
+            </section>
+          </aside>
+        </section>
+
+        <section class="allery-docs member-view scaffold-view" data-member-view="sofia-rossi" data-display-name="Sofia Rossi" hidden></section>
+        <section class="allery-docs member-view scaffold-view" data-member-view="core-bennett" data-display-name="Core Bennett" hidden></section>
+        <section class="allery-docs member-view scaffold-view" data-member-view="daniel-hayes" data-display-name="Daniel Hayes" hidden></section>
+        <section class="allery-docs member-view scaffold-view" data-member-view="lily-thompson" data-display-name="Lily Thompson" hidden></section>
+        <section class="allery-docs member-view scaffold-view" data-member-view="mike-secondary" data-display-name="Marry Brown" hidden></section>
+        <section class="allery-docs member-view scaffold-view" data-member-view="new-user" data-display-name="New user" hidden></section>
+      </div>
+
+      <div class="diary-overlay" id="marryDiaryOverlay" aria-hidden="true" hidden>
+        <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="marryDiaryTitle">
+          <div class="diary-titlebar">
+            <h2 id="marryDiaryTitle">For Marry.txt</h2>
+            <button type="button" class="diary-close" id="marryDiaryClose" aria-label="Close diary"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          </div>
+          <div class="diary-modal-inner">
+            <div class="diary-modal-page" id="marryDiaryPage">
+              <p class="diary-modal-line">Dear Marry,</p>
+              <p class="diary-modal-line">I hope you’ve found peace and happiness in heaven. Your parents have already suffered greatly for what they did.</p>
+              <p class="diary-modal-line">Thank you for inspiring me to create this chatroom. I believe I can help more people this way, and I know you would want everyone to find as much happiness as they can.</p>
+              <p class="diary-modal-line">Perhaps one day, when someone is willing to take my place, I will also find my own happiness.</p>
+              <p class="diary-modal-line">Best,</p>
+              <div class="diary-signature-redacted" aria-hidden="true"></div>
+            </div>
+            <div class="diary-scrollbar" aria-hidden="true">
+              <button type="button" class="diary-scroll-arrow" id="marryDiaryUp">⌃</button>
+              <div class="diary-scroll-track" id="marryDiaryTrack">
+                <span class="diary-scroll-thumb" id="marryDiaryThumb"></span>
+              </div>
+              <button type="button" class="diary-scroll-arrow" id="marryDiaryDown">⌄</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diary-overlay" id="alleryDiaryOverlay" aria-hidden="true" hidden>
+        <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="alleryDiaryTitle">
+          <div class="diary-titlebar">
+            <h2 id="alleryDiaryTitle">Diary 1</h2>
+            <button type="button" class="diary-close" id="alleryDiaryClose" aria-label="Close diary"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          </div>
+          <div class="diary-modal-inner">
+            <div class="diary-modal-page" id="alleryDiaryPage">
+              <p class="diary-modal-line">Content pending.</p>
+            </div>
+            <div class="diary-scrollbar" aria-hidden="true">
+              <button type="button" class="diary-scroll-arrow" id="alleryDiaryUp">⌃</button>
+              <div class="diary-scroll-track" id="alleryDiaryTrack">
+                <span class="diary-scroll-thumb" id="alleryDiaryThumb"></span>
+              </div>
+              <button type="button" class="diary-scroll-arrow" id="alleryDiaryDown">⌄</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diary-overlay" id="mikeDiaryOverlay" aria-hidden="true" hidden>
+        <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="mikeDiaryTitle">
+          <div class="diary-titlebar">
+            <h2 id="mikeDiaryTitle">Diary 1</h2>
+            <button type="button" class="diary-close" id="mikeDiaryClose" aria-label="Close diary"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          </div>
+          <div class="diary-modal-inner">
+            <div class="diary-modal-page" id="mikeDiaryPage">
+              <p class="diary-modal-line">2004.11.12</p>
+              <p class="diary-modal-line">Dad hit me again. Mom was bleeding too.</p>
+              <p class="diary-modal-line">We hadn’t eaten for two days.</p>
+              <p class="diary-modal-line">Mom knelt down and begged him to let us out, but he beat her back inside.</p>
+            </div>
+            <div class="diary-scrollbar" aria-hidden="true">
+              <button type="button" class="diary-scroll-arrow" id="mikeDiaryUp">⌃</button>
+              <div class="diary-scroll-track" id="mikeDiaryTrack">
+                <span class="diary-scroll-thumb" id="mikeDiaryThumb"></span>
+              </div>
+              <button type="button" class="diary-scroll-arrow" id="mikeDiaryDown">⌄</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diary-overlay" id="danielDiaryOverlay" aria-hidden="true" hidden>
+        <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="danielDiaryTitle">
+          <div class="diary-titlebar">
+            <h2 id="danielDiaryTitle">Diary 1</h2>
+            <button type="button" class="diary-close" id="danielDiaryClose" aria-label="Close diary"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          </div>
+          <div class="diary-modal-inner">
+            <div class="diary-modal-page" id="danielDiaryPage">
+              <p class="diary-modal-line">Content pending.</p>
+            </div>
+            <div class="diary-scrollbar" aria-hidden="true">
+              <button type="button" class="diary-scroll-arrow" id="danielDiaryUp">⌃</button>
+              <div class="diary-scroll-track" id="danielDiaryTrack">
+                <span class="diary-scroll-thumb" id="danielDiaryThumb"></span>
+              </div>
+              <button type="button" class="diary-scroll-arrow" id="danielDiaryDown">⌄</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diary-overlay" id="sofiaDiaryOverlay" aria-hidden="true" hidden>
+        <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="sofiaDiaryTitle">
+          <div class="diary-titlebar">
+            <h2 id="sofiaDiaryTitle">Diary 1</h2>
+            <button type="button" class="diary-close" id="sofiaDiaryClose" aria-label="Close diary"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          </div>
+          <div class="diary-modal-inner">
+            <div class="diary-modal-page" id="sofiaDiaryPage">
+              <p class="diary-modal-line">Content pending.</p>
+            </div>
+            <div class="diary-scrollbar" aria-hidden="true">
+              <button type="button" class="diary-scroll-arrow" id="sofiaDiaryUp">⌃</button>
+              <div class="diary-scroll-track" id="sofiaDiaryTrack">
+                <span class="diary-scroll-thumb" id="sofiaDiaryThumb"></span>
+              </div>
+              <button type="button" class="diary-scroll-arrow" id="sofiaDiaryDown">⌄</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diary-overlay" id="lilyDiaryOverlay" aria-hidden="true" hidden>
+        <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="lilyDiaryTitle">
+          <div class="diary-titlebar">
+            <h2 id="lilyDiaryTitle">Diary 1</h2>
+            <button type="button" class="diary-close" id="lilyDiaryClose" aria-label="Close diary"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          </div>
+          <div class="diary-modal-inner">
+            <div class="diary-modal-page" id="lilyDiaryPage">
+              <p class="diary-modal-line">Content pending.</p>
+            </div>
+            <div class="diary-scrollbar" aria-hidden="true">
+              <button type="button" class="diary-scroll-arrow" id="lilyDiaryUp">⌃</button>
+              <div class="diary-scroll-track" id="lilyDiaryTrack">
+                <span class="diary-scroll-thumb" id="lilyDiaryThumb"></span>
+              </div>
+              <button type="button" class="diary-scroll-arrow" id="lilyDiaryDown">⌄</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="retro-warning-overlay" id="alleryChatWarning" aria-hidden="true" hidden>
+        <div class="retro-warning-modal" role="dialog" aria-modal="true" aria-labelledby="alleryChatWarningText">
+          <div class="retro-warning-body">
+            <img src="assets/images/warning.png" alt="" class="retro-warning-icon" />
+            <p id="alleryChatWarningText" class="retro-warning-text">This user is deceased and cannot be contacted.</p>
+          </div>
+          <div class="retro-warning-actions">
+            <button type="button" class="retro-warning-button" id="alleryChatWarningOk">OK</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-error-screen" id="adminErrorScreen" aria-hidden="true">
+        <div class="admin-glitch-layer">
+          <div class="glitch-grid">
+            <span class="glitch-cell c1">bH 8 JN1T GLW? =Nag Cb0x</span>
+            <span class="glitch-cell c2">Ax g H81xXa 3( Vvi)f</span>
+            <span class="glitch-cell c3">TEXT!/L Z+qF-a3xIo tM XN 7=</span>
+            <span class="glitch-cell c4">HaX(zqDr3 a 3laRZ1i$#E</span>
+            <span class="glitch-cell c5">vaX0 J;a4A;49J:2awd$</span>
+            <span class="glitch-cell c6">6A 3Yh-AD ^Q5 u,>p0 tha0azE7U%?</span>
+            <span class="glitch-cell c7">i M'z4c H?J7 GLG</span>
+            <span class="glitch-cell c8">ta8! vy( w zf 0! a$h''8(Rt zGB</span>
+            <span class="glitch-cell c9">jX! r8 LH a808 e y& D24I</span>
+          </div>
+          <span class="glitch-block block-a"></span>
+          <span class="glitch-block block-b"></span>
+          <span class="glitch-block block-c"></span>
+          <span class="glitch-block block-d"></span>
+          <span class="glitch-block block-e"></span>
+          <span class="glitch-block block-f"></span>
+          <span class="glitch-block block-g"></span>
+          <span class="glitch-block block-h"></span>
+          <span class="glitch-block block-i"></span>
+          <span class="glitch-block block-j"></span>
+          <span class="glitch-block block-k"></span>
+          <span class="glitch-block block-l"></span>
+          <span class="glitch-block block-m"></span>
+          <span class="glitch-block block-n"></span>
+          <span class="glitch-block block-o"></span>
+          <span class="glitch-block block-p"></span>
+          <span class="glitch-block block-q"></span>
+          <span class="glitch-block block-r"></span>
+          <span class="glitch-noise"></span>
+        </div>
+        <div class="retro-error" id="retroError" aria-hidden="true">
+          <div class="retro-error-titlebar">
+            <span>Error</span>
+            <button type="button" class="retro-error-close" aria-label="Close"><img src="assets/images/exit.png" alt="" class="retro-error-close-icon" /></button>
+          </div>
+          <div class="retro-error-body">
+            <p>WRONG INPUT</p>
+            <button type="button" class="retro-error-ok">OK</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="core-attack-overlay" id="coreAttackOverlay" aria-hidden="true" hidden>
+        <div class="core-attack-rgb core-attack-rgb-a"></div>
+        <div class="core-attack-rgb core-attack-rgb-b"></div>
+        <div class="core-attack-noise"></div>
+        <div class="core-attack-scanlines"></div>
+        <div class="core-attack-code">
+          <span>root@core:~# inject --silent --mask "midnight"</span>
+          <span>compiling overflow packet...</span>
+          <span>bridging diary nodes</span>
+          <span>trace: support_destroy:lily = true</span>
+          <span>trace: support_destroy:core = true</span>
+          <span>escalating privilege...</span>
+          <span>opening socket /admin-shell</span>
+          <span>shard.write(glitch_map[site])</span>
+          <span>panic: render tree desync</span>
+          <span>panic: route integrity lost</span>
+          <span>site teardown pending</span>
+        </div>
+        <span class="core-attack-bar core-attack-bar-1"></span>
+        <span class="core-attack-bar core-attack-bar-2"></span>
+        <span class="core-attack-bar core-attack-bar-3"></span>
+        <span class="core-attack-bar core-attack-bar-4"></span>
+        <span class="core-attack-block core-attack-block-1"></span>
+        <span class="core-attack-block core-attack-block-2"></span>
+        <span class="core-attack-block core-attack-block-3"></span>
+      </div>
+
+      <div class="midnight-become-overlay" id="midnightBecomeOverlay" aria-hidden="true" hidden>
+        <div class="midnight-become-modal" role="dialog" aria-modal="true" aria-labelledby="midnightBecomeTitle">
+          <div class="midnight-become-topbar" aria-hidden="true"></div>
+          <div class="midnight-become-body">
+            <p class="midnight-become-text" id="midnightBecomeTitle">Do you want to be Midnight?</p>
+            <div class="midnight-become-actions">
+              <button type="button" class="midnight-become-button" data-midnight-choice="yes-left">YES</button>
+              <button type="button" class="midnight-become-button" data-midnight-choice="yes-right">YES</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const memberLinks = document.querySelectorAll('.sidebar-link');
+    const memberPath = document.getElementById('memberPath');
+    const memberTitle = document.getElementById('memberTitle');
+    const alleryDiaryOverlay = document.getElementById('alleryDiaryOverlay');
+    const alleryDiaryClose = document.getElementById('alleryDiaryClose');
+    const alleryDiaryPage = document.getElementById('alleryDiaryPage');
+    const alleryDiaryTrack = document.getElementById('alleryDiaryTrack');
+    const alleryDiaryThumb = document.getElementById('alleryDiaryThumb');
+    const alleryDiaryUp = document.getElementById('alleryDiaryUp');
+    const alleryDiaryDown = document.getElementById('alleryDiaryDown');
+    const alleryDiaryTitle = document.getElementById('alleryDiaryTitle');
+    const marryDiaryOverlay = document.getElementById('marryDiaryOverlay');
+    const marryDiaryClose = document.getElementById('marryDiaryClose');
+    const marryDiaryPage = document.getElementById('marryDiaryPage');
+    const marryDiaryTrack = document.getElementById('marryDiaryTrack');
+    const marryDiaryThumb = document.getElementById('marryDiaryThumb');
+    const marryDiaryUp = document.getElementById('marryDiaryUp');
+    const marryDiaryDown = document.getElementById('marryDiaryDown');
+    const mikeDiaryOverlay = document.getElementById('mikeDiaryOverlay');
+    const mikeDiaryClose = document.getElementById('mikeDiaryClose');
+    const mikeDiaryPage = document.getElementById('mikeDiaryPage');
+    const mikeDiaryTrack = document.getElementById('mikeDiaryTrack');
+    const mikeDiaryThumb = document.getElementById('mikeDiaryThumb');
+    const mikeDiaryUp = document.getElementById('mikeDiaryUp');
+    const mikeDiaryDown = document.getElementById('mikeDiaryDown');
+    const mikeDiaryTitle = document.getElementById('mikeDiaryTitle');
+    const danielDiaryOverlay = document.getElementById('danielDiaryOverlay');
+    const danielDiaryClose = document.getElementById('danielDiaryClose');
+    const danielDiaryPage = document.getElementById('danielDiaryPage');
+    const danielDiaryTrack = document.getElementById('danielDiaryTrack');
+    const danielDiaryThumb = document.getElementById('danielDiaryThumb');
+    const danielDiaryUp = document.getElementById('danielDiaryUp');
+    const danielDiaryDown = document.getElementById('danielDiaryDown');
+    const danielDiaryTitle = document.getElementById('danielDiaryTitle');
+    const sofiaDiaryOverlay = document.getElementById('sofiaDiaryOverlay');
+    const sofiaDiaryClose = document.getElementById('sofiaDiaryClose');
+    const sofiaDiaryPage = document.getElementById('sofiaDiaryPage');
+    const sofiaDiaryTrack = document.getElementById('sofiaDiaryTrack');
+    const sofiaDiaryThumb = document.getElementById('sofiaDiaryThumb');
+    const sofiaDiaryUp = document.getElementById('sofiaDiaryUp');
+    const sofiaDiaryDown = document.getElementById('sofiaDiaryDown');
+    const sofiaDiaryTitle = document.getElementById('sofiaDiaryTitle');
+    const lilyDiaryOverlay = document.getElementById('lilyDiaryOverlay');
+    const lilyDiaryClose = document.getElementById('lilyDiaryClose');
+    const lilyDiaryPage = document.getElementById('lilyDiaryPage');
+    const lilyDiaryTrack = document.getElementById('lilyDiaryTrack');
+    const lilyDiaryThumb = document.getElementById('lilyDiaryThumb');
+    const lilyDiaryUp = document.getElementById('lilyDiaryUp');
+    const lilyDiaryDown = document.getElementById('lilyDiaryDown');
+    const lilyDiaryTitle = document.getElementById('lilyDiaryTitle');
+    const alleryChatTrigger = document.getElementById('alleryChatTrigger');
+    const alleryChatWarning = document.getElementById('alleryChatWarning');
+    const alleryChatWarningOk = document.getElementById('alleryChatWarningOk');
+    const adminErrorScreen = document.getElementById('adminErrorScreen');
+    const retroError = document.getElementById('retroError');
+    const retroErrorOk = document.querySelector('.retro-error-ok');
+    const midnightToast = document.getElementById('midnightToast');
+    const midnightToastClose = document.getElementById('midnightToastClose');
+    const midnightNotificationAudio = document.getElementById('midnightNotificationAudio');
+    const scaffoldViews = document.querySelectorAll('.scaffold-view');
+    const memberViews = document.querySelectorAll('.member-view');
+    const lilyChatHistory = new WeakMap();
+    const characterChatEndpoints = {
+      'Mike Anderson': '/api/mike-chat',
+      'Lily Thompson': '/api/lily-chat',
+      'Core Bennett': '/api/core-chat'
+    };
+    const DESTROY_SUPPORT_KEYS = {
+      'Lily Thompson': 'lastmessage:support-destroy:lily',
+      'Core Bennett': 'lastmessage:support-destroy:core'
+    };
+    const DESTROY_READY_KEY = 'lastmessage:destroy-site-ready';
+    const DESTROY_TRIGGERED_KEY = 'lastmessage:destroy-site-triggered';
+    const ADMIN_ERROR_FLAG = 'administratorchat:error-triggered';
+    const coreAttackOverlay = document.getElementById('coreAttackOverlay');
+    const midnightBecomeOverlay = document.getElementById('midnightBecomeOverlay');
+    const midnightBecomeButtons = document.querySelectorAll('[data-midnight-choice]');
+    let midnightNotificationPending = false;
+    let backgroundErrorInterval = null;
+    const alleryDiaryEntries = {
+      '1': {
+        title: 'Diary 1',
+        lines: [
+          '2025.12.28',
+          'Today, I entered that chatroom for the first time.',
+          'At first, it was only out of curiosity. I did not expect to see Sofia there.',
+          'I had always assumed that she would not be involved in something like this.',
+          'What surprised me even more was that she seemed to be seeking help for certain psychological concerns.'
+        ]
+      },
+      '2': {
+        title: 'Diary 2',
+        lines: [
+          '2026.01.06',
+          'Midnight has been consistently gentle in his manner of speaking.',
+          'I have begun to follow the so-called “30-day tasks.”',
+          'Although I was hesitant at first, I have noticed a certain degree of relief while carrying them out.'
+        ]
+      },
+      '3': {
+        title: 'Diary 3',
+        lines: [
+          '2026.02.15',
+          'Today, I realized that No.5 is actually Lily.',
+          'This came as a surprise to me.',
+          'She has always been outgoing and lively, and it is difficult to associate her with this place.',
+          'Perhaps I could try speaking with her.',
+          'If she is here, then she may also have her own concerns.'
+        ]
+      },
+      '4': {
+        title: 'Diary 4',
+        lines: [
+          '2026.03.07',
+          'Today, the results of the mock examination were released.',
+          'The outcome was far from satisfactory.',
+          'Compared to before, the decline is significant, and difficult to accept.',
+          'I can feel the way others look at me.',
+          'No one says anything directly, but the change is unmistakable.',
+          'It is not an intense feeling, but it is constant, and difficult to ignore.',
+          'I no longer want to go to school.'
+        ]
+      },
+      '5': {
+        title: 'Diary 5',
+        lines: [
+          '2026.03.12',
+          'Midnight remains as calm and patient as ever.',
+          'He responds in a way that is neither forceful nor dismissive.',
+          'Instead, he seems to guide me toward thinking for myself.',
+          'At times, I feel as though he resembles an older brother.',
+          'He does not provide direct answers, yet his presence is strangely reassuring.',
+          'I find myself gradually relying on these conversations.'
+        ]
+      },
+      '6': {
+        title: 'Diary 6',
+        lines: [
+          '2026.03.18',
+          'Today, I asked Midnight a question.',
+          'I wanted to know why he created this chatroom.',
+          'What led him to establish something like this.',
+          'He did not answer immediately.',
+          'Instead, he told me a story.',
+          'It was about someone named Marry.',
+          'He spoke about her experiences, and what she had endured.',
+          'According to him, this chatroom exists so that similar situations would not happen again.',
+          'I am not certain that I fully understand what he meant.',
+          'However, as he spoke, I could sense a strong emotion behind his words.',
+          'It was not sadness. It felt more like something firm, almost resolute.'
+        ]
+      }
+    };
+    const mikeDiaryEntries = {
+      '1': {
+        title: 'Diary 1',
+        lines: [
+          '2004.11.12',
+          'Dad hit me again. Mom was bleeding too.',
+          'We hadn’t eaten for two days.',
+          'Mom knelt down and begged him to let us out, but he beat her back inside.'
+        ]
+      },
+      '2': {
+        title: 'Diary 2',
+        lines: [
+          '2008.03.27',
+          'Mom is gone.',
+          'But before she left, she told me she was happy and asked me not to cry.',
+          'I used to think death was terrifying.',
+          'But seeing her leave with a smile, maybe that is what real relief looks like.'
+        ]
+      },
+      '3': {
+        title: 'Diary 3',
+        lines: [
+          '2023.05.14',
+          'It rained heavily today. The deliveries were soaked again. I’ll probably get my pay cut.',
+          'I met a girl. Her name is Marry.',
+          'She was sitting alone in the park, crying. I talked to her for a while.',
+          'She said no one in this world understands her.',
+          'She wants to go somewhere without pain, but she doesn’t know how.',
+          'Maybe where Mom went is a kind of paradise.'
+        ]
+      },
+      '4': {
+        title: 'Diary 4',
+        lines: [
+          '2023.05.20',
+          'I saw the news.',
+          'Marry’s parents were crying so hard.',
+          'They said they regretted everything.',
+          'Marry, did you see that?',
+          'People like them will regret it in the end.'
+        ]
+      },
+      '5': {
+        title: 'Diary 5',
+        lines: [
+          '2024.01.08',
+          'There are so many people in this world who are unhappy.',
+          'I will help them.'
+        ]
+      }
+    };
+    const danielDiaryEntries = {
+      '1': {
+        title: 'Diary 1',
+        lines: [
+          '2024.04.12',
+          'I don’t want to be bullied anymore.',
+          'I gave them money, but they still won’t leave me alone.',
+          'What do you want from me?',
+          'What will make you stop?'
+        ]
+      },
+      '2': {
+        title: 'Diary 2',
+        lines: [
+          '2024.05.02',
+          'I really like Task 20.',
+          'It makes me feel calm.'
+        ]
+      },
+      '3': {
+        title: 'Diary 3',
+        lines: [
+          '2024.05.06',
+          'Midnight is a really good angel.',
+          'He healed me.',
+          'Only with him can I feel a moment of relief.'
+        ]
+      }
+    };
+    const sofiaDiaryEntries = {
+      '1': {
+        title: 'Diary 1',
+        lines: [
+          'Why did they take my letter and laugh at me? Why?',
+          'The way they look at me makes me feel sick.'
+        ]
+      },
+      '2': {
+        title: 'Diary 2',
+        lines: [
+          'I saw Allery crying alone today.',
+          'I recommended this chatroom to her.',
+          'She’s one of the few friends I have.',
+          'I hope she can find happiness, instead of ending up like me.'
+        ]
+      },
+      '3': {
+        title: 'Diary 3',
+        lines: [
+          'I talked to Midnight for a long time today.',
+          'I learned about Marry’s story. Her parents were punished.',
+          'What about me?',
+          'If I go to heaven, will they regret what they did?'
+        ]
+      }
+    };
+    const lilyDiaryEntries = {
+      '1': {
+        title: 'Diary 1',
+        lines: [
+          '2025.08.21',
+          'A lot of people have been talking about this chatroom lately.',
+          'It seems kind of popular.',
+          'I wasn’t planning to join, but they made it sound kinda mysterious, so I got curious.',
+          'When I signed up, it actually asked for some kind of mental issue…',
+          'which is kind of weird. I just made something up and got in.',
+          'People in there talk a bit strangely, and there’s this “task” thing.',
+          'But honestly, it seemed kind of interesting at first, so I’ll just see how it goes.'
+        ]
+      },
+      '2': {
+        title: 'Diary 2',
+        lines: [
+          '2025.08.23',
+          'I tried doing some of those “30 tasks” these past couple days.',
+          'At first it felt kind of new and interesting,',
+          'but after like four or five days it got pretty boring.',
+          'It doesn’t really feel meaningful.',
+          'I don’t get why some people are taking it so seriously.'
+        ]
+      },
+      '3': {
+        title: 'Diary 3',
+        lines: [
+          '2025.08.25',
+          'That guy called Midnight is actually pretty gentle when he talks.',
+          'I kind of like chatting with him.',
+          'Sometimes I even talk to him about stuff.',
+          'But sometimes it feels like he knows a bit too much…',
+          'like he somehow knows which school I go to. That’s kind of weird.',
+          'Maybe I’m just overthinking it.'
+        ]
+      },
+      '4': {
+        title: 'Diary 4',
+        lines: [
+          '2025.08.26',
+          'Oh my god… Sofia was in the chat before me?',
+          'I’ve heard of her, she’s a year above me.'
+        ]
+      },
+      '5': {
+        title: 'Diary 5',
+        lines: [
+          '2025.08.29',
+          'I haven’t really gone into that chatroom lately.',
+          'It just feels like a bunch of people doing weird things.',
+          'Do they actually have mental issues? …maybe.',
+          'But Allery seems to be getting more and more active in there.',
+          'I don’t really know what she’s doing.',
+          'Whatever… I guess it’s not really my business.'
+        ]
+      }
+    };
+    function syncDiaryScrollbar(page, track, thumb) {
+      if (!page || !track || !thumb) return;
+      const maxScroll = page.scrollHeight - page.clientHeight;
+      const trackHeight = track.clientHeight;
+      if (maxScroll <= 0 || trackHeight <= 0) {
+        thumb.style.height = `${Math.max(36, trackHeight)}px`;
+        thumb.style.transform = 'translateY(0)';
+        return;
+      }
+      const visibleRatio = page.clientHeight / page.scrollHeight;
+      const thumbHeight = Math.max(36, Math.round(trackHeight * visibleRatio));
+      const travel = trackHeight - thumbHeight;
+      const progress = page.scrollTop / maxScroll;
+      thumb.style.height = `${thumbHeight}px`;
+      thumb.style.transform = `translateY(${travel * progress}px)`;
+    }
+
+    function syncMarryDiaryScrollbar() {
+      syncDiaryScrollbar(marryDiaryPage, marryDiaryTrack, marryDiaryThumb);
+    }
+
+    function syncAlleryDiaryScrollbar() {
+      syncDiaryScrollbar(alleryDiaryPage, alleryDiaryTrack, alleryDiaryThumb);
+    }
+
+    function syncMikeDiaryScrollbar() {
+      syncDiaryScrollbar(mikeDiaryPage, mikeDiaryTrack, mikeDiaryThumb);
+    }
+
+    function syncDanielDiaryScrollbar() {
+      syncDiaryScrollbar(danielDiaryPage, danielDiaryTrack, danielDiaryThumb);
+    }
+
+    function syncSofiaDiaryScrollbar() {
+      syncDiaryScrollbar(sofiaDiaryPage, sofiaDiaryTrack, sofiaDiaryThumb);
+    }
+
+    function syncLilyDiaryScrollbar() {
+      syncDiaryScrollbar(lilyDiaryPage, lilyDiaryTrack, lilyDiaryThumb);
+    }
+
+    function setMikeDiaryContent(entryKey) {
+      const entry = mikeDiaryEntries[entryKey] || mikeDiaryEntries['1'];
+      if (mikeDiaryTitle) {
+        mikeDiaryTitle.textContent = entry.title;
+      }
+      if (mikeDiaryPage) {
+        mikeDiaryPage.innerHTML = entry.lines
+          .map((line) => `<p class="diary-modal-line">${line}</p>`)
+          .join('');
+      }
+    }
+
+    function setAlleryDiaryContent(entryKey) {
+      const entry = alleryDiaryEntries[entryKey] || alleryDiaryEntries['1'];
+      if (alleryDiaryTitle) {
+        alleryDiaryTitle.textContent = entry.title;
+      }
+      if (alleryDiaryPage) {
+        alleryDiaryPage.innerHTML = entry.lines
+          .map((line) => `<p class="diary-modal-line">${line}</p>`)
+          .join('');
+      }
+    }
+
+    function setDanielDiaryContent(entryKey) {
+      const entry = danielDiaryEntries[entryKey] || danielDiaryEntries['1'];
+      if (danielDiaryTitle) {
+        danielDiaryTitle.textContent = entry.title;
+      }
+      if (danielDiaryPage) {
+        danielDiaryPage.innerHTML = entry.lines
+          .map((line) => `<p class="diary-modal-line">${line}</p>`)
+          .join('');
+      }
+    }
+
+    function setSofiaDiaryContent(entryKey) {
+      const entry = sofiaDiaryEntries[entryKey] || sofiaDiaryEntries['1'];
+      if (sofiaDiaryTitle) {
+        sofiaDiaryTitle.textContent = entry.title;
+      }
+      if (sofiaDiaryPage) {
+        sofiaDiaryPage.innerHTML = entry.lines
+          .map((line) => `<p class="diary-modal-line">${line}</p>`)
+          .join('');
+      }
+    }
+
+    function setLilyDiaryContent(entryKey) {
+      const entry = lilyDiaryEntries[entryKey] || lilyDiaryEntries['1'];
+      if (lilyDiaryTitle) {
+        lilyDiaryTitle.textContent = entry.title;
+      }
+      if (lilyDiaryPage) {
+        lilyDiaryPage.innerHTML = entry.lines
+          .map((line) => `<p class="diary-modal-line">${line}</p>`)
+          .join('');
+      }
+    }
+
+    function openMarryDiary() {
+      if (!marryDiaryOverlay) return;
+      marryDiaryOverlay.hidden = false;
+      if (marryDiaryPage) {
+        marryDiaryPage.scrollTop = 0;
+      }
+      requestAnimationFrame(() => {
+        marryDiaryOverlay.classList.add('is-visible');
+        marryDiaryOverlay.setAttribute('aria-hidden', 'false');
+        syncMarryDiaryScrollbar();
+      });
+    }
+
+    function openAlleryDiary(entryKey = '1') {
+      if (!alleryDiaryOverlay) return;
+      setAlleryDiaryContent(entryKey);
+      alleryDiaryOverlay.hidden = false;
+      if (alleryDiaryPage) {
+        alleryDiaryPage.scrollTop = 0;
+      }
+      requestAnimationFrame(() => {
+        alleryDiaryOverlay.classList.add('is-visible');
+        alleryDiaryOverlay.setAttribute('aria-hidden', 'false');
+        syncAlleryDiaryScrollbar();
+      });
+    }
+
+    function closeMarryDiary() {
+      if (!marryDiaryOverlay) return;
+      marryDiaryOverlay.classList.remove('is-visible');
+      marryDiaryOverlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!marryDiaryOverlay.classList.contains('is-visible')) {
+          marryDiaryOverlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function closeAlleryDiary() {
+      if (!alleryDiaryOverlay) return;
+      alleryDiaryOverlay.classList.remove('is-visible');
+      alleryDiaryOverlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!alleryDiaryOverlay.classList.contains('is-visible')) {
+          alleryDiaryOverlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function openMikeDiary(entryKey = '1') {
+      if (!mikeDiaryOverlay) return;
+      setMikeDiaryContent(entryKey);
+      mikeDiaryOverlay.hidden = false;
+      if (mikeDiaryPage) {
+        mikeDiaryPage.scrollTop = 0;
+      }
+      requestAnimationFrame(() => {
+        mikeDiaryOverlay.classList.add('is-visible');
+        mikeDiaryOverlay.setAttribute('aria-hidden', 'false');
+        syncMikeDiaryScrollbar();
+      });
+    }
+
+    function closeMikeDiary() {
+      if (!mikeDiaryOverlay) return;
+      mikeDiaryOverlay.classList.remove('is-visible');
+      mikeDiaryOverlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!mikeDiaryOverlay.classList.contains('is-visible')) {
+          mikeDiaryOverlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function openDanielDiary(entryKey = '1') {
+      if (!danielDiaryOverlay) return;
+      setDanielDiaryContent(entryKey);
+      danielDiaryOverlay.hidden = false;
+      if (danielDiaryPage) {
+        danielDiaryPage.scrollTop = 0;
+      }
+      requestAnimationFrame(() => {
+        danielDiaryOverlay.classList.add('is-visible');
+        danielDiaryOverlay.setAttribute('aria-hidden', 'false');
+        syncDanielDiaryScrollbar();
+      });
+    }
+
+    function closeDanielDiary() {
+      if (!danielDiaryOverlay) return;
+      danielDiaryOverlay.classList.remove('is-visible');
+      danielDiaryOverlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!danielDiaryOverlay.classList.contains('is-visible')) {
+          danielDiaryOverlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function openSofiaDiary(entryKey = '1') {
+      if (!sofiaDiaryOverlay) return;
+      setSofiaDiaryContent(entryKey);
+      sofiaDiaryOverlay.hidden = false;
+      if (sofiaDiaryPage) {
+        sofiaDiaryPage.scrollTop = 0;
+      }
+      requestAnimationFrame(() => {
+        sofiaDiaryOverlay.classList.add('is-visible');
+        sofiaDiaryOverlay.setAttribute('aria-hidden', 'false');
+        syncSofiaDiaryScrollbar();
+      });
+    }
+
+    function closeSofiaDiary() {
+      if (!sofiaDiaryOverlay) return;
+      sofiaDiaryOverlay.classList.remove('is-visible');
+      sofiaDiaryOverlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!sofiaDiaryOverlay.classList.contains('is-visible')) {
+          sofiaDiaryOverlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function openLilyDiary(entryKey = '1') {
+      if (!lilyDiaryOverlay) return;
+      setLilyDiaryContent(entryKey);
+      lilyDiaryOverlay.hidden = false;
+      if (lilyDiaryPage) {
+        lilyDiaryPage.scrollTop = 0;
+      }
+      requestAnimationFrame(() => {
+        lilyDiaryOverlay.classList.add('is-visible');
+        lilyDiaryOverlay.setAttribute('aria-hidden', 'false');
+        syncLilyDiaryScrollbar();
+      });
+    }
+
+    function closeLilyDiary() {
+      if (!lilyDiaryOverlay) return;
+      lilyDiaryOverlay.classList.remove('is-visible');
+      lilyDiaryOverlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!lilyDiaryOverlay.classList.contains('is-visible')) {
+          lilyDiaryOverlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function openAlleryChatWarning() {
+      if (!alleryChatWarning) return;
+      alleryChatWarning.hidden = false;
+      requestAnimationFrame(() => {
+        alleryChatWarning.classList.add('is-visible');
+        alleryChatWarning.setAttribute('aria-hidden', 'false');
+      });
+    }
+
+    function closeAlleryChatWarning() {
+      if (!alleryChatWarning) return;
+      alleryChatWarning.classList.remove('is-visible');
+      alleryChatWarning.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!alleryChatWarning.classList.contains('is-visible')) {
+          alleryChatWarning.hidden = true;
+        }
+      }, 180);
+    }
+
+    function createScaffoldMarkup(name) {
+      const isMikeAnderson = name === 'Mike Anderson';
+      const isMarryBrown = name === 'Marry Brown';
+      const isDanielHayes = name === 'Daniel Hayes';
+      const isSofiaRossi = name === 'Sofia Rossi';
+      const isCoreBennett = name === 'Core Bennett';
+      const isLilyThompson = name === 'Lily Thompson';
+      const isNewUser = name === 'New user';
+      const usesPixelChat = isLilyThompson || isCoreBennett || isMikeAnderson;
+      const shortcutItems = isMarryBrown || isNewUser
+        ? []
+        : isDanielHayes || isSofiaRossi
+        ? ['Diary 1', 'Diary 2', 'Diary 3']
+        : isLilyThompson
+        ? ['Diary 1', 'Diary 2', 'Diary 3', 'Diary 4', 'Diary 5']
+        : ['Diary 1', 'Diary 2', 'Diary 3', 'Diary 4', 'Diary 5', 'Diary 6', 'Diary 7'];
+      const shortcutMarkup = isNewUser
+        ? `<div class="docs-empty-state">Empty</div>`
+        : name === 'Marry Brown'
+        ? `
+            <div class="shortcut-row">
+              <a href="#" class="shortcut-card drive-card" data-diary-modal="marry-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>For marry</span></a>
+            </div>
+          `
+        : isMikeAnderson
+        ? `
+            <div class="shortcut-row">
+              ${shortcutItems.slice(0, 5).map((item, index) => `
+                <a href="#" class="shortcut-card drive-card"${index === 0 ? ' data-diary-modal=\"mike-diary-1\"' : index === 1 ? ' data-diary-modal=\"mike-diary-2\"' : index === 2 ? ' data-diary-modal=\"mike-diary-3\"' : index === 3 ? ' data-diary-modal=\"mike-diary-4\"' : index === 4 ? ' data-diary-modal=\"mike-diary-5\"' : ''}><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>${item}</span></a>
+              `).join('')}
+            </div>
+          `
+        : isDanielHayes
+        ? `
+            <div class="shortcut-row">
+              ${shortcutItems.map((item, index) => `
+                <a href="#" class="shortcut-card drive-card"${index === 0 ? ' data-diary-modal=\"daniel-diary-1\"' : index === 1 ? ' data-diary-modal=\"daniel-diary-2\"' : index === 2 ? ' data-diary-modal=\"daniel-diary-3\"' : ''}><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>${item}</span></a>
+              `).join('')}
+            </div>
+          `
+        : isSofiaRossi
+        ? `
+            <div class="shortcut-row">
+              ${shortcutItems.map((item, index) => `
+                <a href="#" class="shortcut-card drive-card"${index === 0 ? ' data-diary-modal=\"sofia-diary-1\"' : index === 1 ? ' data-diary-modal=\"sofia-diary-2\"' : index === 2 ? ' data-diary-modal=\"sofia-diary-3\"' : ''}><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>${item}</span></a>
+              `).join('')}
+            </div>
+          `
+        : isLilyThompson
+        ? `
+            <div class="shortcut-row">
+              ${shortcutItems.map((item, index) => `
+                <a href="#" class="shortcut-card drive-card"${index === 0 ? ' data-diary-modal=\"lily-diary-1\"' : index === 1 ? ' data-diary-modal=\"lily-diary-2\"' : index === 2 ? ' data-diary-modal=\"lily-diary-3\"' : index === 3 ? ' data-diary-modal=\"lily-diary-4\"' : index === 4 ? ' data-diary-modal=\"lily-diary-5\"' : ''}><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>${item}</span></a>
+              `).join('')}
+            </div>
+          `
+        : `
+            <div class="shortcut-row">
+              ${shortcutItems.map((item) => `
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>${item}</span></a>
+              `).join('')}
+            </div>
+          `;
+      const diaryCards = isMarryBrown
+        ? ``
+        : isNewUser
+        ? ``
+        : isMikeAnderson
+        ? `
+            <article class="docs-card drive-card mike-overview-card"><h3>30 task Overview</h3><p>All Task Requirements</p><span class="docs-card-action">Under developmen</span></article>
+          `
+        : isSofiaRossi
+        ? `
+            <article class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+          `
+        : isLilyThompson
+        ? `
+            <article class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 4</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 5</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+          `
+        : isDanielHayes
+        ? `
+            <article class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+          `
+        : `
+            <article class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+            <article class="docs-card drive-card"><h3>Diary 4</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
+          `;
+      const infoItems = isMarryBrown
+        ? `
+            <div><dt>Date of Birth:</dt><dd>2011</dd></div>
+            <div><dt>Citizen:</dt><dd>American</dd></div>
+            <div><dt>Gender:</dt><dd>Female</dd></div>
+            <div><dt>Languages:</dt><dd>English</dd></div>
+            <div><dt>Marital Status:</dt><dd>Single</dd></div>
+            <div><dt>Location:</dt><dd>NY</dd></div>
+            <div><dt>Family:</dt><dd>Unknown</dd></div>
+            <div><dt>School:</dt><dd>Unknown</dd></div>
+          `
+        : isMikeAnderson
+        ? `
+            <div><dt>Date of Birth:</dt><dd>1994</dd></div>
+            <div><dt>Citizen:</dt><dd>American</dd></div>
+            <div><dt>Gender:</dt><dd>Male</dd></div>
+            <div><dt>Languages:</dt><dd>English</dd></div>
+            <div><dt>Marital Status:</dt><dd>Single</dd></div>
+            <div><dt>Location:</dt><dd>NY</dd></div>
+            <div><dt>Family:</dt><dd>Both deceased</dd></div>
+            <div><dt>School:</dt><dd>N/A</dd></div>
+          `
+        : isDanielHayes
+        ? `
+            <div><dt>Date of Birth:</dt><dd>2010</dd></div>
+            <div><dt>Citizen:</dt><dd>American</dd></div>
+            <div><dt>Gender:</dt><dd>Male</dd></div>
+            <div><dt>Languages:</dt><dd>English</dd></div>
+            <div><dt>Marital Status:</dt><dd>Single</dd></div>
+            <div><dt>Location:</dt><dd>NY</dd></div>
+            <div><dt>Family:</dt><dd>Single father</dd></div>
+            <div><dt>School:</dt><dd>Westbrook High School</dd></div>
+          `
+        : isSofiaRossi
+        ? `
+            <div><dt>Date of Birth:</dt><dd>2008</dd></div>
+            <div><dt>Citizen:</dt><dd>American</dd></div>
+            <div><dt>Gender:</dt><dd>Female</dd></div>
+            <div><dt>Languages:</dt><dd>English</dd></div>
+            <div><dt>Marital Status:</dt><dd>Single</dd></div>
+            <div><dt>Location:</dt><dd>NY</dd></div>
+            <div><dt>Family:</dt><dd>Lives with grandmother</dd></div>
+            <div><dt>School:</dt><dd>Riverside High School</dd></div>
+          `
+        : isLilyThompson
+        ? `
+            <div><dt>Date of Birth:</dt><dd>2008</dd></div>
+            <div><dt>Citizen:</dt><dd>American</dd></div>
+            <div><dt>Gender:</dt><dd>Female</dd></div>
+            <div><dt>Languages:</dt><dd>English</dd></div>
+            <div><dt>Marital Status:</dt><dd>Single</dd></div>
+            <div><dt>Location:</dt><dd>NY</dd></div>
+            <div><dt>Family:</dt><dd>Unknown</dd></div>
+            <div><dt>School:</dt><dd>Unknown</dd></div>
+          `
+        : `
+            <div><dt>Date of Birth:</dt><dd>Pending</dd></div>
+            <div><dt>Citizen:</dt><dd>Pending</dd></div>
+            <div><dt>Gender:</dt><dd>Pending</dd></div>
+            <div><dt>Languages:</dt><dd>Pending</dd></div>
+            <div><dt>Marital Status:</dt><dd>Pending</dd></div>
+            <div><dt>Location:</dt><dd>Pending</dd></div>
+            <div><dt>Family:</dt><dd>Pending</dd></div>
+            <div><dt>School:</dt><dd>Pending</dd></div>
+          `;
+      const fileId = isMarryBrown ? 'No.2' : isMikeAnderson ? 'No.1' : isDanielHayes ? 'No.3' : isSofiaRossi ? 'No.4' : isCoreBennett ? 'No.4' : isLilyThompson ? 'No.5' : 'No.--';
+      const statusLabel = isMarryBrown || isDanielHayes || isSofiaRossi ? 'Deceased' : isCoreBennett || isMikeAnderson || isLilyThompson ? 'Alive' : 'Pending';
+      const statusClass = isMarryBrown || isDanielHayes || isSofiaRossi
+        ? 'allery-status-badge'
+        : isCoreBennett || isMikeAnderson || isLilyThompson
+        ? 'allery-status-badge alive-status-badge'
+        : 'allery-status-badge scaffold-status-badge';
+
+      return `
+        <div class="docs-main">
+          <section class="docs-shortcuts">
+            <h3>Shortcut</h3>
+            ${shortcutMarkup}
+          </section>
+
+          <h3 class="docs-subtitle">30 Task</h3>
+          ${isMarryBrown || isNewUser ? `<div class="docs-empty-state">Empty</div>` : ''}
+          ${diaryCards ? `<div class="docs-card-grid">${diaryCards}</div>` : ''}
+        </div>
+
+        <aside class="docs-sidebar">
+          <div class="allery-info-tabs">
+            <button type="button" class="allery-tab active"${usesPixelChat ? ' data-lily-view=\"info\"' : ''}>Information</button>
+            <button type="button" class="allery-tab"${isMarryBrown || isDanielHayes || isSofiaRossi ? ' data-chat-warning="deceased-user"' : ''}${usesPixelChat ? ' data-lily-view=\"chat\"' : ''}>Chat</button>
+          </div>
+
+          <section class="allery-profile-panel scaffold-profile-panel${usesPixelChat ? ' lily-info-panel' : ''}">
+            <div class="allery-profile-main">
+              ${isMarryBrown
+                ? `<div class="allery-photo-block scaffold-photo-block marry-photo-block"><img src="assets/images/Marry.png" alt="Marry Brown" class="allery-photo" /></div>`
+                : isDanielHayes
+                ? `<div class="allery-photo-block scaffold-photo-block"><img src="assets/images/Daniel.png" alt="Daniel Hayes" class="allery-photo" /></div>`
+                : isSofiaRossi
+                ? `<div class="allery-photo-block scaffold-photo-block"><img src="assets/images/Sofia.png" alt="Sofia Rossi" class="allery-photo" /></div>`
+                : isLilyThompson
+                ? `<div class="allery-photo-block scaffold-photo-block"><img src="assets/images/Lily.png" alt="Lily Thompson" class="allery-photo" /></div>`
+                : `<div class="scaffold-photo-placeholder">Photo</div>`}
+
+              <div class="allery-profile-copy">
+                <h3>${name}</h3>
+                <dl class="allery-info-list">
+                  ${infoItems}
+                </dl>
+              </div>
+            </div>
+
+            <div class="allery-profile-footer">
+              <span class="allery-file-id">${fileId}</span>
+              <span class="${statusClass}">${statusLabel}</span>
+            </div>
+
+            ${isMarryBrown ? `
+              <a href="MarryNews.html" class="allery-report-bar allery-report-link">
+                <span>Death Report</span><span class="accordion-arrow">›</span>
+              </a>
+            ` : isDanielHayes ? `
+              <a href="DanielNews.html" class="allery-report-bar allery-report-link">
+                <span>Death Report</span><span class="accordion-arrow">›</span>
+              </a>
+            ` : isSofiaRossi ? `
+              <a href="SofiaNews.html" class="allery-report-bar allery-report-link">
+                <span>Death Report</span><span class="accordion-arrow">›</span>
+              </a>
+            ` : ''}
+
+            <button type="button" class="allery-report-bar allery-accordion" data-target="scaffold-report-${name.replace(/\s+/g, '-').toLowerCase()}" aria-expanded="false">
+              <span>Record</span><span class="accordion-arrow">›</span>
+            </button>
+            <div class="allery-report-panel" id="scaffold-report-${name.replace(/\s+/g, '-').toLowerCase()}" hidden>
+              <dl class="allery-death-list">
+                ${isMarryBrown ? `
+                  <div><dt>Date of Death:</dt><dd>2023.05.18</dd></div>
+                  <div><dt>Cause of Death:</dt><dd>Wrist cutting (Suicide)</dd></div>
+                  <div><dt>Location:</dt><dd>40.1810, -73.9534</dd></div>
+                  <div><dt>Task Progress:</dt><dd>N/A</dd></div>
+                ` : `
+                  <div><dt>Record:</dt><dd>Pending</dd></div>
+                `}
+              </dl>
+            </div>
+          </section>
+
+          ${usesPixelChat ? `
+            <section class="lily-chat-panel" hidden>
+              <div class="lily-chat-status">
+                <span class="lily-status-dot" aria-hidden="true"></span>
+                <span class="lily-status-text">Acctive</span>
+              </div>
+              <div class="lily-chat-divider" aria-hidden="true"></div>
+              <div class="lily-chat-body">
+                <div class="lily-chat-canvas">
+                  <div class="lily-dynamic-messages"></div>
+                </div>
+                <div class="lily-chat-scrollbar" hidden>
+                  <button type="button" class="lily-scroll-btn lily-scroll-up" aria-label="Scroll up"></button>
+                  <div class="lily-scroll-track">
+                    <div class="lily-scroll-thumb"></div>
+                  </div>
+                  <button type="button" class="lily-scroll-btn lily-scroll-down" aria-label="Scroll down"></button>
+                </div>
+              </div>
+              <form class="lily-chat-composer">
+                <input type="text" class="lily-chat-input" placeholder="Type here..." autocomplete="off" />
+                <button type="submit" class="lily-chat-send" aria-label="Send">
+                  <img src="assets/images/huiche.png" alt="" class="lily-send-icon" aria-hidden="true" />
+                </button>
+              </form>
+            </section>
+          ` : ''}
+        </aside>
+      `;
+    }
+
+    scaffoldViews.forEach((view) => {
+      const name = view.dataset.displayName || 'Pending';
+      view.innerHTML = createScaffoldMarkup(name);
+    });
+
+    const activeLink = document.querySelector('.sidebar-link.active');
+    if (activeLink) {
+      updateMemberView(
+        activeLink.dataset.member || 'Mike Anderson',
+        activeLink.dataset.panel || 'mike-primary'
+      );
+    }
+
+    function clearBackgroundErrors() {
+      if (backgroundErrorInterval) {
+        window.clearInterval(backgroundErrorInterval);
+        backgroundErrorInterval = null;
+      }
+      adminErrorScreen.querySelectorAll('.retro-error.background-error').forEach((node) => node.remove());
+    }
+
+    function syncLilyScrollbar(scope) {
+      const lilyChatCanvas = scope?.querySelector('.lily-chat-canvas');
+      const lilyChatScrollbar = scope?.querySelector('.lily-chat-scrollbar');
+      const lilyScrollTrack = scope?.querySelector('.lily-scroll-track');
+      const lilyScrollThumb = scope?.querySelector('.lily-scroll-thumb');
+      if (!lilyChatCanvas || !lilyChatScrollbar || !lilyScrollTrack || !lilyScrollThumb) return;
+      const { scrollTop, scrollHeight, clientHeight } = lilyChatCanvas;
+      const overflow = scrollHeight > clientHeight + 1;
+      lilyChatScrollbar.hidden = !overflow;
+      if (!overflow) return;
+
+      const trackHeight = lilyScrollTrack.clientHeight;
+      const minThumb = 40;
+      const thumbHeight = Math.max(minThumb, Math.round((clientHeight / scrollHeight) * trackHeight));
+      const maxTop = trackHeight - thumbHeight;
+      const ratio = (scrollHeight - clientHeight) > 0 ? scrollTop / (scrollHeight - clientHeight) : 0;
+      lilyScrollThumb.style.height = `${thumbHeight}px`;
+      lilyScrollThumb.style.top = `${Math.round(maxTop * ratio)}px`;
+    }
+
+    function appendLilyBubble(messageList, text, type = 'user') {
+      const bubble = document.createElement('div');
+      bubble.className = type === 'assistant' ? 'lily-ai-bubble' : type === 'typing' ? 'lily-typing-bubble' : 'lily-user-bubble';
+      bubble.textContent = text;
+      messageList.appendChild(bubble);
+      return bubble;
+    }
+
+    function appendLilyChoices(messageList, choices, onSelect) {
+      const row = document.createElement('div');
+      row.className = 'lily-choice-row';
+      choices.forEach((choice) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'lily-choice-button';
+        button.textContent = choice.label;
+        button.addEventListener('click', () => onSelect(choice, row));
+        row.appendChild(button);
+      });
+      messageList.appendChild(row);
+      return row;
+    }
+
+    function setCharacterComposerLocked(sidebar, locked) {
+      const input = sidebar?.querySelector('.lily-chat-input');
+      const send = sidebar?.querySelector('.lily-chat-send');
+      if (input) {
+        input.disabled = !!locked;
+        input.placeholder = locked ? 'Make a choice to continue...' : 'Type here...';
+      }
+      if (send) {
+        send.disabled = !!locked;
+      }
+    }
+
+    function splitLilyReply(text) {
+      return String(text || '')
+        .split(/\n{2,}/)
+        .map(part => part.trim())
+        .filter(Boolean)
+        .slice(0, 3);
+    }
+
+    function delay(ms) {
+      return new Promise((resolve) => window.setTimeout(resolve, ms));
+    }
+
+    function recordDestroySupport(memberName, flags) {
+      if (!flags || flags.supportsDestroySite !== true) return;
+      const supportKey = DESTROY_SUPPORT_KEYS[memberName];
+      if (!supportKey) return;
+      try {
+        window.localStorage.setItem(supportKey, 'true');
+        const hasLily = window.localStorage.getItem(DESTROY_SUPPORT_KEYS['Lily Thompson']) === 'true';
+        const hasCore = window.localStorage.getItem(DESTROY_SUPPORT_KEYS['Core Bennett']) === 'true';
+        if (hasLily && hasCore) {
+          window.localStorage.setItem(DESTROY_READY_KEY, 'true');
+        }
+      } catch (_error) {
+        // Ignore storage failures; this state is only a local progression marker.
+      }
+    }
+
+    function hasDestroyReadyState() {
+      try {
+        return window.localStorage.getItem(DESTROY_READY_KEY) === 'true';
+      } catch (_error) {
+        return false;
+      }
+    }
+
+    function triggerCoreSiteAttack() {
+      if (!coreAttackOverlay || document.body.classList.contains('core-site-attack')) return;
+      try {
+        window.localStorage.setItem(DESTROY_TRIGGERED_KEY, 'true');
+      } catch (_error) {
+        // Ignore storage failures; visual effect can still run.
+      }
+      coreAttackOverlay.hidden = false;
+      requestAnimationFrame(() => {
+        document.body.classList.add('core-site-attack');
+        coreAttackOverlay.classList.add('is-visible');
+        coreAttackOverlay.setAttribute('aria-hidden', 'false');
+      });
+    }
+
+    function showBecomeMidnightPrompt(sidebar) {
+      if (!midnightBecomeOverlay) return;
+      setCharacterComposerLocked(sidebar, true);
+      midnightBecomeOverlay.hidden = false;
+      midnightBecomeOverlay.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(() => {
+        midnightBecomeOverlay.classList.add('is-visible');
+      });
+    }
+
+    midnightBecomeButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        button.classList.remove('is-pressed');
+        void button.offsetWidth;
+        button.classList.add('is-pressed');
+        window.setTimeout(() => {
+          button.classList.remove('is-pressed');
+          window.location.href = 'midnight_loading.html';
+        }, 180);
+      });
+    });
+
+    function showMidnightToast() {
+      if (!midnightToast) return;
+      midnightToast.hidden = false;
+      requestAnimationFrame(() => midnightToast.classList.add('is-visible'));
+      playMidnightNotification();
+    }
+
+    function playMidnightNotification() {
+      if (!midnightNotificationAudio) return;
+      try {
+        midnightNotificationAudio.currentTime = 0;
+      } catch (_error) {
+        // Ignore seek failures and still attempt playback.
+      }
+      midnightNotificationAudio.play()
+        .then(() => {
+          midnightNotificationPending = false;
+        })
+        .catch(() => {
+          midnightNotificationPending = true;
+        });
+    }
+
+    function spawnBackgroundError() {
+      const popup = document.createElement('div');
+      popup.className = 'retro-error background-error';
+      popup.setAttribute('aria-hidden', 'true');
+      popup.innerHTML = `
+        <div class="retro-error-titlebar">
+          <span>Error</span>
+          <span class="retro-error-close" aria-hidden="true"><img src="assets/images/exit.png" alt="" class="retro-error-close-icon" /></span>
+        </div>
+        <div class="retro-error-body">
+          <p>WRONG INPUT</p>
+        </div>
+      `;
+      adminErrorScreen.appendChild(popup);
+      const popupWidth = popup.offsetWidth || 320;
+      const popupHeight = popup.offsetHeight || 180;
+      const margin = 20;
+      const maxLeft = Math.max(margin, window.innerWidth - popupWidth - margin);
+      const maxTop = Math.max(margin, window.innerHeight - popupHeight - margin);
+      const left = margin + Math.random() * Math.max(1, maxLeft - margin);
+      const top = margin + Math.random() * Math.max(1, maxTop - margin);
+      popup.style.left = `${left}px`;
+      popup.style.top = `${top}px`;
+      popup.style.transform = 'none';
+      popup.style.zIndex = '1';
+    }
+
+    function updateMemberView(name, panelId) {
+      memberViews.forEach((view) => {
+        view.hidden = view.dataset.memberView !== panelId;
+      });
+    }
+
+    memberLinks.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.preventDefault();
+        const name = link.dataset.member || link.textContent.trim();
+        const panelId = link.dataset.panel || 'mike-primary';
+
+        memberLinks.forEach((item) => item.classList.remove('active'));
+        link.classList.add('active');
+        closeMarryDiary();
+        closeMikeDiary();
+        closeDanielDiary();
+        closeAlleryChatWarning();
+
+        memberPath.textContent = `Member / ${name}`;
+        memberTitle.textContent = name;
+        updateMemberView(name, panelId);
+      });
+    });
+
+    if (activeLink) {
+      const initialName = activeLink.dataset.member || 'Mike Anderson';
+      const initialPanelId = activeLink.dataset.panel || 'mike-primary';
+      memberPath.textContent = `Member / ${initialName}`;
+      memberTitle.textContent = initialName;
+      updateMemberView(initialName, initialPanelId);
+    }
+
+    alleryChatTrigger?.addEventListener('click', (event) => {
+      event.preventDefault();
+      openAlleryChatWarning();
+    });
+    alleryChatWarningOk?.addEventListener('click', closeAlleryChatWarning);
+
+    retroErrorOk?.addEventListener('click', () => {
+      clearBackgroundErrors();
+      adminErrorScreen.classList.add('final-blackout');
+      window.setTimeout(() => {
+        window.location.href = 'login.html';
+      }, 1000);
+    });
+
+    document.addEventListener('click', (event) => {
+      const lilyTab = event.target.closest('[data-lily-view]');
+      if (lilyTab) {
+        event.preventDefault();
+        const tabs = lilyTab.closest('.allery-info-tabs');
+        const sidebar = lilyTab.closest('.docs-sidebar');
+        if (tabs && sidebar) {
+          tabs.querySelectorAll('[data-lily-view]').forEach((tab) => {
+            tab.classList.toggle('active', tab === lilyTab);
+          });
+          const infoPanel = sidebar.querySelector('.lily-info-panel');
+          const chatPanel = sidebar.querySelector('.lily-chat-panel');
+          const showChat = lilyTab.getAttribute('data-lily-view') === 'chat';
+          if (infoPanel) infoPanel.hidden = showChat;
+          if (chatPanel) chatPanel.hidden = !showChat;
+          if (showChat) {
+            window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+          }
+        }
+        return;
+      }
+
+      const danielDiaryTrigger = event.target.closest('[data-diary-modal^="daniel-diary-"]');
+      if (danielDiaryTrigger) {
+        event.preventDefault();
+        openDanielDiary(danielDiaryTrigger.getAttribute('data-diary-modal').replace('daniel-diary-', ''));
+        return;
+      }
+
+      const sofiaDiaryTrigger = event.target.closest('[data-diary-modal^="sofia-diary-"]');
+      if (sofiaDiaryTrigger) {
+        event.preventDefault();
+        openSofiaDiary(sofiaDiaryTrigger.getAttribute('data-diary-modal').replace('sofia-diary-', ''));
+        return;
+      }
+
+      const lilyDiaryTrigger = event.target.closest('[data-diary-modal^="lily-diary-"]');
+      if (lilyDiaryTrigger) {
+        event.preventDefault();
+        openLilyDiary(lilyDiaryTrigger.getAttribute('data-diary-modal').replace('lily-diary-', ''));
+        return;
+      }
+
+      const alleryDiaryTrigger = event.target.closest('[data-diary-modal^="allery-diary-"]');
+      if (alleryDiaryTrigger) {
+        event.preventDefault();
+        openAlleryDiary(alleryDiaryTrigger.getAttribute('data-diary-modal').replace('allery-diary-', ''));
+        return;
+      }
+
+      const deceasedChatTrigger = event.target.closest('[data-chat-warning="deceased-user"]');
+      if (deceasedChatTrigger) {
+        event.preventDefault();
+        openAlleryChatWarning();
+        return;
+      }
+
+      const mikeDiaryTrigger = event.target.closest('[data-diary-modal^="mike-diary-"]');
+      if (mikeDiaryTrigger) {
+        event.preventDefault();
+        openMikeDiary(mikeDiaryTrigger.getAttribute('data-diary-modal').replace('mike-diary-', ''));
+        return;
+      }
+
+      const diaryTrigger = event.target.closest('[data-diary-modal="marry-diary-1"]');
+      if (diaryTrigger) {
+        event.preventDefault();
+        openMarryDiary();
+        return;
+      }
+
+      const driveCard = event.target.closest('.drive-card');
+      if (driveCard) {
+        event.preventDefault();
+      }
+
+      const accordionButton = event.target.closest('.allery-accordion');
+      if (!accordionButton) return;
+
+      const target = document.getElementById(accordionButton.dataset.target);
+      if (!target) return;
+      const isExpanded = accordionButton.getAttribute('aria-expanded') === 'true';
+
+      if (isExpanded) {
+        accordionButton.setAttribute('aria-expanded', 'false');
+        target.classList.remove('is-open');
+        window.setTimeout(() => {
+          if (accordionButton.getAttribute('aria-expanded') === 'false') {
+            target.hidden = true;
+          }
+        }, 280);
+        return;
+      }
+
+      accordionButton.setAttribute('aria-expanded', 'true');
+      target.hidden = false;
+      requestAnimationFrame(() => {
+        target.classList.add('is-open');
+      });
+    });
+
+    async function sendCharacterChat(sidebar, memberName, payloadText, displayText = payloadText) {
+      const messageList = sidebar?.querySelector('.lily-dynamic-messages');
+      const lilyChatCanvas = sidebar?.querySelector('.lily-chat-canvas');
+      const chatEndpoint = characterChatEndpoints[memberName];
+      if (!messageList || !payloadText || !chatEndpoint) return;
+
+      if (displayText) {
+        appendLilyBubble(messageList, displayText, 'user');
+      }
+      lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
+      window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+
+      const history = lilyChatHistory.get(sidebar) || [];
+      history.push({ role: 'user', content: payloadText });
+
+      const typingBubble = appendLilyBubble(messageList, '...', 'typing');
+      lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
+      window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+
+      return fetch(chatEndpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: payloadText,
+          history
+        })
+      })
+        .then(async (res) => {
+          const data = await res.json().catch(() => ({}));
+          if (!res.ok) {
+            throw new Error(data?.error || 'Request failed.');
+          }
+          return data;
+        })
+        .then(async (data) => {
+          const reply = String(data?.reply || '').trim();
+          recordDestroySupport(memberName, data?.flags);
+          typingBubble.remove();
+          if (!reply) {
+            lilyChatHistory.set(sidebar, history.slice(-12));
+            return;
+          }
+          const replyParts = splitLilyReply(reply);
+          for (let index = 0; index < replyParts.length; index += 1) {
+            const part = replyParts[index];
+            if (index === 0) {
+              await delay(memberName === 'Mike Anderson' ? 2300 : 650);
+            } else {
+              const followTyping = appendLilyBubble(messageList, '...', 'typing');
+              lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
+              window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+              await delay((memberName === 'Mike Anderson' ? 1450 : 1050) + index * 250);
+              followTyping.remove();
+            }
+            appendLilyBubble(messageList, part, 'assistant');
+            lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
+            window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+          }
+          if (Array.isArray(data?.choices) && data.choices.length) {
+            setCharacterComposerLocked(sidebar, true);
+            const note = document.createElement('div');
+            note.className = 'lily-choice-note';
+            note.textContent = '(This choice will affect later endings)';
+            appendLilyChoices(messageList, data.choices, async (choice, row) => {
+              if (!choice?.id) return;
+              row.remove();
+              note.remove();
+              setCharacterComposerLocked(sidebar, false);
+              await sendCharacterChat(sidebar, memberName, `__CHOICE__:${choice.id}`, choice.label);
+            });
+            messageList.appendChild(note);
+            lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
+            window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+          }
+          let assistantTranscript = replyParts.join('\n\n') || reply;
+          const shouldTriggerCoreAttack =
+            memberName === 'Core Bennett' &&
+            data?.flags?.supportsDestroySite === true &&
+            hasDestroyReadyState();
+
+          if (shouldTriggerCoreAttack) {
+            const prepTyping = appendLilyBubble(messageList, '...', 'typing');
+            lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
+            window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+            await delay(900);
+            prepTyping.remove();
+            const finalAttackLine = "I'm ready to bring this site down.";
+            appendLilyBubble(messageList, finalAttackLine, 'assistant');
+            assistantTranscript = `${assistantTranscript}\n\n${finalAttackLine}`;
+            lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
+            window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+            await delay(2000);
+            triggerCoreSiteAttack();
+          }
+
+          if (memberName === 'Mike Anderson' && data?.flags?.showBecomeMidnightPrompt === true) {
+            await delay(3000);
+            showBecomeMidnightPrompt(sidebar);
+          }
+
+          history.push({ role: 'assistant', content: assistantTranscript });
+          lilyChatHistory.set(sidebar, history.slice(-12));
+        })
+        .catch((error) => {
+          typingBubble.remove();
+          appendLilyBubble(messageList, `[${error.message || 'Connection error.'}]`, 'assistant');
+          lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
+          window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+        });
+    }
+
+    document.addEventListener('submit', (event) => {
+      const lilyComposer = event.target.closest('.lily-chat-composer');
+      if (!lilyComposer) return;
+
+      event.preventDefault();
+      const memberView = lilyComposer.closest('.member-view');
+      const memberName = memberView?.dataset.displayName || '';
+      const sidebar = lilyComposer.closest('.docs-sidebar');
+      const input = lilyComposer.querySelector('.lily-chat-input');
+      const text = input?.value.trim();
+      if (!input || !sidebar || !text) return;
+
+      input.value = '';
+      sendCharacterChat(sidebar, memberName, text, text);
+    });
+
+    document.addEventListener('scroll', (event) => {
+      const lilyCanvas = event.target.closest?.('.lily-chat-canvas');
+      if (!lilyCanvas) return;
+      syncLilyScrollbar(lilyCanvas.closest('.docs-sidebar'));
+    }, true);
+
+    document.addEventListener('click', (event) => {
+      const scrollUp = event.target.closest('.lily-scroll-up');
+      if (scrollUp) {
+        const sidebar = scrollUp.closest('.docs-sidebar');
+        sidebar?.querySelector('.lily-chat-canvas')?.scrollBy({ top: -120, behavior: 'smooth' });
+        return;
+      }
+
+      const scrollDown = event.target.closest('.lily-scroll-down');
+      if (scrollDown) {
+        const sidebar = scrollDown.closest('.docs-sidebar');
+        sidebar?.querySelector('.lily-chat-canvas')?.scrollBy({ top: 120, behavior: 'smooth' });
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      document.querySelectorAll('.docs-sidebar').forEach(syncLilyScrollbar);
+    });
+    window.requestAnimationFrame(() => {
+      document.querySelectorAll('.docs-sidebar').forEach(syncLilyScrollbar);
+    });
+
+    marryDiaryClose?.addEventListener('click', closeMarryDiary);
+    marryDiaryPage?.addEventListener('scroll', syncMarryDiaryScrollbar);
+    marryDiaryUp?.addEventListener('click', () => {
+      marryDiaryPage?.scrollBy({ top: -120, behavior: 'smooth' });
+    });
+    marryDiaryDown?.addEventListener('click', () => {
+      marryDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
+    });
+    alleryDiaryClose?.addEventListener('click', closeAlleryDiary);
+    alleryDiaryPage?.addEventListener('scroll', syncAlleryDiaryScrollbar);
+    alleryDiaryUp?.addEventListener('click', () => {
+      alleryDiaryPage?.scrollBy({ top: -120, behavior: 'smooth' });
+    });
+    alleryDiaryDown?.addEventListener('click', () => {
+      alleryDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
+    });
+    mikeDiaryClose?.addEventListener('click', closeMikeDiary);
+    mikeDiaryPage?.addEventListener('scroll', syncMikeDiaryScrollbar);
+    mikeDiaryUp?.addEventListener('click', () => {
+      mikeDiaryPage?.scrollBy({ top: -120, behavior: 'smooth' });
+    });
+    mikeDiaryDown?.addEventListener('click', () => {
+      mikeDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
+    });
+    danielDiaryClose?.addEventListener('click', closeDanielDiary);
+    danielDiaryPage?.addEventListener('scroll', syncDanielDiaryScrollbar);
+    danielDiaryUp?.addEventListener('click', () => {
+      danielDiaryPage?.scrollBy({ top: -120, behavior: 'smooth' });
+    });
+    danielDiaryDown?.addEventListener('click', () => {
+      danielDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
+    });
+    sofiaDiaryClose?.addEventListener('click', closeSofiaDiary);
+    sofiaDiaryPage?.addEventListener('scroll', syncSofiaDiaryScrollbar);
+    sofiaDiaryUp?.addEventListener('click', () => {
+      sofiaDiaryPage?.scrollBy({ top: -120, behavior: 'smooth' });
+    });
+    sofiaDiaryDown?.addEventListener('click', () => {
+      sofiaDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
+    });
+    lilyDiaryClose?.addEventListener('click', closeLilyDiary);
+    lilyDiaryPage?.addEventListener('scroll', syncLilyDiaryScrollbar);
+    lilyDiaryUp?.addEventListener('click', () => {
+      lilyDiaryPage?.scrollBy({ top: -120, behavior: 'smooth' });
+    });
+    lilyDiaryDown?.addEventListener('click', () => {
+      lilyDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
+    });
+    window.addEventListener('resize', () => {
+      syncMarryDiaryScrollbar();
+      syncAlleryDiaryScrollbar();
+      syncMikeDiaryScrollbar();
+      syncDanielDiaryScrollbar();
+      syncSofiaDiaryScrollbar();
+      syncLilyDiaryScrollbar();
+    });
+    ['pointerdown', 'keydown', 'touchstart'].forEach((eventName) => {
+      window.addEventListener(eventName, () => {
+        if (!midnightNotificationPending) return;
+        playMidnightNotification();
+      }, { passive: true });
+    });
+    midnightToastClose?.addEventListener('click', () => {
+      midnightToast.classList.remove('is-visible');
+      window.setTimeout(() => {
+        midnightToast.hidden = true;
+      }, 220);
+    });
+
+    if (localStorage.getItem(ADMIN_ERROR_FLAG) === '1' && midnightToast) {
+      localStorage.removeItem(ADMIN_ERROR_FLAG);
+      window.setTimeout(() => {
+        showMidnightToast();
+      }, 1000);
+    }
+  </script>
+  <script>
+    window.HintProgressConfig = {
+      theme: 'dark',
+      percent: 30,
+      title: 'Hint',
+      autoCloseMs: 5000,
+      lines: [
+        'This seems to be the backend of the chatroom…',
+        'By the way, Allery Lin’s number is…6?'
+      ]
+    };
+  </script>
+  <script src="js/hint-progress.js" defer></script>
+</body>
+</html>
