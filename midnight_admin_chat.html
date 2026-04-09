@@ -236,6 +236,21 @@
     <button type="button" class="join-request-notice-more" id="joinRequestMore">More</button>
   </div>
 
+  <div class="midnight-transition-glitch" id="midnightTransitionGlitch" hidden aria-hidden="true">
+    <div class="midnight-transition-noise"></div>
+    <span class="midnight-glitch-block b1"></span>
+    <span class="midnight-glitch-block b2"></span>
+    <span class="midnight-glitch-block b3"></span>
+    <span class="midnight-glitch-block b4"></span>
+    <span class="midnight-glitch-block b5"></span>
+    <span class="midnight-glitch-block b6"></span>
+    <span class="midnight-glitch-block b7"></span>
+    <span class="midnight-glitch-block b8"></span>
+    <span class="midnight-glitch-strip s1"></span>
+    <span class="midnight-glitch-strip s2"></span>
+    <span class="midnight-glitch-strip s3"></span>
+  </div>
+
   <script src="js/chat-base.js" defer></script>
   <script src="js/chat.js" defer></script>
   <script>
@@ -402,12 +417,24 @@
         appendIncomingMessage('Newuser_s3p0w', 'Hello, can you help me?');
         await new Promise((resolve) => window.setTimeout(resolve, 720));
         await typeAndSend('Sure!', typeDelayMs);
-        await new Promise((resolve) => window.setTimeout(resolve, 500));
+        await new Promise((resolve) => window.setTimeout(resolve, 2000));
+        await playGlitchTransition();
         window.location.href = 'Ending1.html';
 
         composerInput.readOnly = false;
         composerSend.disabled = false;
         document.body.classList.remove('midnight-auto-input-lock');
+      }
+
+      async function playGlitchTransition() {
+        const glitch = document.getElementById('midnightTransitionGlitch');
+        if (!glitch) return;
+        glitch.hidden = false;
+        requestAnimationFrame(() => {
+          glitch.classList.add('is-active');
+        });
+        await new Promise((resolve) => window.setTimeout(resolve, 1400));
+        glitch.classList.remove('is-active');
       }
 
       async function typeAndSend(message, typeDelayMs) {
@@ -744,6 +771,92 @@
 
     body.midnight-auto-input-lock{
       cursor:progress;
+    }
+
+    .midnight-transition-glitch{
+      position:fixed;
+      inset:0;
+      z-index:1800;
+      background:rgba(0,0,0,.14);
+      opacity:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+
+    .midnight-transition-glitch[hidden]{
+      display:none !important;
+    }
+
+    .midnight-transition-glitch.is-active{
+      animation:midnightTransitionFlicker 1.4s steps(8, end) forwards;
+    }
+
+    .midnight-transition-noise{
+      position:absolute;
+      inset:0;
+      background:
+        repeating-linear-gradient(
+          180deg,
+          rgba(255,255,255,.08) 0 2px,
+          rgba(0,0,0,0) 2px 6px
+        );
+      mix-blend-mode:screen;
+      opacity:.22;
+    }
+
+    .midnight-glitch-block,
+    .midnight-glitch-strip{
+      position:absolute;
+      display:block;
+      opacity:0;
+      mix-blend-mode:screen;
+    }
+
+    .midnight-glitch-block{
+      background:#ff004c;
+      animation:midnightBlockJump 420ms steps(3, end) infinite;
+    }
+
+    .midnight-glitch-block.b1{ top:9%; left:14%; width:84px; height:42px; animation-delay:.04s; }
+    .midnight-glitch-block.b2{ top:18%; right:16%; width:58px; height:58px; background:#fff; animation-delay:.17s; }
+    .midnight-glitch-block.b3{ top:31%; left:37%; width:44px; height:44px; background:#00f0ff; animation-delay:.09s; }
+    .midnight-glitch-block.b4{ top:42%; right:28%; width:96px; height:22px; background:#ff55d4; animation-delay:.26s; }
+    .midnight-glitch-block.b5{ top:58%; left:9%; width:72px; height:72px; background:#111; animation-delay:.12s; }
+    .midnight-glitch-block.b6{ bottom:18%; left:46%; width:62px; height:62px; background:#fff; animation-delay:.31s; }
+    .midnight-glitch-block.b7{ bottom:12%; right:12%; width:108px; height:26px; background:#00ff6a; animation-delay:.21s; }
+    .midnight-glitch-block.b8{ top:67%; right:34%; width:34px; height:98px; background:#ff004c; animation-delay:.14s; }
+
+    .midnight-glitch-strip{
+      height:10px;
+      background:#fff;
+      animation:midnightStripSlide 310ms steps(2, end) infinite;
+    }
+
+    .midnight-glitch-strip.s1{ top:22%; left:-8%; width:42%; animation-delay:.06s; }
+    .midnight-glitch-strip.s2{ top:49%; right:-5%; width:36%; background:#ff55d4; animation-delay:.19s; }
+    .midnight-glitch-strip.s3{ bottom:16%; left:18%; width:48%; background:#00f0ff; animation-delay:.11s; }
+
+    @keyframes midnightTransitionFlicker{
+      0%{ opacity:0; }
+      8%{ opacity:.78; }
+      18%{ opacity:.42; }
+      34%{ opacity:.88; }
+      52%{ opacity:.54; }
+      76%{ opacity:.94; }
+      100%{ opacity:1; }
+    }
+
+    @keyframes midnightBlockJump{
+      0%{ opacity:.15; transform:translate3d(0,0,0); }
+      30%{ opacity:.85; transform:translate3d(12px,-8px,0); }
+      62%{ opacity:.35; transform:translate3d(-10px,10px,0); }
+      100%{ opacity:.78; transform:translate3d(8px,-4px,0); }
+    }
+
+    @keyframes midnightStripSlide{
+      0%{ opacity:.16; transform:translateX(-18px) scaleX(.92); }
+      48%{ opacity:.92; transform:translateX(10px) scaleX(1.08); }
+      100%{ opacity:.34; transform:translateX(-8px) scaleX(.98); }
     }
 
     @media (max-width: 1180px){

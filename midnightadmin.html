@@ -390,6 +390,39 @@
           </div>
         </div>
       </div>
+
+      <div class="police-evidence-overlay" id="policeEvidenceOverlay" aria-hidden="true" hidden>
+        <div class="police-evidence-modal" role="dialog" aria-modal="true" aria-labelledby="policeEvidenceTitle">
+          <div class="police-evidence-titlebar">
+            <h2 id="policeEvidenceTitle">看图</h2>
+            <button type="button" class="police-evidence-close" id="policeEvidenceClose" aria-label="Close evidence window">
+              <img src="assets/images/exit.png" alt="" class="police-evidence-close-icon" />
+            </button>
+          </div>
+          <div class="police-evidence-body">
+            <p class="police-evidence-copy">下面三个文件夹都是可以点开的</p>
+            <div class="police-evidence-grid">
+              <a href="MarryNews.html" class="police-evidence-folder" target="_blank" rel="noreferrer">
+                <img src="assets/images/folder.png" alt="" class="police-evidence-folder-icon" />
+                <span>Marry Brown</span>
+              </a>
+              <a href="DanielNews.html" class="police-evidence-folder" target="_blank" rel="noreferrer">
+                <img src="assets/images/folder.png" alt="" class="police-evidence-folder-icon" />
+                <span>Daniel Hayes</span>
+              </a>
+              <a href="SofiaNews.html" class="police-evidence-folder" target="_blank" rel="noreferrer">
+                <img src="assets/images/folder.png" alt="" class="police-evidence-folder-icon" />
+                <span>Sofia Rossi</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-countdown" id="adminCountdown" aria-live="polite" hidden>
+        <span class="admin-countdown-label">Access Revoked In</span>
+        <strong class="admin-countdown-time" id="adminCountdownTime">03:00</strong>
+      </div>
     </section>
   </main>
 
@@ -471,8 +504,15 @@
     const coreAttackOverlay = document.getElementById('coreAttackOverlay');
     const midnightBecomeOverlay = document.getElementById('midnightBecomeOverlay');
     const midnightBecomeButtons = document.querySelectorAll('[data-midnight-choice]');
+    const policeEvidenceOverlay = document.getElementById('policeEvidenceOverlay');
+    const policeEvidenceClose = document.getElementById('policeEvidenceClose');
+    const adminCountdown = document.getElementById('adminCountdown');
+    const adminCountdownTime = document.getElementById('adminCountdownTime');
     let midnightNotificationPending = false;
     let backgroundErrorInterval = null;
+    let policeEvidenceTimeoutId = null;
+    let adminCountdownInterval = null;
+    let adminCountdownDeadline = 0;
     const alleryDiaryEntries = {
       '1': {
         title: 'Diary 1',
@@ -1314,7 +1354,16 @@
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'lily-choice-button';
-        button.textContent = choice.label;
+        if (choice.title) {
+          const title = document.createElement('span');
+          title.className = 'lily-choice-title';
+          title.textContent = choice.title;
+          button.appendChild(title);
+        }
+        const detail = document.createElement('span');
+        detail.className = 'lily-choice-detail';
+        detail.textContent = choice.label;
+        button.appendChild(detail);
         button.addEventListener('click', () => onSelect(choice, row));
         row.appendChild(button);
       });
@@ -1406,6 +1455,81 @@
         }, 180);
       });
     });
+
+    function updateAdminCountdown() {
+      if (!adminCountdown || !adminCountdownTime) return;
+      const remainingMs = Math.max(0, adminCountdownDeadline - Date.now());
+      const totalSeconds = Math.ceil(remainingMs / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      adminCountdownTime.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+      adminCountdown.classList.toggle('is-danger', totalSeconds <= 60);
+      if (remainingMs <= 0 && adminCountdownInterval) {
+        window.clearInterval(adminCountdownInterval);
+        adminCountdownInterval = null;
+      }
+    }
+
+    function stopAdminCountdown() {
+      if (adminCountdownInterval) {
+        window.clearInterval(adminCountdownInterval);
+        adminCountdownInterval = null;
+      }
+      adminCountdownDeadline = 0;
+      if (adminCountdown) {
+        adminCountdown.hidden = true;
+        adminCountdown.classList.remove('is-danger');
+      }
+      if (adminCountdownTime) {
+        adminCountdownTime.textContent = '03:00';
+      }
+    }
+
+    function startAdminCountdown(durationMs = 180000) {
+      if (!adminCountdown || !adminCountdownTime) return;
+      if (adminCountdownInterval) {
+        window.clearInterval(adminCountdownInterval);
+      }
+      adminCountdownDeadline = Date.now() + durationMs;
+      adminCountdown.hidden = false;
+      updateAdminCountdown();
+      adminCountdownInterval = window.setInterval(updateAdminCountdown, 250);
+    }
+
+    function closePoliceEvidencePrompt() {
+      if (policeEvidenceTimeoutId) {
+        window.clearTimeout(policeEvidenceTimeoutId);
+        policeEvidenceTimeoutId = null;
+      }
+      if (!policeEvidenceOverlay) return;
+      policeEvidenceOverlay.classList.remove('is-visible');
+      policeEvidenceOverlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!policeEvidenceOverlay.classList.contains('is-visible')) {
+          policeEvidenceOverlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function showPoliceEvidencePrompt(mode) {
+      if (!policeEvidenceOverlay) return;
+      if (mode === 'aggressive') {
+        startAdminCountdown();
+      } else {
+        stopAdminCountdown();
+      }
+      if (policeEvidenceTimeoutId) {
+        window.clearTimeout(policeEvidenceTimeoutId);
+      }
+      policeEvidenceTimeoutId = window.setTimeout(() => {
+        policeEvidenceOverlay.hidden = false;
+        policeEvidenceOverlay.setAttribute('aria-hidden', 'false');
+        requestAnimationFrame(() => {
+          policeEvidenceOverlay.classList.add('is-visible');
+        });
+        policeEvidenceTimeoutId = null;
+      }, 5000);
+    }
 
     function showMidnightToast() {
       if (!midnightToast) return;
@@ -1675,7 +1799,8 @@
               row.remove();
               note.remove();
               setCharacterComposerLocked(sidebar, false);
-              await sendCharacterChat(sidebar, memberName, `__CHOICE__:${choice.id}`, choice.label);
+              const choiceDisplay = choice.displayLabel || choice.title || choice.label;
+              await sendCharacterChat(sidebar, memberName, `__CHOICE__:${choice.id}`, choiceDisplay);
             });
             messageList.appendChild(note);
             lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
@@ -1705,6 +1830,10 @@
           if (memberName === 'Mike Anderson' && data?.flags?.showBecomeMidnightPrompt === true) {
             await delay(3000);
             showBecomeMidnightPrompt(sidebar);
+          }
+
+          if (memberName === 'Mike Anderson' && data?.flags?.showPoliceEvidencePrompt) {
+            showPoliceEvidencePrompt(data.flags.showPoliceEvidencePrompt);
           }
 
           history.push({ role: 'assistant', content: assistantTranscript });
@@ -1829,6 +1958,12 @@
       window.setTimeout(() => {
         midnightToast.hidden = true;
       }, 220);
+    });
+    policeEvidenceClose?.addEventListener('click', closePoliceEvidencePrompt);
+    policeEvidenceOverlay?.addEventListener('click', (event) => {
+      if (event.target === policeEvidenceOverlay) {
+        closePoliceEvidencePrompt();
+      }
     });
 
     if (localStorage.getItem(ADMIN_ERROR_FLAG) === '1' && midnightToast) {

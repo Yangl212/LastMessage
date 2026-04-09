@@ -40,6 +40,10 @@ module.exports = async (req, res) => {
       normalizedMessage === "don't understand" ||
       normalizedMessage === 'dont understand' ||
       normalizedMessage === 'i do not understand';
+    const isChoiceControllingThem =
+      normalizedMessage === '__choice__:controlling_them';
+    const isChoiceAnotherWay =
+      normalizedMessage === '__choice__:another_way';
 
     const playerTexts = [
       ...history
@@ -91,7 +95,7 @@ module.exports = async (req, res) => {
         choices: [
           {
             id: 'dont_understand',
-            label: "You're wrong to do this. You don't have the right to decide who lives or dies."
+            label: "Maybe... we shouldn't do this."
           },
           {
             id: 'understand',
@@ -122,16 +126,50 @@ module.exports = async (req, res) => {
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
         reply: [
-          '...You don\'t understand?',
-          'Do you really think they had another way?',
-          'You\'re only looking at the surface. You haven\'t lived what they\'ve lived, and yet you decide it\'s wrong?',
-          'It\'s the so-called "normal people" - their indifference, their silence - that push others to the edge.',
-          'And now you\'re standing with them?',
-          'You came here to deny all of this?',
-          'Or... are you trying to turn this place into something just like the outside world?',
-          'If you can\'t understand, then why keep going?',
-          'Are you here to find the truth... or to destroy it?'
-        ].join('\n\n')
+          'You think I\'m wrong?',
+          'Take a look at them. They are no longer in pain or struggling. They reached the ending they wanted.'
+        ].join('\n\n'),
+        choices: [
+          {
+            id: 'controlling_them',
+            title: '激进',
+            displayLabel: '激进',
+            label: "This not helping them! You're controlling them, pushing them step by step toward death."
+          },
+          {
+            id: 'another_way',
+            title: '稳健',
+            displayLabel: '稳健',
+            label: "I just feel like...maybe there's another way."
+          }
+        ]
+      }));
+      return;
+    }
+
+    if (isChoiceControllingThem) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: [
+          'You were never here to "seek help" from the beginning.',
+          'I\'m going to revoke all your access within three minutes. Leave there!'
+        ].join('\n\n'),
+        flags: {
+          showPoliceEvidencePrompt: 'aggressive'
+        }
+      }));
+      return;
+    }
+
+    if (isChoiceAnotherWay) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: '...Fine. I don’t think there’s a better way than this.',
+        flags: {
+          showPoliceEvidencePrompt: 'steady'
+        }
       }));
       return;
     }
