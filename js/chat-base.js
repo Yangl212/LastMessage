@@ -31,6 +31,9 @@
       sendButton,
       showTime = true,
       ownMessageTimePlacement = 'inline',
+      centerTimestamps = false,
+      centerTimestampGapMs = 0,
+      hideMessageMeta = false,
       ownAvatarSrc = '',
       onSendMessage,
       onMemberMessage
@@ -56,6 +59,7 @@
 
     let lastMemberTrigger = null;
     let composerLocked = false;
+    let lastCenteredTimestampMs = null;
 
     messagesEl.querySelectorAll('.msg').forEach((article) => {
       if (article.classList.contains('system')) return;
@@ -91,18 +95,20 @@
       const text = input.value.trim();
       if (!text) return;
       const time = nowHHMM();
+      const timestampMs = Date.now();
       const currentUserName = document.querySelector('.user-pill .user-name')?.textContent?.trim() || 'You';
 
-      if (ownMessageTimePlacement === 'center') {
+      if (!centerTimestamps && ownMessageTimePlacement === 'center') {
         appendCenteredTime(time);
       }
 
       appendMessage({
         user: currentUserName,
         time,
+        timestampMs,
         text,
         me: true,
-        showTime: ownMessageTimePlacement === 'inline'
+        showTime: !centerTimestamps && ownMessageTimePlacement === 'inline'
       });
 
       input.value = '';
@@ -178,12 +184,23 @@
       onMemberMessage(targetMember);
     });
 
-    function appendMessage({ user, time, text, me=false, variant='', showTime: showTimeOverride }) {
+    function appendMessage({ user, time, text, me=false, variant='', showTime: showTimeOverride, timestampMs }) {
       const article = document.createElement('article');
       const classNames = ['msg'];
       if (me) classNames.push('me');
       if (variant) classNames.push(variant);
       article.className = classNames.join(' ');
+
+      const effectiveTimestampMs = typeof timestampMs === 'number' ? timestampMs : Date.now();
+      if (centerTimestamps) {
+        const shouldShowCenteredTime =
+          lastCenteredTimestampMs === null ||
+          (effectiveTimestampMs - lastCenteredTimestampMs) >= centerTimestampGapMs;
+        if (shouldShowCenteredTime) {
+          appendCenteredTime(time || nowHHMM());
+          lastCenteredTimestampMs = effectiveTimestampMs;
+        }
+      }
 
       if (variant !== 'system') {
         const avatar = document.createElement('img');
@@ -197,17 +214,19 @@
       const bubble = document.createElement('div');
       bubble.className = 'bubble';
 
-      const header = document.createElement('header');
-      header.className = 'meta';
-      const shouldShowTime = typeof showTimeOverride === 'boolean' ? showTimeOverride : showTime;
-      header.innerHTML = shouldShowTime
-        ? `<span class="user">${escapeHTML(user)}</span><span class="time">${time}</span>`
-        : `<span class="user">${escapeHTML(user)}</span>`;
+      if (!hideMessageMeta) {
+        const header = document.createElement('header');
+        header.className = 'meta';
+        const shouldShowTime = typeof showTimeOverride === 'boolean' ? showTimeOverride : showTime;
+        header.innerHTML = shouldShowTime
+          ? `<span class="user">${escapeHTML(user)}</span><span class="time">${time}</span>`
+          : `<span class="user">${escapeHTML(user)}</span>`;
+        bubble.appendChild(header);
+      }
 
       const p = document.createElement('p');
       p.innerText = text;
 
-      bubble.appendChild(header);
       bubble.appendChild(p);
 
       article.appendChild(bubble);

@@ -4,6 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Incoming Signal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/introduction.css" />
 </head>
 
@@ -12,34 +15,81 @@
     <div class="call-glow"></div>
 
     <div class="call-card" id="callCard">
-      <p class="call-label">INCOMING SIGNAL</p>
-      <h1 class="call-title">Unknown Contact</h1>
-      <p class="call-status">Ringing...</p>
-      <div class="call-actions">
-        <button class="btn accept" id="answerBtn">Answer</button>
+      <div class="call-header-bar">YOU HAVE A NEW CALL</div>
+      <div class="call-body">
+        <h1 class="call-title">
+          <img class="call-icon-image" src="assets/images/call.png" alt="" aria-hidden="true" /> Unknown Calling
+        </h1>
+        <p class="call-status">Ringing<span class="dots"><span>.</span><span>.</span><span>.</span></span></p>
+        <div class="call-actions">
+          <button class="btn accept" id="answerBtn">Answer</button>
+        </div>
+        <audio id="ringtone" src="assets/audio/ringtone.mp3" preload="auto" loop></audio>
       </div>
-      <audio id="ringtone" src="assets/audio/ringtone.mp3" preload="auto" loop></audio>
     </div>
 
     <div class="briefing hidden" id="briefing">
-      <div class="audio-shell">
-        <div class="audio-header">
-          <div class="audio-title">Call Log</div>
-          <div class="audio-status" id="audioStatus">Listening...</div>
+      <audio id="callAudio" src="assets/audio/call-log.mp3" preload="auto"></audio>
+
+      <div class="ir-page">
+        <div class="ir-top">
+          <h1 class="ir-title">INCIDENT REPORT</h1>
         </div>
-        <p class="audio-hint">Please listen to or read the chat carefully. It contains critical information.</p>
-        <canvas id="waveform" width="960" height="220" aria-label="Audio waveform visualization"></canvas>
-        <div class="audio-controls">
-          <audio id="callAudio" controls preload="auto">
-            <source src="assets/audio/call-log.mp3" type="audio/mpeg">
-            Place call-log.mp3 inside assets/audio/.
-          </audio>
+
+        <div class="ir-body">
+          <!-- LEFT column: case list -->
+          <div class="ir-col ir-col-left">
+            <div class="ir-section-label">VOICE LOG</div>
+            <ul class="ir-case-list">
+              <li class="ir-case-item ir-case-active">
+                <span class="ir-case-text">Questionable cause of death</span>
+                <span class="ir-case-dot"></span>
+              </li>
+              <li class="ir-case-item ir-case-locked">Coming soon...</li>
+              <li class="ir-case-item ir-case-locked">Coming soon...</li>
+              <li class="ir-case-item ir-case-locked">Coming soon...</li>
+            </ul>
+          </div>
+
+          <!-- MIDDLE column: transcript paper -->
+          <div class="ir-col ir-col-mid">
+            <div class="ir-paper">
+              <div class="ir-paper-header">
+                <span class="ir-paper-title">TRANSPIT</span>
+                <div class="ir-paper-line"></div>
+              </div>
+              <div class="ir-paper-body">
+                <ul id="transcriptList" class="ir-transcript-list" aria-live="polite"></ul>
+              </div>
+              <div class="ir-paper-footer">
+                <div class="ir-paper-footer-line"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT column: recording info -->
+          <div class="ir-col ir-col-right">
+            <div class="ir-rec-dot" id="recDot"></div>
+            <canvas id="waveform" aria-label="Audio waveform"></canvas>
+
+            <div class="ir-meta-block">
+              <div class="ir-meta-label">CALLER ID</div>
+              <div class="ir-meta-value">(+1)917-923-****</div>
+            </div>
+            <div class="ir-meta-block">
+              <div class="ir-meta-label">LOCATION</div>
+              <div class="ir-meta-value">145 W 24TH ST, MANHATTAN, NY 10011</div>
+            </div>
+            <div class="ir-meta-block">
+              <div class="ir-meta-label">TIME</div>
+              <div class="ir-meta-value">(+1)917-923-****</div>
+            </div>
+
+            <div class="ir-start-wrap">
+              <a class="ir-start-btn no-underline" href="chat_newuser.html">START</a>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="case-card transcript-card">
-        <h2 class="case-title">Transcript</h2>
-        <ul id="transcriptList" class="transcript-list" aria-live="polite"></ul>
-        <a class="btn mission no-underline" href="chat.html">Accept Mission</a>
       </div>
     </div>
   </div>

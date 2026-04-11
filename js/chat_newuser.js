@@ -1,6 +1,7 @@
 // Blue Whale Chat Group - new user view
 document.addEventListener('DOMContentLoaded', () => {
   let missedKeywordCount = 0;
+  let hasSentGreetingReply = false;
   const seenHintKeywords = new Set();
   let hasShownQuestionLimitReminder = false;
   const hintSuggestionByGroup = {
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     {
       id: 'a2',
-      title: '30-Day Reflection Progress',
+      title: '30 Task Reflection Progress',
       bodyHtml: [
         '<div class="progress-row"><span>No.2</span><span>Archived</span></div>',
         '<div class="progress-row"><span>No.3</span><span>Archived</span></div>',
@@ -66,6 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
     'chat groups rules': '"Heart-knot" is the core password used to recognize your identity. Please remember it well.\n\nWhen chatting in the group, do not send unrelated content at will.\n\nIf you have any questions, please use keywords to ask them in the group chat.\n\nOn the day you join, follow the "0 DAY" principle: report your X account to the administrator and keep it continuously updated.\n\nYou do not have permission to send private messages to other members in the group.\n\nBliss in the Pure Land.',
     'blue whale chat group': 'The Blue Whale chat group is an online "youth counseling platform" created by professional psychological advisors.\nHere, every frustration you carry will be heard, every secret will be held gently, and none of your feelings will ever be judged.\nWe understand what you have been through, and we will stay with you through the nights no one else notices.\nAll you need to do is trust us - let us guide you toward a lighter heart.',
     '30 task': 'This is an activity designed to help children struggling with mental health find their way back to happiness. On the first day, we begin with a simple task: “Rate your mood today.”',
+    admin: [
+      'I’m glad you have the intention to help others.',
+      'We’ll go into this in more detail in private. Find me on the right and click “send message.”'
+    ],
     administrator: [
       'I’m glad you have the intention to help others.',
       'We’ll go into this in more detail in private. Find me on the right and click “send message.”'
@@ -140,14 +145,35 @@ document.addEventListener('DOMContentLoaded', () => {
     modalMessageButton,
     sendButton,
     onSendMessage: (text, helpers) => {
+      const greeted = handleGreetingResponse(text, helpers);
+      if (greeted) {
+        missedKeywordCount = 0;
+        return;
+      }
+
       const matched = handleKeywordResponse(text, helpers);
       if (matched) {
         missedKeywordCount = 0;
         return;
       }
+
       missedKeywordCount += 1;
-      if (missedKeywordCount >= 3) {
-        window.HintProgress?.pulse?.();
+
+      if (missedKeywordCount >= 2) {
+        const lines = [
+          'Maybe you should spend your time asking something that actually matters.',
+          'I won’t always be around to reply.'
+        ];
+        lines.forEach((line, index) => {
+          setTimeout(() => {
+            helpers.appendMessage({
+              user: 'Midnight',
+              time: nowHHMM(),
+              text: line,
+              me: false
+            });
+          }, 1800 + index * 1400);
+        });
         missedKeywordCount = 0;
       }
     },
@@ -161,6 +187,24 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   syncHintSuggestion();
+
+  function handleGreetingResponse(text, helpers){
+    if (!helpers || hasSentGreetingReply) return false;
+    const normalized = String(text || '').trim().toLowerCase();
+    if (!/\b(hi|hello)\b/.test(normalized)) return false;
+
+    hasSentGreetingReply = true;
+    setTimeout(() => {
+      helpers.appendMessage({
+        user: 'No. 5',
+        time: nowHHMM(),
+        text: 'hi! Nice to see you!',
+        me: false
+      });
+    }, 1200);
+
+    return true;
+  }
 
   function handleKeywordResponse(text, helpers){
     const normalized = text.toLowerCase();

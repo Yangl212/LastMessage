@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('input');
   const form = document.getElementById('composer');
   const sendButton = form?.querySelector('.send');
+  const MIDNIGHT_AVATAR = 'assets/images/member-Midnight.jpeg';
+  const USER_AVATAR = 'assets/images/newuser.png';
+  const adminIntentPattern = /\b(admin|administrator|administration|adminship|admin\s+access|admin\s+role)\b/i;
 
   if (!messagesEl || !input || !form) return;
 
@@ -12,9 +15,15 @@ document.addEventListener('DOMContentLoaded', () => {
     input,
     form,
     sendButton,
+    centerTimestamps: true,
+    centerTimestampGapMs: 10 * 60 * 1000,
+    hideMessageMeta: true,
+    ownAvatarSrc: USER_AVATAR,
+    memberAvatarOverrides: {
+      Midnight: MIDNIGHT_AVATAR
+    },
     onSendMessage: (text, helpers) => {
-      const normalized = text.toLowerCase();
-      if (!helpers || !normalized.includes('administrator')) return;
+      if (!helpers || !adminIntentPattern.test(text)) return;
 
       const lines = [
         'You’re interested in applying as an administrator?',
@@ -49,19 +58,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const article = document.createElement('article');
     article.className = 'msg';
 
+    const avatar = document.createElement('img');
+    avatar.className = 'msg-avatar';
+    avatar.src = MIDNIGHT_AVATAR;
+    avatar.alt = 'Midnight avatar';
+
     const bubble = document.createElement('div');
     bubble.className = 'bubble typing-bubble';
-
-    const header = document.createElement('header');
-    header.className = 'meta';
-    header.innerHTML = `<span class="user">Midnight</span><span class="time">${nowHHMM()}</span>`;
 
     const dots = document.createElement('div');
     dots.className = 'typing-dots';
     dots.innerHTML = '<span></span><span></span><span></span>';
 
-    bubble.appendChild(header);
     bubble.appendChild(dots);
+    article.appendChild(avatar);
     article.appendChild(bubble);
     messagesEl.appendChild(article);
     messagesEl.scrollTop = messagesEl.scrollHeight;

@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   adminEntryAction?.addEventListener('click', () => {
-    window.location.href = 'midnightadmin.html';
+    window.location.href = 'Administratorchat.html';
   });
 
   function updateDragState() {
