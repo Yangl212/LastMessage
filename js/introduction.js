@@ -9,8 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const transcriptList = document.getElementById('transcriptList');
   const irPage = document.querySelector('.ir-page');
   const irBody = document.querySelector('.ir-body');
+  const irColMid = document.querySelector('.ir-col-mid');
   const irPaper = document.querySelector('.ir-paper');
+  const irPaperBody = document.querySelector('.ir-paper-body');
   const irColRight = document.querySelector('.ir-col-right');
+  const paperScrollbar = document.getElementById('paperScrollbar');
+  const paperScrollTrack = document.getElementById('paperScrollTrack');
+  const paperScrollThumb = document.getElementById('paperScrollThumb');
 
   const transcriptLines = [
     { text: 'Hello, this is the City Police Department. How can I help you?', align: 'right', marker: 'right' },
@@ -28,6 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let audioCtx, analyser, dataArray, animationId, sourceNode;
   let transcriptTypingToken = 0;
   let isAnswered = false;
+  let isDraggingPaperThumb = false;
+  let paperThumbPointerOffset = 0;
 
   // ── Ringtone autoplay ─────────────────────────────────────────────────────
   const startRingtone = () => {
@@ -45,9 +52,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (briefing) briefing.classList.remove('hidden');
       if (callScreen) callScreen.classList.add('answered');
 
+      fitPaperBodyToViewport();
       alignRightColumnToPaper();
+      window.requestAnimationFrame(fitPaperBodyToViewport);
       window.requestAnimationFrame(alignRightColumnToPaper);
+      window.setTimeout(fitPaperBodyToViewport, 60);
       window.setTimeout(alignRightColumnToPaper, 60);
+      setupPaperScrollbar();
 
       renderTranscript();
       if (callAudio) {
@@ -139,8 +150,19 @@ document.addEventListener('DOMContentLoaded', () => {
     waveform.height = waveform.clientHeight || 60;
   }
 
+  function fitPaperBodyToViewport() {
+    if (!irPaperBody) return;
+    const cssGap = irPage
+      ? Number.parseFloat(window.getComputedStyle(irPage).getPropertyValue('--bottom-align-gap')) || 40
+      : 40;
+    const rect = irPaperBody.getBoundingClientRect();
+    const available = Math.max(160, Math.floor(window.innerHeight - rect.top - cssGap));
+    irPaperBody.style.height = `${available}px`;
+  }
+
   function alignRightColumnToPaper() {
     if (!irBody || !irPaper || !irColRight) return;
+    fitPaperBodyToViewport();
     const bodyRect = irBody.getBoundingClientRect();
     const paperRect = irPaper.getBoundingClientRect();
     const offset = Math.max(0, Math.round(paperRect.top - bodyRect.top));
@@ -152,20 +174,107 @@ document.addEventListener('DOMContentLoaded', () => {
       const bottomOffset = Math.max(0, Math.round(pageRect.bottom - paperRect.bottom));
       irPage.style.setProperty('--paper-bottom-offset', `${bottomOffset}px`);
     }
+
+    syncPaperScrollbarGeometry();
   }
 
   window.addEventListener('resize', () => {
     syncCanvasSize();
     if (!isAnswered) return;
+    fitPaperBodyToViewport();
     alignRightColumnToPaper();
+    window.requestAnimationFrame(fitPaperBodyToViewport);
     window.requestAnimationFrame(alignRightColumnToPaper);
+    window.requestAnimationFrame(syncPaperScrollbarGeometry);
   });
+
+  function setupPaperScrollbar() {
+    if (!irPaperBody || !paperScrollbar || !paperScrollTrack || !paperScrollThumb) return;
+    syncPaperScrollbarGeometry();
+
+    irPaperBody.addEventListener('scroll', updatePaperScrollbarThumb);
+
+    paperScrollThumb.addEventListener('pointerdown', (event) => {
+      isDraggingPaperThumb = true;
+      const thumbRect = paperScrollThumb.getBoundingClientRect();
+      paperThumbPointerOffset = event.clientY - thumbRect.top;
+      paperScrollThumb.setPointerCapture?.(event.pointerId);
+      event.preventDefault();
+    });
+
+    paperScrollTrack.addEventListener('pointerdown', (event) => {
+      if (event.target === paperScrollThumb) return;
+      paperThumbPointerOffset = paperScrollThumb.offsetHeight / 2;
+      setPaperScrollByPointer(event.clientY);
+    });
+
+    window.addEventListener('pointermove', (event) => {
+      if (!isDraggingPaperThumb) return;
+      setPaperScrollByPointer(event.clientY);
+    });
+
+    window.addEventListener('pointerup', () => {
+      isDraggingPaperThumb = false;
+    });
+
+    paperScrollbar.addEventListener('wheel', (event) => {
+      if (!irPaperBody) return;
+      event.preventDefault();
+      irPaperBody.scrollTop += event.deltaY;
+      updatePaperScrollbarThumb();
+    }, { passive: false });
+  }
+
+  function syncPaperScrollbarGeometry() {
+    if (!irColMid || !irPaperBody || !paperScrollbar) return;
+    const midRect = irColMid.getBoundingClientRect();
+    const bodyRect = irPaperBody.getBoundingClientRect();
+    const top = Math.max(0, Math.round(bodyRect.top - midRect.top));
+    const height = Math.max(80, Math.round(bodyRect.height));
+    paperScrollbar.style.top = `${top}px`;
+    paperScrollbar.style.height = `${height}px`;
+    updatePaperScrollbarThumb();
+  }
+
+  function updatePaperScrollbarThumb() {
+    if (!irPaperBody || !paperScrollTrack || !paperScrollThumb) return;
+    const maxScroll = Math.max(0, irPaperBody.scrollHeight - irPaperBody.clientHeight);
+    const usableHeight = Math.max(8, paperScrollTrack.clientHeight - 4);
+    const thumbHeight = maxScroll === 0
+      ? usableHeight
+      : Math.max(36, Math.round((irPaperBody.clientHeight / irPaperBody.scrollHeight) * usableHeight));
+    const travel = Math.max(0, usableHeight - thumbHeight);
+    const ratio = maxScroll === 0 ? 0 : irPaperBody.scrollTop / maxScroll;
+    const thumbTop = 2 + Math.round(travel * ratio);
+
+    paperScrollThumb.style.height = `${thumbHeight}px`;
+    paperScrollThumb.style.top = `${thumbTop}px`;
+  }
+
+  function setPaperScrollByPointer(clientY) {
+    if (!irPaperBody || !paperScrollTrack || !paperScrollThumb) return;
+    const maxScroll = Math.max(0, irPaperBody.scrollHeight - irPaperBody.clientHeight);
+    if (maxScroll === 0) return;
+
+    const trackRect = paperScrollTrack.getBoundingClientRect();
+    const usableHeight = Math.max(8, paperScrollTrack.clientHeight - 4);
+    const thumbHeight = paperScrollThumb.offsetHeight;
+    const minTop = 2;
+    const maxTop = minTop + Math.max(0, usableHeight - thumbHeight);
+    const desiredTop = clientY - trackRect.top - paperThumbPointerOffset;
+    const nextTop = Math.min(maxTop, Math.max(minTop, desiredTop));
+    const ratio = maxTop === minTop ? 0 : (nextTop - minTop) / (maxTop - minTop);
+
+    irPaperBody.scrollTop = ratio * maxScroll;
+    updatePaperScrollbarThumb();
+  }
 
   // ── Transcript ────────────────────────────────────────────────────────────
   function renderTranscript() {
     if (!transcriptList) return;
     transcriptTypingToken += 1;
     transcriptList.innerHTML = '';
+    let lastSpeaker = '';
     transcriptLines.forEach((line) => {
       const li = document.createElement('li');
       li.className = [
@@ -174,6 +283,16 @@ document.addEventListener('DOMContentLoaded', () => {
         line.marker === 'right' ? 'ir-dot-right' : line.marker === 'left' ? 'ir-dot-left' : '',
         line.spacer === 'md' ? 'ir-line-gap-md' : line.spacer === 'lg' ? 'ir-line-gap-lg' : ''
       ].filter(Boolean).join(' ');
+
+      const speakerKey = line.align === 'right' ? 'officer' : 'caller';
+      if (speakerKey !== lastSpeaker) {
+        const speakerNode = document.createElement('span');
+        speakerNode.className = 'ir-speaker-label';
+        speakerNode.textContent = speakerKey === 'officer' ? '■ Plice Officer:' : '■ Caller:';
+        li.appendChild(speakerNode);
+        lastSpeaker = speakerKey;
+      }
+
       li.dataset.fullText = line.text;
       const textNode = document.createElement('span');
       textNode.className = 'ir-transcript-text';
@@ -181,6 +300,9 @@ document.addEventListener('DOMContentLoaded', () => {
       li.appendChild(textNode);
       transcriptList.appendChild(li);
     });
+    if (irPaperBody) irPaperBody.scrollTop = 0;
+    fitPaperBodyToViewport();
+    syncPaperScrollbarGeometry();
     startTranscriptTypewriter();
   }
 
@@ -201,6 +323,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let cursor = 0;
       lineEl.classList.add('is-typing');
+      lineEl.classList.add('is-speaker-visible');
       lineEl.classList.add('is-dot-visible');
 
       const typeChar = () => {
@@ -214,6 +337,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         cursor += 1;
         textEl.textContent = fullText.slice(0, cursor);
+        updatePaperScrollbarThumb();
         const char = fullText[cursor - 1];
         const delay = /[,.!?]/.test(char) ? 150 : 64;
         window.setTimeout(typeChar, delay);
