@@ -635,9 +635,7 @@
             <main class="private-chat-main" id="privateChatMain">
               <header class="private-chat-main-head" id="privateChatMainHead"># Private Chat</header>
               <div class="private-chat-messages" id="privateChatMessages">
-                <div class="private-chat-message-list" id="privateChatMessageList">
-                  <div class="lily-dynamic-messages private-chat-dynamic-messages"></div>
-                </div>
+                <div class="private-chat-message-list" id="privateChatMessageList"></div>
                 <p class="private-chat-empty" id="privateChatEmpty">Add friends to start chatting</p>
                 <div class="private-chat-scrollbar" id="privateChatScrollbar" aria-hidden="true">
                   <button type="button" class="private-chat-scroll-arrow private-chat-scroll-up" id="privateChatScrollUp" aria-label="Scroll up">
@@ -2098,9 +2096,6 @@
       const threads = Array.from(privateChatMessageList.querySelectorAll('.private-chat-dynamic-messages'));
       let thread = threads.find((node) => node.dataset.memberName === memberName);
       if (!thread) {
-        thread = threads.find((node) => !node.dataset.memberName);
-      }
-      if (!thread) {
         thread = document.createElement('div');
         thread.className = 'lily-dynamic-messages private-chat-dynamic-messages';
         privateChatMessageList.appendChild(thread);
@@ -2114,6 +2109,15 @@
       const threads = privateChatMessageList.querySelectorAll('.private-chat-dynamic-messages');
       threads.forEach((thread) => {
         thread.hidden = thread.dataset.memberName !== memberName;
+      });
+    }
+
+    function purgeLegacyPrivateChatThreads() {
+      if (!privateChatMessageList) return;
+      privateChatMessageList.querySelectorAll('.private-chat-dynamic-messages').forEach((thread) => {
+        if (!thread.dataset.memberName) {
+          thread.remove();
+        }
       });
     }
 
@@ -2744,6 +2748,7 @@
       syncLilyScrollbar(privateChatMain);
     }
 
+    purgeLegacyPrivateChatThreads();
     renderPrivateChatPeople();
     syncPrivateChatScrollbar();
   </script>
