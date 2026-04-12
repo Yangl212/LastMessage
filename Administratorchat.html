@@ -12,27 +12,64 @@
   <main class="admin-layout">
     <aside class="admin-sidebar">
       <div class="sidebar-brand">
-        <span>Administrator</span>
+        <video class="sidebar-brand-video" autoplay loop muted playsinline preload="auto">
+          <source src="assets/video/admin.mp4" type="video/mp4" />
+          Administrator
+        </video>
       </div>
 
-      <div class="sidebar-section-title">Member</div>
+      <div class="sidebar-section-title">Members</div>
 
       <nav class="sidebar-nav" aria-label="Members">
-        <a href="#" class="sidebar-link active" data-member="Mike Anderson" data-panel="mike-primary">Mike Anderson</a>
-        <a href="#" class="sidebar-link" data-member="Allery Lin" data-panel="allery-lin">Allery Lin</a>
-        <a href="#" class="sidebar-link" data-member="Sofia Rossi" data-panel="sofia-rossi">Sofia Rossi</a>
-        <a href="#" class="sidebar-link" data-member="Core Bennett" data-panel="core-bennett">Core Bennett</a>
-        <a href="#" class="sidebar-link" data-member="Daniel Hayes" data-panel="daniel-hayes">Daniel Hayes</a>
-        <a href="#" class="sidebar-link" data-member="Lily Thompson" data-panel="lily-thompson">Lily Thompson</a>
-        <a href="#" class="sidebar-link" data-member="Marry Brown" data-panel="mike-secondary">Marry Brown</a>
-        <a href="#" class="sidebar-link" data-member="New user" data-panel="new-user">New user</a>
+        <a href="#" class="sidebar-link active" data-member="Mike Anderson" data-panel="mike-primary">
+          <span class="sidebar-link-label">Mike Anderson</span>
+          <img src="assets/images/lock.png" alt="" class="sidebar-lock-icon" aria-hidden="true" />
+        </a>
+        <a href="#" class="sidebar-link" data-member="Allery Lin" data-panel="allery-lin">
+          <span class="sidebar-link-label">Allery Lin</span>
+          <img src="assets/images/lock.png" alt="" class="sidebar-lock-icon" aria-hidden="true" />
+        </a>
+        <a href="#" class="sidebar-link" data-member="Sofia Rossi" data-panel="sofia-rossi">
+          <span class="sidebar-link-label">Sofia Rossi</span>
+          <img src="assets/images/lock.png" alt="" class="sidebar-lock-icon" aria-hidden="true" />
+        </a>
+        <a href="#" class="sidebar-link" data-member="Core Bennett" data-panel="core-bennett">
+          <span class="sidebar-link-label">Core Bennett</span>
+          <img src="assets/images/lock.png" alt="" class="sidebar-lock-icon" aria-hidden="true" />
+        </a>
+        <a href="#" class="sidebar-link" data-member="Daniel Hayes" data-panel="daniel-hayes">
+          <span class="sidebar-link-label">Daniel Hayes</span>
+          <img src="assets/images/lock.png" alt="" class="sidebar-lock-icon" aria-hidden="true" />
+        </a>
+        <a href="#" class="sidebar-link" data-member="Lily Thompson" data-panel="lily-thompson">
+          <span class="sidebar-link-label">Lily Thompson</span>
+          <img src="assets/images/lock.png" alt="" class="sidebar-lock-icon" aria-hidden="true" />
+        </a>
+        <a href="#" class="sidebar-link" data-member="Marry Brown" data-panel="mike-secondary">
+          <span class="sidebar-link-label">Marry Brown</span>
+          <img src="assets/images/lock.png" alt="" class="sidebar-lock-icon" aria-hidden="true" />
+        </a>
       </nav>
+
+      <button type="button" class="sidebar-private-chat-btn" id="sidebarPrivateChatBtn" aria-label="Open private chat">
+        <img src="assets/images/chat.png" alt="" class="sidebar-private-chat-icon" aria-hidden="true" />
+      </button>
 
     </aside>
 
     <section class="admin-main">
+      <div class="admin-code-ticker" aria-hidden="true">
+        <div class="admin-code-ticker-window">
+          <div class="admin-code-ticker-line" data-admin-ticker-line="0"></div>
+          <div class="admin-code-ticker-line" data-admin-ticker-line="1"></div>
+          <div class="admin-code-ticker-line admin-code-ticker-line--typing" data-admin-ticker-line="2"></div>
+        </div>
+      </div>
+
       <div class="admin-toast" id="midnightToast" hidden>
-        <button type="button" class="admin-toast-close" id="midnightToastClose" aria-label="Close notification">×</button>
+        <button type="button" class="admin-toast-close" id="midnightToastClose" aria-label="Close notification">
+          <img src="assets/images/exit.png" alt="" class="admin-toast-close-icon" />
+        </button>
         <div class="admin-toast-head">
           <span class="admin-toast-name">Midnight</span>
           <span class="admin-toast-label">new message</span>
@@ -42,27 +79,115 @@
       <audio id="midnightNotificationAudio" preload="auto" src="assets/audio/notification.mp3"></audio>
 
       <div class="admin-main-shell">
-        <header class="admin-topbar">
-          <div class="topbar-path" id="memberPath">Member / Mike Anderson</div>
-        </header>
-
         <div class="admin-header">
           <div class="admin-title-wrap">
-          <div class="admin-folder"></div>
           <h1 id="memberTitle">Mike Anderson</h1>
-        </div>
-        <div class="admin-tabs" aria-label="Views">
-          <button type="button" class="admin-tab active">Records</button>
         </div>
       </div>
 
-        <section class="allery-docs member-view scaffold-view" id="defaultBoardView" data-member-view="mike-primary" data-display-name="Mike Anderson" hidden></section>
+        <section class="member-view allery-details-view mike-details-view" id="mikeDriveView" data-member-view="mike-primary" data-display-name="Mike Anderson" hidden>
+          <div class="allery-details-shell">
+            <h2 class="allery-details-title">File Details</h2>
 
-        <section class="allery-docs member-view" id="alleryDriveView" data-member-view="allery-lin" aria-label="Allery Lin records" hidden>
-          <div class="docs-main">
-            <section class="docs-shortcuts">
-              <h3>Shortcut</h3>
-              <div class="shortcut-row">
+            <div class="allery-details-top">
+              <div class="allery-details-photo core-photo-placeholder" aria-label="Mike Anderson photo placeholder">
+                <span>Not yet available</span>
+              </div>
+
+              <div class="allery-details-meta">
+                <div class="allery-details-meta-head">
+                  <h3>Mike Anderson</h3>
+                  <span class="allery-status-badge alive-status-badge">Alive</span>
+                  <span class="allery-details-no">No: 01</span>
+                </div>
+
+                <dl class="allery-details-grid">
+                  <div><dt>Date of Birth:</dt><dd>1994</dd></div>
+                  <div><dt>Marital Status:</dt><dd>Single</dd></div>
+                  <div><dt>Citizen:</dt><dd>American</dd></div>
+                  <div><dt>Location:</dt><dd>NY</dd></div>
+                  <div><dt>Gender:</dt><dd>Male</dd></div>
+                  <div><dt>Family:</dt><dd>Both deceased</dd></div>
+                  <div><dt>Languages:</dt><dd>English</dd></div>
+                  <div><dt>School:</dt><dd>N/A</dd></div>
+                </dl>
+
+                <div class="allery-details-actions">
+                  <button type="button" class="allery-details-btn allery-accordion" data-target="mikeRecordPanel" aria-expanded="false">Record</button>
+                  <button type="button" class="allery-details-btn" id="mikeDetailsReportTrigger">Report</button>
+                  <button type="button" class="allery-details-btn allery-details-chat" id="mikeDetailsChatTrigger">Chat</button>
+                </div>
+
+                <div class="allery-report-panel allery-details-report" id="mikeRecordPanel" hidden>
+                  <dl class="allery-death-list">
+                    <div><dt>Record:</dt><dd>Pending</dd></div>
+                  </dl>
+                </div>
+
+                <div class="allery-details-divider" aria-hidden="true"></div>
+              </div>
+            </div>
+
+            <section class="docs-shortcuts allery-details-shortcuts">
+              <div class="shortcut-row allery-details-shortcut-row">
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-5"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 5</span></a>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="allery-docs member-view allery-details-view" id="alleryDriveView" data-member-view="allery-lin" aria-label="Allery Lin records" hidden>
+          <div class="allery-details-shell">
+            <h2 class="allery-details-title">File Details</h2>
+
+            <div class="allery-details-top">
+              <div class="allery-details-photo">
+                <img src="assets/images/Allery.png" alt="Allery Lin" class="allery-details-photo-img" />
+              </div>
+
+              <div class="allery-details-meta">
+                <div class="allery-details-meta-head">
+                  <h3>Allery Lin</h3>
+                  <span class="allery-status-badge">Deceased</span>
+                  <span class="allery-details-no">No: 06</span>
+                </div>
+
+                <dl class="allery-details-grid">
+                  <div><dt>Date of Birth:</dt><dd>2009</dd></div>
+                  <div><dt>Marital Status:</dt><dd>Single</dd></div>
+                  <div><dt>Citizen:</dt><dd>Chinese</dd></div>
+                  <div><dt>Location:</dt><dd>NY</dd></div>
+                  <div><dt>Gender:</dt><dd>Female</dd></div>
+                  <div><dt>Family:</dt><dd>Lives with parents</dd></div>
+                  <div><dt>Languages:</dt><dd>English, Mandarin</dd></div>
+                  <div><dt>School:</dt><dd>Riverside High School</dd></div>
+                </dl>
+
+                <div class="allery-details-actions">
+                  <button type="button" class="allery-details-btn allery-accordion" data-target="deathRecordPanel" aria-expanded="false">Record</button>
+                  <a href="AlleryLinNews.html" class="allery-details-btn allery-report-link">Report</a>
+                  <button type="button" class="allery-details-btn allery-details-chat" id="alleryChatTrigger">Chat</button>
+                </div>
+
+                <div class="allery-report-panel allery-details-report" id="deathRecordPanel" hidden>
+                  <dl class="allery-death-list">
+                    <div><dt>Date of Death:</dt><dd>April 14</dd></div>
+                    <div><dt>Cause of Death:</dt><dd>Wrist cutting (Suicide)</dd></div>
+                    <div><dt>Location:</dt><dd>40.1810, -73.9534</dd></div>
+                    <div><dt>Task Process:</dt><dd>Complete</dd></div>
+                  </dl>
+                </div>
+
+                <div class="allery-details-divider" aria-hidden="true"></div>
+              </div>
+            </div>
+
+            <section class="docs-shortcuts allery-details-shortcuts">
+              <div class="shortcut-row allery-details-shortcut-row">
                 <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
                 <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
                 <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
@@ -71,91 +196,122 @@
                 <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-6"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 6</span></a>
               </div>
             </section>
-
-            <div class="docs-card-grid">
-              <a href="#" class="docs-card drive-card" aria-label="Open Outline and Production Notes">
-                <h3>Diary 1</h3>
-                <p>Research context, the Blue Whale Chat Group concept, and the interactive system outline.</p>
-                <span class="docs-card-action">Connect</span>
-              </a>
-
-              <a href="#" class="docs-card drive-card" aria-label="Open Final Thesis Outline">
-                <h3>Diary 2</h3>
-                <p>Fragmented traces, embedded narrative clues, screenshots, and the evidence map draft.</p>
-                <span class="docs-card-action">Connect</span>
-              </a>
-
-              <a href="#" class="docs-card drive-card" aria-label="Open Reference List">
-                <h3>Diary 3</h3>
-                <p>ARG papers, trace-based narrative research, and player agency references collected so far.</p>
-                <span class="docs-card-action">Connect</span>
-              </a>
-
-              <a href="#" class="docs-card drive-card" aria-label="Open Personal Fragments">
-                <h3>Diary 4</h3>
-                <p>Private journal excerpts, sleep notes, pressure logs, and deleted self-recorded fragments.</p>
-                <span class="docs-card-action">Connect</span>
-              </a>
-            </div>
-
           </div>
-
-          <aside class="docs-sidebar">
-            <div class="allery-info-tabs">
-              <button type="button" class="allery-tab active">Information</button>
-              <button type="button" class="allery-tab" id="alleryChatTrigger">Chat</button>
-            </div>
-
-            <section class="allery-profile-panel">
-              <div class="allery-profile-main">
-                <div class="allery-photo-block">
-                  <img src="assets/images/Allery.png" alt="Allery Lin" class="allery-photo" />
-                </div>
-
-                <div class="allery-profile-copy">
-                  <h3>Allery Lin</h3>
-                  <dl class="allery-info-list">
-                    <div><dt>Date of Birth:</dt><dd>2009</dd></div>
-                    <div><dt>Citizen:</dt><dd>Chinese</dd></div>
-                    <div><dt>Gender:</dt><dd>Female</dd></div>
-                    <div><dt>Languages:</dt><dd>English, Mandarin</dd></div>
-                    <div><dt>Marital Status:</dt><dd>Single</dd></div>
-                    <div><dt>Location:</dt><dd>NY</dd></div>
-                    <div><dt>Family:</dt><dd>Lives with parents</dd></div>
-                    <div><dt>School:</dt><dd>Riverside High School</dd></div>
-                  </dl>
-                </div>
-              </div>
-
-              <div class="allery-profile-footer">
-                <span class="allery-file-id">No.6</span>
-                <span class="allery-status-badge">Deceased</span>
-              </div>
-
-              <a href="AlleryLinNews.html" class="allery-report-bar allery-report-link">
-                <span>Death Report</span><span class="accordion-arrow">›</span>
-              </a>
-
-              <button type="button" class="allery-report-bar allery-accordion" data-target="deathRecordPanel" aria-expanded="false">
-                <span>Record</span><span class="accordion-arrow">›</span>
-              </button>
-
-              <div class="allery-report-panel" id="deathRecordPanel" hidden>
-                <dl class="allery-death-list">
-                  <div><dt>Date of Death:</dt><dd>April 14</dd></div>
-                  <div><dt>Cause of Death:</dt><dd>Wrist cutting (Suicide)</dd></div>
-                  <div><dt>Location:</dt><dd>40.1810, -73.9534</dd></div>
-                  <div><dt>Task Process:</dt><dd>Complete</dd></div>
-                </dl>
-              </div>
-            </section>
-          </aside>
         </section>
 
         <section class="allery-docs member-view scaffold-view" data-member-view="sofia-rossi" data-display-name="Sofia Rossi" hidden></section>
-        <section class="allery-docs member-view scaffold-view" data-member-view="core-bennett" data-display-name="Core Bennett" hidden></section>
+        <section class="member-view allery-details-view core-details-view" id="coreDriveView" data-member-view="core-bennett" data-display-name="Core Bennett" hidden>
+          <div class="allery-details-shell">
+            <h2 class="allery-details-title">File Details</h2>
+
+            <div class="allery-details-top">
+              <div class="allery-details-photo core-photo-placeholder" aria-label="Core Bennett photo placeholder">
+                <span>Not yet available</span>
+              </div>
+
+              <div class="allery-details-meta">
+                <div class="allery-details-meta-head">
+                  <h3>Core Bennett</h3>
+                  <span class="allery-status-badge alive-status-badge">Alive</span>
+                  <span class="allery-details-no">No: 07</span>
+                </div>
+
+                <dl class="allery-details-grid">
+                  <div><dt>Date of Birth:</dt><dd>2007</dd></div>
+                  <div><dt>Marital Status:</dt><dd>Single</dd></div>
+                  <div><dt>Citizen:</dt><dd>American</dd></div>
+                  <div><dt>Location:</dt><dd>NY</dd></div>
+                  <div><dt>Gender:</dt><dd>Male</dd></div>
+                  <div><dt>Family:</dt><dd>Unknown</dd></div>
+                  <div><dt>Languages:</dt><dd>English</dd></div>
+                  <div><dt>School:</dt><dd>Unknown</dd></div>
+                </dl>
+
+                <div class="allery-details-actions">
+                  <button type="button" class="allery-details-btn allery-accordion" data-target="coreRecordPanel" aria-expanded="false">Record</button>
+                  <button type="button" class="allery-details-btn" id="coreDetailsReportTrigger">Report</button>
+                  <button type="button" class="allery-details-btn allery-details-chat" id="coreDetailsChatTrigger">Chat</button>
+                </div>
+
+                <div class="allery-report-panel allery-details-report" id="coreRecordPanel" hidden>
+                  <dl class="allery-death-list">
+                    <div><dt>Record:</dt><dd>Pending</dd></div>
+                  </dl>
+                </div>
+
+                <div class="allery-details-divider" aria-hidden="true"></div>
+              </div>
+            </div>
+
+            <section class="docs-shortcuts allery-details-shortcuts">
+              <div class="shortcut-row allery-details-shortcut-row">
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 5</span></a>
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 6</span></a>
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 7</span></a>
+              </div>
+            </section>
+          </div>
+        </section>
         <section class="allery-docs member-view scaffold-view" data-member-view="daniel-hayes" data-display-name="Daniel Hayes" hidden></section>
-        <section class="allery-docs member-view scaffold-view" data-member-view="lily-thompson" data-display-name="Lily Thompson" hidden></section>
+        <section class="member-view allery-details-view lily-details-view" id="lilyDriveView" data-member-view="lily-thompson" data-display-name="Lily Thompson" hidden>
+          <div class="allery-details-shell lily-details-info" id="lilyDetailsInfo">
+            <h2 class="allery-details-title">File Details</h2>
+
+            <div class="allery-details-top">
+              <div class="allery-details-photo">
+                <img src="assets/images/Lily.png" alt="Lily Thompson" class="allery-details-photo-img" />
+              </div>
+
+              <div class="allery-details-meta">
+                <div class="allery-details-meta-head">
+                  <h3>Lily Thompson</h3>
+                  <span class="allery-status-badge alive-status-badge">Alive</span>
+                  <span class="allery-details-no">No: 05</span>
+                </div>
+
+                <dl class="allery-details-grid">
+                  <div><dt>Date of Birth:</dt><dd>2008</dd></div>
+                  <div><dt>Marital Status:</dt><dd>Single</dd></div>
+                  <div><dt>Citizen:</dt><dd>American</dd></div>
+                  <div><dt>Location:</dt><dd>NY</dd></div>
+                  <div><dt>Gender:</dt><dd>Female</dd></div>
+                  <div><dt>Family:</dt><dd>Unknown</dd></div>
+                  <div><dt>Languages:</dt><dd>English</dd></div>
+                  <div><dt>School:</dt><dd>Unknown</dd></div>
+                </dl>
+
+                <div class="allery-details-actions">
+                  <button type="button" class="allery-details-btn allery-accordion" data-target="lilyRecordPanel" aria-expanded="false">Record</button>
+                  <button type="button" class="allery-details-btn" id="lilyDetailsReportTrigger">Report</button>
+                  <button type="button" class="allery-details-btn allery-details-chat" id="lilyDetailsChatTrigger">Chat</button>
+                </div>
+
+                <div class="allery-report-panel allery-details-report" id="lilyRecordPanel" hidden>
+                  <dl class="allery-death-list">
+                    <div><dt>Record:</dt><dd>Pending</dd></div>
+                  </dl>
+                </div>
+
+                <div class="allery-details-divider" aria-hidden="true"></div>
+              </div>
+            </div>
+
+            <section class="docs-shortcuts allery-details-shortcuts">
+              <div class="shortcut-row allery-details-shortcut-row">
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-5"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 5</span></a>
+              </div>
+            </section>
+          </div>
+
+        </section>
         <section class="allery-docs member-view scaffold-view" data-member-view="mike-secondary" data-display-name="Marry Brown" hidden></section>
         <section class="allery-docs member-view scaffold-view" data-member-view="new-user" data-display-name="New user" hidden></section>
       </div>
@@ -460,13 +616,83 @@
         <span class="admin-countdown-label">Access Revoked In</span>
         <strong class="admin-countdown-time" id="adminCountdownTime">03:00</strong>
       </div>
+
+      <div class="private-chat-overlay" id="privateChatOverlay" aria-hidden="true" hidden>
+        <section class="private-chat-window" role="dialog" aria-modal="true" aria-labelledby="privateChatTitle">
+          <header class="private-chat-head">
+            <h2 id="privateChatTitle">Private Chat</h2>
+            <button type="button" class="private-chat-close" id="privateChatClose" aria-label="Close private chat">
+              <img src="assets/images/exit.png" alt="" class="private-chat-close-icon" />
+            </button>
+          </header>
+
+          <div class="private-chat-body">
+            <aside class="private-chat-people">
+              <div class="private-chat-people-list" id="privateChatPeopleList"></div>
+              <p class="private-chat-no-people" id="privateChatNoPeople">No People</p>
+            </aside>
+
+            <main class="private-chat-main" id="privateChatMain">
+              <header class="private-chat-main-head" id="privateChatMainHead"># Private Chat</header>
+              <div class="private-chat-messages" id="privateChatMessages">
+                <div class="private-chat-message-list" id="privateChatMessageList">
+                  <div class="lily-dynamic-messages private-chat-dynamic-messages"></div>
+                </div>
+                <p class="private-chat-empty" id="privateChatEmpty">Add friends to start chatting</p>
+                <div class="private-chat-scrollbar" id="privateChatScrollbar" aria-hidden="true">
+                  <button type="button" class="private-chat-scroll-arrow private-chat-scroll-up" id="privateChatScrollUp" aria-label="Scroll up">
+                    <img src="assets/images/up.png" alt="" class="private-chat-scroll-icon" aria-hidden="true" />
+                  </button>
+                  <div class="private-chat-scroll-track" id="privateChatScrollTrack">
+                    <span class="private-chat-scroll-thumb" id="privateChatScrollThumb"></span>
+                  </div>
+                  <button type="button" class="private-chat-scroll-arrow private-chat-scroll-down" id="privateChatScrollDown" aria-label="Scroll down">
+                    <img src="assets/images/down.png" alt="" class="private-chat-scroll-icon" aria-hidden="true" />
+                  </button>
+                </div>
+              </div>
+              <form class="private-chat-composer" id="privateChatComposer">
+                <input type="text" class="private-chat-input" id="privateChatInput" placeholder="Your words..." autocomplete="off" disabled />
+                <button type="submit" class="private-chat-send" id="privateChatSend" disabled>Send</button>
+              </form>
+            </main>
+          </div>
+        </section>
+      </div>
     </section>
   </main>
 
   <script>
     const memberLinks = document.querySelectorAll('.sidebar-link');
-    const memberPath = document.getElementById('memberPath');
+    const memberPath = document.getElementById('memberPath') || { textContent: '' };
     const memberTitle = document.getElementById('memberTitle');
+    const sidebarPrivateChatBtn = document.getElementById('sidebarPrivateChatBtn');
+    const privateChatOverlay = document.getElementById('privateChatOverlay');
+    const privateChatWindow = document.querySelector('.private-chat-window');
+    const privateChatHead = privateChatWindow?.querySelector('.private-chat-head');
+    const privateChatClose = document.getElementById('privateChatClose');
+    const privateChatPeopleList = document.getElementById('privateChatPeopleList');
+    const privateChatNoPeople = document.getElementById('privateChatNoPeople');
+    const privateChatMain = document.getElementById('privateChatMain');
+    const privateChatMainHead = document.getElementById('privateChatMainHead');
+    const privateChatMessages = document.getElementById('privateChatMessages');
+    const privateChatMessageList = document.getElementById('privateChatMessageList');
+    const privateChatEmpty = document.getElementById('privateChatEmpty');
+    const privateChatScrollbar = document.getElementById('privateChatScrollbar');
+    const privateChatScrollTrack = document.getElementById('privateChatScrollTrack');
+    const privateChatScrollThumb = document.getElementById('privateChatScrollThumb');
+    const privateChatScrollUp = document.getElementById('privateChatScrollUp');
+    const privateChatScrollDown = document.getElementById('privateChatScrollDown');
+    const privateChatComposer = document.getElementById('privateChatComposer');
+    const privateChatInput = document.getElementById('privateChatInput');
+    const privateChatSend = document.getElementById('privateChatSend');
+    const mikeDetailsReportTrigger = document.getElementById('mikeDetailsReportTrigger');
+    const mikeDetailsChatTrigger = document.getElementById('mikeDetailsChatTrigger');
+    const lilyDetailsReportTrigger = document.getElementById('lilyDetailsReportTrigger');
+    const lilyDetailsChatTrigger = document.getElementById('lilyDetailsChatTrigger');
+    const coreDetailsReportTrigger = document.getElementById('coreDetailsReportTrigger');
+    const coreDetailsChatTrigger = document.getElementById('coreDetailsChatTrigger');
+    const sidebarBrandVideo = document.querySelector('.sidebar-brand-video');
     const adminMain = document.querySelector('.admin-main');
     const alleryPrompt = document.getElementById('alleryPrompt');
     const adminNumberInput = document.getElementById('adminNumberInput');
@@ -520,6 +746,7 @@
     const lilyDiaryTitle = document.getElementById('lilyDiaryTitle');
     const alleryChatTrigger = document.getElementById('alleryChatTrigger');
     const alleryChatWarning = document.getElementById('alleryChatWarning');
+    const alleryChatWarningText = document.getElementById('alleryChatWarningText');
     const alleryChatWarningOk = document.getElementById('alleryChatWarningOk');
     const adminErrorScreen = document.getElementById('adminErrorScreen');
     const retroError = document.getElementById('retroError');
@@ -529,6 +756,23 @@
     const midnightNotificationAudio = document.getElementById('midnightNotificationAudio');
     const scaffoldViews = document.querySelectorAll('.scaffold-view');
     const memberViews = document.querySelectorAll('.member-view');
+    const adminTickerLines = Array.from(document.querySelectorAll('[data-admin-ticker-line]'));
+    const ADMIN_TICKER_SNIPPET = [
+      '<body class="chat-retro">',
+      '  <header class="app-header">',
+      '    <div class="header-left">',
+      '      <div class="brand-dot" aria-hidden="true"></div>',
+      '      <strong># Blue Whale Chat Group</strong>',
+      '    </div>',
+      '  </header>',
+      '',
+      '  <div class="app app-two">',
+      '    <main class="pane pane-center" aria-live="polite">',
+      '      <div class="messages-shell">',
+      '      <section id="messages" class="messages" aria-label="Messages">',
+      '        <div class="date-stamp">09:00</div>',
+      '        <article class="msg">'
+    ];
     const lilyChatHistory = new WeakMap();
     const characterChatEndpoints = {
       'Mike Anderson': '/api/mike-chat',
@@ -557,6 +801,14 @@
     let adminCountdownInterval = null;
     let adminCountdownDeadline = 0;
     const unlockedMemberPanels = new Set();
+    const privateChatContacts = new Set();
+    let activePrivateChatMember = '';
+    let privateChatDragState = null;
+    const LOCK_ICON_SRC = 'assets/images/lock.png';
+    const UNLOCK_ICON_SRC = 'assets/images/unlock.png';
+    const PRIVATE_CHAT_LABELS = {
+      'Lily Thompson': 'Lily'
+    };
     const memberAccessAnswers = {
       'Mike Anderson': '1',
       'Allery Lin': '6',
@@ -566,6 +818,8 @@
       'Lily Thompson': '5',
       'Marry Brown': '2'
     };
+    const DEFAULT_WARNING_TEXT = 'This user is deceased and cannot be contacted.';
+    const TASK30_WARNING_TEXT = 'This member has not yet completed Task 30.';
     const alleryDiaryEntries = {
       '1': {
         title: 'Diary 1',
@@ -1056,8 +1310,11 @@
       }, 180);
     }
 
-    function openAlleryChatWarning() {
+    function openAlleryChatWarning(message = DEFAULT_WARNING_TEXT) {
       if (!alleryChatWarning) return;
+      if (alleryChatWarningText) {
+        alleryChatWarningText.textContent = message;
+      }
       alleryChatWarning.hidden = false;
       requestAnimationFrame(() => {
         alleryChatWarning.classList.add('is-visible');
@@ -1373,14 +1630,18 @@
     }
 
     function syncLilyScrollbar(scope) {
-      const lilyChatCanvas = scope?.querySelector('.lily-chat-canvas');
-      const lilyChatScrollbar = scope?.querySelector('.lily-chat-scrollbar');
-      const lilyScrollTrack = scope?.querySelector('.lily-scroll-track');
-      const lilyScrollThumb = scope?.querySelector('.lily-scroll-thumb');
+      const lilyChatCanvas = scope?.querySelector('.lily-chat-canvas, .private-chat-message-list');
+      const lilyChatScrollbar = scope?.querySelector('.lily-chat-scrollbar, .private-chat-scrollbar');
+      const lilyScrollTrack = scope?.querySelector('.lily-scroll-track, .private-chat-scroll-track');
+      const lilyScrollThumb = scope?.querySelector('.lily-scroll-thumb, .private-chat-scroll-thumb');
       if (!lilyChatCanvas || !lilyChatScrollbar || !lilyScrollTrack || !lilyScrollThumb) return;
       const { scrollTop, scrollHeight, clientHeight } = lilyChatCanvas;
       const overflow = scrollHeight > clientHeight + 1;
-      lilyChatScrollbar.hidden = !overflow;
+      if ('hidden' in lilyChatScrollbar) {
+        lilyChatScrollbar.hidden = !overflow;
+      } else {
+        lilyChatScrollbar.style.opacity = overflow ? '1' : '.45';
+      }
       if (!overflow) return;
 
       const trackHeight = lilyScrollTrack.clientHeight;
@@ -1425,11 +1686,12 @@
     }
 
     function setCharacterComposerLocked(sidebar, locked) {
-      const input = sidebar?.querySelector('.lily-chat-input');
-      const send = sidebar?.querySelector('.lily-chat-send');
+      const input = sidebar?.querySelector('.lily-chat-input, .private-chat-input');
+      const send = sidebar?.querySelector('.lily-chat-send, .private-chat-send');
       if (input) {
         input.disabled = !!locked;
-        input.placeholder = locked ? 'Make a choice to continue...' : 'Type here...';
+        const basePlaceholder = input.classList.contains('private-chat-input') ? 'Your words...' : 'Type here...';
+        input.placeholder = locked ? 'Make a choice to continue...' : basePlaceholder;
       }
       if (send) {
         send.disabled = !!locked;
@@ -1446,6 +1708,73 @@
 
     function delay(ms) {
       return new Promise((resolve) => window.setTimeout(resolve, ms));
+    }
+
+    function keepSidebarVideoPlaying() {
+      if (!sidebarBrandVideo) return;
+      sidebarBrandVideo.muted = true;
+      sidebarBrandVideo.defaultMuted = true;
+      sidebarBrandVideo.playsInline = true;
+
+      const tryPlay = () => {
+        const playPromise = sidebarBrandVideo.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(() => {});
+        }
+      };
+
+      if (sidebarBrandVideo.readyState >= 2) {
+        tryPlay();
+      } else {
+        sidebarBrandVideo.addEventListener('loadeddata', tryPlay, { once: true });
+      }
+
+      sidebarBrandVideo.addEventListener('pause', () => {
+        if (!document.hidden) tryPlay();
+      });
+      sidebarBrandVideo.addEventListener('ended', tryPlay);
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) tryPlay();
+      });
+      window.addEventListener('focus', tryPlay);
+      ['pointerdown', 'touchstart', 'keydown'].forEach((eventName) => {
+        window.addEventListener(eventName, tryPlay, { passive: true });
+      });
+    }
+
+    async function startAdminTickerLoop() {
+      if (adminTickerLines.length === 0) return;
+      let index = 0;
+      renderAdminTickerWindow(index);
+
+      while (true) {
+        await delay(680);
+        adminTickerLines[0].textContent = ADMIN_TICKER_SNIPPET[index % ADMIN_TICKER_SNIPPET.length];
+        adminTickerLines[1].textContent = ADMIN_TICKER_SNIPPET[(index + 1) % ADMIN_TICKER_SNIPPET.length];
+        adminTickerLines[2].textContent = '';
+
+        await typeAdminTickerLine(
+          adminTickerLines[2],
+          ADMIN_TICKER_SNIPPET[(index + 2) % ADMIN_TICKER_SNIPPET.length]
+        );
+
+        await delay(920);
+        index = (index + 1) % ADMIN_TICKER_SNIPPET.length;
+      }
+    }
+
+    function renderAdminTickerWindow(startIndex) {
+      adminTickerLines.forEach((line, lineIndex) => {
+        line.textContent = ADMIN_TICKER_SNIPPET[(startIndex + lineIndex) % ADMIN_TICKER_SNIPPET.length];
+      });
+    }
+
+    async function typeAdminTickerLine(element, text) {
+      element.textContent = '';
+      for (let i = 0; i <= text.length; i += 1) {
+        element.textContent = text.slice(0, i);
+        await delay(34);
+      }
     }
 
     function recordDestroySupport(memberName, flags) {
@@ -1668,6 +1997,21 @@
       });
     }
 
+    function refreshMemberLockIcons() {
+      memberLinks.forEach((link) => {
+        const name = link.dataset.member || '';
+        const panelId = link.dataset.panel || '';
+        const isUnlocked = name === 'New user' || unlockedMemberPanels.has(panelId);
+        link.classList.toggle('is-unlocked', isUnlocked);
+        link.classList.toggle('is-locked', !isUnlocked);
+        const icon = link.querySelector('.sidebar-lock-icon');
+        if (icon) {
+          icon.src = isUnlocked ? UNLOCK_ICON_SRC : LOCK_ICON_SRC;
+          icon.alt = isUnlocked ? 'Unlocked' : 'Locked';
+        }
+      });
+    }
+
     function openMemberAccessPrompt(name, panelId) {
       pendingMemberAccess = { name, panelId };
       adminNumberInput.value = '';
@@ -1685,6 +2029,7 @@
       const expectedAnswer = memberAccessAnswers[pendingMemberAccess.name];
       if (adminNumberInput.value.trim() === expectedAnswer) {
         unlockedMemberPanels.add(pendingMemberAccess.panelId);
+        refreshMemberLockIcons();
         if (pendingMemberAccess.name === 'Allery Lin') {
           window.HintProgress?.setPercent?.(35);
           window.HintProgress?.setLines?.([
@@ -1699,7 +2044,6 @@
         activateMemberLinkByPanel(pendingMemberAccess.panelId);
         updateMemberView(pendingMemberAccess.name, pendingMemberAccess.panelId);
         memberPath.textContent = `Member / ${pendingMemberAccess.name}`;
-        memberTitle.textContent = pendingMemberAccess.name;
         closeAlleryPrompt();
         pendingMemberAccess = null;
         return;
@@ -1712,11 +2056,126 @@
       memberViews.forEach((view) => {
         view.hidden = view.dataset.memberView !== panelId;
       });
+      memberTitle.textContent = panelId === 'allery-lin' ? '' : name;
+    }
+
+    function setPrivateComposerEnabled(enabled) {
+      if (privateChatInput) {
+        privateChatInput.disabled = !enabled;
+        privateChatInput.placeholder = enabled ? 'Your words...' : 'No People';
+        if (!enabled) {
+          privateChatInput.value = '';
+        }
+      }
+      if (privateChatSend) {
+        privateChatSend.disabled = !enabled;
+      }
+    }
+
+    function updatePrivateChatState() {
+      const hasContacts = privateChatContacts.size > 0;
+      if (privateChatNoPeople) {
+        privateChatNoPeople.hidden = hasContacts;
+      }
+      if (privateChatPeopleList) {
+        privateChatPeopleList.hidden = !hasContacts;
+      }
+
+      const activeThread = privateChatMain?.querySelector(`.private-chat-dynamic-messages[data-member-name="${activePrivateChatMember}"]`);
+      const hasMessages = !!activeThread && activeThread.childElementCount > 0;
+      const hasActiveMember = !!activePrivateChatMember;
+      if (privateChatEmpty) {
+        privateChatEmpty.hidden = hasActiveMember || hasMessages;
+      }
+      if (privateChatScrollbar) {
+        privateChatScrollbar.hidden = !hasActiveMember;
+      }
+      setPrivateComposerEnabled(hasActiveMember);
+    }
+
+    function ensurePrivateChatThread(memberName) {
+      if (!privateChatMessageList || !memberName) return null;
+      const threads = Array.from(privateChatMessageList.querySelectorAll('.private-chat-dynamic-messages'));
+      let thread = threads.find((node) => node.dataset.memberName === memberName);
+      if (!thread) {
+        thread = threads.find((node) => !node.dataset.memberName);
+      }
+      if (!thread) {
+        thread = document.createElement('div');
+        thread.className = 'lily-dynamic-messages private-chat-dynamic-messages';
+        privateChatMessageList.appendChild(thread);
+      }
+      thread.dataset.memberName = memberName;
+      return thread;
+    }
+
+    function setActivePrivateChatThread(memberName) {
+      if (!privateChatMessageList) return;
+      const threads = privateChatMessageList.querySelectorAll('.private-chat-dynamic-messages');
+      threads.forEach((thread) => {
+        thread.hidden = thread.dataset.memberName !== memberName;
+      });
+    }
+
+    function renderPrivateChatPeople() {
+      if (!privateChatPeopleList) return;
+      privateChatPeopleList.innerHTML = '';
+      Array.from(privateChatContacts).forEach((memberName) => {
+        const person = document.createElement('button');
+        person.type = 'button';
+        person.className = 'private-chat-person';
+        person.textContent = PRIVATE_CHAT_LABELS[memberName] || memberName;
+        person.dataset.memberName = memberName;
+        person.classList.toggle('is-active', memberName === activePrivateChatMember);
+        person.addEventListener('click', () => {
+          selectPrivateChatMember(memberName);
+        });
+        privateChatPeopleList.appendChild(person);
+      });
+      updatePrivateChatState();
+    }
+
+    function ensurePrivateChatContact(memberName) {
+      if (!memberName) return;
+      if (!privateChatContacts.has(memberName)) {
+        privateChatContacts.add(memberName);
+        renderPrivateChatPeople();
+      }
+    }
+
+    function selectPrivateChatMember(memberName) {
+      if (!memberName || !privateChatContacts.has(memberName)) return;
+      activePrivateChatMember = memberName;
+      ensurePrivateChatThread(memberName);
+      setActivePrivateChatThread(memberName);
+      if (privateChatMain) {
+        privateChatMain.dataset.memberName = memberName;
+      }
+      if (privateChatComposer) {
+        privateChatComposer.dataset.memberName = memberName;
+      }
+      if (privateChatMainHead) {
+        privateChatMainHead.textContent = `# ${PRIVATE_CHAT_LABELS[memberName] || memberName}`;
+      }
+      renderPrivateChatPeople();
+      requestAnimationFrame(() => {
+        syncLilyScrollbar(privateChatMain);
+      });
+    }
+
+    function openPrivateChatForMember(memberName) {
+      ensurePrivateChatContact(memberName);
+      openPrivateChatWindow();
+      selectPrivateChatMember(memberName);
+      requestAnimationFrame(() => {
+        privateChatInput?.focus();
+      });
     }
 
     memberLinks.forEach((link) => {
       link.addEventListener('click', (event) => {
         event.preventDefault();
+        closePrivateChatWindow();
         const name = link.dataset.member || link.textContent.trim();
         const panelId = link.dataset.panel || 'mike-primary';
         const requiresPrompt = name !== 'New user' && !unlockedMemberPanels.has(panelId);
@@ -1734,7 +2193,6 @@
         closeAlleryChatWarning();
 
         memberPath.textContent = `Member / ${name}`;
-        memberTitle.textContent = name;
         updateMemberView(name, panelId);
         closeAlleryPrompt();
         pendingMemberAccess = null;
@@ -1759,12 +2217,39 @@
         openMemberAccessPrompt(initialName, initialPanelId);
       }
     }
+    refreshMemberLockIcons();
+    startAdminTickerLoop();
+    keepSidebarVideoPlaying();
 
     alleryChatTrigger?.addEventListener('click', (event) => {
       event.preventDefault();
       openAlleryChatWarning();
     });
     alleryChatWarningOk?.addEventListener('click', closeAlleryChatWarning);
+    mikeDetailsReportTrigger?.addEventListener('click', (event) => {
+      event.preventDefault();
+      openAlleryChatWarning(TASK30_WARNING_TEXT);
+    });
+    mikeDetailsChatTrigger?.addEventListener('click', (event) => {
+      event.preventDefault();
+      openPrivateChatForMember('Mike Anderson');
+    });
+    lilyDetailsReportTrigger?.addEventListener('click', (event) => {
+      event.preventDefault();
+      openAlleryChatWarning(TASK30_WARNING_TEXT);
+    });
+    lilyDetailsChatTrigger?.addEventListener('click', (event) => {
+      event.preventDefault();
+      openPrivateChatForMember('Lily Thompson');
+    });
+    coreDetailsReportTrigger?.addEventListener('click', (event) => {
+      event.preventDefault();
+      openAlleryChatWarning(TASK30_WARNING_TEXT);
+    });
+    coreDetailsChatTrigger?.addEventListener('click', (event) => {
+      event.preventDefault();
+      openPrivateChatForMember('Core Bennett');
+    });
 
     retroErrorOk?.addEventListener('click', () => {
       clearBackgroundErrors();
@@ -1781,12 +2266,12 @@
         const tabs = lilyTab.closest('.allery-info-tabs');
         const sidebar = lilyTab.closest('.docs-sidebar');
         if (tabs && sidebar) {
+          const showChat = lilyTab.getAttribute('data-lily-view') === 'chat';
           tabs.querySelectorAll('[data-lily-view]').forEach((tab) => {
             tab.classList.toggle('active', tab === lilyTab);
           });
           const infoPanel = sidebar.querySelector('.lily-info-panel');
           const chatPanel = sidebar.querySelector('.lily-chat-panel');
-          const showChat = lilyTab.getAttribute('data-lily-view') === 'chat';
           if (infoPanel) infoPanel.hidden = showChat;
           if (chatPanel) chatPanel.hidden = !showChat;
           if (showChat) {
@@ -1876,8 +2361,14 @@
     });
 
     async function sendCharacterChat(sidebar, memberName, payloadText, displayText = payloadText) {
-      const messageList = sidebar?.querySelector('.lily-dynamic-messages');
-      const lilyChatCanvas = sidebar?.querySelector('.lily-chat-canvas');
+      const isPrivateChat = sidebar?.classList?.contains('private-chat-main');
+      const messageList = isPrivateChat
+        ? ensurePrivateChatThread(memberName)
+        : sidebar?.querySelector('.lily-dynamic-messages');
+      if (isPrivateChat) {
+        setActivePrivateChatThread(memberName);
+      }
+      const lilyChatCanvas = sidebar?.querySelector('.lily-chat-canvas, .private-chat-message-list');
       const chatEndpoint = characterChatEndpoints[memberName];
       if (!messageList || !payloadText || !chatEndpoint) return;
 
@@ -1887,7 +2378,8 @@
       lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
       window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
 
-      const history = lilyChatHistory.get(sidebar) || [];
+      const historyKey = isPrivateChat ? messageList : sidebar;
+      const history = lilyChatHistory.get(historyKey) || [];
       history.push({ role: 'user', content: payloadText });
 
       const typingBubble = appendLilyBubble(messageList, '...', 'typing');
@@ -1916,7 +2408,7 @@
           recordDestroySupport(memberName, data?.flags);
           typingBubble.remove();
           if (!reply) {
-            lilyChatHistory.set(sidebar, history.slice(-12));
+            lilyChatHistory.set(historyKey, history.slice(-12));
             return;
           }
           const replyParts = splitLilyReply(reply);
@@ -1983,7 +2475,7 @@
           }
 
           history.push({ role: 'assistant', content: assistantTranscript });
-          lilyChatHistory.set(sidebar, history.slice(-12));
+          lilyChatHistory.set(historyKey, history.slice(-12));
         })
         .catch((error) => {
           typingBubble.remove();
@@ -1994,47 +2486,57 @@
     }
 
     document.addEventListener('submit', (event) => {
-      const lilyComposer = event.target.closest('.lily-chat-composer');
+      const lilyComposer = event.target.closest('.lily-chat-composer, .private-chat-composer');
       if (!lilyComposer) return;
 
       event.preventDefault();
+      const sidebar = lilyComposer.closest('.docs-sidebar, .private-chat-main');
       const memberView = lilyComposer.closest('.member-view');
-      const memberName = memberView?.dataset.displayName || '';
-      const sidebar = lilyComposer.closest('.docs-sidebar');
-      const input = lilyComposer.querySelector('.lily-chat-input');
+      const memberName =
+        lilyComposer.dataset.memberName
+        || sidebar?.dataset.memberName
+        || memberView?.dataset.displayName
+        || '';
+      const input = lilyComposer.querySelector('.lily-chat-input, .private-chat-input');
       const text = input?.value.trim();
-      if (!input || !sidebar || !text) return;
+      if (!input || !sidebar || !memberName || !text) return;
 
       input.value = '';
       sendCharacterChat(sidebar, memberName, text, text);
     });
 
     document.addEventListener('scroll', (event) => {
-      const lilyCanvas = event.target.closest?.('.lily-chat-canvas');
+      const lilyCanvas = event.target.closest?.('.lily-chat-canvas, .private-chat-message-list');
       if (!lilyCanvas) return;
-      syncLilyScrollbar(lilyCanvas.closest('.docs-sidebar'));
+      syncLilyScrollbar(lilyCanvas.closest('.docs-sidebar, .private-chat-main'));
     }, true);
 
     document.addEventListener('click', (event) => {
-      const scrollUp = event.target.closest('.lily-scroll-up');
+      const scrollUp = event.target.closest('.lily-scroll-up, .private-chat-scroll-up');
       if (scrollUp) {
-        const sidebar = scrollUp.closest('.docs-sidebar');
-        sidebar?.querySelector('.lily-chat-canvas')?.scrollBy({ top: -120, behavior: 'smooth' });
+        const sidebar = scrollUp.closest('.docs-sidebar, .private-chat-main');
+        sidebar?.querySelector('.lily-chat-canvas, .private-chat-message-list')?.scrollBy({ top: -120, behavior: 'smooth' });
         return;
       }
 
-      const scrollDown = event.target.closest('.lily-scroll-down');
+      const scrollDown = event.target.closest('.lily-scroll-down, .private-chat-scroll-down');
       if (scrollDown) {
-        const sidebar = scrollDown.closest('.docs-sidebar');
-        sidebar?.querySelector('.lily-chat-canvas')?.scrollBy({ top: 120, behavior: 'smooth' });
+        const sidebar = scrollDown.closest('.docs-sidebar, .private-chat-main');
+        sidebar?.querySelector('.lily-chat-canvas, .private-chat-message-list')?.scrollBy({ top: 120, behavior: 'smooth' });
       }
     });
 
     window.addEventListener('resize', () => {
       document.querySelectorAll('.docs-sidebar').forEach(syncLilyScrollbar);
+      if (privateChatMain) {
+        syncLilyScrollbar(privateChatMain);
+      }
     });
     window.requestAnimationFrame(() => {
       document.querySelectorAll('.docs-sidebar').forEach(syncLilyScrollbar);
+      if (privateChatMain) {
+        syncLilyScrollbar(privateChatMain);
+      }
     });
 
     marryDiaryClose?.addEventListener('click', closeMarryDiary);
@@ -2127,6 +2629,123 @@
         showMidnightToast();
       }, 1000);
     }
+
+    function openPrivateChatWindow() {
+      if (!privateChatOverlay || !sidebarPrivateChatBtn) return;
+      sidebarPrivateChatBtn.classList.add('is-active');
+      privateChatOverlay.hidden = false;
+      privateChatOverlay.setAttribute('aria-hidden', 'false');
+      if (!activePrivateChatMember && privateChatContacts.size > 0) {
+        selectPrivateChatMember(Array.from(privateChatContacts)[0]);
+      } else {
+        updatePrivateChatState();
+      }
+      if (!activePrivateChatMember && privateChatMainHead) {
+        privateChatMainHead.textContent = '# Private Chat';
+      }
+      requestAnimationFrame(() => {
+        privateChatOverlay.classList.add('is-visible');
+        syncPrivateChatScrollbar();
+      });
+    }
+
+    function startPrivateChatDrag(event) {
+      if (!privateChatOverlay || !privateChatWindow || !privateChatHead) return;
+      if (event.button !== 0) return;
+      if (event.target.closest('.private-chat-close')) return;
+
+      const overlayRect = privateChatOverlay.getBoundingClientRect();
+      const windowRect = privateChatWindow.getBoundingClientRect();
+      const left = windowRect.left - overlayRect.left;
+      const top = windowRect.top - overlayRect.top;
+
+      privateChatWindow.style.position = 'absolute';
+      privateChatWindow.style.left = `${Math.round(left)}px`;
+      privateChatWindow.style.top = `${Math.round(top)}px`;
+      privateChatWindow.style.margin = '0';
+      privateChatWindow.style.width = `${Math.round(windowRect.width)}px`;
+      privateChatWindow.style.height = `${Math.round(windowRect.height)}px`;
+      privateChatWindow.style.maxWidth = 'calc(100% - 16px)';
+      privateChatWindow.style.maxHeight = 'calc(100% - 16px)';
+
+      privateChatDragState = {
+        pointerId: event.pointerId,
+        offsetX: event.clientX - windowRect.left,
+        offsetY: event.clientY - windowRect.top
+      };
+
+      privateChatHead.setPointerCapture(event.pointerId);
+      event.preventDefault();
+    }
+
+    function movePrivateChatDrag(event) {
+      if (!privateChatDragState || !privateChatOverlay || !privateChatWindow) return;
+      if (event.pointerId !== privateChatDragState.pointerId) return;
+
+      const overlayRect = privateChatOverlay.getBoundingClientRect();
+      const windowRect = privateChatWindow.getBoundingClientRect();
+      const maxLeft = Math.max(0, overlayRect.width - windowRect.width);
+      const maxTop = Math.max(0, overlayRect.height - windowRect.height);
+      const rawLeft = event.clientX - overlayRect.left - privateChatDragState.offsetX;
+      const rawTop = event.clientY - overlayRect.top - privateChatDragState.offsetY;
+      const nextLeft = Math.min(maxLeft, Math.max(0, rawLeft));
+      const nextTop = Math.min(maxTop, Math.max(0, rawTop));
+
+      privateChatWindow.style.left = `${Math.round(nextLeft)}px`;
+      privateChatWindow.style.top = `${Math.round(nextTop)}px`;
+    }
+
+    function endPrivateChatDrag(event) {
+      if (!privateChatDragState || !privateChatHead) return;
+      if (event && event.pointerId !== privateChatDragState.pointerId) return;
+      try {
+        privateChatHead.releasePointerCapture(privateChatDragState.pointerId);
+      } catch (_error) {
+        // Ignore capture release errors.
+      }
+      privateChatDragState = null;
+    }
+
+    function closePrivateChatWindow() {
+      if (!privateChatOverlay || !sidebarPrivateChatBtn) return;
+      sidebarPrivateChatBtn.classList.remove('is-active');
+      privateChatOverlay.classList.remove('is-visible');
+      privateChatOverlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!privateChatOverlay.classList.contains('is-visible')) {
+          privateChatOverlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    sidebarPrivateChatBtn?.addEventListener('click', () => {
+      if (privateChatOverlay?.classList.contains('is-visible')) {
+        closePrivateChatWindow();
+      } else {
+        openPrivateChatWindow();
+      }
+    });
+    privateChatHead?.addEventListener('pointerdown', startPrivateChatDrag);
+    privateChatHead?.addEventListener('pointermove', movePrivateChatDrag);
+    privateChatHead?.addEventListener('pointerup', endPrivateChatDrag);
+    privateChatHead?.addEventListener('pointercancel', endPrivateChatDrag);
+    privateChatClose?.addEventListener('click', closePrivateChatWindow);
+    privateChatMessageList?.addEventListener('scroll', syncPrivateChatScrollbar);
+    privateChatOverlay?.addEventListener('click', (event) => {
+      if (event.target === privateChatOverlay) {
+        closePrivateChatWindow();
+      }
+    });
+    window.addEventListener('resize', syncPrivateChatScrollbar);
+
+    function syncPrivateChatScrollbar() {
+      if (!privateChatMain) return;
+      updatePrivateChatState();
+      syncLilyScrollbar(privateChatMain);
+    }
+
+    renderPrivateChatPeople();
+    syncPrivateChatScrollbar();
   </script>
   <script>
     window.HintProgressConfig = {

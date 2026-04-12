@@ -8,6 +8,14 @@
   font-display:swap;
 }
 
+@font-face{
+  font-family:"PixelOperator";
+  src:url("../assets/fonts/pixel_operator/PixelOperator.ttf") format("truetype");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+
 .hint-progress-root{
   --hp-bg:#ffffff;
   --hp-fg:#111111;
@@ -305,7 +313,7 @@
 .hint-progress-root .hint-modal-line{
   margin:0 0 24px;
   max-width:370px;
-  font:400 18px/1.28 "Pixelify Sans", sans-serif;
+  font:400 18px/1.28 "PixelOperator","Pixelify Sans",monospace;
   color:var(--hp-fg);
 }
 
