@@ -547,6 +547,10 @@ body{
   gap:10px;
 }
 
+.private-chat-message-list .lily-dynamic-messages[hidden]{
+  display:none !important;
+}
+
 .private-chat-message-list .lily-user-bubble{
   margin:0 0 0 auto;
   max-width:min(75%, 360px);

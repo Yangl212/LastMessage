@@ -2108,7 +2108,7 @@
       if (!privateChatMessageList) return;
       const threads = privateChatMessageList.querySelectorAll('.private-chat-dynamic-messages');
       threads.forEach((thread) => {
-        thread.hidden = thread.dataset.memberName !== memberName;
+        thread.style.display = thread.dataset.memberName === memberName ? '' : 'none';
       });
     }
 
@@ -2642,6 +2642,9 @@
       if (!activePrivateChatMember && privateChatContacts.size > 0) {
         selectPrivateChatMember(Array.from(privateChatContacts)[0]);
       } else {
+        if (activePrivateChatMember) {
+          setActivePrivateChatThread(activePrivateChatMember);
+        }
         updatePrivateChatState();
       }
       if (!activePrivateChatMember && privateChatMainHead) {
