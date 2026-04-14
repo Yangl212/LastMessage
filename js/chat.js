@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const announcementModal = document.getElementById('announcementModal');
   const announcementTitle = document.getElementById('announcementTitle');
   const announcementBody = document.getElementById('announcementBody');
+  let interventionQueued = false;
 
   const announcements = [
     {
@@ -60,6 +61,9 @@ document.addEventListener('DOMContentLoaded', () => {
     sendButton,
     showTime: false,
     ownMessageTimePlacement: 'center',
+    onSendMessage: (_text, helpers) => {
+      scheduleBanSequence(helpers);
+    },
     onMemberMessage: (member) => {
       if (member === 'You') {
         alert('You cannot chat with yourself.');
@@ -70,6 +74,37 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   });
+
+  function scheduleBanSequence(helpers){
+    if (!helpers || interventionQueued) return;
+    interventionQueued = true;
+
+    window.setTimeout(() => {
+      helpers.appendMessage({
+        user: 'No. 7',
+        time: nowHHMM(),
+        text: 'Wait… what?'
+      });
+
+      window.setTimeout(() => {
+        helpers.appendMessage({
+          user: 'No. 5',
+          time: nowHHMM(),
+          text: 'The news literally said you were dead two days ago!'
+        });
+
+        window.setTimeout(() => {
+          helpers.appendMessage({
+            user: 'System',
+            time: nowHHMM(),
+            text: 'You have been banned. You can no longer send messages.',
+            variant: 'system'
+          });
+          helpers.lockComposer('Banned: sending messages is disabled.');
+        }, 1500);
+      }, 1200);
+    }, 1800);
+  }
 
   function nowHHMM(){
     const d = new Date();

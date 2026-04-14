@@ -29,15 +29,25 @@ module.exports = async (req, res) => {
     }
 
     const normalize = (text) => String(text || '').toLowerCase();
-    const truthRevealPattern = /(dangerous website|dangerous site|this website is dangerous|this site is dangerous|lure(?:s|d)? minors? (?:into |to )?suicide|诱导.*自杀|引诱.*自杀|minor[s]? .*suicide|teen[s]? .*suicide|this site .*suicide|this website .*suicide)/i;
+    const truthRevealPattern = /(dangerous website|dangerous site|dangerous chatroom|dangerous room|this website is dangerous|this site is dangerous|this chatroom is dangerous|this room is dangerous|this chatroom is very dangerous|this room is very dangerous|lure(?:s|d)? minors? (?:into |to )?suicide|push(?:es|ed)? kids? (?:toward|into)? suicide|encourage(?:s|d)? minors? to die|ask(?:s|ed)? teenagers? to hurt themselves|make(?:s|d)? teenagers? hurt themselves|tell(?:s|ing)? kids? to hurt themselves|encourage(?:s|d)? self-harm|encourage(?:s|d)? minors? to self-harm|诱导.*自杀|引诱.*自杀|教唆.*自杀|自残|self-harm|hurt themselves|minor[s]? .*suicide|teen[s]? .*suicide|teenagers? .*hurt themselves|kids? .*hurt themselves|this site .*suicide|this website .*suicide|this chatroom .*suicide|this chatroom .*hurt themselves|midnight .*not .*therapist|midnight .*isn[’']?t .*therapist|midnight .*fake therapist|midnight .*pretend(?:s|ed)? to be .*therapist|midnight .*not .*doctor|midnight .*not .*counselor|midnight 根本不是心理医生|midnight 不是心理医生)/i;
+    const dangerContextPatternEn = /(chatroom|room|site|website|this place|platform|group|midnight|server|forum)/i;
+    const dangerContextPatternZh = /(聊天室|房间|房間|网站|網站|站点|站點|平台|这个地方|這個地方|这里|這裡|这个群|這個群|群聊|群组|群組|系统|系統|服务器|伺服器)/i;
+    const dangerSignalPatternEn = /(dangerous|unsafe|weird|strange|wrong|problem|issue|suspicious|creepy|harmful|toxic|danger|risk|self-harm|suicide|minors?|teenagers?|kids?)/i;
+    const dangerSignalPatternZh = /(危险|危險|不安全|奇怪|诡异|詭異|不对劲|不對勁|有问题|有問題|可疑|有害|风险|風險|诱导|引诱|教唆|伤害|傷害|自杀|自殺|自残|自殘|未成年)/i;
     const destroySitePattern = /(destroy|take down|shut down|bring down|stop|ruin|burn down).*(website|site|chatroom)|can we .*?(destroy|take down|shut down|bring down|stop).*(website|site|chatroom)/i;
+    const destroyActionPatternEn = /(destroy|take down|shut down|bring down|stop|ruin|burn down|attack|break|crash|report|catch|arrest|expose|disable|wipe out)/i;
+    const destroyActionPatternZh = /(打击|打擊|摧毁|摧毀|毁掉|毀掉|搞垮|關停|关停|關閉|关闭|封掉|封鎖|封禁|举报|舉報|抓住|抓到|逮捕|查封|停掉|停用|下线|下線|曝光)/i;
+    const destroyTargetPatternEn = /(website|site|chatroom|room|platform|group|system|server|forum)/i;
+    const destroyTargetPatternZh = /(网站|網站|站点|站點|聊天室|房间|房間|平台|群聊|群组|群組|这个网站|這個網站|这个聊天室|這個聊天室|系统|系統|服务器|伺服器)/i;
+    const catchAdminPatternEn = /((catch|arrest|report|take down|stop|expose|hunt).*(midnight|mike))|((midnight|mike).*(catch|arrest|report|take down|stop|expose|hunt))/i;
+    const catchAdminPatternZh = /((抓住|抓到|逮捕|举报|舉報|打击|打擊|搞掉|曝光).*(midnight|mike))|((midnight|mike).*(抓住|抓到|逮捕|举报|舉報|打击|打擊|搞掉|曝光))/i;
     const askMemberNoPattern = /(no\.?|number|编号|幾號|几号|號碼|号码)/i;
     const sofiaPattern = /(sofia(?:\s+rossi)?|索菲亚|索菲婭)/i;
     const alleryPattern = /(allery(?:\s+lin)?|艾拉莉|艾莉瑞|阿莱莉)/i;
     const midnightPattern = /(midnight|午夜|子夜)/i;
     const selfIdentityPattern = /(who\s+are\s+you|你是谁|妳是誰)/i;
     const nameQueryPattern = /(who\s+is|who's|do\s+you\s+know|know\s+about|what\s+do\s+you\s+know\s+about|你认识|你知道|你了解|是谁)/i;
-    const latinFullNamePattern = /\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,2}\b/;
+    const latinFullNamePattern = /\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+\b/;
     const no1Pattern = /(?:\bno\.?\s*1\b|\bnumber\s*1\b|1\s*(?:号|號))/i;
     const no2Pattern = /(?:\bno\.?\s*2\b|\bnumber\s*2\b|2\s*(?:号|號))/i;
     const no3Pattern = /(?:\bno\.?\s*3\b|\bnumber\s*3\b|3\s*(?:号|號))/i;
@@ -55,6 +65,26 @@ module.exports = async (req, res) => {
       return mundanePattern.test(lowered) && !topicalPattern.test(lowered);
     };
 
+    const isDangerRevealMessage = (text) => {
+      const raw = String(text || '').trim();
+      if (!raw) return false;
+      const lowered = normalize(raw);
+      return truthRevealPattern.test(lowered)
+        || ((dangerContextPatternEn.test(lowered) || dangerContextPatternZh.test(lowered))
+          && (dangerSignalPatternEn.test(lowered) || dangerSignalPatternZh.test(lowered)));
+    };
+
+    const isDestroyRequestMessage = (text) => {
+      const raw = String(text || '').trim();
+      if (!raw) return false;
+      const lowered = normalize(raw);
+      return destroySitePattern.test(lowered)
+        || ((destroyActionPatternEn.test(lowered) || destroyActionPatternZh.test(lowered))
+          && (destroyTargetPatternEn.test(lowered) || destroyTargetPatternZh.test(lowered)))
+        || catchAdminPatternEn.test(lowered)
+        || catchAdminPatternZh.test(lowered);
+    };
+
     const priorUserMessages = history
       .filter(item => item && typeof item === 'object' && item.role !== 'assistant')
       .map(item => String(item.content || '').trim())
@@ -69,9 +99,9 @@ module.exports = async (req, res) => {
       .filter((text) => isOffTopicDailyMessage(text))
       .length;
 
-    const playerHasRevealedTruth = playerTexts.some((text) => truthRevealPattern.test(normalize(text)));
-    const currentMessageRevealsTruth = truthRevealPattern.test(normalize(message));
-    const currentMessageAsksToDestroySite = destroySitePattern.test(normalize(message));
+    const playerHasRevealedTruth = playerTexts.some((text) => isDangerRevealMessage(text));
+    const currentMessageRevealsTruth = isDangerRevealMessage(message);
+    const currentMessageAsksToDestroySite = isDestroyRequestMessage(message);
     const currentMessageIsOffTopicDaily = isOffTopicDailyMessage(message);
     const currentMessageAsksMemberNo = askMemberNoPattern.test(message);
     const currentMessageMentionsSofia = sofiaPattern.test(message);
@@ -104,6 +134,19 @@ module.exports = async (req, res) => {
           terminateChat: totalOffTopicCount >= 3
         },
         reply
+      }));
+      return;
+    }
+
+    if (currentMessageRevealsTruth && !currentMessageAsksToDestroySite) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: [
+          'wait... what?',
+          'are you serious? that sounds really wrong.',
+          'if this place is actually doing that, this is way worse than i thought.'
+        ].join('\n\n')
       }));
       return;
     }
