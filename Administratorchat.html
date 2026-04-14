@@ -74,7 +74,7 @@
           <span class="admin-toast-name">Midnight</span>
           <span class="admin-toast-label">new message</span>
         </div>
-        <p class="admin-toast-text">I noticed what happened. Do not touch restricted records again.</p>
+        <p class="admin-toast-text" id="midnightToastText">I noticed what happened. Do not touch restricted records again.</p>
       </div>
       <audio id="midnightNotificationAudio" preload="auto" src="assets/audio/notification.mp3"></audio>
 
@@ -120,7 +120,7 @@
 
                 <div class="allery-report-panel allery-details-report" id="mikeRecordPanel" hidden>
                   <dl class="allery-death-list">
-                    <div><dt>Record:</dt><dd>Pending</dd></div>
+                    <div><dt>Record:</dt><dd>Unavailable.</dd></div>
                   </dl>
                 </div>
 
@@ -164,7 +164,7 @@
                   <div><dt>Gender:</dt><dd>Female</dd></div>
                   <div><dt>Family:</dt><dd>Lives with parents</dd></div>
                   <div><dt>Languages:</dt><dd>English, Mandarin</dd></div>
-                  <div><dt>School:</dt><dd>Riverside High School</dd></div>
+                  <div><dt>School:</dt><dd>Unknown</dd></div>
                 </dl>
 
                 <div class="allery-details-actions">
@@ -174,12 +174,11 @@
                 </div>
 
                 <div class="allery-report-panel allery-details-report" id="deathRecordPanel" hidden>
-                  <dl class="allery-death-list">
-                    <div><dt>Date of Death:</dt><dd>April 14</dd></div>
-                    <div><dt>Cause of Death:</dt><dd>Wrist cutting (Suicide)</dd></div>
-                    <div><dt>Location:</dt><dd>40.1810, -73.9534</dd></div>
-                    <div><dt>Task Process:</dt><dd>Complete</dd></div>
-                  </dl>
+                  <div class="therapy-session-list">
+                    <button type="button" class="therapy-session-btn">Therapy 01</button>
+                    <button type="button" class="therapy-session-btn">Therapy 02</button>
+                    <button type="button" class="therapy-session-btn">Therapy 03</button>
+                  </div>
                 </div>
 
                 <div class="allery-details-divider" aria-hidden="true"></div>
@@ -199,7 +198,7 @@
           </div>
         </section>
 
-        <section class="allery-docs member-view scaffold-view" data-member-view="sofia-rossi" data-display-name="Sofia Rossi" hidden></section>
+        <section class="member-view allery-details-view scaffold-view" data-member-view="sofia-rossi" data-display-name="Sofia Rossi" hidden></section>
         <section class="member-view allery-details-view core-details-view" id="coreDriveView" data-member-view="core-bennett" data-display-name="Core Bennett" hidden>
           <div class="allery-details-shell">
             <h2 class="allery-details-title">File Details</h2>
@@ -234,9 +233,10 @@
                 </div>
 
                 <div class="allery-report-panel allery-details-report" id="coreRecordPanel" hidden>
-                  <dl class="allery-death-list">
-                    <div><dt>Record:</dt><dd>Pending</dd></div>
-                  </dl>
+                  <div class="therapy-session-list">
+                    <button type="button" class="therapy-session-btn" data-subject="core">Therapy 01</button>
+                    <button type="button" class="therapy-session-btn" data-subject="core">Therapy 02</button>
+                  </div>
                 </div>
 
                 <div class="allery-details-divider" aria-hidden="true"></div>
@@ -256,7 +256,7 @@
             </section>
           </div>
         </section>
-        <section class="allery-docs member-view scaffold-view" data-member-view="daniel-hayes" data-display-name="Daniel Hayes" hidden></section>
+        <section class="member-view allery-details-view scaffold-view" data-member-view="daniel-hayes" data-display-name="Daniel Hayes" hidden></section>
         <section class="member-view allery-details-view lily-details-view" id="lilyDriveView" data-member-view="lily-thompson" data-display-name="Lily Thompson" hidden>
           <div class="allery-details-shell lily-details-info" id="lilyDetailsInfo">
             <h2 class="allery-details-title">File Details</h2>
@@ -281,7 +281,7 @@
                   <div><dt>Gender:</dt><dd>Female</dd></div>
                   <div><dt>Family:</dt><dd>Unknown</dd></div>
                   <div><dt>Languages:</dt><dd>English</dd></div>
-                  <div><dt>School:</dt><dd>Unknown</dd></div>
+                  <div><dt>School:</dt><dd>Riverside High School</dd></div>
                 </dl>
 
                 <div class="allery-details-actions">
@@ -291,9 +291,9 @@
                 </div>
 
                 <div class="allery-report-panel allery-details-report" id="lilyRecordPanel" hidden>
-                  <dl class="allery-death-list">
-                    <div><dt>Record:</dt><dd>Pending</dd></div>
-                  </dl>
+                  <div class="therapy-session-list">
+                    <button type="button" class="therapy-session-btn" data-subject="lily">Therapy 01</button>
+                  </div>
                 </div>
 
                 <div class="allery-details-divider" aria-hidden="true"></div>
@@ -312,8 +312,8 @@
           </div>
 
         </section>
-        <section class="allery-docs member-view scaffold-view" data-member-view="mike-secondary" data-display-name="Marry Brown" hidden></section>
-        <section class="allery-docs member-view scaffold-view" data-member-view="new-user" data-display-name="New user" hidden></section>
+        <section class="member-view allery-details-view scaffold-view" data-member-view="mike-secondary" data-display-name="Marry Brown" hidden></section>
+        <section class="member-view allery-details-view scaffold-view" data-member-view="new-user" data-display-name="New user" hidden></section>
       </div>
 
       <div class="admin-modal-overlay" id="alleryPrompt" aria-hidden="true">
@@ -352,7 +352,7 @@
               <p class="diary-modal-line">Thank you for inspiring me to create this chatroom. I believe I can help more people this way, and I know you would want everyone to find as much happiness as they can.</p>
               <p class="diary-modal-line">Perhaps one day, when someone is willing to take my place, I will also find my own happiness.</p>
               <p class="diary-modal-line">Best,</p>
-              <div class="diary-signature-redacted" aria-hidden="true"></div>
+              <div class="diary-signature-redacted" role="button" tabindex="0" aria-label="Redacted signature, click to reveal">Mike.</div>
             </div>
             <div class="diary-scrollbar" aria-hidden="true">
               <button type="button" class="diary-scroll-arrow" id="marryDiaryUp">⌃</button>
@@ -381,6 +381,835 @@
                 <span class="diary-scroll-thumb" id="alleryDiaryThumb"></span>
               </div>
               <button type="button" class="diary-scroll-arrow" id="alleryDiaryDown">⌄</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Therapy Report 01 Modal -->
+      <div class="therapy-report-overlay" id="therapyReport01Overlay" aria-hidden="true" hidden>
+        <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="therapyReport01Title">
+          <button type="button" class="tr-close-btn" id="therapyReport01Close" aria-label="Close report"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          <div class="tr-doc" id="therapyReport01Doc">
+
+            <!-- Document top bar -->
+            <div class="tr-topbar">
+              <span class="tr-form-code">Blue Whale Psychological Intervention Record</span>
+              <div class="tr-topbar-right">
+                <span class="tr-small-label">Consultation Date: 2026.1.3</span>
+              </div>
+            </div>
+
+            <!-- Sub-header row -->
+            <div class="tr-subheader">
+              <span class="tr-joint-label">JOINT MESSAGE REPORT FORM</span>
+              <div class="tr-classified-block">
+                <span class="tr-classified-label">CLASSIFIED</span>
+                <span class="tr-checkbox-mock" aria-hidden="true"></span>
+              </div>
+            </div>
+
+            <div class="tr-rule"></div>
+
+            <!-- Section 01 -->
+            <div class="tr-section-row">
+              <div class="tr-section-num" id="therapyReport01Title">01</div>
+              <div class="tr-section-body">
+                <div class="tr-ref-line">REFERENCE: 09078-AA6</div>
+
+                <div class="tr-fields-grid">
+                  <!-- Row 1 -->
+                  <div class="tr-field">
+                    <span class="tr-fl">SUBJECT ID</span>
+                    <span class="tr-fv">#07</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">LINKED FILE</span>
+                    <span class="tr-fv">Allery_Lin.log</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">JOIN TIME</span>
+                    <span class="tr-fv">2025.12</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">RISK LEVEL</span>
+                    <span class="tr-fv">Medium</span>
+                  </div>
+
+                  <!-- Row 2 -->
+                  <div class="tr-field">
+                    <span class="tr-fl">OBSERVER</span>
+                    <span class="tr-fv">Midnight</span>
+                  </div>
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">SYSTEM NODE</span>
+                    <span class="tr-fv">Emotional Support Layer</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">SESSION PHASE</span>
+                    <span class="tr-fv">Phase 01</span>
+                  </div>
+
+                  <!-- Row 3 -->
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">REFERENCE TAG</span>
+                    <span class="tr-fv">Identity Distortion</span>
+                  </div>
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">BEHAVIOR CLASS</span>
+                    <span class="tr-fv">Suppression / Self-Control</span>
+                  </div>
+                </div>
+
+                <div class="tr-body-text">
+                  <p>To address the subject's initial concerns, she reports that she was involved in a car accident that left permanent scars on her face. She has overheard classmates whispering about it, which caused significant emotional distress. She did not attend school for approximately two weeks, resulting in difficulty keeping up with some coursework.</p>
+                  <p>The subject experiences sustained pressure due to these changes, showing avoidance of social situations and discomfort with being seen. Emotional expression remains controlled and restrained.</p>
+                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">emotional instability, high suggestibility, and dependency tendency.</span></p>
+                  <p>Recommendation: encourage participation in the <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">"30 Task" program for further evaluation.</span></p>
+                </div>
+
+                <div class="tr-sig-row">
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Therapy Report 02 Modal -->
+      <div class="therapy-report-overlay" id="therapyReport02Overlay" aria-hidden="true" hidden>
+        <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="therapyReport02Title">
+          <button type="button" class="tr-close-btn" id="therapyReport02Close" aria-label="Close report"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          <div class="tr-doc" id="therapyReport02Doc">
+            <div class="tr-topbar">
+              <span class="tr-form-code">Blue Whale Psychological Intervention Record</span>
+              <div class="tr-topbar-right">
+                <span class="tr-small-label">Consultation Date: —</span>
+              </div>
+            </div>
+            <div class="tr-subheader">
+              <span class="tr-joint-label">JOINT MESSAGE REPORT FORM</span>
+              <div class="tr-classified-block">
+                <span class="tr-classified-label">CLASSIFIED</span>
+                <span class="tr-checkbox-mock" aria-hidden="true"></span>
+              </div>
+            </div>
+            <div class="tr-rule"></div>
+            <div class="tr-section-row">
+              <div class="tr-section-num" id="therapyReport02Title">02</div>
+              <div class="tr-section-body">
+                <div class="tr-ref-line">REFERENCE: 09078-AA6</div>
+                <div class="tr-fields-grid">
+                  <div class="tr-field">
+                    <span class="tr-fl">SUBJECT ID</span>
+                    <span class="tr-fv">#07</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">LINKED FILE</span>
+                    <span class="tr-fv">Allery_Lin.log</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">JOIN TIME</span>
+                    <span class="tr-fv">2025.12</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">RISK LEVEL</span>
+                    <span class="tr-fv">Medium</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">OBSERVER</span>
+                    <span class="tr-fv">Midnight</span>
+                  </div>
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">SYSTEM NODE</span>
+                    <span class="tr-fv">Emotional Support Layer</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">SESSION PHASE</span>
+                    <span class="tr-fv">Phase 02</span>
+                  </div>
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">REFERENCE TAG</span>
+                    <span class="tr-fv">Identity Distortion</span>
+                  </div>
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">BEHAVIOR CLASS</span>
+                    <span class="tr-fv">Suppression / Self-Control</span>
+                  </div>
+                </div>
+                <div class="tr-body-text">
+                  <p>The subject experienced a significant emotional setback following a recent examination, showing intensified distress and heightened anxiety. Her ability to self-regulate has further declined, with increased sensitivity to external evaluation.</p>
+                  <p>The subject has progressed to Task 15. Her psychological defenses are nearing collapse, while trust toward the guide has significantly increased. Dependency has strengthened, and controllability has improved.</p>
+                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">highly unstable emotional state, increased dependency, impaired judgment.</span></p>
+                  <p>Recommendation: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">accelerate the progression of tasks.</span></p>
+                </div>
+                <div class="tr-sig-row">
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Therapy Report 03 Modal -->
+      <div class="therapy-report-overlay" id="therapyReport03Overlay" aria-hidden="true" hidden>
+        <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="therapyReport03Title">
+          <button type="button" class="tr-close-btn" id="therapyReport03Close" aria-label="Close report"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          <div class="tr-doc" id="therapyReport03Doc">
+            <div class="tr-topbar">
+              <span class="tr-form-code">Blue Whale Psychological Intervention Record</span>
+              <div class="tr-topbar-right">
+                <span class="tr-small-label">Consultation Date: —</span>
+              </div>
+            </div>
+            <div class="tr-subheader">
+              <span class="tr-joint-label">JOINT MESSAGE REPORT FORM</span>
+              <div class="tr-classified-block">
+                <span class="tr-classified-label">CLASSIFIED</span>
+                <span class="tr-checkbox-mock" aria-hidden="true"></span>
+              </div>
+            </div>
+            <div class="tr-rule"></div>
+            <div class="tr-section-row">
+              <div class="tr-section-num" id="therapyReport03Title">03</div>
+              <div class="tr-section-body">
+                <div class="tr-ref-line">REFERENCE: 09078-AA6</div>
+                <div class="tr-fields-grid">
+                  <div class="tr-field">
+                    <span class="tr-fl">SUBJECT ID</span>
+                    <span class="tr-fv">#07</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">LINKED FILE</span>
+                    <span class="tr-fv">Allery_Lin.log</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">JOIN TIME</span>
+                    <span class="tr-fv">2025.12</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">RISK LEVEL</span>
+                    <span class="tr-fv">Medium</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">OBSERVER</span>
+                    <span class="tr-fv">Midnight</span>
+                  </div>
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">SYSTEM NODE</span>
+                    <span class="tr-fv">Emotional Support Layer</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">SESSION PHASE</span>
+                    <span class="tr-fv">Phase 03</span>
+                  </div>
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">REFERENCE TAG</span>
+                    <span class="tr-fv">Identity Distortion</span>
+                  </div>
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">BEHAVIOR CLASS</span>
+                    <span class="tr-fv">Suppression / Self-Control</span>
+                  </div>
+                </div>
+                <div class="tr-body-text">
+                  <p>During the final session prior to Task 30, the subject demonstrated a high level of compliance and cooperation. She has nearly completed all assigned tasks, with a narrowed psychological state and no evident resistance to instruction.</p>
+                  <p>The subject is prepared for Task 30 and shows acceptance, even anticipation, toward the upcoming phase.</p>
+                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">blurred boundaries of self-awareness, full reliance on external guidance.</span></p>
+                  <p>Recommendation: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">designate a specific time point to initiate the final stage.</span></p>
+                </div>
+                <div class="tr-sig-row">
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lily Therapy Report 01 Modal -->
+      <div class="therapy-report-overlay" id="lilyTherapyReport01Overlay" aria-hidden="true" hidden>
+        <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="lilyTherapyReport01Title">
+          <button type="button" class="tr-close-btn" id="lilyTherapyReport01Close" aria-label="Close report"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          <div class="tr-doc" id="lilyTherapyReport01Doc">
+
+            <!-- Document top bar -->
+            <div class="tr-topbar">
+              <span class="tr-form-code">Blue Whale Psychological Intervention Record</span>
+              <div class="tr-topbar-right">
+                <span class="tr-small-label">Consultation Date: —</span>
+              </div>
+            </div>
+
+            <!-- Sub-header row -->
+            <div class="tr-subheader">
+              <span class="tr-joint-label">JOINT MESSAGE REPORT FORM</span>
+              <div class="tr-classified-block">
+                <span class="tr-classified-label">CLASSIFIED</span>
+                <span class="tr-checkbox-mock" aria-hidden="true"></span>
+              </div>
+            </div>
+
+            <div class="tr-rule"></div>
+
+            <!-- Section 01 -->
+            <div class="tr-section-row">
+              <div class="tr-section-num" id="lilyTherapyReport01Title">01</div>
+              <div class="tr-section-body">
+                <div class="tr-ref-line">REFERENCE: Lily_Thompson.log</div>
+
+                <div class="tr-fields-grid">
+                  <!-- Row 1 -->
+                  <div class="tr-field">
+                    <span class="tr-fl">SUBJECT ID</span>
+                    <span class="tr-fv">#05</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">LINKED FILE</span>
+                    <span class="tr-fv">Lily_Thompson.log</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">JOIN TIME</span>
+                    <span class="tr-fv">2025.11</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">RISK LEVEL</span>
+                    <span class="tr-fv">Low</span>
+                  </div>
+
+                  <!-- Row 2 -->
+                  <div class="tr-field">
+                    <span class="tr-fl">OBSERVER</span>
+                    <span class="tr-fv">Midnight</span>
+                  </div>
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">SYSTEM NODE</span>
+                    <span class="tr-fv">Emotional Support Layer</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">SESSION PHASE</span>
+                    <span class="tr-fv">Phase 01</span>
+                  </div>
+
+                  <!-- Row 3 -->
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">REFERENCE TAG</span>
+                    <span class="tr-fv">Peripheral Participant</span>
+                  </div>
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">BEHAVIOR CLASS</span>
+                    <span class="tr-fv">Stable / Observational</span>
+                  </div>
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">CURRENT STATE</span>
+                    <span class="tr-fv">Under Observation</span>
+                  </div>
+                </div>
+
+                <div class="tr-body-text">
+                  <p>Following the initial session, no clear signs of psychological distress or disorder were identified in the subject. Her responses remain stable, with no evident need for intervention.</p>
+                  <p>However, as the subject is a classmate of Sofia, she may serve as a potential source of related information and support.</p>
+                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">no significant psychological abnormality detected.</span></p>
+                  <p>Recommendation: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">retain membership status, do not remove from the group, and continue observation.</span></p>
+                </div>
+
+                <div class="tr-sig-row">
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Marry Therapy Report 01 Modal -->
+      <div class="therapy-report-overlay" id="marryTherapyReport01Overlay" aria-hidden="true" hidden>
+        <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="marryTherapyReport01Title">
+          <button type="button" class="tr-close-btn" id="marryTherapyReport01Close" aria-label="Close report"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          <div class="tr-doc" id="marryTherapyReport01Doc">
+
+            <div class="tr-topbar">
+              <span class="tr-form-code">Blue Whale Psychological Intervention Record</span>
+              <div class="tr-topbar-right">
+                <span class="tr-small-label">Consultation Date: —</span>
+              </div>
+            </div>
+
+            <div class="tr-subheader">
+              <span class="tr-joint-label">JOINT MESSAGE REPORT FORM</span>
+              <div class="tr-classified-block">
+                <span class="tr-classified-label">CLASSIFIED</span>
+                <span class="tr-checkbox-mock" aria-hidden="true"></span>
+              </div>
+            </div>
+
+            <div class="tr-rule"></div>
+
+            <div class="tr-section-row">
+              <div class="tr-section-num" id="marryTherapyReport01Title">01</div>
+              <div class="tr-section-body">
+                <div class="tr-ref-line">REFERENCE: Marry_Brown.log</div>
+
+                <div class="tr-fields-grid">
+                  <!-- Row 1 -->
+                  <div class="tr-field">
+                    <span class="tr-fl">SUBJECT ID</span>
+                    <span class="tr-fv">#02</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">LINKED FILE</span>
+                    <span class="tr-fv">Marry_Brown.log</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">JOIN TIME</span>
+                    <span class="tr-fv">2023.03</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">RISK LEVEL</span>
+                    <span class="tr-fv">—</span>
+                  </div>
+
+                  <!-- Row 2 -->
+                  <div class="tr-field">
+                    <span class="tr-fl">OBSERVER</span>
+                    <span class="tr-fv">Midnight</span>
+                  </div>
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">SYSTEM NODE</span>
+                    <span class="tr-fv">Emotional Support Layer</span>
+                  </div>
+                  <div class="tr-field">
+                    <span class="tr-fl">SESSION PHASE</span>
+                    <span class="tr-fv">Phase 01</span>
+                  </div>
+
+                  <!-- Row 3 -->
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">REFERENCE TAG</span>
+                    <span class="tr-fv">—</span>
+                  </div>
+                  <div class="tr-field tr-field--wide">
+                    <span class="tr-fl">BEHAVIOR CLASS</span>
+                    <span class="tr-fv">—</span>
+                  </div>
+                </div>
+
+                <div class="tr-body-text">
+                  <p>This record is based on initial observation and is not a formal psychological treatment. The subject has long been misunderstood by her parents, without receiving proper understanding or support, and perceives her situation as unfair and isolating.</p>
+                  <p>During the interaction, I suggested a solution to <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">("leave the current state of suffering")</span>, describing it as a form of release. The subject showed acceptance toward this idea, <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">(and regarded it as a possible way to end her pain)</span>.</p>
+                  <p>The subject carried out the plan the following day. Her parents, after the outcome occurred, <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">(displayed intense pain and delayed remorse)</span>, while the subject, after completing the plan, entered a state defined as <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">(eternal peace)</span>. Therefore, this method is considered highly effective.</p>
+                </div>
+
+                <div class="tr-sig-row">
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Sofia Therapy Report 01 Modal -->
+      <div class="therapy-report-overlay" id="sofiaTherapyReport01Overlay" aria-hidden="true" hidden>
+        <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="sofiaTherapyReport01Title">
+          <button type="button" class="tr-close-btn" id="sofiaTherapyReport01Close" aria-label="Close report"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          <div class="tr-doc" id="sofiaTherapyReport01Doc">
+            <div class="tr-topbar">
+              <span class="tr-form-code">Blue Whale Psychological Intervention Record</span>
+              <div class="tr-topbar-right"><span class="tr-small-label">Consultation Date: —</span></div>
+            </div>
+            <div class="tr-subheader">
+              <span class="tr-joint-label">JOINT MESSAGE REPORT FORM</span>
+              <div class="tr-classified-block"><span class="tr-classified-label">CLASSIFIED</span><span class="tr-checkbox-mock" aria-hidden="true"></span></div>
+            </div>
+            <div class="tr-rule"></div>
+            <div class="tr-section-row">
+              <div class="tr-section-num" id="sofiaTherapyReport01Title">01</div>
+              <div class="tr-section-body">
+                <div class="tr-ref-line">REFERENCE: Sofia_Rossi.log</div>
+                <div class="tr-fields-grid">
+                  <div class="tr-field"><span class="tr-fl">SUBJECT ID</span><span class="tr-fv">#04</span></div>
+                  <div class="tr-field"><span class="tr-fl">LINKED FILE</span><span class="tr-fv">Sofia_Rossi.log</span></div>
+                  <div class="tr-field"><span class="tr-fl">JOIN TIME</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field"><span class="tr-fl">RISK LEVEL</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field"><span class="tr-fl">OBSERVER</span><span class="tr-fv">Midnight</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">SYSTEM NODE</span><span class="tr-fv">Emotional Support Layer</span></div>
+                  <div class="tr-field"><span class="tr-fl">SESSION PHASE</span><span class="tr-fv">Phase 01</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">REFERENCE TAG</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">BEHAVIOR CLASS</span><span class="tr-fv">—</span></div>
+                </div>
+                <div class="tr-body-text">
+                  <p>During the initial session, the subject presented in a state of emotional breakdown. The primary cause was the public ridicule of her personal emotional expression, as her love letter was exposed and mocked by classmates, accompanied by defamatory remarks, resulting in sustained psychological distress.</p>
+                  <p>The subject shows clear signs of low mood and shame, with avoidance of social environments and heightened sensitivity to others' attention. During the session, her emotional state was unstable, making it difficult to maintain coherent expression.</p>
+                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">significant emotional damage, decreased self-worth, with risk of further deterioration.</span></p>
+                  <p>Recommendation: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">establish initial trust and guide the subject into early-stage tasks to stabilize her condition.</span></p>
+                </div>
+                <div class="tr-sig-row">
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sofia Therapy Report 02 Modal -->
+      <div class="therapy-report-overlay" id="sofiaTherapyReport02Overlay" aria-hidden="true" hidden>
+        <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="sofiaTherapyReport02Title">
+          <button type="button" class="tr-close-btn" id="sofiaTherapyReport02Close" aria-label="Close report"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          <div class="tr-doc" id="sofiaTherapyReport02Doc">
+            <div class="tr-topbar">
+              <span class="tr-form-code">Blue Whale Psychological Intervention Record</span>
+              <div class="tr-topbar-right"><span class="tr-small-label">Consultation Date: —</span></div>
+            </div>
+            <div class="tr-subheader">
+              <span class="tr-joint-label">JOINT MESSAGE REPORT FORM</span>
+              <div class="tr-classified-block"><span class="tr-classified-label">CLASSIFIED</span><span class="tr-checkbox-mock" aria-hidden="true"></span></div>
+            </div>
+            <div class="tr-rule"></div>
+            <div class="tr-section-row">
+              <div class="tr-section-num" id="sofiaTherapyReport02Title">02</div>
+              <div class="tr-section-body">
+                <div class="tr-ref-line">REFERENCE: Sofia_Rossi.log</div>
+                <div class="tr-fields-grid">
+                  <div class="tr-field"><span class="tr-fl">SUBJECT ID</span><span class="tr-fv">#04</span></div>
+                  <div class="tr-field"><span class="tr-fl">LINKED FILE</span><span class="tr-fv">Sofia_Rossi.log</span></div>
+                  <div class="tr-field"><span class="tr-fl">JOIN TIME</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field"><span class="tr-fl">RISK LEVEL</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field"><span class="tr-fl">OBSERVER</span><span class="tr-fv">Midnight</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">SYSTEM NODE</span><span class="tr-fv">Emotional Support Layer</span></div>
+                  <div class="tr-field"><span class="tr-fl">SESSION PHASE</span><span class="tr-fv">Phase 02</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">REFERENCE TAG</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">BEHAVIOR CLASS</span><span class="tr-fv">—</span></div>
+                </div>
+                <div class="tr-body-text">
+                  <p>In subsequent sessions, the subject demonstrated a pronounced sense of disillusionment with life, expressing a lack of attachment to her current state and actively requesting an acceleration of task progression.</p>
+                  <p>The subject mentioned that her friend Allery Lin is experiencing a similar condition and suggested that she join the system to receive "help."</p>
+                  <p>The subject shows a high level of acceptance toward the task structure, perceiving it as a viable solution, with increased willingness to participate.</p>
+                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">intensified nihilistic tendencies, active desire to escape reality, increased dependency on the system.</span></p>
+                  <p>Recommendation: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">maintain guidance and allow controlled acceleration of task progression.</span></p>
+                </div>
+                <div class="tr-sig-row">
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sofia Therapy Report 03 Modal -->
+      <div class="therapy-report-overlay" id="sofiaTherapyReport03Overlay" aria-hidden="true" hidden>
+        <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="sofiaTherapyReport03Title">
+          <button type="button" class="tr-close-btn" id="sofiaTherapyReport03Close" aria-label="Close report"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          <div class="tr-doc" id="sofiaTherapyReport03Doc">
+            <div class="tr-topbar">
+              <span class="tr-form-code">Blue Whale Psychological Intervention Record</span>
+              <div class="tr-topbar-right"><span class="tr-small-label">Consultation Date: —</span></div>
+            </div>
+            <div class="tr-subheader">
+              <span class="tr-joint-label">JOINT MESSAGE REPORT FORM</span>
+              <div class="tr-classified-block"><span class="tr-classified-label">CLASSIFIED</span><span class="tr-checkbox-mock" aria-hidden="true"></span></div>
+            </div>
+            <div class="tr-rule"></div>
+            <div class="tr-section-row">
+              <div class="tr-section-num" id="sofiaTherapyReport03Title">03</div>
+              <div class="tr-section-body">
+                <div class="tr-ref-line">REFERENCE: Sofia_Rossi.log</div>
+                <div class="tr-fields-grid">
+                  <div class="tr-field"><span class="tr-fl">SUBJECT ID</span><span class="tr-fv">#04</span></div>
+                  <div class="tr-field"><span class="tr-fl">LINKED FILE</span><span class="tr-fv">Sofia_Rossi.log</span></div>
+                  <div class="tr-field"><span class="tr-fl">JOIN TIME</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field"><span class="tr-fl">RISK LEVEL</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field"><span class="tr-fl">OBSERVER</span><span class="tr-fv">Midnight</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">SYSTEM NODE</span><span class="tr-fv">Emotional Support Layer</span></div>
+                  <div class="tr-field"><span class="tr-fl">SESSION PHASE</span><span class="tr-fv">Phase 03</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">REFERENCE TAG</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">BEHAVIOR CLASS</span><span class="tr-fv">—</span></div>
+                </div>
+                <div class="tr-body-text">
+                  <p>In the final session prior to Task 30, the subject's emotional state became uniform and stabilized, with no significant fluctuations. She demonstrated strong alignment with the current path and no signs of resistance.</p>
+                  <p>During the session, the subject clearly articulated her understanding of the "end point" and confirmed readiness to proceed to the next stage.</p>
+                  <p>Her verbal expression became simplified, with decision-making increasingly dependent on external guidance. Her overall condition meets the criteria for execution.</p>
+                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">flattened emotional state, increased reliance on external judgment, readiness for execution.</span></p>
+                  <p>Recommendation: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">confirm timing and proceed with the initiation of Task 30.</span></p>
+                </div>
+                <div class="tr-sig-row">
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daniel Therapy Report 01 Modal -->
+      <div class="therapy-report-overlay" id="danielTherapyReport01Overlay" aria-hidden="true" hidden>
+        <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="danielTherapyReport01Title">
+          <button type="button" class="tr-close-btn" id="danielTherapyReport01Close" aria-label="Close report"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          <div class="tr-doc" id="danielTherapyReport01Doc">
+            <div class="tr-topbar">
+              <span class="tr-form-code">Blue Whale Psychological Intervention Record</span>
+              <div class="tr-topbar-right"><span class="tr-small-label">Consultation Date: —</span></div>
+            </div>
+            <div class="tr-subheader">
+              <span class="tr-joint-label">JOINT MESSAGE REPORT FORM</span>
+              <div class="tr-classified-block"><span class="tr-classified-label">CLASSIFIED</span><span class="tr-checkbox-mock" aria-hidden="true"></span></div>
+            </div>
+            <div class="tr-rule"></div>
+            <div class="tr-section-row">
+              <div class="tr-section-num" id="danielTherapyReport01Title">01</div>
+              <div class="tr-section-body">
+                <div class="tr-ref-line">REFERENCE: Daniel_Hayes.log</div>
+                <div class="tr-fields-grid">
+                  <div class="tr-field"><span class="tr-fl">SUBJECT ID</span><span class="tr-fv">#03</span></div>
+                  <div class="tr-field"><span class="tr-fl">LINKED FILE</span><span class="tr-fv">Daniel_Hayes.log</span></div>
+                  <div class="tr-field"><span class="tr-fl">JOIN TIME</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field"><span class="tr-fl">RISK LEVEL</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field"><span class="tr-fl">OBSERVER</span><span class="tr-fv">Midnight</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">SYSTEM NODE</span><span class="tr-fv">Emotional Support Layer</span></div>
+                  <div class="tr-field"><span class="tr-fl">SESSION PHASE</span><span class="tr-fv">Phase 01</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">REFERENCE TAG</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">BEHAVIOR CLASS</span><span class="tr-fv">—</span></div>
+                </div>
+                <div class="tr-body-text">
+                  <p>The subject entered the system for the first time, reporting ongoing bullying from peers. His body shape has become the target of ridicule, placing him in a prolonged state of devaluation and social exclusion.</p>
+                  <p>The subject lacks stable channels for emotional expression and has not established effective support relationships. His emotions appear suppressed and internalized, with a noticeable tendency toward self-negation during communication.</p>
+                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">impaired self-perception, prolonged emotional suppression, high susceptibility to guidance.</span></p>
+                  <p>Recommendation: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">establish initial trust and guide the subject into early-stage tasks for response observation.</span></p>
+                </div>
+                <div class="tr-sig-row">
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daniel Therapy Report 02 Modal -->
+      <div class="therapy-report-overlay" id="danielTherapyReport02Overlay" aria-hidden="true" hidden>
+        <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="danielTherapyReport02Title">
+          <button type="button" class="tr-close-btn" id="danielTherapyReport02Close" aria-label="Close report"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          <div class="tr-doc" id="danielTherapyReport02Doc">
+            <div class="tr-topbar">
+              <span class="tr-form-code">Blue Whale Psychological Intervention Record</span>
+              <div class="tr-topbar-right"><span class="tr-small-label">Consultation Date: —</span></div>
+            </div>
+            <div class="tr-subheader">
+              <span class="tr-joint-label">JOINT MESSAGE REPORT FORM</span>
+              <div class="tr-classified-block"><span class="tr-classified-label">CLASSIFIED</span><span class="tr-checkbox-mock" aria-hidden="true"></span></div>
+            </div>
+            <div class="tr-rule"></div>
+            <div class="tr-section-row">
+              <div class="tr-section-num" id="danielTherapyReport02Title">02</div>
+              <div class="tr-section-body">
+                <div class="tr-ref-line">REFERENCE: Daniel_Hayes.log</div>
+                <div class="tr-fields-grid">
+                  <div class="tr-field"><span class="tr-fl">SUBJECT ID</span><span class="tr-fv">#03</span></div>
+                  <div class="tr-field"><span class="tr-fl">LINKED FILE</span><span class="tr-fv">Daniel_Hayes.log</span></div>
+                  <div class="tr-field"><span class="tr-fl">JOIN TIME</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field"><span class="tr-fl">RISK LEVEL</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field"><span class="tr-fl">OBSERVER</span><span class="tr-fv">Midnight</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">SYSTEM NODE</span><span class="tr-fv">Emotional Support Layer</span></div>
+                  <div class="tr-field"><span class="tr-fl">SESSION PHASE</span><span class="tr-fv">Phase 02</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">REFERENCE TAG</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">BEHAVIOR CLASS</span><span class="tr-fv">—</span></div>
+                </div>
+                <div class="tr-body-text">
+                  <p>The subject was unreachable for a period of time, with no responses recorded by the system. Contact was later re-established, leading to this session.</p>
+                  <p>The subject reported informing his parents about the chatroom, which was dismissed as deceptive. He was explicitly prohibited from further participation. This event intensified his emotional instability and reinforced his perception of being misunderstood.</p>
+                  <p>The subject now shows increased suppression and negativity. Trust in external relationships continues to decline, while dependency on the system has increased. His receptiveness to guidance has significantly improved.</p>
+                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">intensified emotional instability, decreased external trust, increased dependency on the system.</span></p>
+                  <p>Recommendation: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">reinforce guidance and gradually deepen task engagement.</span></p>
+                </div>
+                <div class="tr-sig-row">
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Daniel Therapy Report 03 Modal -->
+      <div class="therapy-report-overlay" id="danielTherapyReport03Overlay" aria-hidden="true" hidden>
+        <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="danielTherapyReport03Title">
+          <button type="button" class="tr-close-btn" id="danielTherapyReport03Close" aria-label="Close report"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          <div class="tr-doc" id="danielTherapyReport03Doc">
+            <div class="tr-topbar">
+              <span class="tr-form-code">Blue Whale Psychological Intervention Record</span>
+              <div class="tr-topbar-right"><span class="tr-small-label">Consultation Date: —</span></div>
+            </div>
+            <div class="tr-subheader">
+              <span class="tr-joint-label">JOINT MESSAGE REPORT FORM</span>
+              <div class="tr-classified-block"><span class="tr-classified-label">CLASSIFIED</span><span class="tr-checkbox-mock" aria-hidden="true"></span></div>
+            </div>
+            <div class="tr-rule"></div>
+            <div class="tr-section-row">
+              <div class="tr-section-num" id="danielTherapyReport03Title">03</div>
+              <div class="tr-section-body">
+                <div class="tr-ref-line">REFERENCE: Daniel_Hayes.log</div>
+                <div class="tr-fields-grid">
+                  <div class="tr-field"><span class="tr-fl">SUBJECT ID</span><span class="tr-fv">#03</span></div>
+                  <div class="tr-field"><span class="tr-fl">LINKED FILE</span><span class="tr-fv">Daniel_Hayes.log</span></div>
+                  <div class="tr-field"><span class="tr-fl">JOIN TIME</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field"><span class="tr-fl">RISK LEVEL</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field"><span class="tr-fl">OBSERVER</span><span class="tr-fv">Midnight</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">SYSTEM NODE</span><span class="tr-fv">Emotional Support Layer</span></div>
+                  <div class="tr-field"><span class="tr-fl">SESSION PHASE</span><span class="tr-fv">Phase 03</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">REFERENCE TAG</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">BEHAVIOR CLASS</span><span class="tr-fv">—</span></div>
+                </div>
+                <div class="tr-body-text">
+                  <p>In the final session prior to Task 30, the subject demonstrates a highly consistent and compliant cognitive state. He has nearly completed all assigned processes, showing no hesitation or resistance toward the current path.</p>
+                  <p>The subject's understanding of the "end point" has become singular, viewing it as the only viable resolution, with an increasing willingness to approach it.</p>
+                  <p>His language and emotional expression appear stabilized, but show clear signs of external shaping. The subject no longer attempts self-correction and is fully aligned with guided direction.</p>
+                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">weakened self-boundaries, complete reliance on external guidance.</span></p>
+                  <p>Recommendation: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">proceed to final stage preparation and initiate Task 30 as scheduled.</span></p>
+                </div>
+                <div class="tr-sig-row">
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Core Therapy Report 01 Modal -->
+      <div class="therapy-report-overlay" id="coreTherapyReport01Overlay" aria-hidden="true" hidden>
+        <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="coreTherapyReport01Title">
+          <button type="button" class="tr-close-btn" id="coreTherapyReport01Close" aria-label="Close report"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          <div class="tr-doc" id="coreTherapyReport01Doc">
+            <div class="tr-topbar">
+              <span class="tr-form-code">Blue Whale Psychological Intervention Record</span>
+              <div class="tr-topbar-right"><span class="tr-small-label">Consultation Date: —</span></div>
+            </div>
+            <div class="tr-subheader">
+              <span class="tr-joint-label">JOINT MESSAGE REPORT FORM</span>
+              <div class="tr-classified-block"><span class="tr-classified-label">CLASSIFIED</span><span class="tr-checkbox-mock" aria-hidden="true"></span></div>
+            </div>
+            <div class="tr-rule"></div>
+            <div class="tr-section-row">
+              <div class="tr-section-num" id="coreTherapyReport01Title">01</div>
+              <div class="tr-section-body">
+                <div class="tr-ref-line">REFERENCE: Core_Bennett.log</div>
+                <div class="tr-fields-grid">
+                  <div class="tr-field"><span class="tr-fl">SUBJECT ID</span><span class="tr-fv">#07</span></div>
+                  <div class="tr-field"><span class="tr-fl">LINKED FILE</span><span class="tr-fv">Core_Bennett.log</span></div>
+                  <div class="tr-field"><span class="tr-fl">JOIN TIME</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field"><span class="tr-fl">RISK LEVEL</span><span class="tr-fv">Low</span></div>
+                  <div class="tr-field"><span class="tr-fl">OBSERVER</span><span class="tr-fv">Midnight</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">SYSTEM NODE</span><span class="tr-fv">Emotional Support Layer</span></div>
+                  <div class="tr-field"><span class="tr-fl">SESSION PHASE</span><span class="tr-fv">Phase 01</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">REFERENCE TAG</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">BEHAVIOR CLASS</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">CURRENT STATE</span><span class="tr-fv">Under Observation</span></div>
+                </div>
+                <div class="tr-body-text">
+                  <p>The subject entered the system for the first time, presenting as highly introverted with minimal willingness to engage in external communication, maintaining a clear sense of detachment from surrounding environments.</p>
+                  <p>The subject is identified as having traits consistent with the autism spectrum, showing limited interest and response in social interaction, while demonstrating exceptional ability and focus in logic-based domains such as computer science and mathematics. His behavioral pattern appears stable yet closed.</p>
+                  <p>During the session, the subject preferred brief responses or silence, showing little initiative in verbal expression. His attention was primarily directed toward the system itself and its structural rules.</p>
+                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">limited social function and low emotional expression, but high stability and predictability within logical structures.</span></p>
+                  <p>Recommendation: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">use task-based structures as the primary communication medium and guide continued engagement through system rules.</span></p>
+                </div>
+                <div class="tr-sig-row">
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Core Therapy Report 02 Modal -->
+      <div class="therapy-report-overlay" id="coreTherapyReport02Overlay" aria-hidden="true" hidden>
+        <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="coreTherapyReport02Title">
+          <button type="button" class="tr-close-btn" id="coreTherapyReport02Close" aria-label="Close report"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          <div class="tr-doc" id="coreTherapyReport02Doc">
+            <div class="tr-topbar">
+              <span class="tr-form-code">Blue Whale Psychological Intervention Record</span>
+              <div class="tr-topbar-right"><span class="tr-small-label">Consultation Date: —</span></div>
+            </div>
+            <div class="tr-subheader">
+              <span class="tr-joint-label">JOINT MESSAGE REPORT FORM</span>
+              <div class="tr-classified-block"><span class="tr-classified-label">CLASSIFIED</span><span class="tr-checkbox-mock" aria-hidden="true"></span></div>
+            </div>
+            <div class="tr-rule"></div>
+            <div class="tr-section-row">
+              <div class="tr-section-num" id="coreTherapyReport02Title">02</div>
+              <div class="tr-section-body">
+                <div class="tr-ref-line">REFERENCE: Core_Bennett.log</div>
+                <div class="tr-fields-grid">
+                  <div class="tr-field"><span class="tr-fl">SUBJECT ID</span><span class="tr-fv">#07</span></div>
+                  <div class="tr-field"><span class="tr-fl">LINKED FILE</span><span class="tr-fv">Core_Bennett.log</span></div>
+                  <div class="tr-field"><span class="tr-fl">JOIN TIME</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field"><span class="tr-fl">RISK LEVEL</span><span class="tr-fv">High</span></div>
+                  <div class="tr-field"><span class="tr-fl">OBSERVER</span><span class="tr-fv">Midnight</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">SYSTEM NODE</span><span class="tr-fv">Emotional Support Layer</span></div>
+                  <div class="tr-field"><span class="tr-fl">SESSION PHASE</span><span class="tr-fv">Phase 02</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">REFERENCE TAG</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">BEHAVIOR CLASS</span><span class="tr-fv">—</span></div>
+                  <div class="tr-field tr-field--wide"><span class="tr-fl">CURRENT STATE</span><span class="tr-fv">Under Observation</span></div>
+                </div>
+                <div class="tr-body-text">
+                  <p>During ongoing observation, the system recorded that the subject accidentally accessed a backend structure area (Sarabot2). This behavior was immediately restricted, and access permissions were adjusted accordingly.</p>
+                  <p>This incident indicates a high level of system comprehension and exploratory tendency. The subject's behavior exceeds that of a typical participant and has therefore been classified as high-risk.</p>
+                  <p>In subsequent interaction, the subject demonstrated a high level of acceptance toward the "30 Task" program, perceiving it as a structured and executable process. His progression remains stable, with no evident resistance.</p>
+                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">high cognitive capability, strong exploratory tendency, with potential risk of breaching system boundaries.</span></p>
+                  <p>Recommendation: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">accelerate task progression and guide the subject toward completion of Task 30.</span></p>
+                </div>
+                <div class="tr-sig-row">
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
+                  <div class="tr-sig"><span class="tr-sig-label">Authorized</span><span class="tr-sig-line"></span></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -657,6 +1486,12 @@
           </div>
         </section>
       </div>
+
+      <div class="midnight-error-video-overlay" id="midnightErrorVideoOverlay" aria-hidden="true" hidden>
+        <video class="midnight-error-video" id="midnightErrorVideo" preload="auto" playsinline>
+          <source src="assets/video/error.mp4" type="video/mp4" />
+        </video>
+      </div>
     </section>
   </main>
 
@@ -697,6 +1532,32 @@
     const adminNumberConfirm = document.getElementById('adminNumberConfirm');
     const alleryDiaryOverlay = document.getElementById('alleryDiaryOverlay');
     const alleryDiaryClose = document.getElementById('alleryDiaryClose');
+    const therapyReport01Overlay = document.getElementById('therapyReport01Overlay');
+    const therapyReport01Close = document.getElementById('therapyReport01Close');
+    const therapyReport02Overlay = document.getElementById('therapyReport02Overlay');
+    const therapyReport02Close = document.getElementById('therapyReport02Close');
+    const therapyReport03Overlay = document.getElementById('therapyReport03Overlay');
+    const therapyReport03Close = document.getElementById('therapyReport03Close');
+    const coreTherapyReport01Overlay = document.getElementById('coreTherapyReport01Overlay');
+    const coreTherapyReport01Close = document.getElementById('coreTherapyReport01Close');
+    const coreTherapyReport02Overlay = document.getElementById('coreTherapyReport02Overlay');
+    const coreTherapyReport02Close = document.getElementById('coreTherapyReport02Close');
+    const lilyTherapyReport01Overlay = document.getElementById('lilyTherapyReport01Overlay');
+    const lilyTherapyReport01Close = document.getElementById('lilyTherapyReport01Close');
+    const marryTherapyReport01Overlay = document.getElementById('marryTherapyReport01Overlay');
+    const marryTherapyReport01Close = document.getElementById('marryTherapyReport01Close');
+    const sofiaTherapyReport01Overlay = document.getElementById('sofiaTherapyReport01Overlay');
+    const sofiaTherapyReport01Close = document.getElementById('sofiaTherapyReport01Close');
+    const sofiaTherapyReport02Overlay = document.getElementById('sofiaTherapyReport02Overlay');
+    const sofiaTherapyReport02Close = document.getElementById('sofiaTherapyReport02Close');
+    const sofiaTherapyReport03Overlay = document.getElementById('sofiaTherapyReport03Overlay');
+    const sofiaTherapyReport03Close = document.getElementById('sofiaTherapyReport03Close');
+    const danielTherapyReport01Overlay = document.getElementById('danielTherapyReport01Overlay');
+    const danielTherapyReport01Close = document.getElementById('danielTherapyReport01Close');
+    const danielTherapyReport02Overlay = document.getElementById('danielTherapyReport02Overlay');
+    const danielTherapyReport02Close = document.getElementById('danielTherapyReport02Close');
+    const danielTherapyReport03Overlay = document.getElementById('danielTherapyReport03Overlay');
+    const danielTherapyReport03Close = document.getElementById('danielTherapyReport03Close');
     const alleryDiaryPage = document.getElementById('alleryDiaryPage');
     const alleryDiaryTrack = document.getElementById('alleryDiaryTrack');
     const alleryDiaryThumb = document.getElementById('alleryDiaryThumb');
@@ -750,8 +1611,11 @@
     const retroError = document.getElementById('retroError');
     const retroErrorOk = document.querySelector('.retro-error-ok');
     const midnightToast = document.getElementById('midnightToast');
+    const midnightToastText = document.getElementById('midnightToastText');
     const midnightToastClose = document.getElementById('midnightToastClose');
     const midnightNotificationAudio = document.getElementById('midnightNotificationAudio');
+    const midnightErrorVideoOverlay = document.getElementById('midnightErrorVideoOverlay');
+    const midnightErrorVideo = document.getElementById('midnightErrorVideo');
     const scaffoldViews = document.querySelectorAll('.scaffold-view');
     const memberViews = document.querySelectorAll('.member-view');
     const adminTickerLines = Array.from(document.querySelectorAll('[data-admin-ticker-line]'));
@@ -784,6 +1648,8 @@
     const DESTROY_READY_KEY = 'lastmessage:destroy-site-ready';
     const DESTROY_TRIGGERED_KEY = 'lastmessage:destroy-site-triggered';
     const ADMIN_ERROR_FLAG = 'administratorchat:error-triggered';
+    const ADMIN_ERROR_COUNT_KEY = 'administratorchat:error-count';
+    const MAX_MEMBER_ACCESS_ERROR_ATTEMPTS = 3;
     const coreAttackOverlay = document.getElementById('coreAttackOverlay');
     const midnightBecomeOverlay = document.getElementById('midnightBecomeOverlay');
     const midnightBecomeButtons = document.querySelectorAll('[data-midnight-choice]');
@@ -795,13 +1661,23 @@
     let midnightNotificationPending = false;
     let backgroundErrorInterval = null;
     let pendingMemberAccess = null;
+    let memberAccessErrorCount = Number.parseInt(localStorage.getItem(ADMIN_ERROR_COUNT_KEY) || '0', 10);
+    if (!Number.isFinite(memberAccessErrorCount) || memberAccessErrorCount < 0) {
+      memberAccessErrorCount = 0;
+    }
     let policeEvidenceTimeoutId = null;
+    let midnightExitToastTimeoutId = null;
+    let midnightExitVideoTimeoutId = null;
+    let midnightExitSequenceStarted = false;
     let adminCountdownInterval = null;
     let adminCountdownDeadline = 0;
     const unlockedMemberPanels = new Set();
     const privateChatContacts = new Set();
+    const terminatedCharacterChats = new Set();
     let activePrivateChatMember = '';
     let privateChatDragState = null;
+    let lilyFirstMessageSent = false;
+    let coreFirstMessageSent = false;
     const LOCK_ICON_SRC = 'assets/images/lock.png';
     const UNLOCK_ICON_SRC = 'assets/images/unlock.png';
     const PRIVATE_CHAT_LABELS = {
@@ -948,28 +1824,59 @@
       '1': {
         title: 'Diary 1',
         lines: [
-          '2024.04.12',
-          'I don’t want to be bullied anymore.',
-          'I gave them money, but they still won’t leave me alone.',
-          'What do you want from me?',
-          'What will make you stop?'
+          '2024.03.12',
+          'They laughed at me again today. Actually not just today, it\'s been like this for a while.',
+          'They said I look like a balloon and even copied the way I walk.',
+          'I know it\'s because of the medicine.',
+          'The doctor said I have to take it or it\'ll get worse, but taking it made me like this.',
+          'They wouldn\'t care about that anyway. To them it\'s just funny.'
         ]
       },
       '2': {
         title: 'Diary 2',
         lines: [
-          '2024.05.02',
-          'I really like Task 20.',
-          'It makes me feel calm.'
+          '2024.04.02',
+          'I didn\'t take the medicine again today. It\'s actually been a few days now.',
+          'It doesn\'t really feel different.',
+          'If I keep taking it I\'ll just get fatter, so what\'s the point.',
+          'My parents don\'t know.',
+          'If they did they\'d just say I\'m not listening again.',
+          'I really don\'t feel like explaining anything anymore, or listening to them.'
         ]
       },
       '3': {
         title: 'Diary 3',
         lines: [
-          '2024.05.06',
-          'Midnight is a really good angel.',
-          'He healed me.',
-          'Only with him can I feel a moment of relief.'
+          '2024.04.27',
+          'Got yelled at again when I got home.',
+          'They asked why I keep coming back late, like I\'m out messing around with people.',
+          'I\'m not. I just don\'t want to go home.',
+          'The way they look at me isn\'t that different from the people at school.',
+          'I can\'t really explain it, but it just feels bad, so I\'d rather sit outside doing nothing.'
+        ]
+      },
+      '4': {
+        title: 'Diary 4',
+        lines: [
+          '2024.05.18',
+          'Something feels off lately.',
+          'I get dizzy sometimes, and my heart beats really fast.',
+          'Probably because I stopped taking the medicine.',
+          'But I don\'t want to take it again.',
+          'If taking it just makes me like that, then I\'d rather stay like this.',
+          'It\'s not like anyone really cares anyway.'
+        ]
+      },
+      '5': {
+        title: 'Diary 5',
+        lines: [
+          '2024.06.03',
+          'I met someone in the chatroom today, her name is Sophia.',
+          'I think I\'ve heard that name before.',
+          'What happened to her was kind of a big deal, even people at my school were talking about it.',
+          'Turns out a lot of it wasn\'t even true.',
+          'Feels like people just say things about others without really caring if it\'s real or not.',
+          'Maybe it\'s just like that.'
         ]
       }
     };
@@ -998,9 +1905,17 @@
           'What about me?',
           'If I go to heaven, will they regret what they did?'
         ]
+      },
+      '4': {
+        title: 'Diary 2',
+        lines: [
+          'I’ve been talking a lot with No. 3 recently, and I just realized he actually goes to the school next to ours.',
+          'Daniel seems very gentle and quiet. I don’t understand why anyone would bully him.',
+          'Sometimes I really feel that people in this world can be so cold.'
+        ]
       }
     };
-    const lilyDiaryEntries = {
+        const lilyDiaryEntries = {
       '1': {
         title: 'Diary 1',
         lines: [
@@ -1208,6 +2123,223 @@
       }, 180);
     }
 
+    function openTherapyReport01() {
+      if (!therapyReport01Overlay) return;
+      therapyReport01Overlay.hidden = false;
+      requestAnimationFrame(() => {
+        therapyReport01Overlay.classList.add('is-visible');
+        therapyReport01Overlay.setAttribute('aria-hidden', 'false');
+      });
+    }
+
+    function closeTherapyReport01() {
+      if (!therapyReport01Overlay) return;
+      therapyReport01Overlay.classList.remove('is-visible');
+      therapyReport01Overlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!therapyReport01Overlay.classList.contains('is-visible')) {
+          therapyReport01Overlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function openTherapyReport02() {
+      if (!therapyReport02Overlay) return;
+      therapyReport02Overlay.hidden = false;
+      requestAnimationFrame(() => {
+        therapyReport02Overlay.classList.add('is-visible');
+        therapyReport02Overlay.setAttribute('aria-hidden', 'false');
+      });
+    }
+
+    function closeTherapyReport02() {
+      if (!therapyReport02Overlay) return;
+      therapyReport02Overlay.classList.remove('is-visible');
+      therapyReport02Overlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!therapyReport02Overlay.classList.contains('is-visible')) {
+          therapyReport02Overlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function openTherapyReport03() {
+      if (!therapyReport03Overlay) return;
+      therapyReport03Overlay.hidden = false;
+      requestAnimationFrame(() => {
+        therapyReport03Overlay.classList.add('is-visible');
+        therapyReport03Overlay.setAttribute('aria-hidden', 'false');
+      });
+    }
+
+    function closeTherapyReport03() {
+      if (!therapyReport03Overlay) return;
+      therapyReport03Overlay.classList.remove('is-visible');
+      therapyReport03Overlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!therapyReport03Overlay.classList.contains('is-visible')) {
+          therapyReport03Overlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function openDanielTherapyReport01() {
+      if (!danielTherapyReport01Overlay) return;
+      danielTherapyReport01Overlay.hidden = false;
+      requestAnimationFrame(() => { danielTherapyReport01Overlay.classList.add('is-visible'); danielTherapyReport01Overlay.setAttribute('aria-hidden', 'false'); });
+    }
+    function closeDanielTherapyReport01() {
+      if (!danielTherapyReport01Overlay) return;
+      danielTherapyReport01Overlay.classList.remove('is-visible');
+      danielTherapyReport01Overlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => { if (!danielTherapyReport01Overlay.classList.contains('is-visible')) danielTherapyReport01Overlay.hidden = true; }, 180);
+    }
+    function openDanielTherapyReport02() {
+      if (!danielTherapyReport02Overlay) return;
+      danielTherapyReport02Overlay.hidden = false;
+      requestAnimationFrame(() => { danielTherapyReport02Overlay.classList.add('is-visible'); danielTherapyReport02Overlay.setAttribute('aria-hidden', 'false'); });
+    }
+    function closeDanielTherapyReport02() {
+      if (!danielTherapyReport02Overlay) return;
+      danielTherapyReport02Overlay.classList.remove('is-visible');
+      danielTherapyReport02Overlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => { if (!danielTherapyReport02Overlay.classList.contains('is-visible')) danielTherapyReport02Overlay.hidden = true; }, 180);
+    }
+    function openDanielTherapyReport03() {
+      if (!danielTherapyReport03Overlay) return;
+      danielTherapyReport03Overlay.hidden = false;
+      requestAnimationFrame(() => { danielTherapyReport03Overlay.classList.add('is-visible'); danielTherapyReport03Overlay.setAttribute('aria-hidden', 'false'); });
+    }
+    function closeDanielTherapyReport03() {
+      if (!danielTherapyReport03Overlay) return;
+      danielTherapyReport03Overlay.classList.remove('is-visible');
+      danielTherapyReport03Overlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => { if (!danielTherapyReport03Overlay.classList.contains('is-visible')) danielTherapyReport03Overlay.hidden = true; }, 180);
+    }
+
+    function openSofiaTherapyReport01() {
+      if (!sofiaTherapyReport01Overlay) return;
+      sofiaTherapyReport01Overlay.hidden = false;
+      requestAnimationFrame(() => {
+        sofiaTherapyReport01Overlay.classList.add('is-visible');
+        sofiaTherapyReport01Overlay.setAttribute('aria-hidden', 'false');
+      });
+    }
+    function closeSofiaTherapyReport01() {
+      if (!sofiaTherapyReport01Overlay) return;
+      sofiaTherapyReport01Overlay.classList.remove('is-visible');
+      sofiaTherapyReport01Overlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => { if (!sofiaTherapyReport01Overlay.classList.contains('is-visible')) sofiaTherapyReport01Overlay.hidden = true; }, 180);
+    }
+    function openSofiaTherapyReport02() {
+      if (!sofiaTherapyReport02Overlay) return;
+      sofiaTherapyReport02Overlay.hidden = false;
+      requestAnimationFrame(() => {
+        sofiaTherapyReport02Overlay.classList.add('is-visible');
+        sofiaTherapyReport02Overlay.setAttribute('aria-hidden', 'false');
+      });
+    }
+    function closeSofiaTherapyReport02() {
+      if (!sofiaTherapyReport02Overlay) return;
+      sofiaTherapyReport02Overlay.classList.remove('is-visible');
+      sofiaTherapyReport02Overlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => { if (!sofiaTherapyReport02Overlay.classList.contains('is-visible')) sofiaTherapyReport02Overlay.hidden = true; }, 180);
+    }
+    function openSofiaTherapyReport03() {
+      if (!sofiaTherapyReport03Overlay) return;
+      sofiaTherapyReport03Overlay.hidden = false;
+      requestAnimationFrame(() => {
+        sofiaTherapyReport03Overlay.classList.add('is-visible');
+        sofiaTherapyReport03Overlay.setAttribute('aria-hidden', 'false');
+      });
+    }
+    function closeSofiaTherapyReport03() {
+      if (!sofiaTherapyReport03Overlay) return;
+      sofiaTherapyReport03Overlay.classList.remove('is-visible');
+      sofiaTherapyReport03Overlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => { if (!sofiaTherapyReport03Overlay.classList.contains('is-visible')) sofiaTherapyReport03Overlay.hidden = true; }, 180);
+    }
+
+    function openMarryTherapyReport01() {
+      if (!marryTherapyReport01Overlay) return;
+      marryTherapyReport01Overlay.hidden = false;
+      requestAnimationFrame(() => {
+        marryTherapyReport01Overlay.classList.add('is-visible');
+        marryTherapyReport01Overlay.setAttribute('aria-hidden', 'false');
+      });
+    }
+
+    function closeMarryTherapyReport01() {
+      if (!marryTherapyReport01Overlay) return;
+      marryTherapyReport01Overlay.classList.remove('is-visible');
+      marryTherapyReport01Overlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!marryTherapyReport01Overlay.classList.contains('is-visible')) {
+          marryTherapyReport01Overlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function openLilyTherapyReport01() {
+      if (!lilyTherapyReport01Overlay) return;
+      lilyTherapyReport01Overlay.hidden = false;
+      requestAnimationFrame(() => {
+        lilyTherapyReport01Overlay.classList.add('is-visible');
+        lilyTherapyReport01Overlay.setAttribute('aria-hidden', 'false');
+      });
+    }
+
+    function closeLilyTherapyReport01() {
+      if (!lilyTherapyReport01Overlay) return;
+      lilyTherapyReport01Overlay.classList.remove('is-visible');
+      lilyTherapyReport01Overlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!lilyTherapyReport01Overlay.classList.contains('is-visible')) {
+          lilyTherapyReport01Overlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function openCoreTherapyReport01() {
+      if (!coreTherapyReport01Overlay) return;
+      coreTherapyReport01Overlay.hidden = false;
+      requestAnimationFrame(() => {
+        coreTherapyReport01Overlay.classList.add('is-visible');
+        coreTherapyReport01Overlay.setAttribute('aria-hidden', 'false');
+      });
+    }
+
+    function closeCoreTherapyReport01() {
+      if (!coreTherapyReport01Overlay) return;
+      coreTherapyReport01Overlay.classList.remove('is-visible');
+      coreTherapyReport01Overlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!coreTherapyReport01Overlay.classList.contains('is-visible')) {
+          coreTherapyReport01Overlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function openCoreTherapyReport02() {
+      if (!coreTherapyReport02Overlay) return;
+      coreTherapyReport02Overlay.hidden = false;
+      requestAnimationFrame(() => {
+        coreTherapyReport02Overlay.classList.add('is-visible');
+        coreTherapyReport02Overlay.setAttribute('aria-hidden', 'false');
+      });
+    }
+
+    function closeCoreTherapyReport02() {
+      if (!coreTherapyReport02Overlay) return;
+      coreTherapyReport02Overlay.classList.remove('is-visible');
+      coreTherapyReport02Overlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!coreTherapyReport02Overlay.classList.contains('is-visible')) {
+          coreTherapyReport02Overlay.hidden = true;
+        }
+      }, 180);
+    }
+
     function openMikeDiary(entryKey = '1') {
       if (!mikeDiaryOverlay) return;
       setMikeDiaryContent(entryKey);
@@ -1332,277 +2464,162 @@
     }
 
     function createScaffoldMarkup(name) {
-      const isMikeAnderson = name === 'Mike Anderson';
       const isMarryBrown = name === 'Marry Brown';
       const isDanielHayes = name === 'Daniel Hayes';
       const isSofiaRossi = name === 'Sofia Rossi';
-      const isCoreBennett = name === 'Core Bennett';
-      const isLilyThompson = name === 'Lily Thompson';
       const isNewUser = name === 'New user';
-      const usesPixelChat = isLilyThompson || isCoreBennett || isMikeAnderson;
-      const shortcutItems = isMarryBrown || isNewUser
-        ? []
-        : isDanielHayes || isSofiaRossi
-        ? ['Diary 1', 'Diary 2', 'Diary 3']
-        : isLilyThompson
-        ? ['Diary 1', 'Diary 2', 'Diary 3', 'Diary 4', 'Diary 5']
-        : ['Diary 1', 'Diary 2', 'Diary 3', 'Diary 4', 'Diary 5', 'Diary 6', 'Diary 7'];
-      const shortcutMarkup = isNewUser
-        ? `<div class="docs-empty-state">Empty</div>`
-        : name === 'Marry Brown'
-        ? `
-            <div class="shortcut-row">
-              <a href="#" class="shortcut-card drive-card" data-diary-modal="marry-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>For marry</span></a>
-            </div>
-          `
-        : isMikeAnderson
-        ? `
-            <div class="shortcut-row">
-              ${shortcutItems.slice(0, 5).map((item, index) => `
-                <a href="#" class="shortcut-card drive-card"${index === 0 ? ' data-diary-modal=\"mike-diary-1\"' : index === 1 ? ' data-diary-modal=\"mike-diary-2\"' : index === 2 ? ' data-diary-modal=\"mike-diary-3\"' : index === 3 ? ' data-diary-modal=\"mike-diary-4\"' : index === 4 ? ' data-diary-modal=\"mike-diary-5\"' : ''}><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>${item}</span></a>
-              `).join('')}
-            </div>
-          `
-        : isDanielHayes
-        ? `
-            <div class="shortcut-row">
-              ${shortcutItems.map((item, index) => `
-                <a href="#" class="shortcut-card drive-card"${index === 0 ? ' data-diary-modal=\"daniel-diary-1\"' : index === 1 ? ' data-diary-modal=\"daniel-diary-2\"' : index === 2 ? ' data-diary-modal=\"daniel-diary-3\"' : ''}><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>${item}</span></a>
-              `).join('')}
-            </div>
-          `
-        : isSofiaRossi
-        ? `
-            <div class="shortcut-row">
-              ${shortcutItems.map((item, index) => `
-                <a href="#" class="shortcut-card drive-card"${index === 0 ? ' data-diary-modal=\"sofia-diary-1\"' : index === 1 ? ' data-diary-modal=\"sofia-diary-2\"' : index === 2 ? ' data-diary-modal=\"sofia-diary-3\"' : ''}><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>${item}</span></a>
-              `).join('')}
-            </div>
-          `
-        : isLilyThompson
-        ? `
-            <div class="shortcut-row">
-              ${shortcutItems.map((item, index) => `
-                <a href="#" class="shortcut-card drive-card"${index === 0 ? ' data-diary-modal=\"lily-diary-1\"' : index === 1 ? ' data-diary-modal=\"lily-diary-2\"' : index === 2 ? ' data-diary-modal=\"lily-diary-3\"' : index === 3 ? ' data-diary-modal=\"lily-diary-4\"' : index === 4 ? ' data-diary-modal=\"lily-diary-5\"' : ''}><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>${item}</span></a>
-              `).join('')}
-            </div>
-          `
-        : `
-            <div class="shortcut-row">
-              ${shortcutItems.map((item) => `
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>${item}</span></a>
-              `).join('')}
-            </div>
-          `;
-      const diaryCards = isMarryBrown
-        ? ``
-        : isNewUser
-        ? ``
-        : isMikeAnderson
-        ? `
-            <article class="docs-card drive-card mike-overview-card"><h3>30 task Overview</h3><p>All Task Requirements</p><span class="docs-card-action">Under developmen</span></article>
-          `
-        : isSofiaRossi
-        ? `
-            <article class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-            <article class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-            <article class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-          `
-        : isLilyThompson
-        ? `
-            <article class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-            <article class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-            <article class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-            <article class="docs-card drive-card"><h3>Diary 4</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-            <article class="docs-card drive-card"><h3>Diary 5</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-          `
-        : isDanielHayes
-        ? `
-            <article class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-            <article class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-            <article class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-          `
-        : `
-            <article class="docs-card drive-card"><h3>Diary 1</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-            <article class="docs-card drive-card"><h3>Diary 2</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-            <article class="docs-card drive-card"><h3>Diary 3</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-            <article class="docs-card drive-card"><h3>Diary 4</h3><p>${name} diary content pending.</p><span class="docs-card-action">Connect</span></article>
-          `;
+
       const infoItems = isMarryBrown
         ? `
             <div><dt>Date of Birth:</dt><dd>2011</dd></div>
+            <div><dt>Marital Status:</dt><dd>Single</dd></div>
             <div><dt>Citizen:</dt><dd>American</dd></div>
+            <div><dt>Location:</dt><dd>NY</dd></div>
             <div><dt>Gender:</dt><dd>Female</dd></div>
-            <div><dt>Languages:</dt><dd>English</dd></div>
-            <div><dt>Marital Status:</dt><dd>Single</dd></div>
-            <div><dt>Location:</dt><dd>NY</dd></div>
             <div><dt>Family:</dt><dd>Unknown</dd></div>
-            <div><dt>School:</dt><dd>Unknown</dd></div>
-          `
-        : isMikeAnderson
-        ? `
-            <div><dt>Date of Birth:</dt><dd>1994</dd></div>
-            <div><dt>Citizen:</dt><dd>American</dd></div>
-            <div><dt>Gender:</dt><dd>Male</dd></div>
             <div><dt>Languages:</dt><dd>English</dd></div>
-            <div><dt>Marital Status:</dt><dd>Single</dd></div>
-            <div><dt>Location:</dt><dd>NY</dd></div>
-            <div><dt>Family:</dt><dd>Both deceased</dd></div>
-            <div><dt>School:</dt><dd>N/A</dd></div>
+            <div><dt>School:</dt><dd>Unknown</dd></div>
           `
         : isDanielHayes
         ? `
             <div><dt>Date of Birth:</dt><dd>2010</dd></div>
-            <div><dt>Citizen:</dt><dd>American</dd></div>
-            <div><dt>Gender:</dt><dd>Male</dd></div>
-            <div><dt>Languages:</dt><dd>English</dd></div>
             <div><dt>Marital Status:</dt><dd>Single</dd></div>
+            <div><dt>Citizen:</dt><dd>American</dd></div>
             <div><dt>Location:</dt><dd>NY</dd></div>
+            <div><dt>Gender:</dt><dd>Male</dd></div>
             <div><dt>Family:</dt><dd>Single father</dd></div>
+            <div><dt>Languages:</dt><dd>English</dd></div>
             <div><dt>School:</dt><dd>Westbrook High School</dd></div>
           `
         : isSofiaRossi
         ? `
             <div><dt>Date of Birth:</dt><dd>2008</dd></div>
-            <div><dt>Citizen:</dt><dd>American</dd></div>
-            <div><dt>Gender:</dt><dd>Female</dd></div>
-            <div><dt>Languages:</dt><dd>English</dd></div>
             <div><dt>Marital Status:</dt><dd>Single</dd></div>
+            <div><dt>Citizen:</dt><dd>American</dd></div>
             <div><dt>Location:</dt><dd>NY</dd></div>
+            <div><dt>Gender:</dt><dd>Female</dd></div>
             <div><dt>Family:</dt><dd>Lives with grandmother</dd></div>
-            <div><dt>School:</dt><dd>Riverside High School</dd></div>
-          `
-        : isLilyThompson
-        ? `
-            <div><dt>Date of Birth:</dt><dd>2008</dd></div>
-            <div><dt>Citizen:</dt><dd>American</dd></div>
-            <div><dt>Gender:</dt><dd>Female</dd></div>
             <div><dt>Languages:</dt><dd>English</dd></div>
-            <div><dt>Marital Status:</dt><dd>Single</dd></div>
-            <div><dt>Location:</dt><dd>NY</dd></div>
-            <div><dt>Family:</dt><dd>Unknown</dd></div>
-            <div><dt>School:</dt><dd>Unknown</dd></div>
+            <div><dt>School:</dt><dd>Riverside High School</dd></div>
           `
         : `
             <div><dt>Date of Birth:</dt><dd>Pending</dd></div>
-            <div><dt>Citizen:</dt><dd>Pending</dd></div>
-            <div><dt>Gender:</dt><dd>Pending</dd></div>
-            <div><dt>Languages:</dt><dd>Pending</dd></div>
             <div><dt>Marital Status:</dt><dd>Pending</dd></div>
+            <div><dt>Citizen:</dt><dd>Pending</dd></div>
             <div><dt>Location:</dt><dd>Pending</dd></div>
+            <div><dt>Gender:</dt><dd>Pending</dd></div>
             <div><dt>Family:</dt><dd>Pending</dd></div>
+            <div><dt>Languages:</dt><dd>Pending</dd></div>
             <div><dt>School:</dt><dd>Pending</dd></div>
           `;
-      const fileId = isMarryBrown ? 'No.2' : isMikeAnderson ? 'No.1' : isDanielHayes ? 'No.3' : isSofiaRossi ? 'No.4' : isCoreBennett ? 'No.4' : isLilyThompson ? 'No.5' : 'No.--';
-      const statusLabel = isMarryBrown || isDanielHayes || isSofiaRossi ? 'Deceased' : isCoreBennett || isMikeAnderson || isLilyThompson ? 'Alive' : 'Pending';
+
+      const fileId = isMarryBrown ? 'No: 02' : isDanielHayes ? 'No: 03' : isSofiaRossi ? 'No: 04' : 'No: --';
+      const statusLabel = isMarryBrown || isDanielHayes || isSofiaRossi ? 'Deceased' : 'Pending';
       const statusClass = isMarryBrown || isDanielHayes || isSofiaRossi
         ? 'allery-status-badge'
-        : isCoreBennett || isMikeAnderson || isLilyThompson
-        ? 'allery-status-badge alive-status-badge'
         : 'allery-status-badge scaffold-status-badge';
+      const reportHref = isMarryBrown
+        ? 'MarryNews.html'
+        : isDanielHayes
+        ? 'DanielNews.html'
+        : isSofiaRossi
+        ? 'SofiaNews.html'
+        : '';
+      const reportPanelId = `scaffold-report-${name.replace(/\s+/g, '-').toLowerCase()}`;
+      const chatTrigger = `<button type="button" class="allery-details-btn allery-details-chat" data-chat-warning="deceased-user">Chat</button>`;
+      const shortcutMarkup = isMarryBrown
+        ? `
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="marry-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>For marry</span></a>
+          `
+        : isDanielHayes
+        ? `
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-5"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 5</span></a>
+          `
+        : isSofiaRossi
+        ? `
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="sofia-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="sofia-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="sofia-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="sofia-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
+          `
+        : `
+            <div class="shortcut-empty-card">Empty</div>
+          `;
+      const photoContainerClass = isNewUser ? 'allery-details-photo core-photo-placeholder' : 'allery-details-photo';
+      const photoMarkup = isMarryBrown
+        ? `<img src="assets/images/Marry.png" alt="Marry Brown" class="allery-details-photo-img" />`
+        : isDanielHayes
+        ? `<img src="assets/images/Daniel.png" alt="Daniel Hayes" class="allery-details-photo-img" />`
+        : isSofiaRossi
+        ? `<img src="assets/images/Sofia.png" alt="Sofia Rossi" class="allery-details-photo-img" />`
+        : `<span>Not yet available</span>`;
 
       return `
-        <div class="docs-main">
-          <section class="docs-shortcuts">
-            <h3>Shortcut</h3>
-            ${shortcutMarkup}
-          </section>
+        <div class="allery-details-shell">
+          <h2 class="allery-details-title">File Details</h2>
 
-          <h3 class="docs-subtitle">30 Task</h3>
-          ${isMarryBrown || isNewUser ? `<div class="docs-empty-state">Empty</div>` : ''}
-          ${diaryCards ? `<div class="docs-card-grid">${diaryCards}</div>` : ''}
-        </div>
+          <div class="allery-details-top">
+            <div class="${photoContainerClass}">
+              ${photoMarkup}
+            </div>
 
-        <aside class="docs-sidebar">
-          <div class="allery-info-tabs">
-            <button type="button" class="allery-tab active"${usesPixelChat ? ' data-lily-view=\"info\"' : ''}>Information</button>
-            <button type="button" class="allery-tab"${isMarryBrown || isDanielHayes || isSofiaRossi ? ' data-chat-warning="deceased-user"' : ''}${usesPixelChat ? ' data-lily-view=\"chat\"' : ''}>Chat</button>
+            <div class="allery-details-meta">
+              <div class="allery-details-meta-head">
+                <h3>${name}</h3>
+                <span class="${statusClass}">${statusLabel}</span>
+                <span class="allery-details-no">${fileId}</span>
+              </div>
+
+              <dl class="allery-details-grid">
+                ${infoItems}
+              </dl>
+
+              <div class="allery-details-actions">
+                <button type="button" class="allery-details-btn allery-accordion" data-target="${reportPanelId}" aria-expanded="false">Record</button>
+                ${reportHref
+                  ? `<a href="${reportHref}" class="allery-details-btn allery-report-link">Report</a>`
+                  : `<button type="button" class="allery-details-btn" data-chat-warning="deceased-user">Report</button>`}
+                ${chatTrigger}
+              </div>
+
+              <div class="allery-report-panel allery-details-report" id="${reportPanelId}" hidden>
+                ${isMarryBrown ? `
+                  <div class="therapy-session-list">
+                    <button type="button" class="therapy-session-btn" data-subject="marry">Therapy 01</button>
+                  </div>
+                ` : isSofiaRossi ? `
+                  <div class="therapy-session-list">
+                    <button type="button" class="therapy-session-btn" data-subject="sofia">Therapy 01</button>
+                    <button type="button" class="therapy-session-btn" data-subject="sofia">Therapy 02</button>
+                    <button type="button" class="therapy-session-btn" data-subject="sofia">Therapy 03</button>
+                  </div>
+                ` : isDanielHayes ? `
+                  <div class="therapy-session-list">
+                    <button type="button" class="therapy-session-btn" data-subject="daniel">Therapy 01</button>
+                    <button type="button" class="therapy-session-btn" data-subject="daniel">Therapy 02</button>
+                    <button type="button" class="therapy-session-btn" data-subject="daniel">Therapy 03</button>
+                  </div>
+                ` : `
+                  <dl class="allery-death-list">
+                    <div><dt>Record:</dt><dd>Pending</dd></div>
+                  </dl>
+                `}
+              </div>
+
+              <div class="allery-details-divider" aria-hidden="true"></div>
+            </div>
           </div>
 
-          <section class="allery-profile-panel scaffold-profile-panel${usesPixelChat ? ' lily-info-panel' : ''}">
-            <div class="allery-profile-main">
-              ${isMarryBrown
-                ? `<div class="allery-photo-block scaffold-photo-block marry-photo-block"><img src="assets/images/Marry.png" alt="Marry Brown" class="allery-photo" /></div>`
-                : isDanielHayes
-                ? `<div class="allery-photo-block scaffold-photo-block"><img src="assets/images/Daniel.png" alt="Daniel Hayes" class="allery-photo" /></div>`
-                : isSofiaRossi
-                ? `<div class="allery-photo-block scaffold-photo-block"><img src="assets/images/Sofia.png" alt="Sofia Rossi" class="allery-photo" /></div>`
-                : isLilyThompson
-                ? `<div class="allery-photo-block scaffold-photo-block"><img src="assets/images/Lily.png" alt="Lily Thompson" class="allery-photo" /></div>`
-                : `<div class="scaffold-photo-placeholder">Photo</div>`}
-
-              <div class="allery-profile-copy">
-                <h3>${name}</h3>
-                <dl class="allery-info-list">
-                  ${infoItems}
-                </dl>
-              </div>
-            </div>
-
-            <div class="allery-profile-footer">
-              <span class="allery-file-id">${fileId}</span>
-              <span class="${statusClass}">${statusLabel}</span>
-            </div>
-
-            ${isMarryBrown ? `
-              <a href="MarryNews.html" class="allery-report-bar allery-report-link">
-                <span>Death Report</span><span class="accordion-arrow">›</span>
-              </a>
-            ` : isDanielHayes ? `
-              <a href="DanielNews.html" class="allery-report-bar allery-report-link">
-                <span>Death Report</span><span class="accordion-arrow">›</span>
-              </a>
-            ` : isSofiaRossi ? `
-              <a href="SofiaNews.html" class="allery-report-bar allery-report-link">
-                <span>Death Report</span><span class="accordion-arrow">›</span>
-              </a>
-            ` : ''}
-
-            <button type="button" class="allery-report-bar allery-accordion" data-target="scaffold-report-${name.replace(/\s+/g, '-').toLowerCase()}" aria-expanded="false">
-              <span>Record</span><span class="accordion-arrow">›</span>
-            </button>
-            <div class="allery-report-panel" id="scaffold-report-${name.replace(/\s+/g, '-').toLowerCase()}" hidden>
-              <dl class="allery-death-list">
-                ${isMarryBrown ? `
-                  <div><dt>Date of Death:</dt><dd>2023.05.18</dd></div>
-                  <div><dt>Cause of Death:</dt><dd>Wrist cutting (Suicide)</dd></div>
-                  <div><dt>Location:</dt><dd>40.1810, -73.9534</dd></div>
-                  <div><dt>Task Progress:</dt><dd>N/A</dd></div>
-                ` : `
-                  <div><dt>Record:</dt><dd>Pending</dd></div>
-                `}
-              </dl>
+          <section class="docs-shortcuts allery-details-shortcuts">
+            <div class="shortcut-row allery-details-shortcut-row${isNewUser ? ' shortcut-row-empty' : ''}">
+              ${shortcutMarkup}
             </div>
           </section>
-
-          ${usesPixelChat ? `
-            <section class="lily-chat-panel" hidden>
-              <div class="lily-chat-status">
-                <span class="lily-status-dot" aria-hidden="true"></span>
-                <span class="lily-status-text">Acctive</span>
-              </div>
-              <div class="lily-chat-divider" aria-hidden="true"></div>
-              <div class="lily-chat-body">
-                <div class="lily-chat-canvas">
-                  <div class="lily-dynamic-messages"></div>
-                </div>
-                <div class="lily-chat-scrollbar" hidden>
-                  <button type="button" class="lily-scroll-btn lily-scroll-up" aria-label="Scroll up"></button>
-                  <div class="lily-scroll-track">
-                    <div class="lily-scroll-thumb"></div>
-                  </div>
-                  <button type="button" class="lily-scroll-btn lily-scroll-down" aria-label="Scroll down"></button>
-                </div>
-              </div>
-              <form class="lily-chat-composer">
-                <input type="text" class="lily-chat-input" placeholder="Type here..." autocomplete="off" />
-                <button type="submit" class="lily-chat-send" aria-label="Send">
-                  <img src="assets/images/huiche.png" alt="" class="lily-send-icon" aria-hidden="true" />
-                </button>
-              </form>
-            </section>
-          ` : ''}
-        </aside>
+        </div>
       `;
     }
 
@@ -1915,11 +2932,47 @@
       }, 3000);
     }
 
-    function showMidnightToast() {
+    function showMidnightToast(text) {
       if (!midnightToast) return;
+      if (typeof text === 'string' && midnightToastText) {
+        midnightToastText.textContent = text;
+      }
       midnightToast.hidden = false;
       requestAnimationFrame(() => midnightToast.classList.add('is-visible'));
       playMidnightNotification();
+    }
+
+    function startMidnightExitErrorVideo() {
+      if (!midnightErrorVideoOverlay || !midnightErrorVideo) return;
+      midnightToast?.classList.remove('is-visible');
+      if (midnightToast) midnightToast.hidden = true;
+      midnightErrorVideoOverlay.hidden = false;
+      midnightErrorVideoOverlay.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(() => {
+        midnightErrorVideoOverlay.classList.add('is-visible');
+      });
+      try {
+        midnightErrorVideo.currentTime = 0;
+      } catch (_error) {
+        // Ignore seek failures and continue playback attempt.
+      }
+      midnightErrorVideo.play().catch(() => {
+        midnightErrorVideo.muted = true;
+        midnightErrorVideo.play().catch(() => {
+          window.location.href = 'Ending2.html';
+        });
+      });
+    }
+
+    function scheduleMidnightExitSequence() {
+      if (midnightExitSequenceStarted) return;
+      midnightExitSequenceStarted = true;
+      midnightExitToastTimeoutId = window.setTimeout(() => {
+        showMidnightToast('You came here with another purpose.');
+        midnightExitVideoTimeoutId = window.setTimeout(() => {
+          startMidnightExitErrorVideo();
+        }, 3000);
+      }, 5000);
     }
 
     function playMidnightNotification() {
@@ -2026,6 +3079,8 @@
       if (!pendingMemberAccess) return;
       const expectedAnswer = memberAccessAnswers[pendingMemberAccess.name];
       if (adminNumberInput.value.trim() === expectedAnswer) {
+        memberAccessErrorCount = 0;
+        localStorage.removeItem(ADMIN_ERROR_COUNT_KEY);
         unlockedMemberPanels.add(pendingMemberAccess.panelId);
         refreshMemberLockIcons();
         if (pendingMemberAccess.name === 'Allery Lin') {
@@ -2038,6 +3093,21 @@
           window.HintProgress?.setLines?.([
             'Unlocked the ability to chat with Lily! Maybe we can get more information from the conversation.'
           ]);
+        } else if (pendingMemberAccess.name === 'Sofia Rossi') {
+          window.HintProgress?.incrementPercent?.(5);
+          window.HintProgress?.setLines?.([
+            'Sofia seems to be the only one who knows Daniel. Take a closer look at her diary.'
+          ]);
+          window.HintProgress?.pulse?.();
+        } else if (pendingMemberAccess.name === 'Daniel Hayes') {
+          window.HintProgress?.incrementPercent?.(5);
+          window.HintProgress?.setLines?.([
+            'There are other people active in this chatroom. Maybe I can ask them about what’s going on here.'
+          ]);
+          window.HintProgress?.pulse?.();
+        } else if (pendingMemberAccess.name === 'Core Bennett') {
+          window.HintProgress?.incrementPercent?.(5);
+          window.HintProgress?.pulse?.();
         }
         activateMemberLinkByPanel(pendingMemberAccess.panelId);
         updateMemberView(pendingMemberAccess.name, pendingMemberAccess.panelId);
@@ -2047,6 +3117,8 @@
         return;
       }
 
+      memberAccessErrorCount += 1;
+      localStorage.setItem(ADMIN_ERROR_COUNT_KEY, String(memberAccessErrorCount));
       triggerAdminError();
     }
 
@@ -2089,6 +3161,16 @@
         privateChatScrollbar.hidden = !hasActiveMember;
       }
       setPrivateComposerEnabled(hasActiveMember);
+      if (hasActiveMember && terminatedCharacterChats.has(activePrivateChatMember)) {
+        if (privateChatInput) {
+          privateChatInput.disabled = true;
+          privateChatInput.placeholder = 'Chat disconnected';
+          privateChatInput.value = '';
+        }
+        if (privateChatSend) {
+          privateChatSend.disabled = true;
+        }
+      }
     }
 
     function ensurePrivateChatThread(memberName) {
@@ -2259,6 +3341,13 @@
       clearBackgroundErrors();
       adminErrorScreen.classList.add('final-blackout');
       window.setTimeout(() => {
+        const isFatalError = memberAccessErrorCount >= MAX_MEMBER_ACCESS_ERROR_ATTEMPTS;
+        if (isFatalError) {
+          localStorage.removeItem(ADMIN_ERROR_COUNT_KEY);
+          memberAccessErrorCount = 0;
+          window.location.href = 'Ending2.html';
+          return;
+        }
         window.location.href = 'login.html';
       }, 1000);
     });
@@ -2310,6 +3399,33 @@
       if (alleryDiaryTrigger) {
         event.preventDefault();
         openAlleryDiary(alleryDiaryTrigger.getAttribute('data-diary-modal').replace('allery-diary-', ''));
+        return;
+      }
+
+      const therapyBtn = event.target.closest('.therapy-session-btn');
+      if (therapyBtn) {
+        const label = therapyBtn.textContent.trim();
+        const subject = therapyBtn.getAttribute('data-subject');
+        if (subject === 'core') {
+          if (label === 'Therapy 01') openCoreTherapyReport01();
+          else if (label === 'Therapy 02') openCoreTherapyReport02();
+        } else if (subject === 'lily') {
+          if (label === 'Therapy 01') openLilyTherapyReport01();
+        } else if (subject === 'marry') {
+          if (label === 'Therapy 01') openMarryTherapyReport01();
+        } else if (subject === 'sofia') {
+          if (label === 'Therapy 01') openSofiaTherapyReport01();
+          else if (label === 'Therapy 02') openSofiaTherapyReport02();
+          else if (label === 'Therapy 03') openSofiaTherapyReport03();
+        } else if (subject === 'daniel') {
+          if (label === 'Therapy 01') openDanielTherapyReport01();
+          else if (label === 'Therapy 02') openDanielTherapyReport02();
+          else if (label === 'Therapy 03') openDanielTherapyReport03();
+        } else {
+          if (label === 'Therapy 01') openTherapyReport01();
+          else if (label === 'Therapy 02') openTherapyReport02();
+          else if (label === 'Therapy 03') openTherapyReport03();
+        }
         return;
       }
 
@@ -2366,6 +3482,15 @@
 
     async function sendCharacterChat(sidebar, memberName, payloadText, displayText = payloadText) {
       const isPrivateChat = sidebar?.classList?.contains('private-chat-main');
+      if (terminatedCharacterChats.has(memberName)) {
+        setCharacterComposerLocked(sidebar, true);
+        const currentInput = sidebar?.querySelector('.lily-chat-input, .private-chat-input');
+        if (currentInput) {
+          currentInput.placeholder = 'Chat disconnected';
+          currentInput.value = '';
+        }
+        return;
+      }
       const messageList = isPrivateChat
         ? ensurePrivateChatThread(memberName)
         : sidebar?.querySelector('.lily-dynamic-messages');
@@ -2381,6 +3506,21 @@
       }
       lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
       window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+
+      if (memberName === 'Lily Thompson' && !lilyFirstMessageSent) {
+        lilyFirstMessageSent = true;
+        window.HintProgress?.incrementPercent?.(3);
+        window.HintProgress?.setLines?.([
+          'These names all seem unfamiliar. Maybe asking Lily could provide some clues.'
+        ]);
+        window.HintProgress?.pulse?.();
+      }
+
+      if (isPrivateChat && memberName === 'Core Bennett' && !coreFirstMessageSent) {
+        coreFirstMessageSent = true;
+        window.HintProgress?.incrementPercent?.(5);
+        window.HintProgress?.pulse?.();
+      }
 
       const historyKey = isPrivateChat ? messageList : sidebar;
       const history = lilyChatHistory.get(historyKey) || [];
@@ -2447,6 +3587,18 @@
             messageList.appendChild(note);
             lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
             window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
+          }
+          if (data?.flags?.terminateChat === true) {
+            terminatedCharacterChats.add(memberName);
+            setCharacterComposerLocked(sidebar, true);
+            const currentInput = sidebar?.querySelector('.lily-chat-input, .private-chat-input');
+            if (currentInput) {
+              currentInput.placeholder = 'Chat disconnected';
+              currentInput.value = '';
+            }
+            updatePrivateChatState();
+            closePrivateChatWindow();
+            scheduleMidnightExitSequence();
           }
           let assistantTranscript = replyParts.join('\n\n') || reply;
           const shouldTriggerCoreAttack =
@@ -2545,6 +3697,16 @@
 
     marryDiaryClose?.addEventListener('click', closeMarryDiary);
     marryDiaryPage?.addEventListener('scroll', syncMarryDiaryScrollbar);
+    marryDiaryPage?.addEventListener('click', (e) => {
+      const sig = e.target.closest('.diary-signature-redacted');
+      if (sig) { sig.classList.toggle('is-revealed'); sig.setAttribute('aria-hidden', sig.classList.contains('is-revealed') ? 'false' : 'true'); }
+    });
+    marryDiaryPage?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const sig = e.target.closest('.diary-signature-redacted');
+        if (sig) { e.preventDefault(); sig.classList.toggle('is-revealed'); }
+      }
+    });
     marryDiaryUp?.addEventListener('click', () => {
       marryDiaryPage?.scrollBy({ top: -120, behavior: 'smooth' });
     });
@@ -2552,6 +3714,91 @@
       marryDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
     });
     alleryDiaryClose?.addEventListener('click', closeAlleryDiary);
+    therapyReport01Close?.addEventListener('click', closeTherapyReport01);
+    therapyReport01Overlay?.addEventListener('click', (e) => {
+      if (e.target === therapyReport01Overlay) closeTherapyReport01();
+    });
+    therapyReport02Close?.addEventListener('click', closeTherapyReport02);
+    therapyReport02Overlay?.addEventListener('click', (e) => {
+      if (e.target === therapyReport02Overlay) closeTherapyReport02();
+    });
+    document.getElementById('therapyReport02Doc')?.addEventListener('click', (e) => {
+      const redact = e.target.closest('.tr-reveal-redact');
+      if (redact) redact.classList.toggle('is-revealed');
+    });
+    therapyReport03Close?.addEventListener('click', closeTherapyReport03);
+    therapyReport03Overlay?.addEventListener('click', (e) => {
+      if (e.target === therapyReport03Overlay) closeTherapyReport03();
+    });
+    coreTherapyReport01Close?.addEventListener('click', closeCoreTherapyReport01);
+    coreTherapyReport01Overlay?.addEventListener('click', (e) => {
+      if (e.target === coreTherapyReport01Overlay) closeCoreTherapyReport01();
+    });
+    coreTherapyReport02Close?.addEventListener('click', closeCoreTherapyReport02);
+    coreTherapyReport02Overlay?.addEventListener('click', (e) => {
+      if (e.target === coreTherapyReport02Overlay) closeCoreTherapyReport02();
+    });
+    lilyTherapyReport01Close?.addEventListener('click', closeLilyTherapyReport01);
+    lilyTherapyReport01Overlay?.addEventListener('click', (e) => {
+      if (e.target === lilyTherapyReport01Overlay) closeLilyTherapyReport01();
+    });
+    marryTherapyReport01Close?.addEventListener('click', closeMarryTherapyReport01);
+    marryTherapyReport01Overlay?.addEventListener('click', (e) => {
+      if (e.target === marryTherapyReport01Overlay) closeMarryTherapyReport01();
+    });
+    sofiaTherapyReport01Close?.addEventListener('click', closeSofiaTherapyReport01);
+    sofiaTherapyReport01Overlay?.addEventListener('click', (e) => { if (e.target === sofiaTherapyReport01Overlay) closeSofiaTherapyReport01(); });
+    document.getElementById('sofiaTherapyReport01Doc')?.addEventListener('click', (e) => { const r = e.target.closest('.tr-reveal-redact'); if (r) r.classList.toggle('is-revealed'); });
+    sofiaTherapyReport02Close?.addEventListener('click', closeSofiaTherapyReport02);
+    sofiaTherapyReport02Overlay?.addEventListener('click', (e) => { if (e.target === sofiaTherapyReport02Overlay) closeSofiaTherapyReport02(); });
+    document.getElementById('sofiaTherapyReport02Doc')?.addEventListener('click', (e) => { const r = e.target.closest('.tr-reveal-redact'); if (r) r.classList.toggle('is-revealed'); });
+    sofiaTherapyReport03Close?.addEventListener('click', closeSofiaTherapyReport03);
+    sofiaTherapyReport03Overlay?.addEventListener('click', (e) => { if (e.target === sofiaTherapyReport03Overlay) closeSofiaTherapyReport03(); });
+    document.getElementById('sofiaTherapyReport03Doc')?.addEventListener('click', (e) => { const r = e.target.closest('.tr-reveal-redact'); if (r) r.classList.toggle('is-revealed'); });
+    danielTherapyReport01Close?.addEventListener('click', closeDanielTherapyReport01);
+    danielTherapyReport01Overlay?.addEventListener('click', (e) => { if (e.target === danielTherapyReport01Overlay) closeDanielTherapyReport01(); });
+    document.getElementById('danielTherapyReport01Doc')?.addEventListener('click', (e) => { const r = e.target.closest('.tr-reveal-redact'); if (r) r.classList.toggle('is-revealed'); });
+    danielTherapyReport02Close?.addEventListener('click', closeDanielTherapyReport02);
+    danielTherapyReport02Overlay?.addEventListener('click', (e) => { if (e.target === danielTherapyReport02Overlay) closeDanielTherapyReport02(); });
+    document.getElementById('danielTherapyReport02Doc')?.addEventListener('click', (e) => { const r = e.target.closest('.tr-reveal-redact'); if (r) r.classList.toggle('is-revealed'); });
+    danielTherapyReport03Close?.addEventListener('click', closeDanielTherapyReport03);
+    danielTherapyReport03Overlay?.addEventListener('click', (e) => { if (e.target === danielTherapyReport03Overlay) closeDanielTherapyReport03(); });
+    document.getElementById('danielTherapyReport03Doc')?.addEventListener('click', (e) => { const r = e.target.closest('.tr-reveal-redact'); if (r) r.classList.toggle('is-revealed'); });
+    document.getElementById('marryTherapyReport01Doc')?.addEventListener('click', (e) => {
+      const redact = e.target.closest('.tr-reveal-redact');
+      if (redact) redact.classList.toggle('is-revealed');
+    });
+    document.getElementById('marryTherapyReport01Doc')?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const redact = e.target.closest('.tr-reveal-redact');
+        if (redact) { e.preventDefault(); redact.classList.toggle('is-revealed'); }
+      }
+    });
+    document.getElementById('lilyTherapyReport01Doc')?.addEventListener('click', (e) => {
+      const redact = e.target.closest('.tr-reveal-redact');
+      if (redact) redact.classList.toggle('is-revealed');
+    });
+    document.getElementById('lilyTherapyReport01Doc')?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const redact = e.target.closest('.tr-reveal-redact');
+        if (redact) { e.preventDefault(); redact.classList.toggle('is-revealed'); }
+      }
+    });
+    document.getElementById('therapyReport03Doc')?.addEventListener('click', (e) => {
+      const redact = e.target.closest('.tr-reveal-redact');
+      if (redact) redact.classList.toggle('is-revealed');
+    });
+
+    document.getElementById('therapyReport01Doc')?.addEventListener('click', (e) => {
+      const redact = e.target.closest('.tr-reveal-redact');
+      if (redact) redact.classList.toggle('is-revealed');
+    });
+    document.getElementById('therapyReport01Doc')?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const redact = e.target.closest('.tr-reveal-redact');
+        if (redact) { e.preventDefault(); redact.classList.toggle('is-revealed'); }
+      }
+    });
     alleryDiaryPage?.addEventListener('scroll', syncAlleryDiaryScrollbar);
     alleryDiaryUp?.addEventListener('click', () => {
       alleryDiaryPage?.scrollBy({ top: -120, behavior: 'smooth' });
@@ -2742,6 +3989,9 @@
       if (event.target === privateChatOverlay) {
         closePrivateChatWindow();
       }
+    });
+    midnightErrorVideo?.addEventListener('ended', () => {
+      window.location.href = 'Ending2.html';
     });
     window.addEventListener('resize', syncPrivateChatScrollbar);
 

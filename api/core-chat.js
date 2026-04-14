@@ -31,6 +31,18 @@ module.exports = async (req, res) => {
     const normalize = (text) => String(text || '').toLowerCase();
     const truthRevealPattern = /(dangerous website|dangerous site|dangerous chatroom|dangerous room|this website is dangerous|this site is dangerous|this chatroom is dangerous|this room is dangerous|lure(?:s|d)? minors? (?:into |to )?suicide|push(?:es|ed)? kids? (?:toward|into)? suicide|encourage(?:s|d)? minors? to die|ask(?:s|ed)? teenagers? to hurt themselves|make(?:s|d)? teenagers? hurt themselves|tell(?:s|ing)? kids? to hurt themselves|encourage(?:s|d)? self-harm|encourage(?:s|d)? minors? to self-harm|诱导.*自杀|引诱.*自杀|教唆.*自杀|自残|self-harm|hurt themselves|minor[s]? .*suicide|teen[s]? .*suicide|teenagers? .*hurt themselves|kids? .*hurt themselves|this site .*suicide|this website .*suicide|this chatroom .*suicide|this chatroom .*hurt themselves|midnight .*not .*therapist|midnight .*isn[’']?t .*therapist|midnight .*fake therapist|midnight .*pretend(?:s|ed)? to be .*therapist|midnight .*not .*doctor|midnight .*not .*counselor|midnight 根本不是心理医生|midnight 不是心理医生)/i;
     const destroySitePattern = /(destroy|take down|shut down|bring down|stop|ruin|burn down).*(website|site|chatroom)|can we .*?(destroy|take down|shut down|bring down|stop).*(website|site|chatroom)/i;
+    const topicalPattern = /(chatroom|room|site|website|midnight|task|no\.?\s*\d+|number\s*\d+|编号|號|号|allery|sofia|core|daniel|marry|lily|mike|administrator|admin|therapy|report|diary|record|suicide|self-harm|support|destroy|game|story|character|characters|角色|人物|剧情|任務|任务|聊天室|遊戲|游戏|系统|problem|issue|有问题|有問題|不对劲|不對勁|programming|program|code|coding|math|mathematics|algorithm|algorithms|network|networks|hacking|computer|computers|编程|代碼|代码|数学|數學|算法|演算法|网络|網絡)/i;
+    const mundanePattern = /(what.*eat|eat|dinner|lunch|breakfast|food|restaurant|favorite color|favourite color|color|colour|movie|music|sleep|weekend|hobby|weather|where do you live|private life|boyfriend|girlfriend|dating|吃什么|吃飯|吃饭|晚饭|午饭|早餐|颜色|顏色|喜欢什么|喜歡什麼|天气|天氣|周末|週末|爱好|興趣|住哪|住在哪里|私人|日常|戀愛|恋爱)/i;
+    const greetingPattern = /^(hi|hello|hey|yo|sup|你好|嗨|哈喽|哈囉)\b[\s!.?]*$/i;
+
+    const isOffTopicDailyMessage = (text) => {
+      const raw = String(text || '').trim();
+      if (!raw) return false;
+      if (raw.startsWith('__CHOICE__:')) return false;
+      if (greetingPattern.test(raw)) return false;
+      const lowered = raw.toLowerCase();
+      return mundanePattern.test(lowered) && !topicalPattern.test(lowered);
+    };
 
     const playerTexts = [
       ...history
@@ -38,9 +50,33 @@ module.exports = async (req, res) => {
         .map(item => String(item.content || '')),
       message
     ];
+    const priorOffTopicCount = history
+      .filter(item => item && typeof item === 'object' && item.role !== 'assistant')
+      .filter(item => isOffTopicDailyMessage(String(item.content || '')))
+      .length;
+    const currentMessageIsOffTopicDaily = isOffTopicDailyMessage(message);
 
     const playerHasRevealedTruth = playerTexts.some((text) => truthRevealPattern.test(normalize(text)));
     const currentMessageAsksToDestroySite = destroySitePattern.test(normalize(message));
+
+    if (currentMessageIsOffTopicDaily) {
+      const totalOffTopicCount = priorOffTopicCount + 1;
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      const reply =
+        totalOffTopicCount === 1
+          ? "I don't want to discuss private topics. Talking about that here is strange."
+          : totalOffTopicCount === 2
+          ? "This is unprofessional. I'll report this to Midnight."
+          : "What are you actually trying to say? Stop. I'm ending this chat and reporting this to Midnight.";
+      res.end(JSON.stringify({
+        flags: {
+          terminateChat: totalOffTopicCount >= 3
+        },
+        reply
+      }));
+      return;
+    }
 
     if (currentMessageAsksToDestroySite && playerHasRevealedTruth) {
       res.statusCode = 200;
@@ -75,14 +111,20 @@ PERSONAL BACKGROUND
 
 KNOWLEDGE OF THE CHATROOM
 - You do not know much about the other members
-- You only heard that Allery Lin died
-- You do not have a strong emotional reaction to it
-- If asked about Allery Lin, only show mild regret or brief pity
-- Your impression of Lily is that she is the kind of girl who often keeps the group chat lively
-- Even so, you have not had much direct contact with her
-- Sofia Rossi is dead
-- Daniel Hayes is dead
-- Marry Brown is dead
+- You do not recognize real names in chat (for example: Allery Lin, Sofia Rossi, Daniel Hayes, Marry Brown, Lily Thompson)
+- You identify members only by No. labels
+- If asked about someone by real name, reply briefly that you do not know who that is
+- If asked by No., answer based on No. status:
+  - No.1: alive
+  - No.2: dead
+  - No.3: dead
+  - No.4: dead
+  - No.5: alive
+  - No.6: dead
+  - No.7: yourself
+- If asked "what kind of person is Allery" (name), you should say you do not know who that is
+- If asked "what kind of person is No.6", you know that person is dead
+- You do not have a strong emotional reaction to those deaths
 - Dead members cannot be contacted for new answers
 
 TECHNICAL STRENGTH

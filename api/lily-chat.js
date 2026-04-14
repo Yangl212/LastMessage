@@ -31,6 +31,29 @@ module.exports = async (req, res) => {
     const normalize = (text) => String(text || '').toLowerCase();
     const truthRevealPattern = /(dangerous website|dangerous site|this website is dangerous|this site is dangerous|lure(?:s|d)? minors? (?:into |to )?suicide|诱导.*自杀|引诱.*自杀|minor[s]? .*suicide|teen[s]? .*suicide|this site .*suicide|this website .*suicide)/i;
     const destroySitePattern = /(destroy|take down|shut down|bring down|stop|ruin|burn down).*(website|site|chatroom)|can we .*?(destroy|take down|shut down|bring down|stop).*(website|site|chatroom)/i;
+    const askMemberNoPattern = /(no\.?|number|编号|幾號|几号|號碼|号码)/i;
+    const sofiaPattern = /(sofia(?:\s+rossi)?|索菲亚|索菲婭)/i;
+    const alleryPattern = /(allery(?:\s+lin)?|艾拉莉|艾莉瑞|阿莱莉)/i;
+    const midnightPattern = /(midnight|午夜|子夜)/i;
+    const selfIdentityPattern = /(who\s+are\s+you|你是谁|妳是誰)/i;
+    const nameQueryPattern = /(who\s+is|who's|do\s+you\s+know|know\s+about|what\s+do\s+you\s+know\s+about|你认识|你知道|你了解|是谁)/i;
+    const latinFullNamePattern = /\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+){0,2}\b/;
+    const no1Pattern = /(?:\bno\.?\s*1\b|\bnumber\s*1\b|1\s*(?:号|號))/i;
+    const no2Pattern = /(?:\bno\.?\s*2\b|\bnumber\s*2\b|2\s*(?:号|號))/i;
+    const no3Pattern = /(?:\bno\.?\s*3\b|\bnumber\s*3\b|3\s*(?:号|號))/i;
+    const no7Pattern = /(?:\bno\.?\s*7\b|\bnumber\s*7\b|7\s*(?:号|號))/i;
+    const topicalPattern = /(chatroom|room|site|website|midnight|task|no\.?\s*\d+|number\s*\d+|编号|號|号|allery|sofia|core|daniel|marry|lily|mike|administrator|admin|therapy|report|diary|record|suicide|self-harm|support|destroy|game|story|character|characters|角色|人物|剧情|任務|任务|聊天室|遊戲|游戏|系统|problem|issue|有问题|有問題|不对劲|不對勁|programming|program|code|coding|math|mathematics|algorithm|algorithms|network|networks|hacking|computer|computers|编程|代碼|代码|数学|數學|算法|演算法|网络|網絡)/i;
+    const mundanePattern = /(what.*eat|eat|dinner|lunch|breakfast|food|restaurant|favorite color|favourite color|color|colour|movie|music|sleep|weekend|hobby|weather|where do you live|private life|boyfriend|girlfriend|dating|吃什么|吃飯|吃饭|晚饭|午饭|早餐|颜色|顏色|喜欢什么|喜歡什麼|天气|天氣|周末|週末|爱好|興趣|住哪|住在哪里|私人|日常|戀愛|恋爱)/i;
+    const greetingPattern = /^(hi|hello|hey|yo|sup|你好|嗨|哈喽|哈囉)\b[\s!.?]*$/i;
+
+    const isOffTopicDailyMessage = (text) => {
+      const raw = String(text || '').trim();
+      if (!raw) return false;
+      if (raw.startsWith('__CHOICE__:')) return false;
+      if (greetingPattern.test(raw)) return false;
+      const lowered = raw.toLowerCase();
+      return mundanePattern.test(lowered) && !topicalPattern.test(lowered);
+    };
 
     const playerTexts = [
       ...history
@@ -38,10 +61,91 @@ module.exports = async (req, res) => {
         .map(item => String(item.content || '')),
       message
     ];
+    const priorOffTopicCount = history
+      .filter(item => item && typeof item === 'object' && item.role !== 'assistant')
+      .filter(item => isOffTopicDailyMessage(String(item.content || '')))
+      .length;
 
     const playerHasRevealedTruth = playerTexts.some((text) => truthRevealPattern.test(normalize(text)));
     const currentMessageRevealsTruth = truthRevealPattern.test(normalize(message));
     const currentMessageAsksToDestroySite = destroySitePattern.test(normalize(message));
+    const currentMessageIsOffTopicDaily = isOffTopicDailyMessage(message);
+    const currentMessageAsksMemberNo = askMemberNoPattern.test(message);
+    const currentMessageMentionsSofia = sofiaPattern.test(message);
+    const currentMessageMentionsAllery = alleryPattern.test(message);
+    const currentMessageMentionsMidnight = midnightPattern.test(message);
+    const currentMessageAsksName = nameQueryPattern.test(message);
+    const currentMessageMentionsLatinName = latinFullNamePattern.test(message);
+
+    const shouldApplyUnknownNameRule =
+      currentMessageAsksName &&
+      currentMessageMentionsLatinName &&
+      !selfIdentityPattern.test(message) &&
+      !currentMessageAsksMemberNo &&
+      !currentMessageMentionsAllery &&
+      !currentMessageMentionsSofia &&
+      !currentMessageMentionsMidnight;
+
+    if (currentMessageIsOffTopicDaily) {
+      const totalOffTopicCount = priorOffTopicCount + 1;
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      const reply =
+        totalOffTopicCount === 1
+          ? "uh... I don't really want to talk about private stuff. chatting about that here is kinda weird."
+          : totalOffTopicCount === 2
+          ? "you're still asking this? that's not professional. I'll tell Midnight."
+          : "what are you even trying to say? seriously, stop. I'm done here and I'm reporting this to Midnight.";
+      res.end(JSON.stringify({
+        flags: {
+          terminateChat: totalOffTopicCount >= 3
+        },
+        reply
+      }));
+      return;
+    }
+
+    if (shouldApplyUnknownNameRule) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: "I don't know them. I'm not really sure who you're talking about. In this group, unless people are real-life acquaintances, we usually don't know each other's real names."
+      }));
+      return;
+    }
+
+    if (currentMessageAsksMemberNo) {
+      if (currentMessageMentionsSofia) {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(JSON.stringify({ reply: 'Sofia is No.4.' }));
+        return;
+      }
+      if (currentMessageMentionsAllery) {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(JSON.stringify({ reply: 'Allery is No.6.' }));
+        return;
+      }
+      if (no7Pattern.test(message)) {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(JSON.stringify({ reply: "I think No.7 joined pretty recently. Doesn't talk much... maybe a boy, I guess." }));
+        return;
+      }
+      if (no1Pattern.test(message) || no2Pattern.test(message) || no3Pattern.test(message)) {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(JSON.stringify({ reply: "I don't know them. I've never interacted with them." }));
+        return;
+      }
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: "I'm not really sure who you're talking about. In this group, unless people are real-life acquaintances, we usually don't know each other's real names."
+      }));
+      return;
+    }
 
     if (currentMessageAsksToDestroySite && playerHasRevealedTruth) {
       res.statusCode = 200;
@@ -202,6 +306,32 @@ Rules:
 - Do not guess or expand
 - Marry Brown is dead
 - Never suggest that the player should go ask Marry something
+
+	NUMBER REFERENCE RULE
+	- If the player asks Sofia Rossi's No., answer 4
+	- If the player asks Allery Lin's No., answer 6
+	- If the player asks about No.7:
+	  - Keep it short and casual
+	  - Say he joined recently
+	  - Say he does not talk much
+	  - Say he seems like a boy
+	  - Use uncertainty tone such as "I think", "maybe", or "I guess"
+	- If the player asks about No.1, No.2, or No.3:
+	  - Always say you do not know them
+	  - Always say you have never interacted with them
+	  - Do not add extra details
+	- If the player asks other people's No., answer in English:
+	  "I'm not really sure who you're talking about. In this group, unless people are real-life acquaintances, we usually don't know each other's real names."
+
+	NAME QUERY RULE
+	- If the player asks about any specific name other than Allery Lin, Sofia Rossi, or Midnight:
+	  - Always say you do not know them
+	  - Do not provide extra details or guesses
+	  - Always include this line naturally:
+	    "I'm not really sure who you're talking about. In this group, unless people are real-life acquaintances, we usually don't know each other's real names."
+
+	CONSISTENCY RULE
+	- Do not invent background information for unknown names or numbered members
 
 CONVERSATION NAVIGATION RULE
 - The deceased members are Allery Lin, Sofia Rossi, Daniel Hayes, and Marry Brown
