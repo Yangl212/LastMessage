@@ -3296,12 +3296,17 @@ body{
   padding:9vh 7vw;
   background:#000;
   opacity:0;
-  pointer-events:auto;
+  pointer-events:none;
   transition:opacity .2s ease;
 }
 
 .core-breach-overlay.is-visible{
   opacity:1;
+  pointer-events:auto;
+}
+
+.core-breach-overlay[hidden]{
+  display:none;
 }
 
 .core-breach-text{
