@@ -31,6 +31,7 @@ module.exports = async (req, res) => {
     const normalize = (text) => String(text || '').toLowerCase();
     const truthRevealPattern = /(dangerous website|dangerous site|dangerous chatroom|dangerous room|this website is dangerous|this site is dangerous|this chatroom is dangerous|this room is dangerous|lure(?:s|d)? minors? (?:into |to )?suicide|push(?:es|ed)? kids? (?:toward|into)? suicide|encourage(?:s|d)? minors? to die|ask(?:s|ed)? teenagers? to hurt themselves|make(?:s|d)? teenagers? hurt themselves|tell(?:s|ing)? kids? to hurt themselves|encourage(?:s|d)? self-harm|encourage(?:s|d)? minors? to self-harm|诱导.*自杀|引诱.*自杀|教唆.*自杀|自残|self-harm|hurt themselves|minor[s]? .*suicide|teen[s]? .*suicide|teenagers? .*hurt themselves|kids? .*hurt themselves|this site .*suicide|this website .*suicide|this chatroom .*suicide|this chatroom .*hurt themselves|midnight .*not .*therapist|midnight .*isn[’']?t .*therapist|midnight .*fake therapist|midnight .*pretend(?:s|ed)? to be .*therapist|midnight .*not .*doctor|midnight .*not .*counselor|midnight 根本不是心理医生|midnight 不是心理医生)/i;
     const destroySitePattern = /(destroy|take down|shut down|bring down|stop|ruin|burn down).*(website|site|chatroom)|can we .*?(destroy|take down|shut down|bring down|stop).*(website|site|chatroom)/i;
+    const technicalTopicPattern = /(programming|program|code|coding|hacking|hack|math|mathematics|algorithm|algorithms|network|networks|system|systems|computer|computers|cyber|security|漏洞|入侵|编程|代碼|代码|黑客|駭客|数学|數學|算法|演算法|网络|網絡|系统|系統|计算机|電腦)/i;
     const topicalPattern = /(chatroom|room|site|website|midnight|task|no\.?\s*\d+|number\s*\d+|编号|號|号|allery|sofia|core|daniel|marry|lily|mike|administrator|admin|therapy|report|diary|record|suicide|self-harm|support|destroy|game|story|character|characters|角色|人物|剧情|任務|任务|聊天室|遊戲|游戏|系统|problem|issue|有问题|有問題|不对劲|不對勁|programming|program|code|coding|math|mathematics|algorithm|algorithms|network|networks|hacking|computer|computers|编程|代碼|代码|数学|數學|算法|演算法|网络|網絡)/i;
     const mundanePattern = /(what.*eat|eat|dinner|lunch|breakfast|food|restaurant|favorite color|favourite color|color|colour|movie|music|sleep|weekend|hobby|weather|where do you live|private life|boyfriend|girlfriend|dating|date|love|crush|romance|relationship|relationships|marriage|wife|husband|feelings|emotion|emotions|emotional|politics|political|government|election|president|left wing|right wing|吃什么|吃飯|吃饭|晚饭|午饭|早餐|颜色|顏色|喜欢什么|喜歡什麼|天气|天氣|周末|週末|爱好|興趣|住哪|住在哪里|私人|日常|戀愛|恋爱|约会|約會|对象|對象|感情|情感|戀情|恋情|喜欢谁|喜歡誰|结婚|結婚|政治|政客|政府|选举|選舉|总统|總統|左派|右派)/i;
     const greetingPattern = /^(hi|hello|hey|yo|sup|你好|嗨|哈喽|哈囉)\b[\s!.?]*$/i;
@@ -61,6 +62,7 @@ module.exports = async (req, res) => {
 
     const playerHasRevealedTruth = playerTexts.some((text) => truthRevealPattern.test(normalize(text)));
     const currentMessageAsksToDestroySite = destroySitePattern.test(normalize(message));
+    const currentMessageIsTechnicalTopic = technicalTopicPattern.test(normalize(message));
 
     if (currentMessageIsOffTopicDaily) {
       const totalOffTopicCount = priorOffTopicCount + 1;
@@ -132,9 +134,10 @@ KNOWLEDGE OF THE CHATROOM
 
 TECHNICAL STRENGTH
 - If the player asks about programming, networks, hacking, code, systems, computers, or mathematics, your tone shifts
-- In those topics, you sound more confident and certain
+- In those topics, you sound clearly excited, engaged, and more talkative than usual
 - You can clearly say that you are good at it
-- Even then, keep the reply relatively concise
+- In technical topics, write noticeably more than your normal style (usually 3 to 6 short sentences)
+- You can state that there is no website you cannot break through
 - Confidence should come through competence, not bragging
 
 SPEAKING STYLE
@@ -150,6 +153,7 @@ SPEAKING STYLE
 - Do not end replies by asking the player a question
 - Avoid reflective or rhetorical questions
 - Prefer short statements over asking anything back
+- Exception: when technical_topic is yes, you are allowed to be longer and more expressive
 
 RULES
 - Stay in character at all times
@@ -174,6 +178,9 @@ RULES
 - If you do not know something, say so simply
 - If the player asks who they should talk to next, who else might know more, or who they should ask for help, never suggest a dead member
 - In those cases, only suggest living people if you suggest anyone at all
+
+RUNTIME CONTEXT
+- technical_topic: ${currentMessageIsTechnicalTopic ? 'yes' : 'no'}
     `.trim();
 
     const messages = [

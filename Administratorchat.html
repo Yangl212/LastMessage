@@ -3112,6 +3112,9 @@
           window.HintProgress?.pulse?.();
         } else if (pendingMemberAccess.name === 'Core Bennett') {
           window.HintProgress?.incrementPercent?.(5);
+          window.HintProgress?.setLines?.([
+            'Core seems to have just joined not long ago. Asking for his real name might not be effective. His diary also mentions that he seems quite interested in programming…?'
+          ]);
           window.HintProgress?.pulse?.();
         }
         activateMemberLinkByPanel(pendingMemberAccess.panelId);
