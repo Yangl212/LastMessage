@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const announcementModal = document.getElementById('announcementModal');
   const announcementTitle = document.getElementById('announcementTitle');
   const announcementBody = document.getElementById('announcementBody');
+  const disableAutoBan =
+    document.body?.dataset?.disableAutoBan === 'true'
+    || window.location.pathname.toLowerCase().endsWith('midnight_admin_chat.html');
   let interventionQueued = false;
 
   const announcements = [
@@ -62,7 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
     showTime: false,
     ownMessageTimePlacement: 'center',
     onSendMessage: (_text, helpers) => {
-      scheduleBanSequence(helpers);
+      if (!disableAutoBan) {
+        scheduleBanSequence(helpers);
+      }
     },
     onMemberMessage: (member) => {
       if (member === 'You') {

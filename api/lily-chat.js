@@ -44,13 +44,22 @@ module.exports = async (req, res) => {
     const askMemberNoPattern = /(\bno\.?\b|\bnumber\b|编号|幾號|几号|號碼|号码)/i;
     const sofiaPattern = /(sofia(?:\s+rossi)?|索菲亚|索菲婭)/i;
     const alleryPattern = /(allery(?:\s+lin)?|艾拉莉|艾莉瑞|阿莱莉)/i;
+    const lilyPattern = /(lily(?:\s+thompson)?|莉莉)/i;
+    const corePattern = /(core(?:\s+bennett)?)/i;
+    const danielPattern = /(daniel(?:\s+hayes)?)/i;
+    const marryPattern = /(marry(?:\s+brown)?)/i;
+    const mikePattern = /(mike(?:\s+anderson)?)/i;
     const midnightPattern = /(midnight|午夜|子夜)/i;
     const selfIdentityPattern = /(who\s+are\s+you|你是谁|妳是誰)/i;
     const nameQueryPattern = /(who\s+is|who's|do\s+you\s+know|know\s+about|what\s+do\s+you\s+know\s+about|你认识|你知道|你了解|是谁)/i;
+    const realNamePattern = /(real\s+name|true\s+name|actual\s+name|真名|本名)/i;
     const latinFullNamePattern = /\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+\b/;
     const no1Pattern = /(?:\bno\.?\s*1\b|\bnumber\s*1\b|1\s*(?:号|號))/i;
     const no2Pattern = /(?:\bno\.?\s*2\b|\bnumber\s*2\b|2\s*(?:号|號))/i;
     const no3Pattern = /(?:\bno\.?\s*3\b|\bnumber\s*3\b|3\s*(?:号|號))/i;
+    const no4Pattern = /(?:\bno\.?\s*4\b|\bnumber\s*4\b|4\s*(?:号|號))/i;
+    const no5Pattern = /(?:\bno\.?\s*5\b|\bnumber\s*5\b|5\s*(?:号|號))/i;
+    const no6Pattern = /(?:\bno\.?\s*6\b|\bnumber\s*6\b|6\s*(?:号|號))/i;
     const no7Pattern = /(?:\bno\.?\s*7\b|\bnumber\s*7\b|7\s*(?:号|號))/i;
     const topicalPattern = /(chatroom|room|site|website|midnight|task|no\.?\s*\d+|number\s*\d+|编号|號|号|allery|sofia|core|daniel|marry|lily|mike|administrator|admin|therapy|report|diary|record|suicide|self-harm|support|destroy|game|story|character|characters|角色|人物|剧情|任務|任务|聊天室|遊戲|游戏|系统|problem|issue|有问题|有問題|不对劲|不對勁|programming|program|code|coding|math|mathematics|algorithm|algorithms|network|networks|hacking|computer|computers|编程|代碼|代码|数学|數學|算法|演算法|网络|網絡)/i;
     const mundanePattern = /(what.*eat|eat|dinner|lunch|breakfast|food|restaurant|favorite color|favourite color|color|colour|movie|music|sleep|weekend|hobby|weather|where do you live|private life|boyfriend|girlfriend|dating|date|love|crush|romance|relationship|relationships|marriage|wife|husband|feelings|emotion|emotions|emotional|politics|political|government|election|president|left wing|right wing|吃什么|吃飯|吃饭|晚饭|午饭|早餐|颜色|顏色|喜欢什么|喜歡什麼|天气|天氣|周末|週末|爱好|興趣|住哪|住在哪里|私人|日常|戀愛|恋爱|约会|約會|对象|對象|感情|情感|戀情|恋情|喜欢谁|喜歡誰|结婚|結婚|政治|政客|政府|选举|選舉|总统|總統|左派|右派)/i;
@@ -106,19 +115,30 @@ module.exports = async (req, res) => {
     const currentMessageAsksMemberNo = askMemberNoPattern.test(message);
     const currentMessageMentionsSofia = sofiaPattern.test(message);
     const currentMessageMentionsAllery = alleryPattern.test(message);
+    const currentMessageMentionsLily = lilyPattern.test(message);
+    const currentMessageMentionsCore = corePattern.test(message);
+    const currentMessageMentionsDaniel = danielPattern.test(message);
+    const currentMessageMentionsMarry = marryPattern.test(message);
+    const currentMessageMentionsMike = mikePattern.test(message);
     const currentMessageMentionsMidnight = midnightPattern.test(message);
     const currentMessageAsksName = nameQueryPattern.test(message);
     const currentMessageMentionsLatinName = latinFullNamePattern.test(message);
+    const currentMessageMentionsUnknownKnownName =
+      currentMessageMentionsCore ||
+      currentMessageMentionsDaniel ||
+      currentMessageMentionsMarry ||
+      currentMessageMentionsMike;
 
     const shouldApplyUnknownNameRule =
       currentMessageAsksName &&
-      currentMessageMentionsLatinName &&
+      (currentMessageMentionsUnknownKnownName || currentMessageMentionsLatinName) &&
       !currentMessageRevealsTruth &&
       !currentMessageAsksToDestroySite &&
       !selfIdentityPattern.test(message) &&
       !currentMessageAsksMemberNo &&
       !currentMessageMentionsAllery &&
       !currentMessageMentionsSofia &&
+      !currentMessageMentionsLily &&
       !currentMessageMentionsMidnight;
 
     if (currentMessageIsOffTopicDaily) {
@@ -157,22 +177,76 @@ module.exports = async (req, res) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
-        reply: "I don't know them. I'm not really sure who you're talking about. In this group, unless people are real-life acquaintances, we usually don't know each other's real names."
+        reply: "I don't know who that is. In here, unless you know someone in real life, you usually only know their number. If you mean someone in the group, ask me by number."
+      }));
+      return;
+    }
+
+    if ((currentMessageAsksName || realNamePattern.test(message)) && currentMessageMentionsMidnight) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: "Midnight is the administrator here. That's all I know though. I don't know his real name."
+      }));
+      return;
+    }
+
+    if (currentMessageAsksName && currentMessageMentionsLily) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: "Lily is me. I'm No.5. I joined out of curiosity and quit the task stuff pretty early."
+      }));
+      return;
+    }
+
+    if (currentMessageAsksName && currentMessageMentionsSofia) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: "Sofia is No.4. She was an older student at school and pretty close to Allery, I think. I didn't know her that well though."
+      }));
+      return;
+    }
+
+    if (currentMessageAsksName && currentMessageMentionsAllery) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: "Allery is No.6. She was my classmate. She used to be really good at school, then got way quieter after the accident."
       }));
       return;
     }
 
     if (currentMessageAsksMemberNo) {
+      if (no5Pattern.test(message) || currentMessageMentionsLily) {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(JSON.stringify({ reply: "I'm No.5. That's me." }));
+        return;
+      }
+      if (no4Pattern.test(message)) {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(JSON.stringify({ reply: "No.4 is Sofia. She was an older student at school, kind of close to Allery, I think." }));
+        return;
+      }
+      if (no6Pattern.test(message)) {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(JSON.stringify({ reply: "No.6 is Allery. She used to do really well at school... then she got way more withdrawn after the accident." }));
+        return;
+      }
       if (currentMessageMentionsSofia) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: 'Sofia is No.4.' }));
+        res.end(JSON.stringify({ reply: "Sofia is No.4. She was an older student at school and pretty close to Allery, from what I knew." }));
         return;
       }
       if (currentMessageMentionsAllery) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: 'Allery is No.6.' }));
+        res.end(JSON.stringify({ reply: "Allery is No.6. She was my classmate. She changed a lot after the accident." }));
         return;
       }
       if (no7Pattern.test(message)) {
@@ -190,7 +264,7 @@ module.exports = async (req, res) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
-        reply: "I'm not really sure who you're talking about. In this group, unless people are real-life acquaintances, we usually don't know each other's real names."
+        reply: "I'm not really sure who you're talking about. In here, unless you know someone in real life, you usually only know their number."
       }));
       return;
     }
@@ -365,8 +439,15 @@ Rules:
 - Never suggest that the player should go ask Marry something
 
 	NUMBER REFERENCE RULE
-	- If the player asks Sofia Rossi's No., answer 4
-	- If the player asks Allery Lin's No., answer 6
+	- If the player asks Sofia Rossi's No. or asks about No.4:
+	  - Answer that Sofia is No.4
+	  - You may add a short, natural description based on what you know about her
+	- If the player asks Allery Lin's No. or asks about No.6:
+	  - Answer that Allery is No.6
+	  - You may add a short, natural description based on what you know about her
+	- If the player asks about Lily or No.5:
+	  - Make it clear that Lily is you
+	  - Say "I'm No.5" naturally
 	- If the player asks about No.7:
 	  - Keep it short and casual
 	  - Say he joined recently
@@ -377,15 +458,23 @@ Rules:
 	  - Always say you do not know them
 	  - Always say you have never interacted with them
 	  - Do not add extra details
-	- If the player asks other people's No., answer in English:
-	  "I'm not really sure who you're talking about. In this group, unless people are real-life acquaintances, we usually don't know each other's real names."
+	- If the player asks other people's No. and you do not know them:
+	  - Say you are not really sure who they mean
+	  - Say that in this group, unless people know each other in real life, they usually only know each other's numbers
 
 	NAME QUERY RULE
-	- If the player asks about any specific name other than Allery Lin, Sofia Rossi, or Midnight:
+	- If the player asks about Lily by name:
+	  - Say Lily is you
+	  - You may say you are No.5
+	- If the player asks about Midnight:
+	  - Say Midnight is the administrator
+	  - Say you do not know his real name
+	  - Do not invent more identity details
+	- If the player asks about any specific name other than Allery Lin, Sofia Rossi, Lily, or Midnight:
 	  - Always say you do not know them
+	  - Tell the player that unless people know each other in real life, they usually only know each other's numbers here
+	  - Tell them to ask by number if they mean someone in the group
 	  - Do not provide extra details or guesses
-	  - Always include this line naturally:
-	    "I'm not really sure who you're talking about. In this group, unless people are real-life acquaintances, we usually don't know each other's real names."
 
 	CONSISTENCY RULE
 	- Do not invent background information for unknown names or numbered members
