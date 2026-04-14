@@ -2939,8 +2939,27 @@
           policeEvidenceOverlay.classList.add('is-visible');
         });
         policeEvidenceTimeoutId = null;
-        if (evidenceReopenBtn) evidenceReopenBtn.hidden = false;
+        if (evidenceReopenBtn) {
+          evidenceReopenBtn.hidden = false;
+          positionEvidenceReopenButton();
+        }
       }, 3000);
+    }
+
+    function positionEvidenceReopenButton() {
+      if (!evidenceReopenBtn || evidenceReopenBtn.hidden || !sidebarPrivateChatBtn) return;
+      const chatRect = sidebarPrivateChatBtn.getBoundingClientRect();
+      const gap = 12;
+      const viewportPadding = 12;
+      const desiredLeft = Math.round(chatRect.right + gap);
+      const bottom = Math.max(viewportPadding, Math.round(window.innerHeight - chatRect.bottom));
+      const buttonWidth = evidenceReopenBtn.offsetWidth || 168;
+      const maxLeft = Math.max(viewportPadding, window.innerWidth - buttonWidth - viewportPadding);
+      const clampedLeft = Math.min(Math.max(desiredLeft, viewportPadding), maxLeft);
+      evidenceReopenBtn.style.left = `${clampedLeft}px`;
+      evidenceReopenBtn.style.bottom = `${bottom}px`;
+      evidenceReopenBtn.style.right = 'auto';
+      evidenceReopenBtn.style.top = 'auto';
     }
 
     function showMidnightToast(text) {
@@ -4102,7 +4121,10 @@
       }
       runMidnightRedirect();
     });
-    window.addEventListener('resize', syncPrivateChatScrollbar);
+    window.addEventListener('resize', () => {
+      syncPrivateChatScrollbar();
+      positionEvidenceReopenButton();
+    });
 
     function syncPrivateChatScrollbar() {
       if (!privateChatMain) return;
