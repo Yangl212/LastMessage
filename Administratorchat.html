@@ -2956,11 +2956,12 @@
       } catch (_error) {
         // Ignore seek failures and continue playback attempt.
       }
+      midnightErrorVideo.muted = true;
       midnightErrorVideo.play().catch(() => {
-        midnightErrorVideo.muted = true;
-        midnightErrorVideo.play().catch(() => {
-          window.location.href = 'Ending2.html';
-        });
+        // Fallback if autoplay is still blocked in some environments.
+        window.setTimeout(() => {
+          window.location.href = './Ending2.html';
+        }, 7000);
       });
     }
 
@@ -3597,7 +3598,6 @@
               currentInput.value = '';
             }
             updatePrivateChatState();
-            closePrivateChatWindow();
             scheduleMidnightExitSequence();
           }
           let assistantTranscript = replyParts.join('\n\n') || reply;
@@ -3991,7 +3991,7 @@
       }
     });
     midnightErrorVideo?.addEventListener('ended', () => {
-      window.location.href = 'Ending2.html';
+      window.location.href = './Ending2.html';
     });
     window.addEventListener('resize', syncPrivateChatScrollbar);
 

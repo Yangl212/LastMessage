@@ -44,15 +44,18 @@ module.exports = async (req, res) => {
       return mundanePattern.test(lowered) && !topicalPattern.test(lowered);
     };
 
-    const playerTexts = [
-      ...history
-        .filter(item => item && typeof item === 'object' && item.role !== 'assistant')
-        .map(item => String(item.content || '')),
-      message
-    ];
-    const priorOffTopicCount = history
+    const priorUserMessages = history
       .filter(item => item && typeof item === 'object' && item.role !== 'assistant')
-      .filter(item => isOffTopicDailyMessage(String(item.content || '')))
+      .map(item => String(item.content || '').trim())
+      .filter(Boolean);
+    // Frontend currently sends the current user message in both `history` and `message`.
+    // Deduplicate the tail so first off-topic message is not miscounted as second.
+    if (priorUserMessages.length > 0 && priorUserMessages[priorUserMessages.length - 1] === message) {
+      priorUserMessages.pop();
+    }
+    const playerTexts = [...priorUserMessages, message];
+    const priorOffTopicCount = priorUserMessages
+      .filter((text) => isOffTopicDailyMessage(text))
       .length;
     const currentMessageIsOffTopicDaily = isOffTopicDailyMessage(message);
 

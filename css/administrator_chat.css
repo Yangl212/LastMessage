@@ -3250,8 +3250,9 @@ body{
   inset:0;
   z-index:12000;
   opacity:0;
-  pointer-events:none;
+  pointer-events:auto;
   background:transparent;
+  isolation:isolate;
   transition:opacity .22s ease;
 }
 
@@ -3264,6 +3265,7 @@ body{
   height:100%;
   object-fit:cover;
   mix-blend-mode:screen;
+  filter:brightness(1.2) contrast(1.18);
   background:transparent;
 }
 
