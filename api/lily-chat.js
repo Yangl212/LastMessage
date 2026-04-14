@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
     const destroyTargetPatternZh = /(网站|網站|站点|站點|聊天室|房间|房間|平台|群聊|群组|群組|这个网站|這個網站|这个聊天室|這個聊天室|系统|系統|服务器|伺服器)/i;
     const catchAdminPatternEn = /((catch|arrest|report|take down|stop|expose|hunt).*(midnight|mike))|((midnight|mike).*(catch|arrest|report|take down|stop|expose|hunt))/i;
     const catchAdminPatternZh = /((抓住|抓到|逮捕|举报|舉報|打击|打擊|搞掉|曝光).*(midnight|mike))|((midnight|mike).*(抓住|抓到|逮捕|举报|舉報|打击|打擊|搞掉|曝光))/i;
-    const askMemberNoPattern = /(no\.?|number|编号|幾號|几号|號碼|号码)/i;
+    const askMemberNoPattern = /(\bno\.?\b|\bnumber\b|编号|幾號|几号|號碼|号码)/i;
     const sofiaPattern = /(sofia(?:\s+rossi)?|索菲亚|索菲婭)/i;
     const alleryPattern = /(allery(?:\s+lin)?|艾拉莉|艾莉瑞|阿莱莉)/i;
     const midnightPattern = /(midnight|午夜|子夜)/i;
@@ -113,6 +113,8 @@ module.exports = async (req, res) => {
     const shouldApplyUnknownNameRule =
       currentMessageAsksName &&
       currentMessageMentionsLatinName &&
+      !currentMessageRevealsTruth &&
+      !currentMessageAsksToDestroySite &&
       !selfIdentityPattern.test(message) &&
       !currentMessageAsksMemberNo &&
       !currentMessageMentionsAllery &&

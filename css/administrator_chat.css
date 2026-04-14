@@ -3286,6 +3286,39 @@ body{
   pointer-events:none;
 }
 
+.core-breach-overlay{
+  position:fixed;
+  inset:0;
+  z-index:13000;
+  display:flex;
+  align-items:flex-start;
+  justify-content:flex-start;
+  padding:9vh 7vw;
+  background:#000;
+  opacity:0;
+  pointer-events:auto;
+  transition:opacity .2s ease;
+}
+
+.core-breach-overlay.is-visible{
+  opacity:1;
+}
+
+.core-breach-text{
+  margin:0;
+  max-width:min(84vw, 980px);
+  color:#d5ffd6;
+  font:400 clamp(16px, 2.2vw, 28px)/1.6 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  white-space:pre-wrap;
+  text-shadow:0 0 12px rgba(67, 255, 124, .35);
+}
+
+.core-breach-text::after{
+  content:"_";
+  margin-left:2px;
+  animation:coreBreachCaret .8s steps(1, end) infinite;
+}
+
 .retro-error.background-error{
   display:block;
   width:min(320px, calc(100vw - 80px));
@@ -3983,6 +4016,11 @@ body.core-site-chaos .midnight-toast{
   50%{transform:translate(28px, 20px);}
   75%{transform:translate(-20px, 16px);}
   100%{transform:translateY(0);}
+}
+
+@keyframes coreBreachCaret{
+  0%, 48%{opacity:1;}
+  49%, 100%{opacity:0;}
 }
 
 @media (max-width:1180px){

@@ -1492,6 +1492,9 @@
           <source src="assets/video/error.mp4" type="video/mp4" />
         </video>
       </div>
+      <div class="core-breach-overlay" id="coreBreachOverlay" aria-hidden="true" hidden>
+        <pre class="core-breach-text" id="coreBreachText"></pre>
+      </div>
     </section>
   </main>
 
@@ -1616,6 +1619,8 @@
     const midnightNotificationAudio = document.getElementById('midnightNotificationAudio');
     const midnightErrorVideoOverlay = document.getElementById('midnightErrorVideoOverlay');
     const midnightErrorVideo = document.getElementById('midnightErrorVideo');
+    const coreBreachOverlay = document.getElementById('coreBreachOverlay');
+    const coreBreachText = document.getElementById('coreBreachText');
     const scaffoldViews = document.querySelectorAll('.scaffold-view');
     const memberViews = document.querySelectorAll('.member-view');
     const adminTickerLines = Array.from(document.querySelectorAll('[data-admin-ticker-line]'));
@@ -1670,9 +1675,11 @@
     let midnightExitVideoTimeoutId = null;
     let midnightErrorRedirectTimeoutId = null;
     let midnightErrorRedirectTarget = './Ending2.html';
+    let midnightErrorRedirectHandled = false;
     let midnightExitSequenceStarted = false;
     let coreAttackEndingSequenceStarted = false;
     let coreAttackVideoTimeoutId = null;
+    let coreBreachTypingActive = false;
     let adminCountdownInterval = null;
     let adminCountdownDeadline = 0;
     const unlockedMemberPanels = new Set();
@@ -2946,14 +2953,82 @@
       playMidnightNotification();
     }
 
+    function isEnding3RedirectTarget(target) {
+      const normalized = String(target || '').trim().toLowerCase();
+      return normalized.endsWith('ending3.html') || normalized.endsWith('/ending3.html');
+    }
+
+    async function playCoreBreachInterlude() {
+      if (coreBreachTypingActive) return;
+      coreBreachTypingActive = true;
+      if (midnightErrorVideoOverlay) {
+        midnightErrorVideoOverlay.classList.remove('is-visible');
+        midnightErrorVideoOverlay.setAttribute('aria-hidden', 'true');
+        midnightErrorVideoOverlay.hidden = true;
+      }
+      if (midnightErrorVideo) {
+        try {
+          midnightErrorVideo.pause();
+        } catch (_error) {
+          // Ignore pause errors; we can still continue the sequence.
+        }
+      }
+      if (!coreBreachOverlay || !coreBreachText) {
+        window.location.href = './Ending3.html';
+        return;
+      }
+      const interludeLines = [
+        '[SYSTEM] CONNECTION LOST.',
+        '[CORE] Breach sequence unlocked.',
+        '[SYSTEM] Integrity collapsing...',
+        '[SYSTEM] Redirecting to Ending 3.'
+      ];
+      coreBreachText.textContent = '';
+      coreBreachOverlay.hidden = false;
+      coreBreachOverlay.setAttribute('aria-hidden', 'false');
+      requestAnimationFrame(() => {
+        coreBreachOverlay.classList.add('is-visible');
+      });
+      await delay(260);
+      for (const line of interludeLines) {
+        for (const ch of line) {
+          coreBreachText.textContent += ch;
+          await delay(28);
+        }
+        coreBreachText.textContent += '\n';
+        await delay(320);
+      }
+      await delay(850);
+      window.location.href = './Ending3.html';
+    }
+
+    function runMidnightRedirect() {
+      if (midnightErrorRedirectHandled) return;
+      midnightErrorRedirectHandled = true;
+      const target = midnightErrorRedirectTarget || './Ending2.html';
+      if (isEnding3RedirectTarget(target)) {
+        void playCoreBreachInterlude();
+        return;
+      }
+      window.location.href = target;
+    }
+
     function startMidnightExitErrorVideo(redirectHref = './Ending2.html', redirectDelayMs = 3000) {
       if (!midnightErrorVideoOverlay || !midnightErrorVideo) return;
       midnightErrorRedirectTarget = typeof redirectHref === 'string' && redirectHref.trim()
         ? redirectHref.trim()
         : './Ending2.html';
+      midnightErrorRedirectHandled = false;
+      coreBreachTypingActive = false;
       midnightToast?.classList.remove('is-visible');
       if (midnightToast) midnightToast.hidden = true;
       document.body.classList.remove('core-site-chaos');
+      if (coreBreachOverlay) {
+        coreBreachOverlay.classList.remove('is-visible');
+        coreBreachOverlay.setAttribute('aria-hidden', 'true');
+        coreBreachOverlay.hidden = true;
+      }
+      if (coreBreachText) coreBreachText.textContent = '';
       midnightErrorVideoOverlay.hidden = false;
       midnightErrorVideoOverlay.setAttribute('aria-hidden', 'false');
       requestAnimationFrame(() => {
@@ -2973,7 +3048,7 @@
         ? redirectDelayMs
         : 3000;
       midnightErrorRedirectTimeoutId = window.setTimeout(() => {
-        window.location.href = midnightErrorRedirectTarget;
+        runMidnightRedirect();
       }, safeRedirectDelay);
       midnightErrorVideo.play().catch(() => {
         // Keep redirect timer even if autoplay is blocked.
@@ -4025,7 +4100,7 @@
       if (midnightErrorRedirectTimeoutId) {
         window.clearTimeout(midnightErrorRedirectTimeoutId);
       }
-      window.location.href = midnightErrorRedirectTarget || './Ending2.html';
+      runMidnightRedirect();
     });
     window.addEventListener('resize', syncPrivateChatScrollbar);
 
