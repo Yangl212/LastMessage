@@ -3252,11 +3252,24 @@ body{
   opacity:0;
   pointer-events:auto;
   background:transparent;
+  isolation:isolate;
   transition:opacity .22s ease;
 }
 
 .midnight-error-video-overlay.is-visible{
   opacity:1;
+}
+
+.midnight-error-video-overlay::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 20% 26%, rgba(255, 255, 255, .18) 0 20%, transparent 60%),
+    radial-gradient(circle at 76% 74%, rgba(255, 255, 255, .14) 0 22%, transparent 62%);
+  mix-blend-mode:plus-lighter;
+  opacity:.64;
 }
 
 .midnight-error-video{
@@ -3267,8 +3280,9 @@ body{
   object-fit:cover;
   mix-blend-mode:screen;
   opacity:.98;
-  filter:brightness(1.28) contrast(1.22);
+  filter:brightness(1.52) contrast(1.64) saturate(1.2);
   background:transparent;
+  transform:translateZ(0);
   pointer-events:none;
 }
 
@@ -3679,6 +3693,30 @@ body.core-site-attack .admin-main-shell{
     -3px 0 0 rgba(0, 255, 220, .28);
 }
 
+body.core-site-chaos .admin-layout{
+  animation:coreChaosLayout 180ms steps(1, end) infinite;
+}
+
+body.core-site-chaos .admin-sidebar{
+  animation:coreChaosSidebar 210ms steps(1, end) infinite;
+}
+
+body.core-site-chaos .admin-main-shell{
+  animation:coreChaosMain 160ms steps(1, end) infinite;
+}
+
+body.core-site-chaos .private-chat-window{
+  animation:coreChaosWindow 150ms steps(1, end) infinite;
+}
+
+body.core-site-chaos .member-view.is-active{
+  animation:coreChaosMember 130ms steps(1, end) infinite;
+}
+
+body.core-site-chaos .midnight-toast{
+  animation:coreChaosToast 140ms steps(1, end) infinite;
+}
+
 .core-attack-overlay{
   position:absolute;
   inset:0;
@@ -3896,6 +3934,55 @@ body.core-site-attack .admin-main-shell{
   33%{transform:translate(14px, -6px);}
   66%{transform:translate(-10px, 8px);}
   100%{transform:translate(0, 0);}
+}
+
+@keyframes coreChaosLayout{
+  0%{transform:translate(0, 0) rotate(0deg);}
+  20%{transform:translate(-14px, -8px) rotate(-.35deg);}
+  40%{transform:translate(16px, 10px) rotate(.32deg);}
+  60%{transform:translate(-18px, 12px) rotate(-.28deg);}
+  80%{transform:translate(14px, -12px) rotate(.34deg);}
+  100%{transform:translate(0, 0) rotate(0deg);}
+}
+
+@keyframes coreChaosSidebar{
+  0%{transform:translate(0, 0) rotate(0deg);}
+  25%{transform:translate(-40px, 12px) rotate(-1.2deg);}
+  50%{transform:translate(26px, -16px) rotate(.9deg);}
+  75%{transform:translate(-30px, -10px) rotate(-.8deg);}
+  100%{transform:translate(0, 0) rotate(0deg);}
+}
+
+@keyframes coreChaosMain{
+  0%{transform:translate(0, 0) rotate(0deg) scale(1);}
+  22%{transform:translate(38px, -22px) rotate(.95deg) scale(1.01);}
+  48%{transform:translate(-32px, 18px) rotate(-.8deg) scale(.995);}
+  74%{transform:translate(28px, 24px) rotate(.72deg) scale(1.01);}
+  100%{transform:translate(0, 0) rotate(0deg) scale(1);}
+}
+
+@keyframes coreChaosWindow{
+  0%{transform:translate(0, 0) rotate(0deg);}
+  25%{transform:translate(48px, -28px) rotate(1.35deg);}
+  50%{transform:translate(-52px, 32px) rotate(-1.6deg);}
+  75%{transform:translate(42px, 24px) rotate(1deg);}
+  100%{transform:translate(0, 0) rotate(0deg);}
+}
+
+@keyframes coreChaosMember{
+  0%{transform:translate(0, 0);}
+  25%{transform:translate(-24px, -18px);}
+  50%{transform:translate(22px, 20px);}
+  75%{transform:translate(-16px, 22px);}
+  100%{transform:translate(0, 0);}
+}
+
+@keyframes coreChaosToast{
+  0%{transform:translateY(0);}
+  25%{transform:translate(-30px, -18px);}
+  50%{transform:translate(28px, 20px);}
+  75%{transform:translate(-20px, 16px);}
+  100%{transform:translateY(0);}
 }
 
 @media (max-width:1180px){

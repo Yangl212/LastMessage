@@ -209,6 +209,15 @@ module.exports = async (req, res) => {
       return;
     }
 
+    if (currentMessageAsksToDestroySite && !playerHasRevealedTruth) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: "that's kind of weird... i don't really get what you mean."
+      }));
+      return;
+    }
+
     const systemPrompt = `
 You are Lily Thompson, a 16-year-old high school student at Riverside High School.
 You are alive.

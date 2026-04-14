@@ -1669,7 +1669,10 @@
     let midnightExitToastTimeoutId = null;
     let midnightExitVideoTimeoutId = null;
     let midnightErrorRedirectTimeoutId = null;
+    let midnightErrorRedirectTarget = './Ending2.html';
     let midnightExitSequenceStarted = false;
+    let coreAttackEndingSequenceStarted = false;
+    let coreAttackVideoTimeoutId = null;
     let adminCountdownInterval = null;
     let adminCountdownDeadline = 0;
     const unlockedMemberPanels = new Set();
@@ -2943,16 +2946,21 @@
       playMidnightNotification();
     }
 
-    function startMidnightExitErrorVideo() {
+    function startMidnightExitErrorVideo(redirectHref = './Ending2.html', redirectDelayMs = 3000) {
       if (!midnightErrorVideoOverlay || !midnightErrorVideo) return;
+      midnightErrorRedirectTarget = typeof redirectHref === 'string' && redirectHref.trim()
+        ? redirectHref.trim()
+        : './Ending2.html';
       midnightToast?.classList.remove('is-visible');
       if (midnightToast) midnightToast.hidden = true;
+      document.body.classList.remove('core-site-chaos');
       midnightErrorVideoOverlay.hidden = false;
       midnightErrorVideoOverlay.setAttribute('aria-hidden', 'false');
       requestAnimationFrame(() => {
         midnightErrorVideoOverlay.classList.add('is-visible');
       });
       try {
+        midnightErrorVideo.pause();
         midnightErrorVideo.currentTime = 0;
       } catch (_error) {
         // Ignore seek failures and continue playback attempt.
@@ -2961,12 +2969,28 @@
       if (midnightErrorRedirectTimeoutId) {
         window.clearTimeout(midnightErrorRedirectTimeoutId);
       }
+      const safeRedirectDelay = Number.isFinite(redirectDelayMs) && redirectDelayMs > 0
+        ? redirectDelayMs
+        : 3000;
       midnightErrorRedirectTimeoutId = window.setTimeout(() => {
-        window.location.href = './Ending2.html';
-      }, 3000);
+        window.location.href = midnightErrorRedirectTarget;
+      }, safeRedirectDelay);
       midnightErrorVideo.play().catch(() => {
-        // Keep the 3s redirect timer even if autoplay is blocked.
+        // Keep redirect timer even if autoplay is blocked.
       });
+    }
+
+    function startCoreDestroyEndingSequence() {
+      if (coreAttackEndingSequenceStarted) return;
+      coreAttackEndingSequenceStarted = true;
+      triggerCoreSiteAttack();
+      document.body.classList.add('core-site-chaos');
+      if (coreAttackVideoTimeoutId) {
+        window.clearTimeout(coreAttackVideoTimeoutId);
+      }
+      coreAttackVideoTimeoutId = window.setTimeout(() => {
+        startMidnightExitErrorVideo('./Ending3.html', 3000);
+      }, 2000);
     }
 
     function scheduleMidnightExitSequence() {
@@ -2975,7 +2999,7 @@
       midnightExitToastTimeoutId = window.setTimeout(() => {
         showMidnightToast('You came here with another purpose.');
         midnightExitVideoTimeoutId = window.setTimeout(() => {
-          startMidnightExitErrorVideo();
+          startMidnightExitErrorVideo('./Ending2.html', 3000);
         }, 3000);
       }, 3000);
     }
@@ -3625,7 +3649,7 @@
             lilyChatCanvas?.scrollTo({ top: lilyChatCanvas.scrollHeight, behavior: 'smooth' });
             window.requestAnimationFrame(() => syncLilyScrollbar(sidebar));
             await delay(2000);
-            triggerCoreSiteAttack();
+            startCoreDestroyEndingSequence();
           }
 
           if (memberName === 'Mike Anderson' && data?.flags?.showBecomeMidnightPrompt === true) {
@@ -4001,7 +4025,7 @@
       if (midnightErrorRedirectTimeoutId) {
         window.clearTimeout(midnightErrorRedirectTimeoutId);
       }
-      window.location.href = './Ending2.html';
+      window.location.href = midnightErrorRedirectTarget || './Ending2.html';
     });
     window.addEventListener('resize', syncPrivateChatScrollbar);
 

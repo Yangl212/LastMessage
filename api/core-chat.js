@@ -91,6 +91,7 @@ module.exports = async (req, res) => {
     const currentMessageIsOffTopicDaily = isOffTopicDailyMessage(message);
 
     const playerHasRevealedTruth = playerTexts.some((text) => isDangerRevealMessage(text));
+    const currentMessageRevealsTruth = isDangerRevealMessage(message);
     const currentMessageAsksToDestroySite = isDestroyRequestMessage(message);
     const currentMessageIsTechnicalTopic = technicalTopicPattern.test(normalize(message));
 
@@ -113,6 +114,18 @@ module.exports = async (req, res) => {
       return;
     }
 
+    if (currentMessageRevealsTruth && !currentMessageAsksToDestroySite) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: [
+          'That sounds wrong.',
+          'If this place is really like that... it needs to be stopped.'
+        ].join('\n\n')
+      }));
+      return;
+    }
+
     if (currentMessageAsksToDestroySite && playerHasRevealedTruth) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -120,7 +133,16 @@ module.exports = async (req, res) => {
         flags: {
           supportsDestroySite: true
         },
-        reply: 'I can help.\n\nGive me some time.'
+        reply: 'I can help.\n\nNo problem.\n\nThere is no website I cannot break through.'
+      }));
+      return;
+    }
+
+    if (currentMessageAsksToDestroySite && !playerHasRevealedTruth) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: "That's strange. I don't understand what you mean."
       }));
       return;
     }
