@@ -1668,6 +1668,7 @@
     let policeEvidenceTimeoutId = null;
     let midnightExitToastTimeoutId = null;
     let midnightExitVideoTimeoutId = null;
+    let midnightErrorRedirectTimeoutId = null;
     let midnightExitSequenceStarted = false;
     let adminCountdownInterval = null;
     let adminCountdownDeadline = 0;
@@ -2957,11 +2958,14 @@
         // Ignore seek failures and continue playback attempt.
       }
       midnightErrorVideo.muted = true;
+      if (midnightErrorRedirectTimeoutId) {
+        window.clearTimeout(midnightErrorRedirectTimeoutId);
+      }
+      midnightErrorRedirectTimeoutId = window.setTimeout(() => {
+        window.location.href = './Ending2.html';
+      }, 3000);
       midnightErrorVideo.play().catch(() => {
-        // Fallback if autoplay is still blocked in some environments.
-        window.setTimeout(() => {
-          window.location.href = './Ending2.html';
-        }, 7000);
+        // Keep the 3s redirect timer even if autoplay is blocked.
       });
     }
 
@@ -3991,6 +3995,9 @@
       }
     });
     midnightErrorVideo?.addEventListener('ended', () => {
+      if (midnightErrorRedirectTimeoutId) {
+        window.clearTimeout(midnightErrorRedirectTimeoutId);
+      }
       window.location.href = './Ending2.html';
     });
     window.addEventListener('resize', syncPrivateChatScrollbar);

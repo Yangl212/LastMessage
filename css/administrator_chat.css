@@ -628,7 +628,7 @@ body{
 }
 
 .admin-toast{
-  position:absolute;
+  position:fixed;
   top:24px;
   right:28px;
   width:min(320px, calc(100vw - 380px));
@@ -643,7 +643,7 @@ body{
     inset 0 -1px 0 rgba(255,255,255,.04);
   backdrop-filter:blur(34px) saturate(1.05);
   -webkit-backdrop-filter:blur(34px) saturate(1.05);
-  z-index:12;
+  z-index:13010;
   opacity:0;
   transform:translateY(-12px) scale(.985);
   transition:opacity .24s ease, transform .24s ease;
@@ -3252,7 +3252,6 @@ body{
   opacity:0;
   pointer-events:auto;
   background:transparent;
-  isolation:isolate;
   transition:opacity .22s ease;
 }
 
@@ -3261,12 +3260,16 @@ body{
 }
 
 .midnight-error-video{
+  position:absolute;
+  inset:0;
   width:100%;
   height:100%;
   object-fit:cover;
   mix-blend-mode:screen;
-  filter:brightness(1.2) contrast(1.18);
+  opacity:.98;
+  filter:brightness(1.28) contrast(1.22);
   background:transparent;
+  pointer-events:none;
 }
 
 .retro-error.background-error{
