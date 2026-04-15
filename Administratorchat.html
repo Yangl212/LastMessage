@@ -1440,12 +1440,7 @@
                   <button type="button" class="ev-btn ev-capture-btn" id="evCaptureBtn">Capture Screen</button>
                 </div>
                 <div class="ev-score-row" id="evScoreRow">
-                  <span class="ev-score-label">Evidence:</span>
-                  <div class="ev-score-dots">
-                    <span class="ev-dot" id="evDot0"></span>
-                    <span class="ev-dot" id="evDot1"></span>
-                    <span class="ev-dot" id="evDot2"></span>
-                  </div>
+                  <span class="ev-score-label">Capture direct evidence against Mike. The evidence you submit will affect the ending.</span>
                 </div>
                 <button type="button" class="ev-submit-btn" id="evSubmitBtn" disabled>Submit Evidence</button>
                 <p class="ev-status" id="evStatus" hidden></p>
@@ -4233,11 +4228,6 @@
       const captureBtn = document.getElementById('evCaptureBtn');
       const submitBtn  = document.getElementById('evSubmitBtn');
       const statusEl   = document.getElementById('evStatus');
-      const dotEls     = [
-        document.getElementById('evDot0'),
-        document.getElementById('evDot1'),
-        document.getElementById('evDot2')
-      ];
 
       function nextEmpty() {
         return slotImages.findIndex(v => v === null);
@@ -4291,12 +4281,6 @@
           slot.classList.remove('ev-slot--filled');
         }
 
-        // Update the corresponding score dot
-        const dot = dotEls[i];
-        if (dot) {
-          dot.classList.remove('ev-dot--hit', 'ev-dot--miss');
-          if (img) dot.classList.add(slotScores[i] ? 'ev-dot--hit' : 'ev-dot--miss');
-        }
       }
 
       function updateSubmit() {
