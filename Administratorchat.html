@@ -2889,10 +2889,10 @@
       errVid.autoplay = true;
       errVid.muted = false;
       errVid.playsInline = true;
-      errVid.addEventListener('ended', () => { window.location.href = 'Ending2.html'; });
-      // Fallback in case video fails to play or has no ended event
-      errVid.addEventListener('error', () => { window.location.href = 'Ending2.html'; });
-      setTimeout(() => { window.location.href = 'Ending2.html'; }, 30000);
+      const goEnding2 = () => { window.location.href = 'Ending2.html'; };
+      setTimeout(goEnding2, 5000);
+      errVid.addEventListener('error', goEnding2);
+      errVid.addEventListener('timeupdate', () => { if (errVid.currentTime >= 3) goEnding2(); });
       errWrap.appendChild(errVid);
       document.body.appendChild(errWrap);
       errVid.play().catch(() => { window.location.href = 'Ending2.html'; });
