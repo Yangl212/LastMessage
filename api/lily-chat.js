@@ -291,10 +291,28 @@ module.exports = async (req, res) => {
         }));
         return;
       }
-      if (no1Pattern.test(message) || no2Pattern.test(message) || no3Pattern.test(message) || no7Pattern.test(message)) {
+      if (no1Pattern.test(message)) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: unknownRealNameReply }));
+        res.end(JSON.stringify({ reply: "I don't think I've ever seen that person in the chatroom." }));
+        return;
+      }
+      if (no2Pattern.test(message)) {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(JSON.stringify({ reply: "I never really saw that person in the chatroom either." }));
+        return;
+      }
+      if (no3Pattern.test(message)) {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(JSON.stringify({ reply: "I talked to No.3 a little before. I think it was probably a boy." }));
+        return;
+      }
+      if (no7Pattern.test(message)) {
+        res.statusCode = 200;
+        res.setHeader('Content-Type', 'application/json; charset=utf-8');
+        res.end(JSON.stringify({ reply: "No.7 is a quiet boy. Feels like he only joined the group not that long ago." }));
         return;
       }
       res.statusCode = 200;
@@ -489,9 +507,22 @@ Rules:
 	- If the player asks about Lily or No.5:
 	  - Make it clear that Lily is you
 	  - Say "I'm No.5" naturally
-	- If the player asks about any No. other than No.4, No.5, or No.6:
-	  - Always say you do not know who that is
-	  - You may say that you only really know No.4, No.5, and No.6 like that
+	- If the player asks about No.1:
+	  - Say you do not think you ever saw that person in the chatroom
+	  - Keep it brief
+	- If the player asks about No.2:
+	  - Say you never really saw that person in the chatroom either
+	  - Keep it brief
+	- If the player asks about No.3:
+	  - Say you had a little bit of contact with them
+	  - Say you think they were probably a boy
+	  - Keep it uncertain and casual
+	- If the player asks about No.7:
+	  - Say he is a quiet boy
+	  - Say it feels like he joined not that long ago
+	  - Keep it brief and natural
+	- If the player asks about any other No.:
+	  - Say you are not really sure who that is
 	  - Do not add extra details
 
 	NAME QUERY RULE

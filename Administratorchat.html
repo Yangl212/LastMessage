@@ -3859,9 +3859,29 @@
     coreTherapyReport01Overlay?.addEventListener('click', (e) => {
       if (e.target === coreTherapyReport01Overlay) closeCoreTherapyReport01();
     });
+    document.getElementById('coreTherapyReport01Doc')?.addEventListener('click', (e) => {
+      const redact = e.target.closest('.tr-reveal-redact');
+      if (redact) redact.classList.toggle('is-revealed');
+    });
+    document.getElementById('coreTherapyReport01Doc')?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const redact = e.target.closest('.tr-reveal-redact');
+        if (redact) { e.preventDefault(); redact.classList.toggle('is-revealed'); }
+      }
+    });
     coreTherapyReport02Close?.addEventListener('click', closeCoreTherapyReport02);
     coreTherapyReport02Overlay?.addEventListener('click', (e) => {
       if (e.target === coreTherapyReport02Overlay) closeCoreTherapyReport02();
+    });
+    document.getElementById('coreTherapyReport02Doc')?.addEventListener('click', (e) => {
+      const redact = e.target.closest('.tr-reveal-redact');
+      if (redact) redact.classList.toggle('is-revealed');
+    });
+    document.getElementById('coreTherapyReport02Doc')?.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        const redact = e.target.closest('.tr-reveal-redact');
+        if (redact) { e.preventDefault(); redact.classList.toggle('is-revealed'); }
+      }
     });
     lilyTherapyReport01Close?.addEventListener('click', closeLilyTherapyReport01);
     lilyTherapyReport01Overlay?.addEventListener('click', (e) => {

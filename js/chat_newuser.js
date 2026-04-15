@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
   let hasSentGreetingReply = false;
   const seenHintKeywords = new Set();
   let hasShownQuestionLimitReminder = false;
+  let isAwaitingPsychologistReply = false;
+  const psychologistHistory = [];
   const hintSuggestionByGroup = {
     '30 task': 'What is the 30 Task?',
     midnight: 'Who is Midnight?',
@@ -62,9 +64,9 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   const keywordResponses = {
-    'chat group rules': '"Heart-knot" is the core password used to recognize your identity. Please remember it well.\n\nWhen chatting in the group, do not send unrelated content at will.\n\nIf you have any questions, please use keywords to ask them in the group chat.\n\nOn the day you join, follow the "0 DAY" principle: report your X account to the administrator and keep it continuously updated.\n\nYou do not have permission to send private messages to other members in the group.\n\nBliss in the Pure Land.',
-    'chat group rule': '"Heart-knot" is the core password used to recognize your identity. Please remember it well.\n\nWhen chatting in the group, do not send unrelated content at will.\n\nIf you have any questions, please use keywords to ask them in the group chat.\n\nOn the day you join, follow the "0 DAY" principle: report your X account to the administrator and keep it continuously updated.\n\nYou do not have permission to send private messages to other members in the group.\n\nBliss in the Pure Land.',
-    'chat groups rules': '"Heart-knot" is the core password used to recognize your identity. Please remember it well.\n\nWhen chatting in the group, do not send unrelated content at will.\n\nIf you have any questions, please use keywords to ask them in the group chat.\n\nOn the day you join, follow the "0 DAY" principle: report your X account to the administrator and keep it continuously updated.\n\nYou do not have permission to send private messages to other members in the group.\n\nBliss in the Pure Land.',
+    'chat group rules': 'There aren’t too many rules here.\n\nJust try not to share too much personal information… things like your real name, for example.\n\nAnd let’s keep the conversation related to this space.\nIf it drifts too far into unrelated topics, I may not always respond.\n\nAs for me, I’ll arrange one-on-one sessions when the time feels right.\n\nWhen that happens, just answer honestly. Take your time, and be as detailed as you can and try to trust me.',
+    'chat group rule': 'There aren’t too many rules here.\n\nJust try not to share too much personal information… things like your real name, for example.\n\nAnd let’s keep the conversation related to this space.\nIf it drifts too far into unrelated topics, I may not always respond.\n\nAs for me, I’ll arrange one-on-one sessions when the time feels right.\n\nWhen that happens, just answer honestly. Take your time, and be as detailed as you can and try to trust me.',
+    'chat groups rules': 'There aren’t too many rules here.\n\nJust try not to share too much personal information… things like your real name, for example.\n\nAnd let’s keep the conversation related to this space.\nIf it drifts too far into unrelated topics, I may not always respond.\n\nAs for me, I’ll arrange one-on-one sessions when the time feels right.\n\nWhen that happens, just answer honestly. Take your time, and be as detailed as you can and try to trust me.',
     'blue whale chat group': 'The Blue Whale chat group is an online "youth counseling platform" created by professional psychological advisors.\nHere, every frustration you carry will be heard, every secret will be held gently, and none of your feelings will ever be judged.\nWe understand what you have been through, and we will stay with you through the nights no one else notices.\nAll you need to do is trust us - let us guide you toward a lighter heart.',
     '30 task': 'This is an activity designed to help children struggling with mental health find their way back to happiness. On the first day, we begin with a simple task: “Rate your mood today.”',
     admin: [
@@ -144,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
     memberModal,
     modalMessageButton,
     sendButton,
-    onSendMessage: (text, helpers) => {
+    onSendMessage: async (text, helpers) => {
       const greeted = handleGreetingResponse(text, helpers);
       if (greeted) {
         missedKeywordCount = 0;
@@ -157,8 +159,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      missedKeywordCount += 1;
+      const handledByApi = await handlePsychologistFallback(text, helpers);
+      if (handledByApi) {
+        missedKeywordCount = 0;
+        return;
+      }
 
+      missedKeywordCount += 1;
       if (missedKeywordCount >= 2) {
         const lines = [
           'Maybe you should spend your time asking something that actually matters.',
@@ -220,10 +227,17 @@ document.addEventListener('DOMContentLoaded', () => {
     registerHintKeyword(keyword);
     maybeShowQuestionLimitReminder(helpers);
 
-    responses.forEach((line, index) => {
-      const payload = typeof line === 'string'
-        ? { user: sender, text: line }
-        : { user: line.user || sender, text: String(line.text || '') };
+    const expandedResponses = responses.flatMap((line) => {
+      if (typeof line === 'string') {
+        return splitResponseParagraphs(line).map((part) => ({ user: sender, text: part }));
+      }
+
+      const lineUser = line.user || sender;
+      return splitResponseParagraphs(String(line.text || '')).map((part) => ({ user: lineUser, text: part }));
+    });
+
+    let delay = randomReplyDelay();
+    expandedResponses.forEach((payload, index) => {
       setTimeout(() => {
         helpers.appendMessage({
           user: payload.user,
@@ -231,10 +245,71 @@ document.addEventListener('DOMContentLoaded', () => {
           text: payload.text,
           me: false
         });
-      }, 2000 + index * 1200);
+      }, delay);
+      if (index < expandedResponses.length - 1) {
+        delay += randomReplyDelay();
+      }
     });
 
     return true;
+  }
+
+  function splitResponseParagraphs(text){
+    return String(text || '')
+      .split(/\n\s*\n+/)
+      .map((part) => part.trim())
+      .filter(Boolean);
+  }
+
+  function randomReplyDelay(){
+    return 2000 + Math.floor(Math.random() * 3001);
+  }
+
+  async function handlePsychologistFallback(text, helpers){
+    if (!helpers || isAwaitingPsychologistReply) return false;
+
+    isAwaitingPsychologistReply = true;
+    psychologistHistory.push({ role: 'user', content: text });
+
+    try {
+      const res = await fetch('/api/psychologist-chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          message: text,
+          history: psychologistHistory.slice(0, -1)
+        })
+      });
+
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        throw new Error(data?.error || 'Request failed.');
+      }
+
+      const reply = String(data?.reply || '').trim();
+      if (!reply) {
+        psychologistHistory.pop();
+        return false;
+      }
+
+      psychologistHistory.push({ role: 'assistant', content: reply });
+      window.setTimeout(() => {
+        helpers.appendMessage({
+          user: 'Midnight',
+          time: nowHHMM(),
+          text: reply,
+          me: false
+        });
+      }, 1400);
+      return true;
+    } catch (_error) {
+      psychologistHistory.pop();
+      return false;
+    } finally {
+      isAwaitingPsychologistReply = false;
+    }
   }
 
   function registerHintKeyword(keyword){

@@ -14,8 +14,12 @@
         <div class="chat-header-main">
           <img src="assets/images/member-Midnight.jpeg" alt="Midnight" class="chat-header-avatar" />
           <div>
-            <h2>Midnight</h2>
-            <p class="chat-subtitle">Encrypted direct line for sensitive updates</p>
+            <h2 id="channelTitle">Midnight</h2>
+            <p id="channelSubtitle" class="chat-subtitle">Encrypted direct line for sensitive updates</p>
+            <div class="channel-switcher" aria-label="Direct channel switcher">
+              <button type="button" class="channel-switch active" data-channel="midnight">Midnight</button>
+              <button type="button" class="channel-switch" data-channel="psychologist">心理医生</button>
+            </div>
           </div>
         </div>
         <a class="logout chat-header-back" href="chat_newuser.html">Back to Group Chat</a>
