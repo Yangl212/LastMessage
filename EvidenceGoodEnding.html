@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ending — Evidence Accepted</title>
+  <style>
+    @font-face{
+      font-family:"PixelOperator8";
+      src:url("assets/fonts/pixel_operator/PixelOperator8.ttf") format("truetype");
+      font-display:swap;
+    }
+    @font-face{
+      font-family:"PixelOperator8-Bold";
+      src:url("assets/fonts/pixel_operator/PixelOperator8-Bold.ttf") format("truetype");
+      font-display:swap;
+    }
+    @font-face{
+      font-family:"PixelOperator";
+      src:url("assets/fonts/pixel_operator/PixelOperator.ttf") format("truetype");
+      font-display:swap;
+    }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      background:#0a0a0d;
+      color:#fff;
+      font-family:"SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+      overflow:hidden;
+    }
+
+    .ending-layout{
+      min-height:100vh;
+      display:grid;
+      grid-template-columns:minmax(400px,44vw) 1fr;
+      align-items:stretch;
+    }
+
+    .credits-rail{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#000;
+      overflow:hidden;
+    }
+
+    .credits-video{
+      width:100%;
+      height:100vh;
+      object-fit:contain;
+      object-position:center;
+      display:block;
+      background:#000;
+    }
+
+    .credits-overlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      pointer-events:none;
+      z-index:2;
+    }
+
+    .credits-spacer-top{ height:23vh; flex:0 0 auto; }
+    .credits-spacer-bottom{ flex:1 1 auto; }
+
+    .credits-roll-wrap{
+      position:relative;
+      width:min(98%,960px);
+      height:34vh;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      flex:0 0 auto;
+    }
+
+    .credits-roll-wrap::before,
+    .credits-roll-wrap::after{
+      content:"";
+      position:absolute;
+      left:0;right:0;
+      height:44px;
+      z-index:1;
+      pointer-events:none;
+    }
+    .credits-roll-wrap::before{ top:0; background:linear-gradient(to bottom,#000 0%,rgba(0,0,0,0) 100%); }
+    .credits-roll-wrap::after{ bottom:0; background:linear-gradient(to top,#000 0%,rgba(0,0,0,0) 100%); }
+
+    .credits-roll{
+      position:absolute;
+      left:50%;
+      bottom:-22%;
+      transform:translateX(-50%);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:28px;
+      text-align:center;
+      color:#fff;
+      font-family:"PixelOperator8",monospace;
+      font-size:15px;
+      line-height:1.4;
+      animation:creditsRoll 30s linear infinite;
+    }
+
+    .credits-roll p{ margin:0; display:flex; flex-direction:column; align-items:center; gap:8px; white-space:nowrap; }
+    .credits-roll .credits-label{ font-family:"PixelOperator8-Bold",monospace; font-size:1em; }
+    .credits-roll .credits-detail{ font-size:.82em; }
+
+    .ending-main{
+      display:grid;
+      place-items:center;
+      padding:18px 26px 18px 10px;
+      background:#000;
+    }
+
+    .ending-panel{
+      width:min(620px,calc(100vw - 45vw));
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:34px;
+    }
+
+    .ending-window{
+      width:100%;
+      min-height:52vh;
+      border:4px solid #111;
+      border-radius:18px;
+      background:#fff;
+      overflow:hidden;
+      box-shadow:10px 12px 0 rgba(0,0,0,.92);
+      transform:scale(.74);
+      opacity:0;
+      transform-origin:center center;
+      animation:endingWindowReveal 820ms cubic-bezier(.18,.88,.2,1) 2s forwards;
+    }
+
+    .ending-window-header{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:62px;
+      padding:0 20px;
+      border-bottom:4px solid #111;
+      color:#111;
+      font-family:"PixelOperator8",monospace;
+      font-size:15px;
+      letter-spacing:.02em;
+      background:#fff;
+    }
+
+    .ending-window-body{
+      padding:30px 42px 34px;
+      background:#fff;
+      font-family:"PixelOperator",monospace;
+      color:#111;
+      font-size:15px;
+      line-height:1.5;
+      min-height:39vh;
+    }
+
+    .ending-window-copy{
+      display:flex;
+      flex-direction:column;
+      gap:26px;
+    }
+
+    .ending-window-copy p{ margin:0; }
+
+    .ending-actions{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      gap:42px;
+      opacity:0;
+      transform:translateY(12px);
+      animation:endingActionsReveal 560ms ease 2.7s forwards;
+    }
+
+    .ending-action-btn{
+      min-width:196px;
+      min-height:70px;
+      border:4px solid #111;
+      background:#fff;
+      color:#111;
+      font-family:"PixelOperator8",monospace;
+      font-size:18px;
+      cursor:pointer;
+      transition:background .18s,color .18s,border-color .18s,box-shadow .18s,transform .18s;
+    }
+
+    .ending-action-btn:hover{
+      background:#111;
+      color:#fff;
+      border-color:#fff;
+      box-shadow:0 0 0 1px #fff;
+    }
+
+    .ending-action-btn:active{ transform:translateY(1px); }
+
+    @media(min-width:1001px){
+      .ending-window-header{ font-size:18px; }
+      .ending-window-body{ font-size:18px; }
+      .ending-action-btn{ font-size:21px; }
+    }
+
+    @keyframes endingWindowReveal{
+      0%{ opacity:0; transform:scale(.58); }
+      58%{ opacity:1; transform:scale(1.035); }
+      78%{ transform:scale(.985); }
+      100%{ opacity:1; transform:scale(1); }
+    }
+    @keyframes creditsRoll{
+      0%{ transform:translateX(-50%) translateY(calc(34% + 100px)); opacity:0; }
+      10%{ opacity:1; }
+      88%{ opacity:1; }
+      100%{ transform:translateX(-50%) translateY(calc(-104% - 20px)); opacity:0; }
+    }
+    @keyframes endingActionsReveal{
+      0%{ opacity:0; transform:translateY(12px); }
+      100%{ opacity:1; transform:translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <audio id="endingAudio" autoplay loop preload="auto">
+    <source src="assets/audio/ending.mp3" type="audio/mpeg" />
+  </audio>
+
+  <div class="ending-layout">
+    <aside class="credits-rail" aria-label="Credits">
+      <video class="credits-video" autoplay loop muted playsinline preload="auto">
+        <source src="assets/video/Credits.mp4" type="video/mp4" />
+      </video>
+      <div class="credits-overlay" aria-hidden="true">
+        <div class="credits-spacer-top"></div>
+        <div class="credits-roll-wrap">
+          <div class="credits-roll">
+            <p>
+              <span class="credits-label">Parsons School of Design</span>
+              <span class="credits-detail">MFA Design and Technology<br />Thesis Project</span>
+            </p>
+            <p>
+              <span class="credits-label">Designed &amp; Developed</span>
+              <span class="credits-detail">Lele Yang</span>
+            </p>
+            <p>
+              <span class="credits-label">Advisor</span>
+              <span class="credits-detail">Kurt Bieg</span>
+            </p>
+            <p>
+              <span class="credits-label">Thesis Instructor</span>
+              <span class="credits-detail">Louisa Campbell</span>
+            </p>
+            <p>
+              <span class="credits-label">Special Thanks</span>
+              <span class="credits-detail">All Playtesters</span>
+            </p>
+          </div>
+        </div>
+        <div class="credits-spacer-bottom"></div>
+      </div>
+    </aside>
+
+    <main class="ending-main">
+      <section class="ending-panel" aria-label="Good ending panel">
+        <div class="ending-window">
+          <header class="ending-window-header">
+            <span>ENDING: EVIDENCE ACCEPTED</span>
+          </header>
+          <div class="ending-window-body">
+            <div class="ending-window-copy">
+              <p>The evidence you submitted was enough.<br />Officers confirmed the records were authentic.</p>
+              <p>Midnight was located and apprehended the following morning.<br />The chatroom was taken offline within the hour.</p>
+              <p>Allery Lin's case was reopened.<br />Her death was no longer ruled a simple suicide.</p>
+              <p>The full extent of the Blue Whale system was exposed.<br />You made that possible.</p>
+            </div>
+          </div>
+        </div>
+        <div class="ending-actions">
+          <button class="ending-action-btn" type="button" id="replayBtn">Replay</button>
+          <button class="ending-action-btn" type="button" id="feedbackBtn">Feedback</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      const audio = document.getElementById('endingAudio');
+      if (audio) {
+        audio.volume = 0;
+        const target = 0.42;
+        const tryPlay = () => audio.play().then(() => {
+          const id = window.setInterval(() => {
+            const next = Math.min(target, audio.volume + 0.02);
+            audio.volume = next;
+            if (next >= target) window.clearInterval(id);
+          }, 180);
+        }).catch(() => {});
+        tryPlay();
+        window.addEventListener('pointerdown', tryPlay, { once: true });
+      }
+      document.getElementById('replayBtn')?.addEventListener('click', () => {
+        window.location.href = 'introduction.html';
+      });
+      document.getElementById('feedbackBtn')?.addEventListener('click', () => {
+        window.open('https://forms.gle/', '_blank');
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -7,6 +7,7 @@
   <meta name="description" content="Administrative archive dashboard." />
   <link rel="stylesheet" href="css/hint-progress.css" />
   <link rel="stylesheet" href="css/administrator_chat.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 </head>
 <body>
   <main class="admin-layout">
@@ -1417,19 +1418,39 @@
             <div class="police-evidence-log">
               <h3 class="police-evidence-log-title">Evidence Log</h3>
               <div class="police-evidence-section-divider"></div>
-              <div class="police-evidence-grid">
-                <div class="police-evidence-folder" aria-disabled="true">
-                  <img src="assets/images/folderblack.png" alt="" class="police-evidence-folder-icon" />
-                  <span>Identity Records</span>
+              <div class="ev-upload-area">
+                <div class="ev-slots" id="evSlots">
+                  <div class="ev-slot" id="evSlot0" data-slot="0">
+                    <span class="ev-slot-num">01</span>
+                    <span class="ev-slot-hint">empty</span>
+                    <button type="button" class="ev-slot-remove" data-slot="0" aria-label="Remove image" hidden>&times;</button>
+                  </div>
+                  <div class="ev-slot" id="evSlot1" data-slot="1">
+                    <span class="ev-slot-num">02</span>
+                    <span class="ev-slot-hint">empty</span>
+                    <button type="button" class="ev-slot-remove" data-slot="1" aria-label="Remove image" hidden>&times;</button>
+                  </div>
+                  <div class="ev-slot" id="evSlot2" data-slot="2">
+                    <span class="ev-slot-num">03</span>
+                    <span class="ev-slot-hint">empty</span>
+                    <button type="button" class="ev-slot-remove" data-slot="2" aria-label="Remove image" hidden>&times;</button>
+                  </div>
                 </div>
-                <div class="police-evidence-folder" aria-disabled="true">
-                  <img src="assets/images/folderblack.png" alt="" class="police-evidence-folder-icon" />
-                  <span>Task System</span>
+                <div class="ev-actions">
+                  <button type="button" class="ev-btn ev-capture-btn" id="evCaptureBtn">Capture Screen</button>
+                  <label class="ev-btn ev-upload-label" for="evFileInput">Upload Image</label>
+                  <input type="file" id="evFileInput" accept="image/*" class="ev-file-input" aria-label="Upload screenshot" />
                 </div>
-                <div class="police-evidence-folder" aria-disabled="true">
-                  <img src="assets/images/folderblack.png" alt="" class="police-evidence-folder-icon" />
-                  <span>Victim Profiles</span>
+                <div class="ev-score-row" id="evScoreRow">
+                  <span class="ev-score-label">Evidence:</span>
+                  <div class="ev-score-dots">
+                    <span class="ev-dot" id="evDot0"></span>
+                    <span class="ev-dot" id="evDot1"></span>
+                    <span class="ev-dot" id="evDot2"></span>
+                  </div>
                 </div>
+                <button type="button" class="ev-submit-btn" id="evSubmitBtn" disabled>Submit Evidence</button>
+                <p class="ev-status" id="evStatus" hidden></p>
               </div>
             </div>
           </div>
@@ -2943,6 +2964,8 @@
           evidenceReopenBtn.hidden = false;
           positionEvidenceReopenButton();
         }
+        // Mark evidence system as unlocked for the upload feature
+        try { localStorage.setItem('administratorchat:evidence-unlocked', '1'); } catch (_) {}
       }, 3000);
     }
 
@@ -4155,6 +4178,229 @@
     purgeLegacyPrivateChatThreads();
     renderPrivateChatPeople();
     syncPrivateChatScrollbar();
+  </script>
+  <script>
+    // ── Evidence upload system ───────────────────────────
+    // Only becomes interactive after showPoliceEvidencePrompt() fires
+    // Evidence upload + context-based scoring.
+    // A point is awarded automatically when "Capture Screen" is clicked with
+    // the correct member panel and therapy/diary overlay open.
+    // Sets localStorage key 'administratorchat:evidence-unlocked' to gate access.
+    (function () {
+      const UNLOCK_KEY = 'administratorchat:evidence-unlocked';
+
+      function isUnlocked() {
+        try { return localStorage.getItem(UNLOCK_KEY) === '1'; } catch (_) { return false; }
+      }
+
+      // Scoring conditions: panel data-member-view + overlay element ID (+ optional diary title substring)
+      const SCORING_CONDITIONS = [
+        { panel: 'mike-primary',   overlay: 'mikeDiaryOverlay',            diaryTitle: '3' },
+        { panel: 'allery-lin',     overlay: 'therapyReport03Overlay',      diaryTitle: null },
+        { panel: 'core-bennett',   overlay: 'coreTherapyReport02Overlay',  diaryTitle: null },
+        { panel: 'sofia-rossi',    overlay: 'sofiaTherapyReport03Overlay', diaryTitle: null },
+        { panel: 'daniel-hayes',   overlay: 'danielTherapyReport03Overlay',diaryTitle: null },
+        { panel: 'mike-secondary', overlay: 'marryTherapyReport01Overlay', diaryTitle: null },
+      ];
+
+      function getActivePanelView() {
+        const el = document.querySelector('.member-view:not([hidden])');
+        return el ? el.getAttribute('data-member-view') : null;
+      }
+
+      function checkContext() {
+        const panel = getActivePanelView();
+        if (!panel) return false;
+        for (const cond of SCORING_CONDITIONS) {
+          if (cond.panel !== panel) continue;
+          const overlayEl = document.getElementById(cond.overlay);
+          if (!overlayEl || overlayEl.hidden || !overlayEl.classList.contains('is-visible')) continue;
+          if (cond.diaryTitle) {
+            const titleEl = document.getElementById('mikeDiaryTitle');
+            if (!titleEl || !titleEl.textContent.includes(cond.diaryTitle)) continue;
+          }
+          return true;
+        }
+        return false;
+      }
+
+      const slotImages = [null, null, null];
+      const slotScores = [false, false, false];
+
+      const slotEls = [
+        document.getElementById('evSlot0'),
+        document.getElementById('evSlot1'),
+        document.getElementById('evSlot2')
+      ];
+      const fileInput  = document.getElementById('evFileInput');
+      const captureBtn = document.getElementById('evCaptureBtn');
+      const submitBtn  = document.getElementById('evSubmitBtn');
+      const statusEl   = document.getElementById('evStatus');
+      const dotEls     = [
+        document.getElementById('evDot0'),
+        document.getElementById('evDot1'),
+        document.getElementById('evDot2')
+      ];
+
+      function nextEmpty() {
+        return slotImages.findIndex(v => v === null);
+      }
+
+      function resizeImage(dataUrl) {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => {
+            const maxW = 1024, maxH = 768;
+            let w = img.width, h = img.height;
+            if (w > maxW || h > maxH) {
+              const r = Math.min(maxW / w, maxH / h);
+              w = Math.round(w * r);
+              h = Math.round(h * r);
+            }
+            const c = document.createElement('canvas');
+            c.width = w; c.height = h;
+            c.getContext('2d').drawImage(img, 0, 0, w, h);
+            resolve(c.toDataURL('image/jpeg', 0.82));
+          };
+          img.onerror = () => resolve(dataUrl);
+          img.src = dataUrl;
+        });
+      }
+
+      function renderSlot(i) {
+        const slot = slotEls[i];
+        if (!slot) return;
+        const img   = slotImages[i];
+        const hint  = slot.querySelector('.ev-slot-hint');
+        const rmBtn = slot.querySelector('.ev-slot-remove');
+
+        if (img) {
+          let thumb = slot.querySelector('img.ev-thumbnail');
+          if (!thumb) {
+            thumb = document.createElement('img');
+            thumb.className = 'ev-thumbnail';
+            thumb.alt = '';
+            slot.prepend(thumb);
+          }
+          thumb.src = img;
+          if (hint)  hint.hidden  = true;
+          if (rmBtn) rmBtn.hidden = false;
+          slot.classList.add('ev-slot--filled');
+        } else {
+          const thumb = slot.querySelector('img.ev-thumbnail');
+          if (thumb) thumb.remove();
+          if (hint)  hint.hidden  = false;
+          if (rmBtn) rmBtn.hidden = true;
+          slot.classList.remove('ev-slot--filled');
+        }
+
+        // Update the corresponding score dot
+        const dot = dotEls[i];
+        if (dot) {
+          dot.classList.remove('ev-dot--hit', 'ev-dot--miss');
+          if (img) dot.classList.add(slotScores[i] ? 'ev-dot--hit' : 'ev-dot--miss');
+        }
+      }
+
+      function updateSubmit() {
+        if (!submitBtn) return;
+        submitBtn.disabled = !isUnlocked() || slotImages.every(v => v === null);
+      }
+
+      function addImage(dataUrl, scored) {
+        if (!isUnlocked()) return;
+        const idx = nextEmpty();
+        if (idx === -1) return;
+        slotImages[idx] = dataUrl;
+        slotScores[idx] = !!scored;
+        renderSlot(idx);
+        updateSubmit();
+      }
+
+      // Remove buttons
+      slotEls.forEach((slot, i) => {
+        slot?.querySelector('.ev-slot-remove')?.addEventListener('click', () => {
+          slotImages[i] = null;
+          slotScores[i] = false;
+          renderSlot(i);
+          updateSubmit();
+          if (statusEl) { statusEl.hidden = true; statusEl.textContent = ''; }
+        });
+      });
+
+      // File upload — uploaded images do not auto-score (no page context)
+      fileInput?.addEventListener('change', async () => {
+        if (!isUnlocked()) { fileInput.value = ''; return; }
+        const files = Array.from(fileInput.files || []);
+        for (const file of files) {
+          if (nextEmpty() === -1) break;
+          if (!file.type.startsWith('image/')) continue;
+          const raw = await new Promise(res => {
+            const reader = new FileReader();
+            reader.onload = e => res(e.target.result);
+            reader.readAsDataURL(file);
+          });
+          const resized = await resizeImage(raw);
+          addImage(resized, false);
+        }
+        fileInput.value = '';
+      });
+
+      // Screenshot capture — checks page context for auto-scoring
+      captureBtn?.addEventListener('click', async () => {
+        if (!isUnlocked()) return;
+        if (nextEmpty() === -1) return;
+        const overlay = document.getElementById('policeEvidenceOverlay');
+        if (!overlay) return;
+
+        // Check scoring context BEFORE hiding the overlay
+        const scored = checkContext();
+
+        // Temporarily hide evidence panel so underlying therapy record is captured
+        overlay.style.opacity = '0';
+        overlay.style.pointerEvents = 'none';
+        await new Promise(r => setTimeout(r, 150));
+
+        try {
+          if (typeof html2canvas !== 'undefined') {
+            const canvas = await html2canvas(document.body, {
+              useCORS: true,
+              scale: Math.min(window.devicePixelRatio || 1, 2),
+              logging: false,
+              ignoreElements: el => el === overlay
+            });
+            const raw = canvas.toDataURL('image/png');
+            const resized = await resizeImage(raw);
+            addImage(resized, scored);
+          }
+        } catch (err) {
+          console.error('Screenshot failed:', err);
+        } finally {
+          overlay.style.opacity = '';
+          overlay.style.pointerEvents = '';
+        }
+      });
+
+      // Submit — tallies slotScores locally, no API call needed
+      submitBtn?.addEventListener('click', () => {
+        if (!isUnlocked()) return;
+        if (slotImages.every(v => v === null)) return;
+
+        submitBtn.disabled = true;
+        if (captureBtn) captureBtn.disabled = true;
+        if (fileInput)  fileInput.disabled  = true;
+
+        const score = slotScores.filter(Boolean).length;
+        if (statusEl) {
+          statusEl.hidden = false;
+          statusEl.textContent = `Evidence score: ${score} / ${slotImages.filter(v => v !== null).length}`;
+        }
+
+        setTimeout(() => {
+          window.location.href = score >= 2 ? 'EvidenceGoodEnding.html' : 'EvidenceBadEnding.html';
+        }, 2000);
+      });
+    })();
   </script>
   <script>
     window.HintProgressConfig = {

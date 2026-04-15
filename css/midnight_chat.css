@@ -14,35 +14,6 @@
   min-width:0;
 }
 
-.channel-switcher{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-top:10px;
-}
-
-.channel-switch{
-  appearance:none;
-  border:1px solid rgba(255,255,255,.38);
-  background:transparent;
-  color:#fff;
-  font:inherit;
-  padding:6px 12px;
-  border-radius:999px;
-  cursor:pointer;
-  transition:background .18s ease,color .18s ease,border-color .18s ease;
-}
-
-.channel-switch:hover{
-  border-color:#fff;
-}
-
-.channel-switch.active{
-  background:#fff;
-  color:#111;
-  border-color:#fff;
-}
-
 .chat-header-avatar{
   width:48px;
   height:48px;
@@ -156,9 +127,5 @@ body.newuser-midnight .newuser-midnight-side{
 
   body.newuser-midnight .chat-header-back{
     align-self:flex-start;
-  }
-
-  .channel-switcher{
-    width:100%;
   }
 }
