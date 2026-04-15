@@ -2878,6 +2878,26 @@
       });
     });
 
+    function triggerCountdownExpiry() {
+      stopAdminCountdown();
+      // Play error.mp4 fullscreen then redirect to Ending2
+      const errWrap = document.createElement('div');
+      errWrap.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#000;display:flex;align-items:center;justify-content:center;';
+      const errVid = document.createElement('video');
+      errVid.src = 'assets/video/error.mp4';
+      errVid.style.cssText = 'width:100%;height:100%;object-fit:contain;';
+      errVid.autoplay = true;
+      errVid.muted = false;
+      errVid.playsInline = true;
+      errVid.addEventListener('ended', () => { window.location.href = 'Ending2.html'; });
+      // Fallback in case video fails to play or has no ended event
+      errVid.addEventListener('error', () => { window.location.href = 'Ending2.html'; });
+      setTimeout(() => { window.location.href = 'Ending2.html'; }, 30000);
+      errWrap.appendChild(errVid);
+      document.body.appendChild(errWrap);
+      errVid.play().catch(() => { window.location.href = 'Ending2.html'; });
+    }
+
     function updateAdminCountdown() {
       if (!adminCountdown || !adminCountdownTime) return;
       const remainingMs = Math.max(0, adminCountdownDeadline - Date.now());
@@ -2889,6 +2909,7 @@
       if (remainingMs <= 0 && adminCountdownInterval) {
         window.clearInterval(adminCountdownInterval);
         adminCountdownInterval = null;
+        triggerCountdownExpiry();
       }
     }
 
@@ -4348,6 +4369,9 @@
       submitBtn?.addEventListener('click', () => {
         if (!isUnlocked()) return;
         if (slotImages.every(v => v === null)) return;
+
+        // Cancel the access-revoked countdown on evidence submission
+        if (typeof stopAdminCountdown === 'function') stopAdminCountdown();
 
         submitBtn.disabled = true;
         if (captureBtn) captureBtn.disabled = true;
