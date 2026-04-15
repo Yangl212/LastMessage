@@ -1438,8 +1438,6 @@
                 </div>
                 <div class="ev-actions">
                   <button type="button" class="ev-btn ev-capture-btn" id="evCaptureBtn">Capture Screen</button>
-                  <label class="ev-btn ev-upload-label" for="evFileInput">Upload Image</label>
-                  <input type="file" id="evFileInput" accept="image/*" class="ev-file-input" aria-label="Upload screenshot" />
                 </div>
                 <div class="ev-score-row" id="evScoreRow">
                   <span class="ev-score-label">Evidence:</span>
@@ -4232,7 +4230,6 @@
         document.getElementById('evSlot1'),
         document.getElementById('evSlot2')
       ];
-      const fileInput  = document.getElementById('evFileInput');
       const captureBtn = document.getElementById('evCaptureBtn');
       const submitBtn  = document.getElementById('evSubmitBtn');
       const statusEl   = document.getElementById('evStatus');
@@ -4328,24 +4325,6 @@
         });
       });
 
-      // File upload — uploaded images do not auto-score (no page context)
-      fileInput?.addEventListener('change', async () => {
-        if (!isUnlocked()) { fileInput.value = ''; return; }
-        const files = Array.from(fileInput.files || []);
-        for (const file of files) {
-          if (nextEmpty() === -1) break;
-          if (!file.type.startsWith('image/')) continue;
-          const raw = await new Promise(res => {
-            const reader = new FileReader();
-            reader.onload = e => res(e.target.result);
-            reader.readAsDataURL(file);
-          });
-          const resized = await resizeImage(raw);
-          addImage(resized, false);
-        }
-        fileInput.value = '';
-      });
-
       // Screenshot capture — checks page context for auto-scoring
       captureBtn?.addEventListener('click', async () => {
         if (!isUnlocked()) return;
@@ -4388,7 +4367,6 @@
 
         submitBtn.disabled = true;
         if (captureBtn) captureBtn.disabled = true;
-        if (fileInput)  fileInput.disabled  = true;
 
         const score = slotScores.filter(Boolean).length;
         if (statusEl) {
