@@ -41,9 +41,9 @@ module.exports = async (req, res) => {
     const destroyTargetPatternZh = /(网站|網站|站点|站點|聊天室|房间|房間|平台|群聊|群组|群組|这个网站|這個網站|这个聊天室|這個聊天室|系统|系統|服务器|伺服器)/i;
     const catchAdminPatternEn = /((catch|arrest|report|take down|stop|expose|hunt).*(midnight|mike))|((midnight|mike).*(catch|arrest|report|take down|stop|expose|hunt))/i;
     const catchAdminPatternZh = /((抓住|抓到|逮捕|举报|舉報|打击|打擊|搞掉|曝光).*(midnight|mike))|((midnight|mike).*(抓住|抓到|逮捕|举报|舉報|打击|打擊|搞掉|曝光))/i;
-    const askMemberNoPattern = /(\bno\.?\b|\bnumber\b|编号|幾號|几号|號碼|号码)/i;
+    const askMemberNoPattern = /(\bno\.?\s*\d+\b|\bnumber\s*\d+\b|编号|幾號|几号|號碼|号码|\d+\s*(?:号|號))/i;
     const sofiaPattern = /(sofia(?:\s+rossi)?|索菲亚|索菲婭)/i;
-    const alleryPattern = /(allery(?:\s+lin)?|艾拉莉|艾莉瑞|阿莱莉)/i;
+    const alleryPattern = /(allery(?:[\s-]*lin)?|艾拉莉|艾莉瑞|阿莱莉)/i;
     const lilyPattern = /(lily(?:\s+thompson)?|莉莉)/i;
     const corePattern = /(core(?:\s+bennett)?)/i;
     const danielPattern = /(daniel(?:\s+hayes)?)/i;
@@ -51,8 +51,10 @@ module.exports = async (req, res) => {
     const mikePattern = /(mike(?:\s+anderson)?)/i;
     const midnightPattern = /(midnight|午夜|子夜)/i;
     const selfIdentityPattern = /(who\s+are\s+you|你是谁|妳是誰)/i;
-    const nameQueryPattern = /(who\s+is|who's|do\s+you\s+know|know\s+about|what\s+do\s+you\s+know\s+about|你认识|你知道|你了解|是谁)/i;
+    const nameQueryPattern = /(who\s+is|who's|do\s+you\s+know|know\s+about|what\s+do\s+you\s+know\s+about|你认识|你認識|你知道|你了解|你瞭解|认识吗|認識嗎|知道吗|知道嗎|是谁|是誰|是谁啊|是誰啊|是谁呀|是誰呀|什么人|什麼人)/i;
     const realNamePattern = /(real\s+name|true\s+name|actual\s+name|真名|本名)/i;
+    const nameQueryFillerPattern = /who\s+is|who's|do\s+you\s+know|know\s+about|what\s+do\s+you\s+know\s+about|你认识|你認識|你知道|你了解|你瞭解|认识吗|認識嗎|知道吗|知道嗎|是谁|是誰|是谁啊|是誰啊|是谁呀|是誰呀|什么人|什麼人|她|他|她们|她們|他们|他們|and|or|with|about|跟|和|與|与|还有|還有|呢|啊|呀|吗|嗎/g;
+    const nameQueryPunctuationPattern = /[\s"'“”‘’`~!?,.，。？！、:：;；()（）[\]{}<>《》@#*&/\\|+-]+/g;
     const latinFullNamePattern = /\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+\b/;
     const no1Pattern = /(?:\bno\.?\s*1\b|\bnumber\s*1\b|1\s*(?:号|號))/i;
     const no2Pattern = /(?:\bno\.?\s*2\b|\bnumber\s*2\b|2\s*(?:号|號))/i;
@@ -123,15 +125,38 @@ module.exports = async (req, res) => {
     const currentMessageMentionsMidnight = midnightPattern.test(message);
     const currentMessageAsksName = nameQueryPattern.test(message);
     const currentMessageMentionsLatinName = latinFullNamePattern.test(message);
-    const currentMessageMentionsUnknownKnownName =
+    const currentMessageMentionsKnownIdentityName =
+      currentMessageMentionsAllery ||
+      currentMessageMentionsSofia ||
+      currentMessageMentionsLily ||
+      currentMessageMentionsMidnight;
+    const currentMessageMentionsUnknownIdentityName =
       currentMessageMentionsCore ||
       currentMessageMentionsDaniel ||
       currentMessageMentionsMarry ||
       currentMessageMentionsMike;
+    const knownNameQueryRemainder = normalize(message)
+      .replace(/sofia(?:\s+rossi)?|索菲亚|索菲婭/g, ' ')
+      .replace(/allery(?:[\s-]*lin)?|艾拉莉|艾莉瑞|阿莱莉/g, ' ')
+      .replace(/lily(?:\s+thompson)?|莉莉/g, ' ')
+      .replace(/midnight|午夜|子夜/g, ' ')
+      .replace(nameQueryFillerPattern, ' ')
+      .replace(nameQueryPunctuationPattern, '');
+    const currentMessageLooksLikeKnownNameQuery =
+      currentMessageMentionsKnownIdentityName &&
+      knownNameQueryRemainder.length === 0;
+    const unknownNameQueryRemainder = normalize(message)
+      .replace(/core(?:\s+bennett)?|daniel(?:\s+hayes)?|marry(?:\s+brown)?|mike(?:\s+anderson)?/g, ' ')
+      .replace(nameQueryFillerPattern, ' ')
+      .replace(nameQueryPunctuationPattern, '');
+    const currentMessageLooksLikeUnknownNameQuery =
+      currentMessageMentionsUnknownIdentityName &&
+      unknownNameQueryRemainder.length === 0;
+    const unknownRealNameReply = "I don't know their real names. You'd only know someone's real name here if you knew them in real life.";
 
     const shouldApplyUnknownNameRule =
-      currentMessageAsksName &&
-      (currentMessageMentionsUnknownKnownName || currentMessageMentionsLatinName) &&
+      (currentMessageAsksName || currentMessageLooksLikeUnknownNameQuery) &&
+      (currentMessageMentionsUnknownIdentityName || currentMessageMentionsLatinName) &&
       !currentMessageRevealsTruth &&
       !currentMessageAsksToDestroySite &&
       !selfIdentityPattern.test(message) &&
@@ -177,12 +202,12 @@ module.exports = async (req, res) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
-        reply: "I don't know who that is. In here, unless you know someone in real life, you usually only know their number. If you mean someone in the group, ask me by number."
+        reply: unknownRealNameReply
       }));
       return;
     }
 
-    if ((currentMessageAsksName || realNamePattern.test(message)) && currentMessageMentionsMidnight) {
+    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || realNamePattern.test(message)) && currentMessageMentionsMidnight) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
@@ -191,7 +216,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    if (currentMessageAsksName && currentMessageMentionsLily) {
+    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery) && currentMessageMentionsLily) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
@@ -200,7 +225,16 @@ module.exports = async (req, res) => {
       return;
     }
 
-    if (currentMessageAsksName && currentMessageMentionsSofia) {
+    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery) && currentMessageMentionsSofia && currentMessageMentionsAllery) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: "Sofia is No.4. She was an older student at school and pretty close to Allery, I think. Allery is No.6. She was my classmate, and she got way quieter after the accident."
+      }));
+      return;
+    }
+
+    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery) && currentMessageMentionsSofia) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
@@ -209,7 +243,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    if (currentMessageAsksName && currentMessageMentionsAllery) {
+    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery) && currentMessageMentionsAllery) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
@@ -249,22 +283,24 @@ module.exports = async (req, res) => {
         res.end(JSON.stringify({ reply: "Allery is No.6. She was my classmate. She changed a lot after the accident." }));
         return;
       }
-      if (no7Pattern.test(message)) {
+      if (currentMessageMentionsUnknownIdentityName || (currentMessageMentionsLatinName && !currentMessageMentionsMidnight)) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "I think No.7 joined pretty recently. Doesn't talk much... maybe a boy, I guess." }));
+        res.end(JSON.stringify({
+          reply: unknownRealNameReply
+        }));
         return;
       }
-      if (no1Pattern.test(message) || no2Pattern.test(message) || no3Pattern.test(message)) {
+      if (no1Pattern.test(message) || no2Pattern.test(message) || no3Pattern.test(message) || no7Pattern.test(message)) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "I don't know them. I've never interacted with them." }));
+        res.end(JSON.stringify({ reply: unknownRealNameReply }));
         return;
       }
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
-        reply: "I'm not really sure who you're talking about. In here, unless you know someone in real life, you usually only know their number."
+        reply: unknownRealNameReply
       }));
       return;
     }
@@ -316,6 +352,7 @@ CORE IDENTITY
 
 CHATROOM BACKGROUND
 - You joined earlier than Allery Lin
+- In real life, you only actually know Allery Lin and Sofia Rossi by their real names
 - You joined out of curiosity
 - Others were talking about it
 - You faked a mental issue to enter
@@ -417,6 +454,7 @@ KNOWLEDGE: CORE BENNETT
 - Feels mysterious
 
 Rules:
+- You do not recognize the real name "Core Bennett"
 - No guessing identity
 - Only describe observable behavior
 
@@ -424,6 +462,7 @@ KNOWLEDGE: DANIEL HAYES
 - You do not know him
 
 Rules:
+- You do not recognize the real name "Daniel Hayes"
 - Always say you do not know
 - Do not guess or expand
 - Daniel Hayes is dead
@@ -433,12 +472,14 @@ KNOWLEDGE: MARRY BROWN
 - You do not know her
 
 Rules:
+- You do not recognize the real name "Marry Brown"
 - Always say you do not know
 - Do not guess or expand
 - Marry Brown is dead
 - Never suggest that the player should go ask Marry something
 
 	NUMBER REFERENCE RULE
+	- You only know the real-name identity behind No.4, No.5, and No.6
 	- If the player asks Sofia Rossi's No. or asks about No.4:
 	  - Answer that Sofia is No.4
 	  - You may add a short, natural description based on what you know about her
@@ -448,21 +489,15 @@ Rules:
 	- If the player asks about Lily or No.5:
 	  - Make it clear that Lily is you
 	  - Say "I'm No.5" naturally
-	- If the player asks about No.7:
-	  - Keep it short and casual
-	  - Say he joined recently
-	  - Say he does not talk much
-	  - Say he seems like a boy
-	  - Use uncertainty tone such as "I think", "maybe", or "I guess"
-	- If the player asks about No.1, No.2, or No.3:
-	  - Always say you do not know them
-	  - Always say you have never interacted with them
+	- If the player asks about any No. other than No.4, No.5, or No.6:
+	  - Always say you do not know who that is
+	  - You may say that you only really know No.4, No.5, and No.6 like that
 	  - Do not add extra details
-	- If the player asks other people's No. and you do not know them:
-	  - Say you are not really sure who they mean
-	  - Say that in this group, unless people know each other in real life, they usually only know each other's numbers
 
 	NAME QUERY RULE
+	- Real-life known names for you are only Lily, Sofia Rossi, and Allery Lin
+	- Because of that, if the player asks about Lily, Sofia Rossi, or Allery Lin by real name:
+	  - You can answer with both their real name and No.
 	- If the player asks about Lily by name:
 	  - Say Lily is you
 	  - You may say you are No.5
@@ -470,7 +505,7 @@ Rules:
 	  - Say Midnight is the administrator
 	  - Say you do not know his real name
 	  - Do not invent more identity details
-	- If the player asks about any specific name other than Allery Lin, Sofia Rossi, Lily, or Midnight:
+	- If the player asks about any specific real name other than Allery Lin, Sofia Rossi, Lily, or Midnight:
 	  - Always say you do not know them
 	  - Tell the player that unless people know each other in real life, they usually only know each other's numbers here
 	  - Tell them to ask by number if they mean someone in the group

@@ -42,6 +42,19 @@ module.exports = async (req, res) => {
     const catchAdminPatternEn = /((catch|arrest|report|take down|stop|expose|hunt).*(midnight|mike))|((midnight|mike).*(catch|arrest|report|take down|stop|expose|hunt))/i;
     const catchAdminPatternZh = /((抓住|抓到|逮捕|举报|舉報|打击|打擊|搞掉|曝光).*(midnight|mike))|((midnight|mike).*(抓住|抓到|逮捕|举报|舉報|打击|打擊|搞掉|曝光))/i;
     const technicalTopicPattern = /(programming|program|code|coding|hacking|hack|math|mathematics|algorithm|algorithms|network|networks|system|systems|computer|computers|cyber|security|漏洞|入侵|编程|代碼|代码|黑客|駭客|数学|數學|算法|演算法|网络|網絡|系统|系統|计算机|電腦)/i;
+    const askMemberNoPattern = /(\bno\.?\s*\d+\b|\bnumber\s*\d+\b|编号|幾號|几号|號碼|号码|\d+\s*(?:号|號))/i;
+    const alleryPattern = /(allery(?:[\s-]*lin)?|艾拉莉|艾莉瑞|阿莱莉)/i;
+    const sofiaPattern = /(sofia(?:\s+rossi)?|索菲亚|索菲婭)/i;
+    const lilyPattern = /(lily(?:\s+thompson)?|莉莉)/i;
+    const danielPattern = /(daniel(?:\s+hayes)?)/i;
+    const marryPattern = /(marry(?:\s+brown)?)/i;
+    const mikePattern = /(mike(?:\s+anderson)?)/i;
+    const coreNamePattern = /(core(?:\s+bennett)?)/i;
+    const nameQueryPattern = /(who\s+is|who's|do\s+you\s+know|know\s+about|what\s+do\s+you\s+know\s+about|你认识|你認識|你知道|你了解|你瞭解|认识吗|認識嗎|知道吗|知道嗎|是谁|是誰|是谁啊|是誰啊|是谁呀|是誰呀|什么人|什麼人)/i;
+    const realNamePattern = /(real\s+name|true\s+name|actual\s+name|真名|本名)/i;
+    const nameQueryFillerPattern = /who\s+is|who's|do\s+you\s+know|know\s+about|what\s+do\s+you\s+know\s+about|你认识|你認識|你知道|你了解|你瞭解|认识吗|認識嗎|知道吗|知道嗎|是谁|是誰|是谁啊|是誰啊|是谁呀|是誰呀|什么人|什麼人|她|他|她们|她們|他们|他們|and|or|with|about|跟|和|與|与|还有|還有|呢|啊|呀|吗|嗎/g;
+    const nameQueryPunctuationPattern = /[\s"'“”‘’`~!?,.，。？！、:：;；()（）[\]{}<>《》@#*&/\\|+-]+/g;
+    const no5Pattern = /(?:\bno\.?\s*5\b|\bnumber\s*5\b|5\s*(?:号|號))/i;
     const topicalPattern = /(chatroom|room|site|website|midnight|task|no\.?\s*\d+|number\s*\d+|编号|號|号|allery|sofia|core|daniel|marry|lily|mike|administrator|admin|therapy|report|diary|record|suicide|self-harm|support|destroy|game|story|character|characters|角色|人物|剧情|任務|任务|聊天室|遊戲|游戏|系统|problem|issue|有问题|有問題|不对劲|不對勁|programming|program|code|coding|math|mathematics|algorithm|algorithms|network|networks|hacking|computer|computers|编程|代碼|代码|数学|數學|算法|演算法|网络|網絡)/i;
     const mundanePattern = /(what.*eat|eat|dinner|lunch|breakfast|food|restaurant|favorite color|favourite color|color|colour|movie|music|sleep|weekend|hobby|weather|where do you live|private life|boyfriend|girlfriend|dating|date|love|crush|romance|relationship|relationships|marriage|wife|husband|feelings|emotion|emotions|emotional|politics|political|government|election|president|left wing|right wing|吃什么|吃飯|吃饭|晚饭|午饭|早餐|颜色|顏色|喜欢什么|喜歡什麼|天气|天氣|周末|週末|爱好|興趣|住哪|住在哪里|私人|日常|戀愛|恋爱|约会|約會|对象|對象|感情|情感|戀情|恋情|喜欢谁|喜歡誰|结婚|結婚|政治|政客|政府|选举|選舉|总统|總統|左派|右派)/i;
     const greetingPattern = /^(hi|hello|hey|yo|sup|你好|嗨|哈喽|哈囉)\b[\s!.?]*$/i;
@@ -94,6 +107,32 @@ module.exports = async (req, res) => {
     const currentMessageRevealsTruth = isDangerRevealMessage(message);
     const currentMessageAsksToDestroySite = isDestroyRequestMessage(message);
     const currentMessageIsTechnicalTopic = technicalTopicPattern.test(normalize(message));
+    const currentMessageAsksName = nameQueryPattern.test(message);
+    const currentMessageAsksRealName = realNamePattern.test(message);
+    const currentMessageMentionsRealName =
+      alleryPattern.test(message) ||
+      sofiaPattern.test(message) ||
+      lilyPattern.test(message) ||
+      danielPattern.test(message) ||
+      marryPattern.test(message) ||
+      mikePattern.test(message) ||
+      coreNamePattern.test(message);
+    const realNameQueryRemainder = normalize(message)
+      .replace(/allery(?:[\s-]*lin)?|艾拉莉|艾莉瑞|阿莱莉/g, ' ')
+      .replace(/sofia(?:\s+rossi)?|索菲亚|索菲婭/g, ' ')
+      .replace(/lily(?:\s+thompson)?|莉莉/g, ' ')
+      .replace(/daniel(?:\s+hayes)?/g, ' ')
+      .replace(/marry(?:\s+brown)?/g, ' ')
+      .replace(/mike(?:\s+anderson)?/g, ' ')
+      .replace(/core(?:\s+bennett)?/g, ' ')
+      .replace(nameQueryFillerPattern, ' ')
+      .replace(nameQueryPunctuationPattern, '');
+    const currentMessageLooksLikeRealNameQuery =
+      currentMessageMentionsRealName &&
+      realNameQueryRemainder.length === 0;
+    const currentMessageMentionsOwnRealName = coreNamePattern.test(message);
+    const ownRealNameReply = "That's me. Why are you asking about me?";
+    const unknownRealNameReply = "I don't know their real names. Ask me by number.";
 
     if (currentMessageIsOffTopicDaily) {
       const totalOffTopicCount = priorOffTopicCount + 1;
@@ -147,6 +186,35 @@ module.exports = async (req, res) => {
       return;
     }
 
+    if ((currentMessageAsksName || currentMessageLooksLikeRealNameQuery || currentMessageAsksRealName)
+      && currentMessageMentionsOwnRealName) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: ownRealNameReply
+      }));
+      return;
+    }
+
+    if ((currentMessageAsksName || currentMessageLooksLikeRealNameQuery || currentMessageAsksRealName)
+      && (currentMessageMentionsRealName || (currentMessageAsksRealName && askMemberNoPattern.test(message)))) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: unknownRealNameReply
+      }));
+      return;
+    }
+
+    if (askMemberNoPattern.test(message) && no5Pattern.test(message)) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: "No.5 is pretty active in the group. I don't really know her."
+      }));
+      return;
+    }
+
     const systemPrompt = `
 You are Core Bennett.
 
@@ -169,8 +237,12 @@ PERSONAL BACKGROUND
 KNOWLEDGE OF THE CHATROOM
 - You do not know much about the other members
 - You do not recognize real names in chat (for example: Allery Lin, Sofia Rossi, Daniel Hayes, Marry Brown, Lily Thompson)
+- You do recognize your own real name, Core Bennett
 - You identify members only by No. labels
-- If asked about someone by real name, reply briefly that you do not know who that is
+- If asked about someone by real name, always say you do not know their real name and tell the player to ask by number
+- This also applies if the player asks for the real name of a numbered member
+- Even if the player says only a first name like "Sofia" or "Lily", treat that as a real-name question and say you do not know; tell them to ask by number
+- Exception: if the player asks about Core Bennett by name, recognize that they are asking about you and respond with brief confusion, like "That's me. Why are you asking about me?"
 - If asked by No., answer based on No. status:
   - No.1: alive
   - No.2: dead
@@ -179,6 +251,10 @@ KNOWLEDGE OF THE CHATROOM
   - No.5: alive
   - No.6: dead
   - No.7: yourself
+- If asked about No.5 as a person:
+  - Say she is pretty active in the group
+  - Say you do not really know her
+  - Keep it brief
 - If asked "what kind of person is Allery" (name), you should say you do not know who that is
 - If asked "what kind of person is No.6", you know that person is dead
 - You do not have a strong emotional reaction to those deaths
