@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>监控通知</title>
+  <link rel="stylesheet" href="css/hint-progress.css" />
+  <link rel="stylesheet" href="css/warning.css" />
+  <style>
+    .warning-panel{
+      opacity:0;
+      transform:scale(.97);
+      transition:opacity .28s ease, transform .28s ease;
+    }
+
+    body.notice-visible .warning-panel{
+      opacity:1;
+      transform:scale(1);
+    }
+  </style>
+</head>
+<body>
+  <main class="warning-page" aria-live="polite">
+    <div class="warning-panel" role="alert">
+      <p class="warning-text">你不是Allery。你正在被监控。</p>
+    </div>
+  </main>
+  <script>
+    window.setTimeout(() => {
+      document.body.classList.add('notice-visible');
+    }, 2000);
+  </script>
+  <script>
+    window.HintProgressConfig = {
+      theme: 'dark',
+      percent: 0,
+      title: '坏结局 2',
+      buttonLabel: '坏结局 2',
+      footerLabelOnly: true,
+      autoCloseMs: 5000,
+      valueLabel: '错误',
+      showProgressFill: false,
+      lines: [
+        'Midnight发现你冒充了Allery Lin，已封锁你的IP地址。',
+        '也许以新用户身份接近他会是更好的方式。'
+      ],
+      actionButtonLabel: '重新开始',
+      actionButtonHref: 'chat-zh.html'
+    };
+  </script>
+  <style>
+    .hint-progress-root .hint-modal {
+      display: grid;
+      grid-template-rows: 52px 1fr;
+    }
+
+    .hint-progress-root .hint-modal-inner {
+      min-height: 0;
+      height: auto;
+      align-items: stretch;
+    }
+
+    .hint-progress-root .hint-modal-page {
+      min-height: 0;
+      max-height: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding-bottom: 34px;
+    }
+
+    .hint-progress-root .hint-modal-actions {
+      margin-top: auto;
+      padding: 24px 0 0;
+      justify-content: center;
+    }
+
+    .hint-progress-root .hint-scrollbar {
+      align-self: stretch;
+      height: auto;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const moveRestartIntoBody = () => {
+        const modalPage = document.querySelector('.hint-progress-root .hint-modal-page');
+        const modalActions = document.querySelector('.hint-progress-root .hint-modal-actions');
+        if (!modalPage || !modalActions) return;
+        if (modalActions.parentElement === modalPage) return;
+        modalPage.appendChild(modalActions);
+      };
+
+      requestAnimationFrame(moveRestartIntoBody);
+    });
+  </script>
+  <script src="js/hint-progress.js" defer></script>
+</body>
+</html>

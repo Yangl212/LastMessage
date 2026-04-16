@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>来电信号</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/introduction.css" />
+</head>
+
+<body>
+  <div class="call-screen" id="callScreen">
+    <div class="call-glow"></div>
+
+    <div class="call-card" id="callCard">
+      <div class="call-header-bar">你有一通新来电</div>
+      <div class="call-body">
+        <h1 class="call-title">
+          <img class="call-icon-image" src="assets/images/call.png" alt="" aria-hidden="true" /> 未知来电
+        </h1>
+        <p class="call-status">响铃中<span class="dots"><span>.</span><span>.</span><span>.</span></span></p>
+        <div class="call-actions">
+          <button class="btn accept" id="answerBtn">接听</button>
+        </div>
+        <audio id="ringtone" src="assets/audio/ringtone.mp3" preload="auto" loop></audio>
+      </div>
+    </div>
+
+    <div class="briefing hidden" id="briefing">
+      <audio id="callAudio" src="assets/audio/call-log.mp3" preload="auto"></audio>
+
+      <div class="ir-page">
+        <div class="ir-top">
+          <h1 class="ir-title">任务面板</h1>
+        </div>
+
+        <div class="ir-body">
+          <div class="ir-main-top-decor" aria-hidden="true"></div>
+          <div class="ir-main-callbar" aria-hidden="true">
+            <span class="ir-main-callbar-text">新来电</span>
+          </div>
+
+          <div class="ir-col ir-col-left">
+            <div class="ir-zone-section">
+              <div class="ir-zone-header">/区域</div>
+              <div class="ir-zone-meta-row">
+                <span class="ir-zone-new-label">新</span>
+                <span class="ir-zone-new-count">10/11</span>
+              </div>
+              <ul class="ir-case-list">
+                <li class="ir-case-item"><span class="ir-case-check">□</span><span class="ir-case-name">新来电</span></li>
+                <li class="ir-case-item"><span class="ir-case-check">□</span><span class="ir-case-name">新来电</span></li>
+                <li class="ir-case-item"><span class="ir-case-check">□</span><span class="ir-case-name">新来电</span></li>
+                <li class="ir-case-item"><span class="ir-case-check">□</span><span class="ir-case-name">新来电</span></li>
+                <li class="ir-case-item"><span class="ir-case-check">□</span><span class="ir-case-name">新来电</span></li>
+                <li class="ir-case-item ir-case-active"><span class="ir-case-arrow">▶</span><span class="ir-case-check">□</span><span class="ir-case-name">新来电</span></li>
+              </ul>
+            </div>
+
+            <div class="ir-zone-section">
+              <div class="ir-zone-header">/会议记录</div>
+              <div class="ir-zone-count-row">6/6</div>
+            </div>
+
+            <div class="ir-zone-section">
+              <div class="ir-zone-header">/事件响应日志</div>
+              <div class="ir-zone-count-row">6/6</div>
+            </div>
+
+            <div class="ir-left-dashes">- - - - - - - - - - - - - - - -</div>
+          </div>
+
+          <div class="ir-col ir-col-mid">
+            <div class="ir-paper">
+              <div class="ir-paper-top-area">
+                <div class="ir-paper-tab-nub"></div>
+                <div class="ir-paper-header-bar">
+                  <span class="ir-paper-call-name">新来电</span>
+                  <span class="ir-paper-new-badge">新</span>
+                </div>
+              </div>
+              <div class="ir-paper-body">
+                <ul id="transcriptList" class="ir-transcript-list" aria-live="polite"></ul>
+              </div>
+              <div class="ir-paper-footer">
+                <div class="ir-paper-footer-line"></div>
+              </div>
+            </div>
+            <div class="ir-paper-scrollbar" id="paperScrollbar" aria-hidden="true">
+              <div class="ir-paper-scrollbar-track" id="paperScrollTrack">
+                <div class="ir-paper-scrollbar-thumb" id="paperScrollThumb"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ir-col ir-col-right">
+            <div class="ir-rec-dot" id="recDot"></div>
+            <canvas id="waveform" aria-label="音频波形"></canvas>
+
+            <div class="ir-meta-block">
+              <div class="ir-meta-label">来电号码</div>
+              <div class="ir-meta-value">(+1)917-923-****</div>
+            </div>
+            <div class="ir-meta-block">
+              <div class="ir-meta-label">位置</div>
+              <div class="ir-meta-value">145 W 24TH ST, 曼哈顿, 纽约 10011</div>
+            </div>
+            <div class="ir-meta-block">
+              <div class="ir-meta-label">时间</div>
+              <div class="ir-meta-value">(+1)917-923-****</div>
+            </div>
+
+            <div class="ir-start-wrap">
+              <a class="ir-start-btn no-underline" href="chat-zh.html">开始</a>
+            </div>
+          </div>
+        </div>
+  <script src="js/introduction.js" defer></script>
+</body>
+</html>

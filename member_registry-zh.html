@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>成员名册</title>
+  <link rel="stylesheet" href="css/member_registry.css" />
+</head>
+<body>
+  <main class="sheet-wrap">
+    <h1>成员名册</h1>
+
+    <section class="sheet" aria-label="成员名册表格">
+      <table>
+        <thead>
+          <tr>
+            <th>真实姓名</th>
+            <th>年龄</th>
+            <th class="death-col">死亡报告</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Daniel Harper</td><td>24</td><td class="death-col"><button type="button" id="reportTrigger" class="report-redacted" aria-label="打开已编辑报告"></button></td></tr>
+          <tr><td>Olivia Bennett</td><td>15</td><td class="death-col"><a href="news_no2-zh.html" target="_blank" rel="noopener noreferrer">从楼上坠落</a></td></tr>
+          <tr><td>Marcus Reed</td><td>20</td><td class="death-col"></td></tr>
+          <tr><td>Sophia Caldwell</td><td>13</td><td class="death-col"></td></tr>
+          <tr><td>Ethan Morales</td><td>14</td><td class="death-col"></td></tr>
+          <tr><td>Amelia Grant</td><td>16</td><td class="death-col"></td></tr>
+          <tr><td>Allery Lin</td><td>15</td><td class="death-col"></td></tr>
+          <tr><td>Isabella Clarke</td><td>14</td><td class="death-col"></td></tr>
+          <tr><td>Noah Sinclair</td><td>13</td><td class="death-col"></td></tr>
+          <tr><td>Charlotte Hayes</td><td>15</td><td class="death-col"></td></tr>
+          <tr><td>Julian Foster</td><td>11</td><td class="death-col"></td></tr>
+          <tr><td>Evelyn Brooks</td><td>16</td><td class="death-col"></td></tr>
+          <tr><td>Adrian Cole</td><td>14</td><td class="death-col"></td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <button type="button" id="nightToggle" class="night-toggle" aria-pressed="false">午夜模式</button>
+
+  <div class="modal" id="identityModal" hidden>
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="identityTitle">
+      <h2 id="identityTitle">我是谁？</h2>
+      <input id="identityInput" type="text" placeholder="输入文字..." autocomplete="off" />
+      <div id="identityError" class="identity-error" hidden>错误</div>
+      <button type="button" id="identityConfirm">确认</button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const btn = document.getElementById('nightToggle');
+      const reportTrigger = document.getElementById('reportTrigger');
+      const modal = document.getElementById('identityModal');
+      const modalInput = document.getElementById('identityInput');
+      const modalError = document.getElementById('identityError');
+      const modalConfirm = document.getElementById('identityConfirm');
+      if (!btn) return;
+
+      btn.addEventListener('click', function () {
+        const enabled = document.body.classList.toggle('midnight-mode');
+        btn.setAttribute('aria-pressed', enabled ? 'true' : 'false');
+      });
+
+      function openModal() {
+        if (!modal) return;
+        modal.hidden = false;
+        if (modalError) modalError.hidden = true;
+        if (modalInput) modalInput.focus();
+      }
+
+      function closeModal() {
+        if (!modal) return;
+        modal.hidden = true;
+        if (modalInput) modalInput.value = '';
+        if (modalError) modalError.hidden = true;
+      }
+
+      function handleConfirm() {
+        const value = (modalInput?.value || '').trim().toLowerCase();
+        if (value === 'midnight') {
+          window.location.href = 'danger_loading-zh.html';
+          return;
+        }
+
+        if (modalError) modalError.hidden = false;
+        window.setTimeout(closeModal, 900);
+      }
+
+      reportTrigger?.addEventListener('click', openModal);
+      modal?.addEventListener('click', function (e) {
+        if (e.target && e.target.hasAttribute('data-close-modal')) {
+          closeModal();
+        }
+      });
+      modalConfirm?.addEventListener('click', handleConfirm);
+      modalInput?.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleConfirm();
+        }
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal && !modal.hidden) {
+          closeModal();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

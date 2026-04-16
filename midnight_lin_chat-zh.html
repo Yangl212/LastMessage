@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Midnight 直接频道</title>
+  <meta name="description" content="与Midnight的直接安全聊天。">
+  <link rel="stylesheet" href="css/midnight_chat.css" />
+</head>
+<body class="chat-retro newuser-midnight">
+  <div class="app app-two">
+    <main class="pane pane-center" aria-live="polite">
+      <div class="chat-header">
+        <div class="chat-header-main">
+          <img src="assets/images/member-Midnight.jpeg" alt="Midnight" class="chat-header-avatar" />
+          <div>
+            <h2>Midnight</h2>
+            <p class="chat-subtitle">敏感更新的加密直连线路</p>
+          </div>
+        </div>
+        <a class="logout chat-header-back" href="chat-zh.html">返回群聊</a>
+      </div>
+
+      <div class="messages-shell">
+        <section id="messages" class="messages" aria-label="私信">
+          <div class="date-stamp">2024年10月31日</div>
+          <article class="msg me">
+            <div class="bubble">
+              <header class="meta"><span class="user">你</span><span class="time">08:14</span></header>
+              <p>我已完成第49个任务。我将于11月13日完成第50个任务。</p>
+            </div>
+          </article>
+          <article class="msg">
+            <img src="assets/images/member-Midnight.jpeg" alt="Midnight" class="msg-avatar" />
+            <div class="bubble">
+              <header class="meta"><span class="user">Midnight</span><span class="time">08:15</span></header>
+              <p>好的。你将获得重生。</p>
+            </div>
+          </article>
+
+          <div class="date-stamp">2024年11月14日</div>
+          <article class="msg">
+            <img src="assets/images/member-Midnight.jpeg" alt="Midnight" class="msg-avatar" />
+            <div class="bubble">
+              <header class="meta"><span class="user">Midnight</span><span class="time">09:02</span></header>
+              <p>净土极乐。</p>
+            </div>
+          </article>
+          <article class="msg">
+            <img src="assets/images/member-Midnight.jpeg" alt="Midnight" class="msg-avatar" />
+            <div class="bubble">
+              <header class="meta"><span class="user">Midnight</span><span class="time">09:04</span></header>
+              <p>AlleryLin已归档。</p>
+            </div>
+          </article>
+        </section>
+      </div>
+
+      <form id="composer" class="composer" autocomplete="off" aria-label="私信输入框">
+        <textarea id="input" rows="1" placeholder="发送消息给Midnight — 按Enter发送，Shift+Enter换行"></textarea>
+        <button class="send" type="submit" aria-label="发送私信">发送</button>
+      </form>
+    </main>
+
+    <aside class="pane pane-right newuser-midnight-side" aria-label="侧边栏"></aside>
+  </div>
+
+  <script src="js/chat-base.js" defer></script>
+  <script src="js/midnight_chat.js" defer></script>
+</body>
+</html>

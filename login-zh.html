@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>登录 | 蓝鲸聊天群</title>
+  <link rel="stylesheet" href="css/hint-progress.css" />
+  <link rel="stylesheet" href="css/login.css" />
+</head>
+<body>
+  <div class="page-dim" id="pageDim" aria-hidden="true"></div>
+  <main class="login-page">
+    <section class="login-card" id="loginCard" aria-label="登录表单">
+      <header class="login-header" id="loginDragHandle">
+        <h1 class="title">欢迎</h1>
+        <p class="subtitle">蓝鲸聊天群</p>
+      </header>
+
+      <form id="loginForm" class="form" autocomplete="off">
+        <label class="field">
+          <span class="field-label">用户名</span>
+          <input
+            id="username"
+            name="username"
+            type="text"
+            placeholder="输入你的用户名"
+            autocomplete="off"
+            required
+          />
+        </label>
+
+        <label class="field">
+          <span class="field-label">密码</span>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            placeholder="输入你的密码"
+            autocomplete="off"
+            required
+          />
+        </label>
+
+        <p id="errorMsg" class="error" aria-live="polite"></p>
+
+        <button type="submit" class="btn-login">登录</button>
+      </form>
+    </section>
+  </main>
+
+  <section class="admin-entry" id="adminEntry" hidden aria-label="管理员访问">
+    <div class="admin-entry-noise" aria-hidden="true">
+      <span class="admin-entry-block admin-entry-block--accent admin-entry-block--tl"></span>
+      <span class="admin-entry-block admin-entry-block--accent admin-entry-block--tr"></span>
+      <span class="admin-entry-block admin-entry-block--accent admin-entry-block--bl"></span>
+      <span class="admin-entry-block admin-entry-block--accent admin-entry-block--br"></span>
+      <span class="admin-entry-block admin-entry-block--accent admin-entry-block--out-1"></span>
+      <span class="admin-entry-block admin-entry-block--accent admin-entry-block--out-2"></span>
+      <span class="admin-entry-block admin-entry-block--accent admin-entry-block--out-3"></span>
+      <span class="admin-entry-block admin-entry-block--bg admin-entry-block--in-2"></span>
+      <span class="admin-entry-block admin-entry-block--bg admin-entry-block--in-3"></span>
+      <span class="admin-entry-block admin-entry-block--bg admin-entry-block--in-4"></span>
+      <span class="admin-entry-block admin-entry-block--bg admin-entry-block--in-5"></span>
+      <span class="admin-entry-block admin-entry-block--bg admin-entry-block--in-6"></span>
+    </div>
+    <div class="admin-entry-banner">
+      <span class="admin-entry-mask admin-entry-mask--two" aria-hidden="true"></span>
+      <span class="admin-entry-mask admin-entry-mask--three" aria-hidden="true"></span>
+      <span class="admin-entry-mask admin-entry-mask--four" aria-hidden="true"></span>
+      <button type="button" class="admin-entry-title" id="adminEntryAction">访问</button>
+    </div>
+    <div class="admin-entry-code" aria-hidden="true">
+      <div class="admin-entry-code-window">
+        <div class="admin-entry-code-line" data-admin-line="0"></div>
+        <div class="admin-entry-code-line" data-admin-line="1"></div>
+        <div class="admin-entry-code-line admin-entry-code-line--typing" data-admin-line="2"></div>
+      </div>
+    </div>
+  </section>
+  <script src="js/login-zh.js" defer></script>
+  <script>
+    window.HintProgressConfig = {
+      theme: 'light',
+      percent: 8,
+      title: '提示',
+      autoCloseMs: 5000,
+      lines: [
+        '最新成员的用户名是什么来着……',
+        'NewUser_x7a93？'
+      ]
+    };
+  </script>
+  <script src="js/hint-progress.js" defer></script>
+</body>
+</html>
