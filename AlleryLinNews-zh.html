@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>少女在河滨住宅内被发现身亡，调查仍在进行</title>
+  <meta
+    name="description"
+    content="新闻报道：林艾莉在纽约河滨地区的死亡事件。"
+  />
+  <style>
+    :root {
+      --page: #f3f0ea;
+      --paper: #fffdf9;
+      --ink: #171717;
+      --muted: #686868;
+      --line: #ddd5ca;
+      --accent: #9f1f1f;
+      --max: 1180px;
+      --sidebar: 300px;
+      --gutter: 32px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top, rgba(0, 0, 0, 0.06), transparent 24%),
+        var(--page);
+      color: var(--ink);
+    }
+
+    body {
+      font: 17px/1.7 Georgia, "Times New Roman", serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .site-header {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 253, 249, 0.9);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .masthead {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      font: 700 13px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .edition {
+      color: var(--muted);
+      font: 500 12px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .page-shell {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 32px 24px 56px;
+    }
+
+    .headline-block {
+      max-width: 860px;
+      margin-bottom: 30px;
+    }
+
+    .section-kicker {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font: 700 12px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font: 700 clamp(34px, 5vw, 62px)/1.04 Georgia, "Times New Roman", serif;
+      letter-spacing: -0.03em;
+    }
+
+    .dek {
+      margin: 0;
+      max-width: 780px;
+      color: #343434;
+      font-size: 21px;
+      line-height: 1.45;
+    }
+
+    .meta-row {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      color: var(--muted);
+      font: 500 13px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+
+    .lead-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) var(--sidebar);
+      gap: var(--gutter);
+      align-items: start;
+    }
+
+    .hero-card,
+    .portrait-card {
+      margin: 0;
+      background: var(--paper);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 24px 54px rgba(0, 0, 0, 0.08);
+    }
+
+    .hero-card img,
+    .portrait-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .caption {
+      margin: 0;
+      padding: 12px 14px 14px;
+      color: var(--muted);
+      font: 500 12px/1.45 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      border-top: 1px solid var(--line);
+    }
+
+    .article-layout {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) var(--sidebar);
+      gap: var(--gutter);
+    }
+
+    .article-body {
+      background: var(--paper);
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: 0 20px 46px rgba(0, 0, 0, 0.06);
+      padding: 34px 34px 28px;
+    }
+
+    .dateline {
+      margin: 0 0 22px;
+      font: 700 19px/1.5 Georgia, "Times New Roman", serif;
+    }
+
+    .article-body p {
+      margin: 0 0 18px;
+      font-size: 20px;
+    }
+
+    .article-aside {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      width: 100%;
+    }
+
+    .portrait-card,
+    .aside-card {
+      width: 100%;
+    }
+
+    .portrait-card img {
+      max-height: 420px;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .aside-card {
+      background: rgba(255, 253, 249, 0.84);
+      border: 1px solid var(--line);
+      padding: 18px 18px 16px;
+    }
+
+    .aside-card h2 {
+      margin: 0 0 10px;
+      font: 700 14px/1.3 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .aside-card p {
+      margin: 0;
+      color: #444;
+      font: 16px/1.6 Georgia, "Times New Roman", serif;
+    }
+
+    .footer-rule {
+      margin-top: 36px;
+      height: 1px;
+      background: var(--line);
+    }
+
+    @media (max-width: 980px) {
+      .lead-grid,
+      .article-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .portrait-card {
+        max-width: 420px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .page-shell {
+        padding: 22px 16px 40px;
+      }
+
+      .article-body {
+        padding: 24px 20px 18px;
+      }
+
+      .article-body p {
+        font-size: 18px;
+      }
+
+      .dek {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="masthead">
+      <div class="brand">都市快讯</div>
+      <div class="edition">本地新闻 | 纽约</div>
+    </div>
+  </header>
+
+  <main class="page-shell">
+    <section class="headline-block">
+      <p class="section-kicker">突发新闻</p>
+      <h1>少女在河滨住宅内被发现身亡，调查仍在进行</h1>
+      <p class="dek">
+        当局表示目前没有直接的犯罪证据，但河滨高中学生林艾莉的死亡事件仍在审查之中。
+      </p>
+      <div class="meta-row">
+        <span>纽约市，纽约州</span>
+        <span>四月十五日</span>
+        <span>本报记者</span>
+      </div>
+    </section>
+
+    <section class="lead-grid" aria-label="主要图片">
+      <figure class="hero-card">
+        <img src="assets/images/AlleryNews-1.png" alt="河滨住宅外的紧急事故现场。" />
+        <figcaption class="caption">
+          周日深夜，一名家庭成员从河滨住宅拨打紧急求助电话后，当局随即赶赴现场。
+        </figcaption>
+      </figure>
+
+      <figure class="portrait-card">
+        <img src="assets/images/AlleryNews-2.JPG" alt="林艾莉的个人照片。" />
+        <figcaption class="caption">
+          林艾莉，16岁，河滨高中学生。同学描述她性格安静、学习认真。她去世的消息得到确认后，学校随即为师生提供了心理辅导资源。
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="article-layout">
+      <article class="article-body">
+        <p class="dateline">纽约市，纽约州 — 四月十五日</p>
+
+        <p>
+          据当地当局称，一名16岁的高中女生被确认为林艾莉，于周日深夜在家中被发现身亡。紧急救援人员接到家庭成员的报警电话后赶赴现场，并当场宣告其死亡。
+        </p>
+
+        <p>
+          初步报告显示，死因为自我伤害。官员表示，目前没有证据显示存在犯罪行为，但案件仍在审查当中。
+        </p>
+
+        <p>
+          林艾莉就读于河滨高中，同学们形容她性格安静、学习刻苦。校方婉拒就此事发表详细评论，但确认已为学生提供心理辅导服务。
+        </p>
+
+        <p>
+          邻居表示近期与该家庭鲜少接触，并注意到林艾莉在近几周内很少在户外活动。
+        </p>
+
+        <p>
+          当局目前暂未公布进一步细节。调查工作仍在进行中。
+        </p>
+
+        <div class="footer-rule"></div>
+      </article>
+
+      <aside class="article-aside">
+        <section class="aside-card">
+          <h2>案件状态</h2>
+          <p>持续审查中。当局表示，目前尚未发现任何确凿的犯罪证据。</p>
+        </section>
+
+        <section class="aside-card">
+          <h2>学校回应</h2>
+          <p>河滨高中确认，事件发生后已为学生提供心理辅导资源。</p>
+        </section>
+      </aside>
+    </section>
+  </main>
+</body>
+</html>

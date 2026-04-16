@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>14岁女孩在家中被发现身亡；多项疑问尚待解答</title>
+  <meta
+    name="description"
+    content="本地新闻报道：玛丽·布朗的死亡事件及持续进行的外部影响调查。"
+  />
+  <style>
+    :root {
+      --page: #eef1f5;
+      --panel: #ffffff;
+      --ink: #15171a;
+      --muted: #65707c;
+      --line: #d6dde6;
+      --accent: #b11313;
+      --accent-dark: #7d0e0e;
+      --accent-soft: #f6dede;
+      --max: 1180px;
+      --sidebar: 320px;
+      --gutter: 28px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        linear-gradient(180deg, #f8fafc 0%, #eef1f5 220px, #eef1f5 100%);
+      color: var(--ink);
+      font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .top-ribbon {
+      background: #121417;
+      color: #f4f7fb;
+      border-bottom: 3px solid var(--accent);
+    }
+
+    .top-ribbon-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: 0.18em;
+    }
+
+    .live-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ff4d4d;
+      box-shadow: 0 0 0 6px rgba(255, 77, 77, 0.16);
+    }
+
+    .site-nav {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .site-nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .site-nav-inner .active {
+      color: var(--accent);
+    }
+
+    .page-shell {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 26px 24px 56px;
+    }
+
+    .alert-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      align-items: center;
+      margin-bottom: 22px;
+      padding: 10px 14px;
+      background: var(--accent-soft);
+      border-left: 4px solid var(--accent);
+      color: #581010;
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .headline-block {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 250px;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 26px;
+    }
+
+    .headline-copy h1 {
+      margin: 0 0 14px;
+      font: 800 clamp(34px, 4.6vw, 56px)/1.02 Arial, "Helvetica Neue", Helvetica, sans-serif;
+      letter-spacing: -0.04em;
+    }
+
+    .headline-copy p {
+      margin: 0;
+      max-width: 760px;
+      color: #30363d;
+      font: 19px/1.5 Arial, "Helvetica Neue", Helvetica, sans-serif;
+    }
+
+    .byline-box {
+      padding: 14px 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      box-shadow: 0 14px 28px rgba(16, 24, 32, 0.06);
+    }
+
+    .byline-box strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+
+    .byline-box span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .lead-grid,
+    .story-layout,
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) var(--sidebar);
+      gap: var(--gutter);
+      align-items: start;
+    }
+
+    figure {
+      margin: 0;
+    }
+
+    .hero-card,
+    .side-photo,
+    .gallery-card,
+    .story-card,
+    .fact-card,
+    .quote-card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 34px rgba(16, 24, 32, 0.06);
+    }
+
+    .hero-card img,
+    .side-photo img,
+    .gallery-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .caption {
+      margin: 0;
+      padding: 10px 14px 13px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .side-photo img {
+      max-height: 360px;
+      object-fit: cover;
+      object-position: center top;
+    }
+
+    .story-layout {
+      margin-top: 26px;
+    }
+
+    .story-card {
+      padding: 28px 28px 18px;
+    }
+
+    .story-card p {
+      margin: 0 0 18px;
+      font-size: 19px;
+      line-height: 1.7;
+    }
+
+    .dateline {
+      margin: 0 0 18px;
+      color: var(--accent-dark);
+      font-size: 16px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .aside-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .fact-card {
+      padding: 18px;
+    }
+
+    .fact-card h2,
+    .quote-card h2 {
+      margin: 0 0 12px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .fact-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .fact-list div {
+      display: grid;
+      gap: 2px;
+    }
+
+    .fact-list dt {
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .fact-list dd {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.45;
+      color: #222;
+    }
+
+    .quote-card {
+      padding: 20px 18px;
+      border-top: 4px solid var(--accent);
+    }
+
+    .quote-card blockquote {
+      margin: 0;
+      color: #222;
+      font: 700 24px/1.45 Arial, "Helvetica Neue", Helvetica, sans-serif;
+      letter-spacing: -0.03em;
+    }
+
+    .gallery-grid {
+      margin-top: 28px;
+    }
+
+    .gallery-stack {
+      display: grid;
+      gap: var(--gutter);
+    }
+
+    .footer-rule {
+      margin-top: 34px;
+      height: 1px;
+      background: var(--line);
+    }
+
+    @media (max-width: 980px) {
+      .headline-block,
+      .lead-grid,
+      .story-layout,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .side-photo {
+        max-width: 420px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .top-ribbon-inner,
+      .site-nav-inner,
+      .page-shell {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .headline-copy h1 {
+        font-size: 36px;
+      }
+
+      .headline-copy p,
+      .story-card p,
+      .quote-card blockquote {
+        font-size: 17px;
+      }
+
+      .story-card {
+        padding: 22px 18px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-ribbon">
+    <div class="top-ribbon-inner">
+      <div class="brand">城市观察12台</div>
+      <div class="live-tag"><span class="live-dot"></span>动态报道</div>
+    </div>
+  </div>
+
+  <nav class="site-nav">
+    <div class="site-nav-inner">
+      <span>首页</span>
+      <span>案件</span>
+      <span class="active">本地新闻</span>
+      <span>教育</span>
+      <span>社区</span>
+    </div>
+  </nav>
+
+  <main class="page-shell">
+    <div class="alert-strip">
+      <span>青少年死亡调查</span>
+      <span>父母称事前毫无预警迹象</span>
+      <span>当局正审查可能存在的外部影响</span>
+    </div>
+
+    <section class="headline-block">
+      <div class="headline-copy">
+        <h1>14岁女孩在家中被发现身亡；可能存在外部影响，疑问尚待解答</h1>
+        <p>
+          调查人员表示，玛丽·布朗的死亡被确认为手腕割伤自杀，此事令其家人深受打击，并引发了社会对隐性网络影响的广泛关注。
+        </p>
+      </div>
+
+      <div class="byline-box">
+        <strong>本地新闻部</strong>
+        <span>纽约市，纽约州</span>
+        <span>更新于2026年3月27日</span>
+        <span>城市观察12台记者</span>
+      </div>
+    </section>
+
+    <section class="lead-grid">
+      <figure class="hero-card">
+        <img src="assets/images/marrynews-3.png" alt="警车和调查人员聚集在住宅外的现场。" />
+        <figcaption class="caption">
+          警车在住宅外停留数小时，调查人员对现场进行勘查，并对家庭成员展开问询。
+        </figcaption>
+      </figure>
+
+      <figure class="side-photo">
+        <img src="assets/images/marrynews-1.png" alt="玛丽·布朗的个人照片。" />
+        <figcaption class="caption">
+          玛丽·布朗，14岁，亲属形容她性格安静、敏感、乖巧懂事。
+        </figcaption>
+      </figure>
+    </section>
+
+    <section class="story-layout">
+      <article class="story-card">
+        <p class="dateline">纽约市，纽约州</p>
+
+        <p>
+          一名14岁女孩在家中被发现身亡，当局已确认死因为手腕割伤自杀。
+        </p>
+
+        <p>
+          据其父母表示，女孩此前从未有过自我伤害的迹象。他们声称她从未表现出伤害自己的倾向，因此这一事件对整个家庭而言既突然又难以理解。
+        </p>
+
+        <p>
+          调查人员指出，所用手法异常精确且有预谋，表明其熟悉程度超出常人预期。当局尚未排除外部影响或指引的可能性。
+        </p>
+
+        <p>
+          据悉，父母在事件发生后极度悲痛。在接受当地媒体采访时，他们将女儿描述为"安静、敏感、乖巧懂事"，并对她的突然离世表达了深切的悲伤与困惑。
+        </p>
+
+        <p>
+          "我们无法理解这一切是怎么发生的，"他们说，"没有任何迹象，没有任何让我们有所准备的信号。"
+        </p>
+
+        <p>
+          此案已引起当地当局的高度关注，相关人员呼吁家长更加密切地关注青少年的心理健康状况及网络活动。
+        </p>
+      </article>
+
+      <aside class="aside-stack">
+        <section class="fact-card">
+          <h2>已知情况</h2>
+          <dl class="fact-list">
+            <div>
+              <dt>受害者</dt>
+              <dd>玛丽·布朗，14岁</dd>
+            </div>
+            <div>
+              <dt>确认死因</dt>
+              <dd>手腕割伤自杀</dd>
+            </div>
+            <div>
+              <dt>家庭陈述</dt>
+              <dd>事前无自我伤害迹象</dd>
+            </div>
+            <div>
+              <dt>当前调查重点</dt>
+              <dd>可能存在的外部影响或指引</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="quote-card">
+          <h2>父母的反应</h2>
+          <blockquote>
+            "我们无法理解这一切是怎么发生的。"
+          </blockquote>
+        </section>
+      </aside>
+    </section>
+
+    <section class="gallery-grid">
+      <div class="gallery-stack">
+        <figure class="gallery-card">
+          <img src="assets/images/marrynews-2.png" alt="玛丽·布朗的父母在与调查人员交谈后泣不成声。" />
+          <figcaption class="caption">
+            玛丽·布朗的父母在简短接受当地媒体和调查人员采访时，情绪明显崩溃。
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="gallery-stack">
+        <figure class="gallery-card">
+          <img src="assets/images/marrynews-4.png" alt="调查期间玛丽·布朗的卧室。" />
+          <figcaption class="caption">
+            当局对这名少女的房间进行了记录，作为持续调查其死亡经过的一部分。
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="footer-rule"></div>
+  </main>
+</body>
+</html>

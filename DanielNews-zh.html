@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>新闻报道 | 丹尼尔·海耶斯</title>
+  <meta name="description" content="报纸风格报道：丹尼尔·海耶斯的死亡事件。" />
+  <style>
+    :root {
+      --paper: #f7f1e8;
+      --paper-edge: #e9dfd0;
+      --ink: #171411;
+      --muted: #6f665e;
+      --rule: #bcae9b;
+      --accent: #8b1e1e;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background: #d9d5cf;
+      color: var(--ink);
+    }
+
+    body {
+      padding: 22px;
+      font-family: Georgia, "Times New Roman", serif;
+    }
+
+    .paper {
+      max-width: var(--max);
+      margin: 0 auto;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.34) 0%, rgba(255,255,255,0) 8%),
+        var(--paper);
+      border: 1px solid var(--paper-edge);
+      box-shadow:
+        0 26px 60px rgba(0,0,0,.12),
+        inset 0 0 0 1px rgba(255,255,255,.35);
+      padding: 26px 28px 32px;
+    }
+
+    .masthead {
+      display: grid;
+      grid-template-columns: 160px 1fr 180px;
+      align-items: end;
+      gap: 18px;
+      border-bottom: 4px double var(--ink);
+      padding-bottom: 18px;
+    }
+
+    .masthead-side {
+      font: 700 11px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--muted);
+    }
+
+    .barcode {
+      width: 58px;
+      height: 46px;
+      margin-bottom: 8px;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          #151515 0 3px,
+          transparent 3px 5px,
+          #151515 5px 6px,
+          transparent 6px 9px,
+          #151515 9px 12px,
+          transparent 12px 15px
+        );
+    }
+
+    .masthead-center {
+      text-align: center;
+    }
+
+    .paper-name {
+      margin: 0;
+      font: 700 28px/1.05 "Times New Roman", Georgia, serif;
+      letter-spacing: -.03em;
+    }
+
+    .paper-word {
+      margin: 4px 0 0;
+      font: 700 clamp(68px, 10vw, 118px)/.9 "Times New Roman", Georgia, serif;
+      letter-spacing: -.08em;
+    }
+
+    .paper-subline {
+      margin-top: 8px;
+      color: var(--muted);
+      font: 700 11px/1.4 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+
+    .top-strip {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 20px;
+      padding-top: 18px;
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 18px;
+    }
+
+    .kicker-block {
+      padding-right: 12px;
+      border-right: 1px solid var(--rule);
+    }
+
+    .kicker {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font: 700 11px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+    }
+
+    .teaser-title {
+      margin: 0 0 10px;
+      font: 700 26px/1.02 Georgia, "Times New Roman", serif;
+      letter-spacing: -.04em;
+    }
+
+    .teaser-text {
+      margin: 0;
+      color: #3d3834;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    .hero-wrap {
+      display: block;
+    }
+
+    .hero-headline {
+      margin: 0 0 14px;
+      font: 700 clamp(34px, 5vw, 60px)/1.03 Georgia, "Times New Roman", serif;
+      letter-spacing: -.05em;
+    }
+
+    .hero-dek {
+      margin: 0;
+      color: #302c28;
+      font-size: 19px;
+      line-height: 1.6;
+    }
+
+    .hero-figure,
+    .portrait-card,
+    .media-card {
+      background: rgba(255,255,255,.35);
+      border: 1px solid var(--rule);
+      padding: 10px;
+    }
+
+    .hero-figure img,
+    .portrait-card img,
+    .media-card img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .portrait-card img {
+      filter: grayscale(.08);
+    }
+
+    .caption {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font: 700 11px/1.45 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr) 250px;
+      gap: 22px;
+      padding-top: 22px;
+    }
+
+    .sidebar-note,
+    .fact-box {
+      border-top: 3px solid var(--ink);
+      padding-top: 14px;
+    }
+
+    .sidebar-note h2,
+    .fact-box h2,
+    .media-section h2 {
+      margin: 0 0 10px;
+      font: 700 12px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--accent);
+    }
+
+    .sidebar-note p,
+    .fact-box p,
+    .fact-box dd {
+      margin: 0 0 12px;
+      font-size: 15px;
+      line-height: 1.62;
+      color: #36312d;
+    }
+
+    .fact-box dl {
+      margin: 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .fact-box dt {
+      font: 700 11px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .article-columns {
+      column-count: 2;
+      column-gap: 26px;
+      column-rule: 1px solid var(--rule);
+      font-size: 18px;
+      line-height: 1.78;
+    }
+
+    .article-columns p {
+      margin: 0 0 18px;
+      break-inside: avoid;
+    }
+
+    .dateline {
+      margin: 0 0 14px;
+      color: var(--accent);
+      font: 700 12px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+    }
+
+    .media-section {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1px solid var(--rule);
+    }
+
+    .media-section h2 {
+      margin: 0 0 14px;
+      font: 700 12px/1.2 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--accent);
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+
+    .media-card img {
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+
+    .bottom-rule {
+      margin-top: 28px;
+      border-top: 4px double var(--ink);
+      padding-top: 10px;
+      color: var(--muted);
+      font: 700 11px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    @media (max-width: 1020px) {
+      .masthead,
+      .top-strip,
+      .story-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .kicker-block {
+        border-right: 0;
+        padding-right: 0;
+      }
+
+      .article-columns {
+        column-count: 1;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 10px;
+      }
+
+      .paper {
+        padding: 18px 16px 22px;
+      }
+
+      .paper-word {
+        font-size: 64px;
+      }
+
+      .hero-headline {
+        font-size: 36px;
+      }
+
+      .article-columns,
+      .sidebar-note p,
+      .fact-box p,
+      .fact-box dd,
+      .teaser-text,
+      .hero-dek {
+        font-size: 16px;
+      }
+
+      .media-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="paper">
+    <header class="masthead">
+      <div class="masthead-side">
+        <div class="barcode"></div>
+        <div>2024年5月 刊</div>
+        <div>都市地区</div>
+      </div>
+
+      <div class="masthead-center">
+        <p class="paper-name">报道洞察</p>
+        <p class="paper-word">新闻.</p>
+        <div class="paper-subline">自1990年起独立社区公告</div>
+      </div>
+
+      <div class="masthead-side" style="text-align:right;">
+        <div>特别专题</div>
+        <div>社会危机报道</div>
+        <div>第03版</div>
+      </div>
+    </header>
+
+    <section class="top-strip">
+      <div class="kicker-block">
+        <p class="kicker">新闻报道</p>
+        <h2 class="teaser-title">一起引发更多疑问的学生死亡事件。</h2>
+        <p class="teaser-text">
+          调查人员表示，长期霸凌、情感忽视以及误导性网络影响，可能共同导致了这名韦斯特布鲁克高中15岁学生的死亡。
+        </p>
+      </div>
+
+      <div class="hero-wrap">
+        <figure class="hero-figure">
+          <img src="assets/images/danielnews-1.png" alt="与校园欺凌相关的示意图片。" />
+          <figcaption class="caption">调查人员表示，受害者长期遭受霸凌，此因素被认为在其死亡事件中起到了重要作用。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="story-grid">
+      <aside class="sidebar-note">
+        <h2>社区备注</h2>
+        <p>
+          邻居描述该家庭一向安静低调。多名居民表示，除了上学时段，他们很少见到这名男孩在外活动。
+        </p>
+        <p>
+          教育工作者和地方官员呼吁家长更加关注青少年的情绪状态及其网络接触情况。
+        </p>
+      </aside>
+
+      <article>
+        <p class="dateline">新闻报道</p>
+        <div class="article-columns">
+          <p>
+            2024年5月12日，韦斯特布鲁克高中一名15岁男生被发现在家中身亡，当局初步认定死因为手腕割伤自杀。
+          </p>
+
+          <p>
+            根据初步调查，受害者长期遭受校园霸凌，此情况被认为对其心理健康造成了严重负面影响，并可能是导致此次悲剧的重要原因之一。
+          </p>
+
+          <p>
+            该男生由单亲父亲抚养长大。调查显示，由于父亲长时间工作，对男生的心理状态关注不足，未能及时发现求助信号。
+          </p>
+
+          <p>
+            与此同时，该男生逐渐接触到网络上的误导性内容，在缺乏正确引导的情况下深陷其中，最终酿成悲剧。
+          </p>
+        </div>
+      </article>
+
+      <aside class="fact-box">
+        <h2>案件摘要</h2>
+        <dl>
+          <div>
+            <dt>受害者</dt>
+            <dd>男性，15岁，韦斯特布鲁克高中学生</dd>
+          </div>
+          <div>
+            <dt>初步认定</dt>
+            <dd>手腕割伤自杀</dd>
+          </div>
+          <div>
+            <dt>家庭状况</dt>
+            <dd>由单亲父亲抚养</dd>
+          </div>
+          <div>
+            <dt>调查关注点</dt>
+            <dd>霸凌、情感忽视及误导性网络影响</dd>
+          </div>
+        </dl>
+      </aside>
+    </section>
+
+    <section class="media-section">
+      <h2>相关图片</h2>
+      <div class="media-grid">
+        <figure class="media-card">
+          <img src="assets/images/Daniel.png" alt="丹尼尔·海耶斯的肖像照。" />
+          <figcaption class="caption">丹尼尔·海耶斯，韦斯特布鲁克高中学生，于2024年5月12日被发现在家中身亡。</figcaption>
+        </figure>
+
+        <figure class="media-card">
+          <img src="assets/images/danielnew-2.png" alt="与报道相关的学校走廊。" />
+          <figcaption class="caption">韦斯特布鲁克高中，调查人员认为，长期霸凌可能对受害者的心理状态造成了严重影响。</figcaption>
+        </figure>
+
+        <figure class="media-card">
+          <img src="assets/images/danielnew-3.png" alt="调查中提及的手机聊天界面。" />
+          <figcaption class="caption">当局正在审查受害者的网络活动记录，此前有报告指出其曾接触误导性网络内容。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="bottom-rule">
+      <span>公众关注正转向青少年隐性网络危害问题。</span>
+      <span>报道洞察档案</span>
+    </div>
+  </main>
+</body>
+</html>
