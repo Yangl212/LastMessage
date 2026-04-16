@@ -1696,6 +1696,9 @@
     let coreBreachTypingActive = false;
     let adminCountdownInterval = null;
     let adminCountdownDeadline = 0;
+    let mikeRevealHintAwarded = false;
+    let mikeFirstChoiceHintAwarded = false;
+    let policeEvidenceHintAwarded = false;
     const unlockedMemberPanels = new Set();
     const privateChatContacts = new Set();
     const terminatedCharacterChats = new Set();
@@ -2980,6 +2983,11 @@
         }
         // Mark evidence system as unlocked for the upload feature
         try { localStorage.setItem('administratorchat:evidence-unlocked', '1'); } catch (_) {}
+        if (!policeEvidenceHintAwarded) {
+          policeEvidenceHintAwarded = true;
+          window.HintProgress?.incrementPercent?.(5);
+          window.HintProgress?.pulse?.();
+        }
       }, 3000);
     }
 
@@ -3244,15 +3252,29 @@
         unlockedMemberPanels.add(pendingMemberAccess.panelId);
         refreshMemberLockIcons();
         if (pendingMemberAccess.name === 'Allery Lin') {
-          window.HintProgress?.setPercent?.(35);
+          window.HintProgress?.incrementPercent?.(5);
           window.HintProgress?.setLines?.([
             'Maybe Allery’s diary has clues to unlock the other pages.'
           ]);
+          window.HintProgress?.pulse?.();
+        } else if (pendingMemberAccess.name === 'Mike Anderson') {
+          window.HintProgress?.incrementPercent?.(10);
+          window.HintProgress?.setLines?.([
+            'Mike is Midnight! To gather more evidence, confront him directly!'
+          ]);
+          window.HintProgress?.pulse?.();
         } else if (pendingMemberAccess.name === 'Lily Thompson') {
-          window.HintProgress?.setPercent?.(45);
+          window.HintProgress?.incrementPercent?.(5);
           window.HintProgress?.setLines?.([
             'Unlocked the ability to chat with Lily! Maybe we can get more information from the conversation.'
           ]);
+          window.HintProgress?.pulse?.();
+        } else if (pendingMemberAccess.name === 'Marry Brown') {
+          window.HintProgress?.incrementPercent?.(8);
+          window.HintProgress?.setLines?.([
+            'Marry’s records may help clarify what this place has already done to people.'
+          ]);
+          window.HintProgress?.pulse?.();
         } else if (pendingMemberAccess.name === 'Sofia Rossi') {
           window.HintProgress?.incrementPercent?.(5);
           window.HintProgress?.setLines?.([
@@ -3745,6 +3767,11 @@
               note.remove();
               setCharacterComposerLocked(sidebar, false);
               const choiceDisplay = choice.label;
+              if (memberName === 'Mike Anderson' && !mikeFirstChoiceHintAwarded) {
+                mikeFirstChoiceHintAwarded = true;
+                window.HintProgress?.incrementPercent?.(5);
+                window.HintProgress?.pulse?.();
+              }
               await sendCharacterChat(sidebar, memberName, `__CHOICE__:${choice.id}`, choiceDisplay);
             });
             messageList.appendChild(note);
@@ -3786,6 +3813,16 @@
           if (memberName === 'Mike Anderson' && data?.flags?.showBecomeMidnightPrompt === true) {
             await delay(3000);
             showBecomeMidnightPrompt(sidebar);
+          }
+
+          if (
+            memberName === 'Mike Anderson' &&
+            !mikeRevealHintAwarded &&
+            reply.includes("Then there's no need for me to hide anymore.")
+          ) {
+            mikeRevealHintAwarded = true;
+            window.HintProgress?.incrementPercent?.(4);
+            window.HintProgress?.pulse?.();
           }
 
           if (memberName === 'Mike Anderson' && data?.flags?.showPoliceEvidencePrompt) {
