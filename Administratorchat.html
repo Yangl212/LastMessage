@@ -4343,7 +4343,7 @@
 
       function updateSubmit() {
         if (!submitBtn) return;
-        submitBtn.disabled = !isUnlocked() || slotImages.every(v => v === null);
+        submitBtn.disabled = !isUnlocked() || slotImages.some(v => v === null);
       }
 
       function addImage(dataUrl, scored) {
