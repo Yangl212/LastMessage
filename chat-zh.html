@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>蓝鲸聊天群</title>
+  <meta name="description" content="In-browser chat-style interface for the ARG.">
+  <link rel="stylesheet" href="css/hint-progress.css" />
+  <link rel="stylesheet" href="css/chat.css" />
+</head>
+<body class="chat-retro">
+  <header class="app-header">
+    <div class="header-left">
+      <div class="brand-dot" aria-hidden="true"></div>
+      <strong># 蓝鲸聊天群</strong>
+    </div>
+  </header>
+
+  <div class="app app-two">
+    <main class="pane pane-center" aria-live="polite">
+      <div class="messages-shell">
+      <section id="messages" class="messages" aria-label="Messages">
+        <div class="date-stamp">09:00</div>
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span></header>
+            <p>欢迎。很高兴你来了！</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span></header>
+            <p>我是Midnight。我是一名心理顾问，我会一直陪着你。</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">No. 5</span></header>
+            <p>新成员出现！欢迎加入。</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">NewUser_x7a93</span></header>
+            <p>大家……好。</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">No. 5</span></header>
+            <p>是什么让你来到这里？</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">No. 5</span></header>
+            <p>我是说……来这里的人通常是因为受到了某种伤害。</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span></header>
+            <p>没关系。No.5 不是要催你。</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span></header>
+            <p>有空的时候，请修改你的默认密码，让你的账号更有个人感。</p>
+          </div>
+        </article>
+
+        <article class="msg">
+          <div class="bubble">
+            <header class="meta"><span class="user">Midnight</span></header>
+            <p>目前你的密码与你ID末尾部分相同。你随时可以修改。</p>
+          </div>
+        </article>
+
+      </section>
+        <div class="messages-scrollbar" id="messagesScrollbar" hidden aria-hidden="true">
+          <button type="button" class="messages-scrollbar-btn up" id="messagesScrollUp" aria-label="向上滚动"></button>
+          <div class="messages-scrollbar-track" id="messagesScrollTrack">
+            <div class="messages-scrollbar-thumb" id="messagesScrollThumb"></div>
+          </div>
+          <button type="button" class="messages-scrollbar-btn down" id="messagesScrollDown" aria-label="向下滚动"></button>
+        </div>
+      </div>
+
+      <form id="composer" class="composer" autocomplete="off" aria-label="Message composer">
+        <textarea id="input" rows="1" placeholder="你的消息"></textarea>
+        <button class="send" type="submit" aria-label="Send message">发送</button>
+      </form>
+    </main>
+
+    <aside class="pane pane-right" aria-label="Members">
+      <div class="sidebar-topbar">
+        <button type="button" class="user-pill" aria-label="Current user AlleyLin">
+          <img src="assets/images/AlleyLin.jpg" alt="" class="user-avatar">
+          <span class="user-name">AlleyLin</span>
+        </button>
+        <a class="logout" href="login-zh.html">退出</a>
+      </div>
+      <div class="pane-title">群规</div>
+      <ul class="announcement-list" id="announcementList" aria-label="Announcements">
+        <li><button type="button" class="announcement-item" data-announcement-id="a1">关于蓝鲸聊天群</button></li>
+        <li><button type="button" class="announcement-item" data-announcement-id="a2">30天反思进度</button></li>
+        <li><button type="button" class="announcement-item" data-announcement-id="a3">管理员招募</button></li>
+      </ul>
+      <div class="pane-title">成员</div>
+      <ul class="members" id="memberList">
+        <li
+          data-member="Midnight"
+          data-status="online"
+          data-avatar="assets/images/member-Midnight.jpeg"
+          data-registered="2024.01.08"
+          data-role="Administrator"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status online"></span> Midnight</li>
+        <li
+          data-member="No. 2"
+          data-status="offline"
+          data-avatar="assets/images/member-dd.jpg"
+          data-registered="N/A"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status offline"></span> No. 2</li>
+        <li
+          data-member="No. 3"
+          data-status="offline"
+          data-avatar="assets/images/No.3.png"
+          data-registered="2024.01.10"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status offline"></span> No. 3</li>
+        <li
+          data-member="No. 4"
+          data-status="offline"
+          data-avatar="assets/images/No.4.png"
+          data-registered="2025.05.30"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status offline"></span> No. 4</li>
+        <li
+          data-member="No. 5"
+          data-status="online"
+          data-avatar="assets/images/No.5.jpg"
+          data-registered="2025.08.21"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status online"></span> No. 5</li>
+        <li
+          data-member="You"
+          data-status="online"
+          data-avatar="assets/images/AlleyLin.jpg"
+          data-registered="2025.12.28"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status online"></span> You</li>
+        <li
+          data-member="No. 7"
+          data-status="online"
+          data-avatar="assets/images/No.7.jpg"
+          data-registered="2026.3.1"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status online"></span> No. 7</li>
+        <li
+          data-member="NewUser_x7a93"
+          data-status="online"
+          data-avatar="assets/images/newuser.png"
+          data-registered="2024-05-01"
+          data-role="Member"
+          tabindex="0"
+          role="button"
+          aria-haspopup="dialog"
+        ><span class="status online"></span> NewUser_x7a93</li>
+      </ul>
+    </aside>
+  </div>
+
+  <div class="modal" id="memberModal" role="dialog" aria-modal="true" aria-labelledby="modalName" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel" role="document">
+      <div class="member-titlebar">
+        <h3 class="modal-name" id="modalName"></h3>
+        <button type="button" class="modal-close member-close" aria-label="关闭成员信息" data-close><img src="assets/images/exit.png" alt="" class="announcement-close-icon" /></button>
+      </div>
+      <div class="member-body">
+        <img src="assets/images/avatar.png" alt="" class="modal-avatar" id="modalAvatar" />
+        <div class="modal-details">
+          <p class="modal-status"><span class="status" id="modalStatusDot" aria-hidden="true"></span><span id="modalStatusLabel"></span></p>
+          <p class="modal-registered" id="modalRegistered"></p>
+          <button type="button" class="modal-action" id="modalMessageButton">发送消息</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="announcementModal" role="dialog" aria-modal="true" aria-labelledby="announcementTitle" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-panel announcement-panel" role="document">
+      <div class="announcement-titlebar">
+        <h3 class="announcement-title" id="announcementTitle">公告</h3>
+        <button type="button" class="announcement-close" aria-label="关闭公告" data-close><img src="assets/images/exit.png" alt="" class="announcement-close-icon" /></button>
+      </div>
+      <div class="announcement-body-wrap">
+        <p class="modal-role" id="announcementBody">Content placeholder.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="setting-modal-overlay" id="settingModal" hidden>
+    <div class="setting-modal" role="dialog" aria-modal="true" aria-labelledby="settingModalTitle">
+      <div class="setting-titlebar">
+        <h2 id="settingModalTitle">设置</h2>
+        <button type="button" class="setting-close" id="settingModalClose" aria-label="Close setting">
+          <img src="assets/images/exit.png" alt="" class="setting-close-icon" />
+        </button>
+      </div>
+      <div class="setting-body">
+        <div class="setting-avatar-wrap">
+          <img src="assets/images/AlleyLin.jpg" alt="AlleyLin" class="setting-avatar" />
+        </div>
+        <div class="setting-info">
+          <h3 class="setting-id">No.6</h3>
+          <p class="setting-line">用户名：AlleyLin</p>
+          <p class="setting-line">
+            密码：
+            <button type="button" class="setting-password" id="settingPassword" aria-label="Reveal password">********</button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/chat-base.js" defer></script>
+  <script src="js/chat-zh.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const NEW_USER_REGISTERED_KEY = 'bwNewUserRegisteredDate';
+      const userPill = document.querySelector('.user-pill');
+      const settingModal = document.getElementById('settingModal');
+      const settingModalClose = document.getElementById('settingModalClose');
+      const settingPassword = document.getElementById('settingPassword');
+      const newUserMember = document.querySelector('[data-member="NewUser_x7a93"]');
+      const messages = document.getElementById('messages');
+      const messagesScrollbar = document.getElementById('messagesScrollbar');
+      const messagesScrollTrack = document.getElementById('messagesScrollTrack');
+      const messagesScrollThumb = document.getElementById('messagesScrollThumb');
+      const messagesScrollUp = document.getElementById('messagesScrollUp');
+      const messagesScrollDown = document.getElementById('messagesScrollDown');
+      let hintPulseTimeout = null;
+
+      if (newUserMember) {
+        const registeredDate = localStorage.getItem(NEW_USER_REGISTERED_KEY) || formatLoginDate(new Date());
+        newUserMember.dataset.registered = registeredDate;
+      }
+
+      const closeSettingModal = () => {
+        if (!settingModal) return;
+        settingModal.hidden = true;
+      };
+
+      userPill?.addEventListener('click', () => {
+        if (!settingModal) return;
+        settingModal.hidden = false;
+      });
+
+      settingModalClose?.addEventListener('click', closeSettingModal);
+
+      settingModal?.addEventListener('click', (event) => {
+        if (event.target === settingModal) {
+          closeSettingModal();
+        }
+      });
+
+      settingPassword?.addEventListener('click', () => {
+        settingPassword.textContent = settingPassword.textContent === '********' ? '20090414' : '********';
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && settingModal && !settingModal.hidden) {
+          closeSettingModal();
+        }
+      });
+
+      const syncMessagesScrollbar = () => {
+        if (!messages || !messagesScrollbar || !messagesScrollTrack || !messagesScrollThumb) return;
+        const { scrollTop, scrollHeight, clientHeight } = messages;
+        const needsScrollbar = scrollHeight > clientHeight + 1;
+        messagesScrollbar.hidden = !needsScrollbar;
+        if (!needsScrollbar) return;
+
+        const trackHeight = messagesScrollTrack.clientHeight;
+        const thumbHeight = Math.max(52, Math.round((clientHeight / scrollHeight) * trackHeight));
+        const maxThumbTravel = Math.max(0, trackHeight - thumbHeight);
+        const scrollProgress = scrollHeight - clientHeight <= 0 ? 0 : scrollTop / (scrollHeight - clientHeight);
+        const thumbTop = Math.round(scrollProgress * maxThumbTravel);
+
+        messagesScrollThumb.style.height = `${thumbHeight}px`;
+        messagesScrollThumb.style.transform = `translateY(${thumbTop}px)`;
+      };
+
+      messages?.addEventListener('scroll', syncMessagesScrollbar);
+      window.addEventListener('resize', syncMessagesScrollbar);
+      window.addEventListener('load', syncMessagesScrollbar);
+
+      messagesScrollUp?.addEventListener('click', () => {
+        messages?.scrollBy({ top: -140, behavior: 'smooth' });
+      });
+
+      messagesScrollDown?.addEventListener('click', () => {
+        messages?.scrollBy({ top: 140, behavior: 'smooth' });
+      });
+
+      messagesScrollTrack?.addEventListener('click', (event) => {
+        if (!messages || !messagesScrollTrack || event.target === messagesScrollThumb) return;
+        const rect = messagesScrollTrack.getBoundingClientRect();
+        const clickY = event.clientY - rect.top;
+        const thumbRect = messagesScrollThumb.getBoundingClientRect();
+        const thumbCenter = thumbRect.top - rect.top + thumbRect.height / 2;
+        const direction = clickY < thumbCenter ? -1 : 1;
+        messages.scrollBy({ top: direction * Math.max(160, messages.clientHeight * 0.6), behavior: 'smooth' });
+      });
+
+      hintPulseTimeout = window.setTimeout(() => {
+        window.HintProgress?.pulse?.();
+      }, 60000);
+
+      window.addEventListener('pagehide', () => {
+        if (hintPulseTimeout) {
+          window.clearTimeout(hintPulseTimeout);
+          hintPulseTimeout = null;
+        }
+      }, { once: true });
+
+      function formatLoginDate(date) {
+        return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
+      }
+
+      syncMessagesScrollbar();
+    });
+
+    window.HintProgressConfig = {
+      theme: 'light',
+      percent: 5,
+      title: 'Hint',
+      autoCloseMs: 5000,
+      lines: [
+        '仔细阅读现有的聊天记录……',
+        '退出按钮在右上角。也许我可以接管一个新用户的账号。'
+      ]
+    };
+  </script>
+  <script src="js/hint-progress.js" defer></script>
+</body>
+</html>

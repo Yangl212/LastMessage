@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Midnight 直接频道</title>
+  <meta name="description" content="Direct secure chat with Midnight.">
+  <link rel="stylesheet" href="css/midnight_chat.css" />
+</head>
+<body class="chat-retro newuser-midnight">
+  <div class="app app-two">
+    <main class="pane pane-center" aria-live="polite">
+      <div class="chat-header">
+        <div class="chat-header-main">
+          <img src="assets/images/member-Midnight.jpeg" alt="Midnight" class="chat-header-avatar" />
+          <div>
+            <h2 id="channelTitle">Midnight</h2>
+            <p id="channelSubtitle" class="chat-subtitle">敏感更新的加密直连线路</p>
+          </div>
+        </div>
+        <a class="logout chat-header-back" href="chat_newuser-zh.html">返回群聊</a>
+      </div>
+
+      <div class="messages-shell">
+        <section id="messages" class="messages" aria-label="Direct messages"></section>
+      </div>
+
+      <form id="composer" class="composer" autocomplete="off" aria-label="Direct message composer">
+        <textarea id="input" rows="1" placeholder="发送消息给Midnight — 按Enter发送，Shift+Enter换行"></textarea>
+        <button class="send" type="submit" aria-label="Send direct message">发送</button>
+      </form>
+    </main>
+
+    <aside class="pane pane-right newuser-midnight-side" aria-label="Reserved sidebar"></aside>
+  </div>
+
+  <script src="js/chat-base.js" defer></script>
+  <script src="js/newuser_midnight-zh.js" defer></script>
+</body>
+</html>
