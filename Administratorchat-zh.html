@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/administrator_chat.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 </head>
-<body>
+<body class="admin-zh">
   <main class="admin-layout">
     <aside class="admin-sidebar">
       <div class="sidebar-brand">
@@ -73,55 +73,55 @@
         </button>
         <div class="admin-toast-head">
           <span class="admin-toast-name">Midnight</span>
-          <span class="admin-toast-label">new message</span>
+          <span class="admin-toast-label">新消息</span>
         </div>
-        <p class="admin-toast-text" id="midnightToastText">I noticed what happened. Do not touch restricted records again.</p>
+        <p class="admin-toast-text" id="midnightToastText">我注意到刚才发生了什么。不要再碰受限档案。</p>
       </div>
       <audio id="midnightNotificationAudio" preload="auto" src="assets/audio/notification.mp3"></audio>
 
       <div class="admin-main-shell">
         <div class="admin-header">
           <div class="admin-title-wrap">
-          <h1 id="memberTitle">陈立安</h1>
+          <h1 id="memberTitle"></h1>
         </div>
       </div>
 
         <section class="member-view allery-details-view mike-details-view" id="mikeDriveView" data-member-view="mike-primary" data-display-name="陈立安" hidden>
           <div class="allery-details-shell">
-            <h2 class="allery-details-title">File Details</h2>
+            <h2 class="allery-details-title">用户资料</h2>
 
             <div class="allery-details-top">
               <div class="allery-details-photo core-photo-placeholder" aria-label="陈立安 photo placeholder">
-                <span>Not yet available</span>
+                <span>暂无资料</span>
               </div>
 
               <div class="allery-details-meta">
                 <div class="allery-details-meta-head">
                   <h3>陈立安</h3>
-                  <span class="allery-status-badge alive-status-badge">Alive</span>
-                  <span class="allery-details-no">No: 01</span>
+                  <span class="allery-status-badge alive-status-badge">存活</span>
+                  <span class="allery-details-no">编号：01</span>
                 </div>
 
                 <dl class="allery-details-grid">
-                  <div><dt>Date of Birth:</dt><dd>1994</dd></div>
-                  <div><dt>Marital Status:</dt><dd>Single</dd></div>
-                  <div><dt>Citizen:</dt><dd>American</dd></div>
-                  <div><dt>Location:</dt><dd>NY</dd></div>
-                  <div><dt>Gender:</dt><dd>Male</dd></div>
-                  <div><dt>Family:</dt><dd>Both deceased</dd></div>
-                  <div><dt>Languages:</dt><dd>English</dd></div>
-                  <div><dt>School:</dt><dd>N/A</dd></div>
+                  <div><dt>出生年份：</dt><dd>1994</dd></div>
+                  <div><dt>婚姻状况：</dt><dd>未婚</dd></div>
+                  <div><dt>国籍：</dt><dd>美国</dd></div>
+                  <div><dt>所在地：</dt><dd>纽约</dd></div>
+                  <div><dt>性别：</dt><dd>男</dd></div>
+                  <div><dt>家庭情况：</dt><dd>双亲已故</dd></div>
+                  <div><dt>语言：</dt><dd>英语</dd></div>
+                  <div><dt>学校：</dt><dd>暂无</dd></div>
                 </dl>
 
                 <div class="allery-details-actions">
-                  <button type="button" class="allery-details-btn allery-accordion" data-target="mikeRecordPanel" aria-expanded="false">Record</button>
-                  <button type="button" class="allery-details-btn" id="mikeDetailsReportTrigger">Report</button>
-                  <button type="button" class="allery-details-btn allery-details-chat" id="mikeDetailsChatTrigger">Chat</button>
+                  <button type="button" class="allery-details-btn allery-accordion" data-target="mikeRecordPanel" aria-expanded="false">诊疗记录</button>
+                  <button type="button" class="allery-details-btn" id="mikeDetailsReportTrigger">报道</button>
+                  <button type="button" class="allery-details-btn allery-details-chat" id="mikeDetailsChatTrigger">聊天</button>
                 </div>
 
                 <div class="allery-report-panel allery-details-report" id="mikeRecordPanel" hidden>
                   <dl class="allery-death-list">
-                    <div><dt>Record:</dt><dd>Unavailable.</dd></div>
+                    <div><dt>诊疗记录：</dt><dd>暂无记录</dd></div>
                   </dl>
                 </div>
 
@@ -131,11 +131,11 @@
 
             <section class="docs-shortcuts allery-details-shortcuts">
               <div class="shortcut-row allery-details-shortcut-row">
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-5"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 5</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 1</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 2</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 3</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 4</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="mike-diary-5"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 5</span></a>
               </div>
             </section>
           </div>
@@ -143,7 +143,7 @@
 
         <section class="allery-docs member-view allery-details-view" id="alleryDriveView" data-member-view="allery-lin" aria-label="林艾乐 records" hidden>
           <div class="allery-details-shell">
-            <h2 class="allery-details-title">File Details</h2>
+            <h2 class="allery-details-title">用户资料</h2>
 
             <div class="allery-details-top">
               <div class="allery-details-photo">
@@ -153,32 +153,32 @@
               <div class="allery-details-meta">
                 <div class="allery-details-meta-head">
                   <h3>林艾乐</h3>
-                  <span class="allery-status-badge">Deceased</span>
-                  <span class="allery-details-no">No: 06</span>
+                  <span class="allery-status-badge">已故</span>
+                  <span class="allery-details-no">编号：06</span>
                 </div>
 
                 <dl class="allery-details-grid">
-                  <div><dt>Date of Birth:</dt><dd>2009</dd></div>
-                  <div><dt>Marital Status:</dt><dd>Single</dd></div>
-                  <div><dt>Citizen:</dt><dd>Chinese</dd></div>
-                  <div><dt>Location:</dt><dd>NY</dd></div>
-                  <div><dt>Gender:</dt><dd>Female</dd></div>
-                  <div><dt>Family:</dt><dd>Lives with parents</dd></div>
-                  <div><dt>Languages:</dt><dd>English, Mandarin</dd></div>
-                  <div><dt>School:</dt><dd>Unknown</dd></div>
+                  <div><dt>出生年份：</dt><dd>2009</dd></div>
+                  <div><dt>婚姻状况：</dt><dd>未婚</dd></div>
+                  <div><dt>国籍：</dt><dd>中国</dd></div>
+                  <div><dt>所在地：</dt><dd>纽约</dd></div>
+                  <div><dt>性别：</dt><dd>女</dd></div>
+                  <div><dt>家庭情况：</dt><dd>与父母同住</dd></div>
+                  <div><dt>语言：</dt><dd>英语、普通话</dd></div>
+                  <div><dt>学校：</dt><dd>未知</dd></div>
                 </dl>
 
                 <div class="allery-details-actions">
-                  <button type="button" class="allery-details-btn allery-accordion" data-target="deathRecordPanel" aria-expanded="false">Record</button>
-                  <a href="AlleryLinNews-zh.html" class="allery-details-btn allery-report-link">Report</a>
-                  <button type="button" class="allery-details-btn allery-details-chat" id="alleryChatTrigger">Chat</button>
+                  <button type="button" class="allery-details-btn allery-accordion" data-target="deathRecordPanel" aria-expanded="false">诊疗记录</button>
+                  <a href="AlleryLinNews-zh.html" class="allery-details-btn allery-report-link">报道</a>
+                  <button type="button" class="allery-details-btn allery-details-chat" id="alleryChatTrigger">聊天</button>
                 </div>
 
                 <div class="allery-report-panel allery-details-report" id="deathRecordPanel" hidden>
                   <div class="therapy-session-list">
-                    <button type="button" class="therapy-session-btn">Therapy 01</button>
-                    <button type="button" class="therapy-session-btn">Therapy 02</button>
-                    <button type="button" class="therapy-session-btn">Therapy 03</button>
+                    <button type="button" class="therapy-session-btn">治疗记录 01</button>
+                    <button type="button" class="therapy-session-btn">治疗记录 02</button>
+                    <button type="button" class="therapy-session-btn">治疗记录 03</button>
                   </div>
                 </div>
 
@@ -188,12 +188,12 @@
 
             <section class="docs-shortcuts allery-details-shortcuts">
               <div class="shortcut-row allery-details-shortcut-row">
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-5"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 5</span></a>
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-6"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 6</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 1</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 2</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 3</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 4</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-5"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 5</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="allery-diary-6"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 6</span></a>
               </div>
             </section>
           </div>
@@ -202,41 +202,41 @@
         <section class="member-view allery-details-view scaffold-view" data-member-view="sofia-rossi" data-display-name="苏晴" hidden></section>
         <section class="member-view allery-details-view core-details-view" id="coreDriveView" data-member-view="core-bennett" data-display-name="柯言" hidden>
           <div class="allery-details-shell">
-            <h2 class="allery-details-title">File Details</h2>
+            <h2 class="allery-details-title">用户资料</h2>
 
             <div class="allery-details-top">
               <div class="allery-details-photo core-photo-placeholder" aria-label="柯言 photo placeholder">
-                <span>Not yet available</span>
+                <span>暂无资料</span>
               </div>
 
               <div class="allery-details-meta">
                 <div class="allery-details-meta-head">
                   <h3>柯言</h3>
-                  <span class="allery-status-badge alive-status-badge">Alive</span>
-                  <span class="allery-details-no">No: 07</span>
+                  <span class="allery-status-badge alive-status-badge">存活</span>
+                  <span class="allery-details-no">编号：07</span>
                 </div>
 
                 <dl class="allery-details-grid">
-                  <div><dt>Date of Birth:</dt><dd>2007</dd></div>
-                  <div><dt>Marital Status:</dt><dd>Single</dd></div>
-                  <div><dt>Citizen:</dt><dd>American</dd></div>
-                  <div><dt>Location:</dt><dd>NY</dd></div>
-                  <div><dt>Gender:</dt><dd>Male</dd></div>
-                  <div><dt>Family:</dt><dd>Unknown</dd></div>
-                  <div><dt>Languages:</dt><dd>English</dd></div>
-                  <div><dt>School:</dt><dd>Unknown</dd></div>
+                  <div><dt>出生年份：</dt><dd>2007</dd></div>
+                  <div><dt>婚姻状况：</dt><dd>未婚</dd></div>
+                  <div><dt>国籍：</dt><dd>美国</dd></div>
+                  <div><dt>所在地：</dt><dd>纽约</dd></div>
+                  <div><dt>性别：</dt><dd>男</dd></div>
+                  <div><dt>家庭情况：</dt><dd>未知</dd></div>
+                  <div><dt>语言：</dt><dd>英语</dd></div>
+                  <div><dt>学校：</dt><dd>未知</dd></div>
                 </dl>
 
                 <div class="allery-details-actions">
-                  <button type="button" class="allery-details-btn allery-accordion" data-target="coreRecordPanel" aria-expanded="false">Record</button>
-                  <button type="button" class="allery-details-btn" id="coreDetailsReportTrigger">Report</button>
-                  <button type="button" class="allery-details-btn allery-details-chat" id="coreDetailsChatTrigger">Chat</button>
+                  <button type="button" class="allery-details-btn allery-accordion" data-target="coreRecordPanel" aria-expanded="false">诊疗记录</button>
+                  <button type="button" class="allery-details-btn" id="coreDetailsReportTrigger">报道</button>
+                  <button type="button" class="allery-details-btn allery-details-chat" id="coreDetailsChatTrigger">聊天</button>
                 </div>
 
                 <div class="allery-report-panel allery-details-report" id="coreRecordPanel" hidden>
                   <div class="therapy-session-list">
-                    <button type="button" class="therapy-session-btn" data-subject="core">Therapy 01</button>
-                    <button type="button" class="therapy-session-btn" data-subject="core">Therapy 02</button>
+                    <button type="button" class="therapy-session-btn" data-subject="core">治疗记录 01</button>
+                    <button type="button" class="therapy-session-btn" data-subject="core">治疗记录 02</button>
                   </div>
                 </div>
 
@@ -246,13 +246,13 @@
 
             <section class="docs-shortcuts allery-details-shortcuts">
               <div class="shortcut-row allery-details-shortcut-row">
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 5</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 6</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 7</span></a>
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 1</span></a>
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 2</span></a>
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 3</span></a>
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 4</span></a>
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 5</span></a>
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 6</span></a>
+                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 7</span></a>
               </div>
             </section>
           </div>
@@ -260,40 +260,40 @@
         <section class="member-view allery-details-view scaffold-view" data-member-view="daniel-hayes" data-display-name="何成宇" hidden></section>
         <section class="member-view allery-details-view lily-details-view" id="lilyDriveView" data-member-view="lily-thompson" data-display-name="李清清" hidden>
           <div class="allery-details-shell lily-details-info" id="lilyDetailsInfo">
-            <h2 class="allery-details-title">File Details</h2>
+            <h2 class="allery-details-title">用户资料</h2>
 
             <div class="allery-details-top">
               <div class="allery-details-photo">
-                <img src="assets/images/李清清.png" alt="李清清" class="allery-details-photo-img" />
+                <img src="assets/images/Lily.png" alt="李清清" class="allery-details-photo-img" />
               </div>
 
               <div class="allery-details-meta">
                 <div class="allery-details-meta-head">
                   <h3>李清清</h3>
-                  <span class="allery-status-badge alive-status-badge">Alive</span>
-                  <span class="allery-details-no">No: 05</span>
+                  <span class="allery-status-badge alive-status-badge">存活</span>
+                  <span class="allery-details-no">编号：05</span>
                 </div>
 
                 <dl class="allery-details-grid">
-                  <div><dt>Date of Birth:</dt><dd>2008</dd></div>
-                  <div><dt>Marital Status:</dt><dd>Single</dd></div>
-                  <div><dt>Citizen:</dt><dd>American</dd></div>
-                  <div><dt>Location:</dt><dd>NY</dd></div>
-                  <div><dt>Gender:</dt><dd>Female</dd></div>
-                  <div><dt>Family:</dt><dd>Unknown</dd></div>
-                  <div><dt>Languages:</dt><dd>English</dd></div>
-                  <div><dt>School:</dt><dd>Riverside High School</dd></div>
+                  <div><dt>出生年份：</dt><dd>2008</dd></div>
+                  <div><dt>婚姻状况：</dt><dd>未婚</dd></div>
+                  <div><dt>国籍：</dt><dd>美国</dd></div>
+                  <div><dt>所在地：</dt><dd>纽约</dd></div>
+                  <div><dt>性别：</dt><dd>女</dd></div>
+                  <div><dt>家庭情况：</dt><dd>未知</dd></div>
+                  <div><dt>语言：</dt><dd>英语</dd></div>
+                  <div><dt>学校：</dt><dd>河滨高中</dd></div>
                 </dl>
 
                 <div class="allery-details-actions">
-                  <button type="button" class="allery-details-btn allery-accordion" data-target="lilyRecordPanel" aria-expanded="false">Record</button>
-                  <button type="button" class="allery-details-btn" id="lilyDetailsReportTrigger">Report</button>
-                  <button type="button" class="allery-details-btn allery-details-chat" id="lilyDetailsChatTrigger">Chat</button>
+                  <button type="button" class="allery-details-btn allery-accordion" data-target="lilyRecordPanel" aria-expanded="false">诊疗记录</button>
+                  <button type="button" class="allery-details-btn" id="lilyDetailsReportTrigger">报道</button>
+                  <button type="button" class="allery-details-btn allery-details-chat" id="lilyDetailsChatTrigger">聊天</button>
                 </div>
 
                 <div class="allery-report-panel allery-details-report" id="lilyRecordPanel" hidden>
                   <div class="therapy-session-list">
-                    <button type="button" class="therapy-session-btn" data-subject="lily">Therapy 01</button>
+                    <button type="button" class="therapy-session-btn" data-subject="lily">治疗记录 01</button>
                   </div>
                 </div>
 
@@ -303,11 +303,11 @@
 
             <section class="docs-shortcuts allery-details-shortcuts">
               <div class="shortcut-row allery-details-shortcut-row">
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
-                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-5"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 5</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 1</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 2</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 3</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 4</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="lily-diary-5"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 5</span></a>
               </div>
             </section>
           </div>
@@ -320,7 +320,7 @@
       <div class="admin-modal-overlay" id="alleryPrompt" aria-hidden="true">
         <div class="admin-modal" role="dialog" aria-modal="true" aria-labelledby="adminPromptTitle">
           <div class="admin-modal-titlebar">
-            <p class="admin-modal-question" id="adminPromptTitle">What is the user’s ID in the group?</p>
+            <p class="admin-modal-question" id="adminPromptTitle">这位用户在群里的编号是什么？</p>
           </div>
           <div class="admin-modal-body">
             <div class="admin-modal-entry">
@@ -332,10 +332,10 @@
                 autocomplete="off"
                 inputmode="numeric"
                 maxlength="1"
-                aria-label="User ID number"
+                aria-label="用户编号"
               />
             </div>
-            <button type="button" class="admin-modal-button" id="adminNumberConfirm">Conform</button>
+            <button type="button" class="admin-modal-button" id="adminNumberConfirm">确认</button>
           </div>
         </div>
       </div>
@@ -344,7 +344,7 @@
         <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="marryDiaryTitle">
           <div class="diary-titlebar">
             <h2 id="marryDiaryTitle">For 马一宁.txt</h2>
-            <button type="button" class="diary-close" id="marryDiaryClose" aria-label="Close diary"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+            <button type="button" class="diary-close" id="marryDiaryClose" aria-label="关闭日记"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
           </div>
           <div class="diary-modal-inner">
             <div class="diary-modal-page" id="marryDiaryPage">
@@ -369,8 +369,8 @@
       <div class="diary-overlay" id="alleryDiaryOverlay" aria-hidden="true" hidden>
         <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="alleryDiaryTitle">
           <div class="diary-titlebar">
-            <h2 id="alleryDiaryTitle">Diary 1</h2>
-            <button type="button" class="diary-close" id="alleryDiaryClose" aria-label="Close diary"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+            <h2 id="alleryDiaryTitle">日记 1</h2>
+            <button type="button" class="diary-close" id="alleryDiaryClose" aria-label="关闭日记"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
           </div>
           <div class="diary-modal-inner">
             <div class="diary-modal-page" id="alleryDiaryPage">
@@ -421,52 +421,52 @@
                 <div class="tr-fields-grid">
                   <!-- Row 1 -->
                   <div class="tr-field">
-                    <span class="tr-fl">SUBJECT ID</span>
+                    <span class="tr-fl">对象编号</span>
                     <span class="tr-fv">#07</span>
                   </div>
                   <div class="tr-field">
-                    <span class="tr-fl">LINKED FILE</span>
+                    <span class="tr-fl">关联档案</span>
                     <span class="tr-fv">林艾乐.log</span>
                   </div>
                   <div class="tr-field">
-                    <span class="tr-fl">JOIN TIME</span>
+                    <span class="tr-fl">加入时间</span>
                     <span class="tr-fv">2025.12</span>
                   </div>
                   <div class="tr-field">
-                    <span class="tr-fl">RISK LEVEL</span>
-                    <span class="tr-fv">Medium</span>
+                    <span class="tr-fl">风险等级</span>
+                    <span class="tr-fv">中等</span>
                   </div>
 
                   <!-- Row 2 -->
                   <div class="tr-field">
-                    <span class="tr-fl">OBSERVER</span>
+                    <span class="tr-fl">观察者</span>
                     <span class="tr-fv">Midnight</span>
                   </div>
                   <div class="tr-field tr-field--wide">
-                    <span class="tr-fl">SYSTEM NODE</span>
-                    <span class="tr-fv">Emotional Support Layer</span>
+                    <span class="tr-fl">系统节点</span>
+                    <span class="tr-fv">情绪支持层</span>
                   </div>
                   <div class="tr-field">
-                    <span class="tr-fl">SESSION PHASE</span>
-                    <span class="tr-fv">Phase 01</span>
+                    <span class="tr-fl">会话阶段</span>
+                    <span class="tr-fv">阶段 01</span>
                   </div>
 
                   <!-- Row 3 -->
                   <div class="tr-field tr-field--wide">
-                    <span class="tr-fl">REFERENCE TAG</span>
-                    <span class="tr-fv">Identity Distortion</span>
+                    <span class="tr-fl">参考标签</span>
+                    <span class="tr-fv">身份认知扭曲</span>
                   </div>
                   <div class="tr-field tr-field--wide">
-                    <span class="tr-fl">BEHAVIOR CLASS</span>
-                    <span class="tr-fv">Suppression / Self-Control</span>
+                    <span class="tr-fl">行为类别</span>
+                    <span class="tr-fv">压抑 / 自我控制</span>
                   </div>
                 </div>
 
                 <div class="tr-body-text">
-                  <p>To address the subject's initial concerns, she reports that she was involved in a car accident that left permanent scars on her face. She has overheard classmates whispering about it, which caused significant emotional distress. She did not attend school for approximately two weeks, resulting in difficulty keeping up with some coursework.</p>
-                  <p>The subject experiences sustained pressure due to these changes, showing avoidance of social situations and discomfort with being seen. Emotional expression remains controlled and restrained.</p>
-                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">emotional instability, high suggestibility, and dependency tendency.</span></p>
-                  <p>Recommendation: encourage participation in the <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">"30 Task" program for further evaluation.</span></p>
+                  <p>对象最初提到的困扰主要来自那场车祸。她表示，事故在她脸上留下了永久性疤痕。她听到同学私下议论这件事，因此产生了明显的情绪痛苦。她大约有两周没有去学校，也因此在部分课程上难以跟上进度。</p>
+                  <p>这些变化让对象持续处在压力之中。她开始回避社交场合，也对被别人看见这件事感到明显不适。她的情绪表达仍然非常克制和压抑。</p>
+                  <p>评估：<span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">情绪状态不稳定，易受暗示，并存在较强依赖倾向。</span></p>
+                  <p>建议：鼓励其参与<span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">“30个任务”计划，以便进一步评估。</span></p>
                 </div>
 
                 <div class="tr-sig-row">
@@ -509,47 +509,47 @@
                 <div class="tr-ref-line">REFERENCE: 09078-AA6</div>
                 <div class="tr-fields-grid">
                   <div class="tr-field">
-                    <span class="tr-fl">SUBJECT ID</span>
+                    <span class="tr-fl">对象编号</span>
                     <span class="tr-fv">#07</span>
                   </div>
                   <div class="tr-field">
-                    <span class="tr-fl">LINKED FILE</span>
+                    <span class="tr-fl">关联档案</span>
                     <span class="tr-fv">林艾乐.log</span>
                   </div>
                   <div class="tr-field">
-                    <span class="tr-fl">JOIN TIME</span>
+                    <span class="tr-fl">加入时间</span>
                     <span class="tr-fv">2025.12</span>
                   </div>
                   <div class="tr-field">
-                    <span class="tr-fl">RISK LEVEL</span>
-                    <span class="tr-fv">Medium</span>
+                    <span class="tr-fl">风险等级</span>
+                    <span class="tr-fv">中等</span>
                   </div>
                   <div class="tr-field">
-                    <span class="tr-fl">OBSERVER</span>
+                    <span class="tr-fl">观察者</span>
                     <span class="tr-fv">Midnight</span>
                   </div>
                   <div class="tr-field tr-field--wide">
-                    <span class="tr-fl">SYSTEM NODE</span>
-                    <span class="tr-fv">Emotional Support Layer</span>
+                    <span class="tr-fl">系统节点</span>
+                    <span class="tr-fv">情绪支持层</span>
                   </div>
                   <div class="tr-field">
-                    <span class="tr-fl">SESSION PHASE</span>
-                    <span class="tr-fv">Phase 02</span>
+                    <span class="tr-fl">会话阶段</span>
+                    <span class="tr-fv">阶段 02</span>
                   </div>
                   <div class="tr-field tr-field--wide">
-                    <span class="tr-fl">REFERENCE TAG</span>
-                    <span class="tr-fv">Identity Distortion</span>
+                    <span class="tr-fl">参考标签</span>
+                    <span class="tr-fv">身份认知扭曲</span>
                   </div>
                   <div class="tr-field tr-field--wide">
-                    <span class="tr-fl">BEHAVIOR CLASS</span>
-                    <span class="tr-fv">Suppression / Self-Control</span>
+                    <span class="tr-fl">行为类别</span>
+                    <span class="tr-fv">压抑 / 自我控制</span>
                   </div>
                 </div>
                 <div class="tr-body-text">
-                  <p>The subject experienced a significant emotional setback following a recent examination, showing intensified distress and heightened anxiety. Her ability to self-regulate has further declined, with increased sensitivity to external evaluation.</p>
-                  <p>The subject has progressed to Task 15. Her psychological defenses are nearing collapse, while trust toward the guide has significantly increased. Dependency has strengthened, and controllability has improved.</p>
-                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">highly unstable emotional state, increased dependency, impaired judgment.</span></p>
-                  <p>Recommendation: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">accelerate the progression of tasks.</span></p>
+                  <p>对象在最近一次考试之后经历了明显的情绪挫败，痛苦感进一步加剧，焦虑水平显著升高。她的自我调节能力持续下降，对外界评价也变得更加敏感。</p>
+                  <p>对象目前已推进至任务 15。她的心理防线接近崩溃，对引导者的信任明显增强，依赖性进一步加深，同时整体可控性也有所提升。</p>
+                  <p>评估：<span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">情绪状态高度不稳定，依赖性增强，判断能力受损。</span></p>
+                  <p>建议：<span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">加快任务推进速度。</span></p>
                 </div>
                 <div class="tr-sig-row">
                   <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
@@ -588,47 +588,47 @@
                 <div class="tr-ref-line">REFERENCE: 09078-AA6</div>
                 <div class="tr-fields-grid">
                   <div class="tr-field">
-                    <span class="tr-fl">SUBJECT ID</span>
+                    <span class="tr-fl">对象编号</span>
                     <span class="tr-fv">#07</span>
                   </div>
                   <div class="tr-field">
-                    <span class="tr-fl">LINKED FILE</span>
+                    <span class="tr-fl">关联档案</span>
                     <span class="tr-fv">林艾乐.log</span>
                   </div>
                   <div class="tr-field">
-                    <span class="tr-fl">JOIN TIME</span>
+                    <span class="tr-fl">加入时间</span>
                     <span class="tr-fv">2025.12</span>
                   </div>
                   <div class="tr-field">
-                    <span class="tr-fl">RISK LEVEL</span>
-                    <span class="tr-fv">Medium</span>
+                    <span class="tr-fl">风险等级</span>
+                    <span class="tr-fv">中等</span>
                   </div>
                   <div class="tr-field">
-                    <span class="tr-fl">OBSERVER</span>
+                    <span class="tr-fl">观察者</span>
                     <span class="tr-fv">Midnight</span>
                   </div>
                   <div class="tr-field tr-field--wide">
-                    <span class="tr-fl">SYSTEM NODE</span>
-                    <span class="tr-fv">Emotional Support Layer</span>
+                    <span class="tr-fl">系统节点</span>
+                    <span class="tr-fv">情绪支持层</span>
                   </div>
                   <div class="tr-field">
-                    <span class="tr-fl">SESSION PHASE</span>
-                    <span class="tr-fv">Phase 03</span>
+                    <span class="tr-fl">会话阶段</span>
+                    <span class="tr-fv">阶段 03</span>
                   </div>
                   <div class="tr-field tr-field--wide">
-                    <span class="tr-fl">REFERENCE TAG</span>
-                    <span class="tr-fv">Identity Distortion</span>
+                    <span class="tr-fl">参考标签</span>
+                    <span class="tr-fv">身份认知扭曲</span>
                   </div>
                   <div class="tr-field tr-field--wide">
-                    <span class="tr-fl">BEHAVIOR CLASS</span>
-                    <span class="tr-fv">Suppression / Self-Control</span>
+                    <span class="tr-fl">行为类别</span>
+                    <span class="tr-fv">压抑 / 自我控制</span>
                   </div>
                 </div>
                 <div class="tr-body-text">
-                  <p>During the final session prior to Task 30, the subject demonstrated a high level of compliance and cooperation. She has nearly completed all assigned tasks, with a narrowed psychological state and no evident resistance to instruction.</p>
-                  <p>The subject is prepared for Task 30 and shows acceptance, even anticipation, toward the upcoming phase.</p>
-                  <p>Assessment: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">blurred boundaries of self-awareness, full reliance on external guidance.</span></p>
-                  <p>Recommendation: <span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">designate a specific time point to initiate the final stage.</span></p>
+                  <p>在进入任务 30 前的最后一次会话中，对象表现出极高的服从度与配合度。她几乎已经完成全部分配任务，心理状态进一步收窄，对指令不再表现出明显抗拒。</p>
+                  <p>对象已经为任务 30 做好准备，并对即将到来的下一阶段表现出接受，甚至带有某种期待。</p>
+                  <p>评估：<span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">自我认知边界模糊，已完全依赖外部引导。</span></p>
+                  <p>建议：<span class="tr-reveal-redact" role="button" tabindex="0" aria-label="Redacted text, click to reveal">指定一个明确时间点，启动最终阶段。</span></p>
                 </div>
                 <div class="tr-sig-row">
                   <div class="tr-sig"><span class="tr-sig-label">Signed</span><span class="tr-sig-line"></span></div>
@@ -1219,8 +1219,8 @@
       <div class="diary-overlay" id="mikeDiaryOverlay" aria-hidden="true" hidden>
         <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="mikeDiaryTitle">
           <div class="diary-titlebar">
-            <h2 id="mikeDiaryTitle">Diary 1</h2>
-            <button type="button" class="diary-close" id="mikeDiaryClose" aria-label="Close diary"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+            <h2 id="mikeDiaryTitle">日记 1</h2>
+            <button type="button" class="diary-close" id="mikeDiaryClose" aria-label="关闭日记"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
           </div>
           <div class="diary-modal-inner">
             <div class="diary-modal-page" id="mikeDiaryPage">
@@ -1243,8 +1243,8 @@
       <div class="diary-overlay" id="danielDiaryOverlay" aria-hidden="true" hidden>
         <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="danielDiaryTitle">
           <div class="diary-titlebar">
-            <h2 id="danielDiaryTitle">Diary 1</h2>
-            <button type="button" class="diary-close" id="danielDiaryClose" aria-label="Close diary"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+            <h2 id="danielDiaryTitle">日记 1</h2>
+            <button type="button" class="diary-close" id="danielDiaryClose" aria-label="关闭日记"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
           </div>
           <div class="diary-modal-inner">
             <div class="diary-modal-page" id="danielDiaryPage">
@@ -1264,8 +1264,8 @@
       <div class="diary-overlay" id="sofiaDiaryOverlay" aria-hidden="true" hidden>
         <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="sofiaDiaryTitle">
           <div class="diary-titlebar">
-            <h2 id="sofiaDiaryTitle">Diary 1</h2>
-            <button type="button" class="diary-close" id="sofiaDiaryClose" aria-label="Close diary"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+            <h2 id="sofiaDiaryTitle">日记 1</h2>
+            <button type="button" class="diary-close" id="sofiaDiaryClose" aria-label="关闭日记"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
           </div>
           <div class="diary-modal-inner">
             <div class="diary-modal-page" id="sofiaDiaryPage">
@@ -1285,8 +1285,8 @@
       <div class="diary-overlay" id="lilyDiaryOverlay" aria-hidden="true" hidden>
         <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="lilyDiaryTitle">
           <div class="diary-titlebar">
-            <h2 id="lilyDiaryTitle">Diary 1</h2>
-            <button type="button" class="diary-close" id="lilyDiaryClose" aria-label="Close diary"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+            <h2 id="lilyDiaryTitle">日记 1</h2>
+            <button type="button" class="diary-close" id="lilyDiaryClose" aria-label="关闭日记"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
           </div>
           <div class="diary-modal-inner">
             <div class="diary-modal-page" id="lilyDiaryPage">
@@ -1307,10 +1307,10 @@
         <div class="retro-warning-modal" role="dialog" aria-modal="true" aria-labelledby="alleryChatWarningText">
           <div class="retro-warning-body">
             <img src="assets/images/warning.png" alt="" class="retro-warning-icon" />
-            <p id="alleryChatWarningText" class="retro-warning-text">This user is deceased and cannot be contacted.</p>
+            <p id="alleryChatWarningText" class="retro-warning-text">该用户已故，无法联系。</p>
           </div>
           <div class="retro-warning-actions">
-            <button type="button" class="retro-warning-button" id="alleryChatWarningOk">OK</button>
+            <button type="button" class="retro-warning-button" id="alleryChatWarningOk">确定</button>
           </div>
         </div>
       </div>
@@ -1368,7 +1368,7 @@
         <div class="core-attack-code">
           <span>root@core:~# inject --silent --mask "midnight"</span>
           <span>compiling overflow packet...</span>
-          <span>bridging diary nodes</span>
+          <span>连接日记节点</span>
           <span>trace: support_destroy:lily = true</span>
           <span>trace: support_destroy:core = true</span>
           <span>escalating privilege...</span>
@@ -1720,85 +1720,79 @@
       '李清清': '5',
       '马一宁': '2'
     };
-    const DEFAULT_WARNING_TEXT = 'This user is deceased and cannot be contacted.';
-    const TASK30_WARNING_TEXT = 'This member has not yet completed Task 30.';
+    const DEFAULT_WARNING_TEXT = '该用户已故，无法联系。';
+    const TASK30_WARNING_TEXT = '该成员尚未完成第30个任务。';
     const alleryDiaryEntries = {
       '1': {
-        title: 'Diary 1',
+        title: '日记 1',
         lines: [
           '2025.12.28',
-          'Today, I entered that chatroom for the first time.',
-          'At first, it was only out of curiosity. I did not expect to see 苏晴 there.',
-          'I had always assumed that she would not be involved in something like this.',
-          'What surprised me even more was that she seemed to be seeking help for certain psychological concerns.'
+          '经过苏晴学姐的推荐，今天我第一次进入了这个聊天室。',
+          '我是真没想到她会与这些有关心理问题的聊天室扯上关系。',
+          '我心目中的学姐是一位温柔大方，善解人意，人缘还很好的知心大姐姐。',
+          '没想到她也有自己的心事...会是什么呢，那么完美的人。'
         ]
       },
       '2': {
-        title: 'Diary 2',
+        title: '日记 2',
         lines: [
           '2026.01.06',
-          'Midnight has been consistently gentle in his manner of speaking.',
-          'I have begun to follow the so-called “30-day tasks.”',
-          'Although I was hesitant at first, I have noticed a certain degree of relief while carrying them out.'
+          'Midnight说话的方式一直都很温和，他很像我刻板印象中的老师形象，一直在引领我，指导我。',
+          '在他的建议下，我可能从明天开始就会加入这个30个任务的计划，从某种意义上来说，我还挺好奇和期待的。',
+          '听学姐说，她一开始也有些犹豫，但在执行的过程中确实感受到了情绪得到了很大的缓解。希望我也如此。'
         ]
       },
       '3': {
-        title: 'Diary 3',
+        title: '日记 3',
         lines: [
           '2026.02.15',
-          'Today, I realized that No.5 is actually 李清清.',
-          'This came as a surprise to me.',
-          'She has always been outgoing and lively, and it is difficult to associate her with this place.',
-          'Perhaps I could try speaking with her.',
-          'If she is here, then she may also have her own concerns.'
+          'No.5居然是李清清……',
+          '这太令人震惊了。',
+          '在我印象中，她一直都很外向开朗，我真的很难把她和需要寻求心理帮助联系在一起。',
+          '她在班上可是出了名的外向和话痨……但其实我并不希望被她发现我在这个群里，我害怕她去和其他人说，让班级里的人知道这件事。',
         ]
       },
       '4': {
-        title: 'Diary 4',
+        title: '日记 4',
         lines: [
           '2026.03.07',
-          'Today, the results of the mock examination were released.',
-          'The outcome was far from satisfactory.',
-          'Compared to before, the decline is significant, and difficult to accept.',
-          'I can feel the way others look at me.',
-          'No one says anything directly, but the change is unmistakable.',
-          'It is not an intense feeling, but it is constant, and difficult to ignore.',
-          'I no longer want to go to school.'
+          '今天，模拟考试的成绩出来了，我的成绩太不理想了。',
+          '和以前相比退步得太明显了，让人太难以接受。我居然整整掉了139名。',
+          '我能感觉到同学看我的眼神都变了，甚至有人在窃窃私语。',
+          '他们会不会怀疑我以往的成绩都是作弊？他们会怎么看我……不是的，我没有。',
+          '我真的不想去学校了，为什么不可以休学？为什么？',
+          '为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？为什么？'
         ]
       },
       '5': {
-        title: 'Diary 5',
+        title: '日记 5',
         lines: [
           '2026.03.12',
-          'Midnight remains as calm and patient as ever.',
-          'He responds in a way that is neither forceful nor dismissive.',
-          'Instead, he seems to guide me toward thinking for myself.',
-          'At times, I feel as though he resembles an older brother.',
-          'He does not provide direct answers, yet his presence is strangely reassuring.',
-          'I find myself gradually relying on these conversations.'
+          '今天我和midnight进行了第二次心理治疗，他依旧像往常一样冷静而有耐心。',
+          '他似乎总是在引导我自己去思考，我觉得他像哥哥一样温暖。',
+          '他的存在却让人莫名安心，他真的是一位很好的心理咨询师。',
+          '他开解了我很多，也给了我很多建议，不得不说在做任务的时候，我觉得我整个人都放松了，我甚至在期待新任务的到来。',
+          '我能感受到自己对这个聊天室的依赖……',
+          '但一切都像好的方向发展了不是吗？'
         ]
       },
       '6': {
-        title: 'Diary 6',
+        title: '日记 6',
         lines: [
           '2026.03.18',
-          'Today, I asked Midnight a question.',
-          'I wanted to know why he created this chatroom.',
-          'What led him to establish something like this.',
-          'He did not answer immediately.',
-          'Instead, he told me a story.',
-          'It was about someone named 马一宁.',
-          'He spoke about her experiences, and what she had endured.',
-          'According to him, this chatroom exists so that similar situations would not happen again.',
-          'I am not certain that I fully understand what he meant.',
-          'However, as he spoke, I could sense a strong emotion behind his words.',
-          'It was not sadness. It felt more like something firm, almost resolute.'
+          '今天，我问了 Midnight一个我一直很想知道答案问题。',
+          '为什么要创建这个聊天室？',
+          '他没有立刻回答，而是跟我讲了一个他自己的故事，一个关于救赎的故事。',
+          '他拯救了一位叫马一宁的女孩，用他自己的力量托举她，让她幸福。',
+          '他说起了她的经历，以及她曾承受过的一切后，我真切的为她的遭遇感到遗憾，但同时我也觉得她的结局非常美好。',
+          '我不曾经历过那些伤痛，但我现在却很羡慕她已经可以在天堂享乐了。',
+          '我什么时候才能去天堂？',
         ]
       }
     };
     const mikeDiaryEntries = {
       '1': {
-        title: 'Diary 1',
+        title: '日记 1',
         lines: [
           '2004.11.12',
           'Dad hit me again. Mom was bleeding too.',
@@ -1807,7 +1801,7 @@
         ]
       },
       '2': {
-        title: 'Diary 2',
+        title: '日记 2',
         lines: [
           '2008.03.27',
           'Mom is gone.',
@@ -1817,7 +1811,7 @@
         ]
       },
       '3': {
-        title: 'Diary 3',
+        title: '日记 3',
         lines: [
           '2023.05.14',
           'It rained heavily today. The deliveries were soaked again. I’ll probably get my pay cut.',
@@ -1829,7 +1823,7 @@
         ]
       },
       '4': {
-        title: 'Diary 4',
+        title: '日记 4',
         lines: [
           '2023.05.20',
           'I saw the news.',
@@ -1840,7 +1834,7 @@
         ]
       },
       '5': {
-        title: 'Diary 5',
+        title: '日记 5',
         lines: [
           '2024.01.08',
           'There are so many people in this world who are unhappy.',
@@ -1850,7 +1844,7 @@
     };
     const danielDiaryEntries = {
       '1': {
-        title: 'Diary 1',
+        title: '日记 1',
         lines: [
           '2024.03.12',
           'They laughed at me again today. Actually not just today, it\'s been like this for a while.',
@@ -1861,7 +1855,7 @@
         ]
       },
       '2': {
-        title: 'Diary 2',
+        title: '日记 2',
         lines: [
           '2024.04.02',
           'I didn\'t take the medicine again today. It\'s actually been a few days now.',
@@ -1873,7 +1867,7 @@
         ]
       },
       '3': {
-        title: 'Diary 3',
+        title: '日记 3',
         lines: [
           '2024.04.27',
           'Got yelled at again when I got home.',
@@ -1884,7 +1878,7 @@
         ]
       },
       '4': {
-        title: 'Diary 4',
+        title: '日记 4',
         lines: [
           '2024.05.18',
           'Something feels off lately.',
@@ -1896,7 +1890,7 @@
         ]
       },
       '5': {
-        title: 'Diary 5',
+        title: '日记 5',
         lines: [
           '2024.06.03',
           'I met someone in the chatroom today, her name is 苏晴.',
@@ -1910,14 +1904,14 @@
     };
     const sofiaDiaryEntries = {
       '1': {
-        title: 'Diary 1',
+        title: '日记 1',
         lines: [
           'Why did they take my letter and laugh at me? Why?',
           'The way they look at me makes me feel sick.'
         ]
       },
       '2': {
-        title: 'Diary 2',
+        title: '日记 2',
         lines: [
           'I saw 林艾乐 crying alone today.',
           'I recommended this chatroom to her.',
@@ -1926,7 +1920,7 @@
         ]
       },
       '3': {
-        title: 'Diary 3',
+        title: '日记 3',
         lines: [
           'I talked to Midnight for a long time today.',
           'I learned about 马一宁’s story. Her parents were punished.',
@@ -1935,7 +1929,7 @@
         ]
       },
       '4': {
-        title: 'Diary 2',
+        title: '日记 4',
         lines: [
           'I’ve been talking a lot with No. 3 recently, and I just realized he actually goes to the school next to ours.',
           '何成宇 seems very gentle and quiet. I don’t understand why anyone would bully him.',
@@ -1945,7 +1939,7 @@
     };
         const lilyDiaryEntries = {
       '1': {
-        title: 'Diary 1',
+        title: '日记 1',
         lines: [
           '2025.08.21',
           'A lot of people have been talking about this chatroom lately.',
@@ -1958,7 +1952,7 @@
         ]
       },
       '2': {
-        title: 'Diary 2',
+        title: '日记 2',
         lines: [
           '2025.08.23',
           'I tried doing some of those “30 tasks” these past couple days.',
@@ -1969,7 +1963,7 @@
         ]
       },
       '3': {
-        title: 'Diary 3',
+        title: '日记 3',
         lines: [
           '2025.08.25',
           'That guy called Midnight is actually pretty gentle when he talks.',
@@ -1981,7 +1975,7 @@
         ]
       },
       '4': {
-        title: 'Diary 4',
+        title: '日记 4',
         lines: [
           '2025.08.26',
           'Oh my god… 苏晴 was in the chat before me?',
@@ -1989,7 +1983,7 @@
         ]
       },
       '5': {
-        title: 'Diary 5',
+        title: '日记 5',
         lines: [
           '2025.08.29',
           'I haven’t really gone into that chatroom lately.',
@@ -2121,10 +2115,15 @@
       alleryDiaryOverlay.hidden = false;
       if (alleryDiaryPage) {
         alleryDiaryPage.scrollTop = 0;
+        alleryDiaryPage.scrollTo?.({ top: 0, left: 0, behavior: 'auto' });
       }
       requestAnimationFrame(() => {
         alleryDiaryOverlay.classList.add('is-visible');
         alleryDiaryOverlay.setAttribute('aria-hidden', 'false');
+        if (alleryDiaryPage) {
+          alleryDiaryPage.scrollTop = 0;
+          alleryDiaryPage.scrollTo?.({ top: 0, left: 0, behavior: 'auto' });
+        }
         syncAlleryDiaryScrollbar();
       });
     }
@@ -2499,50 +2498,50 @@
 
       const infoItems = isMarryBrown
         ? `
-            <div><dt>Date of Birth:</dt><dd>2011</dd></div>
-            <div><dt>Marital Status:</dt><dd>Single</dd></div>
-            <div><dt>Citizen:</dt><dd>American</dd></div>
-            <div><dt>Location:</dt><dd>NY</dd></div>
-            <div><dt>Gender:</dt><dd>Female</dd></div>
-            <div><dt>Family:</dt><dd>Unknown</dd></div>
-            <div><dt>Languages:</dt><dd>English</dd></div>
-            <div><dt>School:</dt><dd>Unknown</dd></div>
+            <div><dt>出生年份：</dt><dd>2011</dd></div>
+            <div><dt>婚姻状况：</dt><dd>未婚</dd></div>
+            <div><dt>国籍：</dt><dd>美国</dd></div>
+            <div><dt>所在地：</dt><dd>纽约</dd></div>
+            <div><dt>性别：</dt><dd>女</dd></div>
+            <div><dt>家庭情况：</dt><dd>未知</dd></div>
+            <div><dt>语言：</dt><dd>英语</dd></div>
+            <div><dt>学校：</dt><dd>未知</dd></div>
           `
         : isDanielHayes
         ? `
-            <div><dt>Date of Birth:</dt><dd>2010</dd></div>
-            <div><dt>Marital Status:</dt><dd>Single</dd></div>
-            <div><dt>Citizen:</dt><dd>American</dd></div>
-            <div><dt>Location:</dt><dd>NY</dd></div>
-            <div><dt>Gender:</dt><dd>Male</dd></div>
-            <div><dt>Family:</dt><dd>Single father</dd></div>
-            <div><dt>Languages:</dt><dd>English</dd></div>
-            <div><dt>School:</dt><dd>Westbrook High School</dd></div>
+            <div><dt>出生年份：</dt><dd>2010</dd></div>
+            <div><dt>婚姻状况：</dt><dd>未婚</dd></div>
+            <div><dt>国籍：</dt><dd>美国</dd></div>
+            <div><dt>所在地：</dt><dd>纽约</dd></div>
+            <div><dt>性别：</dt><dd>男</dd></div>
+            <div><dt>家庭情况：</dt><dd>与父亲同住</dd></div>
+            <div><dt>语言：</dt><dd>英语</dd></div>
+            <div><dt>学校：</dt><dd>西布鲁克高中</dd></div>
           `
         : isSofiaRossi
         ? `
-            <div><dt>Date of Birth:</dt><dd>2008</dd></div>
-            <div><dt>Marital Status:</dt><dd>Single</dd></div>
-            <div><dt>Citizen:</dt><dd>American</dd></div>
-            <div><dt>Location:</dt><dd>NY</dd></div>
-            <div><dt>Gender:</dt><dd>Female</dd></div>
-            <div><dt>Family:</dt><dd>Lives with grandmother</dd></div>
-            <div><dt>Languages:</dt><dd>English</dd></div>
-            <div><dt>School:</dt><dd>Riverside High School</dd></div>
+            <div><dt>出生年份：</dt><dd>2008</dd></div>
+            <div><dt>婚姻状况：</dt><dd>未婚</dd></div>
+            <div><dt>国籍：</dt><dd>美国</dd></div>
+            <div><dt>所在地：</dt><dd>纽约</dd></div>
+            <div><dt>性别：</dt><dd>女</dd></div>
+            <div><dt>家庭情况：</dt><dd>与祖母同住</dd></div>
+            <div><dt>语言：</dt><dd>英语</dd></div>
+            <div><dt>学校：</dt><dd>河滨高中</dd></div>
           `
         : `
-            <div><dt>Date of Birth:</dt><dd>Pending</dd></div>
-            <div><dt>Marital Status:</dt><dd>Pending</dd></div>
-            <div><dt>Citizen:</dt><dd>Pending</dd></div>
-            <div><dt>Location:</dt><dd>Pending</dd></div>
-            <div><dt>Gender:</dt><dd>Pending</dd></div>
-            <div><dt>Family:</dt><dd>Pending</dd></div>
-            <div><dt>Languages:</dt><dd>Pending</dd></div>
-            <div><dt>School:</dt><dd>Pending</dd></div>
+            <div><dt>出生年份：</dt><dd>待定</dd></div>
+            <div><dt>婚姻状况：</dt><dd>待定</dd></div>
+            <div><dt>国籍：</dt><dd>待定</dd></div>
+            <div><dt>所在地：</dt><dd>待定</dd></div>
+            <div><dt>性别：</dt><dd>待定</dd></div>
+            <div><dt>家庭情况：</dt><dd>待定</dd></div>
+            <div><dt>语言：</dt><dd>待定</dd></div>
+            <div><dt>学校：</dt><dd>待定</dd></div>
           `;
 
-      const fileId = isMarryBrown ? 'No: 02' : isDanielHayes ? 'No: 03' : isSofiaRossi ? 'No: 04' : 'No: --';
-      const statusLabel = isMarryBrown || isDanielHayes || isSofiaRossi ? 'Deceased' : 'Pending';
+      const fileId = isMarryBrown ? '编号：02' : isDanielHayes ? '编号：03' : isSofiaRossi ? '编号：04' : '编号：--';
+      const statusLabel = isMarryBrown || isDanielHayes || isSofiaRossi ? '已故' : '待定';
       const statusClass = isMarryBrown || isDanielHayes || isSofiaRossi
         ? 'allery-status-badge'
         : 'allery-status-badge scaffold-status-badge';
@@ -2554,25 +2553,25 @@
         ? 'SofiaNews.html'
         : '';
       const reportPanelId = `scaffold-report-${name.replace(/\s+/g, '-').toLowerCase()}`;
-      const chatTrigger = `<button type="button" class="allery-details-btn allery-details-chat" data-chat-warning="deceased-user">Chat</button>`;
+      const chatTrigger = `<button type="button" class="allery-details-btn allery-details-chat" data-chat-warning="deceased-user">聊天</button>`;
       const shortcutMarkup = isMarryBrown
         ? `
-            <a href="#" class="shortcut-card drive-card" data-diary-modal="marry-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>For marry</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="marry-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>致马一宁</span></a>
           `
         : isDanielHayes
         ? `
-            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
-            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
-            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
-            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
-            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-5"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 5</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 1</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 2</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 3</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 4</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="daniel-diary-5"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 5</span></a>
           `
         : isSofiaRossi
         ? `
-            <a href="#" class="shortcut-card drive-card" data-diary-modal="sofia-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
-            <a href="#" class="shortcut-card drive-card" data-diary-modal="sofia-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
-            <a href="#" class="shortcut-card drive-card" data-diary-modal="sofia-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
-            <a href="#" class="shortcut-card drive-card" data-diary-modal="sofia-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="sofia-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 1</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="sofia-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 2</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="sofia-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 3</span></a>
+            <a href="#" class="shortcut-card drive-card" data-diary-modal="sofia-diary-4"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 4</span></a>
           `
         : `
             <div class="shortcut-empty-card">Empty</div>
@@ -2584,11 +2583,11 @@
         ? `<img src="assets/images/Daniel.png" alt="何成宇" class="allery-details-photo-img" />`
         : isSofiaRossi
         ? `<img src="assets/images/Sofia.png" alt="苏晴" class="allery-details-photo-img" />`
-        : `<span>Not yet available</span>`;
+        : `<span>暂无资料</span>`;
 
       return `
         <div class="allery-details-shell">
-          <h2 class="allery-details-title">File Details</h2>
+          <h2 class="allery-details-title">用户资料</h2>
 
           <div class="allery-details-top">
             <div class="${photoContainerClass}">
@@ -2607,33 +2606,33 @@
               </dl>
 
               <div class="allery-details-actions">
-                <button type="button" class="allery-details-btn allery-accordion" data-target="${reportPanelId}" aria-expanded="false">Record</button>
+                <button type="button" class="allery-details-btn allery-accordion" data-target="${reportPanelId}" aria-expanded="false">诊疗记录</button>
                 ${reportHref
-                  ? `<a href="${reportHref}" class="allery-details-btn allery-report-link">Report</a>`
-                  : `<button type="button" class="allery-details-btn" data-chat-warning="deceased-user">Report</button>`}
+                  ? `<a href="${reportHref}" class="allery-details-btn allery-report-link">报道</a>`
+                  : `<button type="button" class="allery-details-btn" data-chat-warning="deceased-user">报道</button>`}
                 ${chatTrigger}
               </div>
 
               <div class="allery-report-panel allery-details-report" id="${reportPanelId}" hidden>
                 ${isMarryBrown ? `
                   <div class="therapy-session-list">
-                    <button type="button" class="therapy-session-btn" data-subject="marry">Therapy 01</button>
+                    <button type="button" class="therapy-session-btn" data-subject="marry">治疗记录 01</button>
                   </div>
                 ` : isSofiaRossi ? `
                   <div class="therapy-session-list">
-                    <button type="button" class="therapy-session-btn" data-subject="sofia">Therapy 01</button>
-                    <button type="button" class="therapy-session-btn" data-subject="sofia">Therapy 02</button>
-                    <button type="button" class="therapy-session-btn" data-subject="sofia">Therapy 03</button>
+                    <button type="button" class="therapy-session-btn" data-subject="sofia">治疗记录 01</button>
+                    <button type="button" class="therapy-session-btn" data-subject="sofia">治疗记录 02</button>
+                    <button type="button" class="therapy-session-btn" data-subject="sofia">治疗记录 03</button>
                   </div>
                 ` : isDanielHayes ? `
                   <div class="therapy-session-list">
-                    <button type="button" class="therapy-session-btn" data-subject="daniel">Therapy 01</button>
-                    <button type="button" class="therapy-session-btn" data-subject="daniel">Therapy 02</button>
-                    <button type="button" class="therapy-session-btn" data-subject="daniel">Therapy 03</button>
+                    <button type="button" class="therapy-session-btn" data-subject="daniel">治疗记录 01</button>
+                    <button type="button" class="therapy-session-btn" data-subject="daniel">治疗记录 02</button>
+                    <button type="button" class="therapy-session-btn" data-subject="daniel">治疗记录 03</button>
                   </div>
                 ` : `
                   <dl class="allery-death-list">
-                    <div><dt>Record:</dt><dd>Pending</dd></div>
+                    <div><dt>诊疗记录：</dt><dd>待定</dd></div>
                   </dl>
                 `}
               </div>
@@ -3136,7 +3135,7 @@
       if (midnightExitSequenceStarted) return;
       midnightExitSequenceStarted = true;
       midnightExitToastTimeoutId = window.setTimeout(() => {
-        showMidnightToast('You came here with another purpose.');
+        showMidnightToast('你来到这里，另有目的。');
         midnightExitVideoTimeoutId = window.setTimeout(() => {
           startMidnightExitErrorVideo('./Ending2.html', 3000);
         }, 3000);
@@ -3254,7 +3253,7 @@
         if (pendingMemberAccess.name === '林艾乐') {
           window.HintProgress?.incrementPercent?.(5);
           window.HintProgress?.setLines?.([
-            'Maybe 林艾乐的 diary has clues to unlock the other pages.'
+            '也许林艾乐的日记里藏着解锁其他页面的线索。'
           ]);
           window.HintProgress?.pulse?.();
         } else if (pendingMemberAccess.name === '陈立安') {
@@ -3311,7 +3310,7 @@
       memberViews.forEach((view) => {
         view.hidden = view.dataset.memberView !== panelId;
       });
-      memberTitle.textContent = panelId === 'allery-lin' ? '' : name;
+      memberTitle.textContent = '';
     }
 
     function setPrivateComposerEnabled(enabled) {
@@ -3533,7 +3532,7 @@
           window.location.href = 'Ending2-zh.html';
           return;
         }
-        window.location.href = 'login.html';
+        window.location.href = 'login-zh.html';
       }, 1000);
     });
 
@@ -3590,26 +3589,30 @@
       const therapyBtn = event.target.closest('.therapy-session-btn');
       if (therapyBtn) {
         const label = therapyBtn.textContent.trim();
+        const normalizedLabel = label.replace(/\s+/g, '').toLowerCase();
         const subject = therapyBtn.getAttribute('data-subject');
+        const isReport01 = normalizedLabel === 'therapy01' || normalizedLabel === '治疗记录01';
+        const isReport02 = normalizedLabel === 'therapy02' || normalizedLabel === '治疗记录02';
+        const isReport03 = normalizedLabel === 'therapy03' || normalizedLabel === '治疗记录03';
         if (subject === 'core') {
-          if (label === 'Therapy 01') openCoreTherapyReport01();
-          else if (label === 'Therapy 02') openCoreTherapyReport02();
+          if (isReport01) openCoreTherapyReport01();
+          else if (isReport02) openCoreTherapyReport02();
         } else if (subject === 'lily') {
-          if (label === 'Therapy 01') openLilyTherapyReport01();
+          if (isReport01) openLilyTherapyReport01();
         } else if (subject === 'marry') {
-          if (label === 'Therapy 01') openMarryTherapyReport01();
+          if (isReport01) openMarryTherapyReport01();
         } else if (subject === 'sofia') {
-          if (label === 'Therapy 01') openSofiaTherapyReport01();
-          else if (label === 'Therapy 02') openSofiaTherapyReport02();
-          else if (label === 'Therapy 03') openSofiaTherapyReport03();
+          if (isReport01) openSofiaTherapyReport01();
+          else if (isReport02) openSofiaTherapyReport02();
+          else if (isReport03) openSofiaTherapyReport03();
         } else if (subject === 'daniel') {
-          if (label === 'Therapy 01') openDanielTherapyReport01();
-          else if (label === 'Therapy 02') openDanielTherapyReport02();
-          else if (label === 'Therapy 03') openDanielTherapyReport03();
+          if (isReport01) openDanielTherapyReport01();
+          else if (isReport02) openDanielTherapyReport02();
+          else if (isReport03) openDanielTherapyReport03();
         } else {
-          if (label === 'Therapy 01') openTherapyReport01();
-          else if (label === 'Therapy 02') openTherapyReport02();
-          else if (label === 'Therapy 03') openTherapyReport03();
+          if (isReport01) openTherapyReport01();
+          else if (isReport02) openTherapyReport02();
+          else if (isReport03) openTherapyReport03();
         }
         return;
       }

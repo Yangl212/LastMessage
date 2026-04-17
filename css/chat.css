@@ -16,6 +16,14 @@
   font-display:swap;
 }
 
+@font-face{
+  font-family:"Zpix";
+  src:url("../assets/fonts/zpix.ttf") format("truetype");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+
 
 .date-stamp{
   margin:18px 0 6px;
@@ -193,7 +201,7 @@
 
 .setting-titlebar h2{
   margin:0;
-  font:400 19px/1 "pixelmix", "Pixelify Sans", monospace;
+  font:400 19px/1 "Zpix", "pixelmix", "Pixelify Sans", monospace;
   color:#111;
 }
 

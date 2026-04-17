@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('input');
   const form = document.getElementById('composer');
   const sendButton = form?.querySelector('.send');
+  const isChinesePage = window.location.pathname.toLowerCase().endsWith('-zh.html');
 
   if (!messagesEl || !input || !form) return;
 
@@ -21,24 +22,29 @@ document.addEventListener('DOMContentLoaded', () => {
     onSendMessage: (text, helpers) => {
       if (sequenceStarted || !helpers) return;
       sequenceStarted = true;
-      helpers.lockComposer('Access revoked.');
+      helpers.lockComposer(isChinesePage ? '访问已被撤销。' : 'Access revoked.');
 
       window.setTimeout(() => {
         helpers.appendMessage({
           user: 'Midnight',
           time: nowHHMM(),
-          text: 'Don’t ask.'
-        });
-        helpers.appendMessage({
-          user: 'Midnight',
-          time: nowHHMM(),
-          text: 'Do not seek what you do not need to know. She will be perfectly fine somewhere else.'
+          text: isChinesePage ? '别问。' : 'Don’t ask.'
         });
 
         window.setTimeout(() => {
-          window.location.href = 'warning.html';
-        }, 3000);
-      }, 2000);
+          helpers.appendMessage({
+            user: 'Midnight',
+            time: nowHHMM(),
+            text: isChinesePage
+              ? '不要试图知道那些你不需要知道的事。她会在别的地方过得很好。'
+              : 'Do not seek what you do not need to know. She will be perfectly fine somewhere else.'
+          });
+
+          window.setTimeout(() => {
+            window.location.href = isChinesePage ? 'warning-zh.html' : 'warning.html';
+          }, 3200);
+        }, 1800);
+      }, 1400);
     }
   });
 

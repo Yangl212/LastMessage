@@ -69,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
   root.style.setProperty('--hp-progress-target', displayPercent);
   if (fontFamily) {
     root.style.setProperty('--hp-ui-font', fontFamily);
+    root.style.setProperty('--hp-body-font', `"${fontFamily}"`);
   }
   root.innerHTML = `
     <button type="button" class="progress-toggle" aria-expanded="false" aria-controls="progressFooter" aria-label="${title}">

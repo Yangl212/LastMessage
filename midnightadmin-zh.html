@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/hint-progress.css" />
   <link rel="stylesheet" href="css/administrator_chat.css" />
 </head>
-<body>
+<body class="midnightadmin-zh">
   <main class="admin-layout">
     <aside class="admin-sidebar">
       <div class="sidebar-brand">
@@ -356,7 +356,7 @@
         <div class="core-attack-code">
           <span>root@core:~# inject --silent --mask "midnight"</span>
           <span>compiling overflow packet...</span>
-          <span>bridging diary nodes</span>
+          <span>连接日记节点</span>
           <span>trace: support_destroy:lily = true</span>
           <span>trace: support_destroy:core = true</span>
           <span>escalating privilege...</span>
@@ -885,10 +885,15 @@
       alleryDiaryOverlay.hidden = false;
       if (alleryDiaryPage) {
         alleryDiaryPage.scrollTop = 0;
+        alleryDiaryPage.scrollTo?.({ top: 0, left: 0, behavior: 'auto' });
       }
       requestAnimationFrame(() => {
         alleryDiaryOverlay.classList.add('is-visible');
         alleryDiaryOverlay.setAttribute('aria-hidden', 'false');
+        if (alleryDiaryPage) {
+          alleryDiaryPage.scrollTop = 0;
+          alleryDiaryPage.scrollTo?.({ top: 0, left: 0, behavior: 'auto' });
+        }
         syncAlleryDiaryScrollbar();
       });
     }

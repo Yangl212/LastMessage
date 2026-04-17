@@ -32,6 +32,14 @@
   font-display:swap;
 }
 
+@font-face{
+  font-family:"Zpix";
+  src:url("../assets/fonts/zpix.ttf") format("truetype");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+
 :root{
   --bg:#09090c;
   --panel:#111114;
@@ -217,6 +225,10 @@ body{
 
 .sidebar-link-label{
   flex:1;
+}
+
+body.admin-zh .sidebar-link-label{
+  font-family:"Zpix","PixelOperator","Pixelify Sans",monospace;
 }
 
 .sidebar-lock-icon{
@@ -950,6 +962,25 @@ body{
   letter-spacing:.01em;
 }
 
+body.admin-zh .allery-details-title{
+  font-family:"Zpix","PixelOperatorBold","PixelOperator","Pixelify Sans",monospace;
+}
+
+body.admin-zh .allery-details-meta-head h3,
+body.admin-zh .allery-details-no,
+body.admin-zh .allery-details-btn{
+  font-family:"Zpix","PixelOperatorBold","PixelOperator","Pixelify Sans",monospace;
+}
+
+body.admin-zh .allery-details-btn{
+  font-size:clamp(12px, 1vw, 20px);
+}
+
+body.admin-zh .admin-modal-question,
+body.admin-zh .admin-modal-button{
+  font-family:"Zpix","pixelmix","Pixelify Sans",monospace;
+}
+
 .allery-details-top{
   display:grid;
   grid-template-columns:clamp(210px, 14vw, 310px) minmax(0, 1fr);
@@ -1157,6 +1188,11 @@ body{
   font:400 clamp(14px, 1.2vw, 20px)/1.15 "PixelOperator","Pixelify Sans",monospace;
   text-align:center;
   white-space:nowrap;
+}
+
+body.admin-zh .shortcut-card span:last-child,
+body.midnightadmin-zh .shortcut-card span:last-child{
+  font-family:"Zpix","PixelOperator","Pixelify Sans",monospace;
 }
 
 :is(#mikeDriveView, #alleryDriveView, #lilyDriveView, #coreDriveView, .scaffold-view) .allery-report-link:hover{
@@ -2102,22 +2138,22 @@ body{
 
 .therapy-report-modal{
   position:relative;
-  width:min(100%, 640px);
-  max-height:min(100%, 780px);
+  width:min(100%, 768px);
+  max-height:min(100%, 936px);
   display:flex;
   flex-direction:column;
 }
 
 .tr-close-btn{
   position:absolute;
-  top:-36px;
+  top:-42px;
   right:0;
   border:0;
   background:transparent;
   cursor:pointer;
   padding:0;
-  width:28px;
-  height:28px;
+  width:34px;
+  height:34px;
   display:grid;
   place-items:center;
   z-index:1;
@@ -2127,8 +2163,8 @@ body{
   background:#e8e4dc;
   color:#111;
   font-family:"PixelOperator","Pixelify Sans",monospace;
-  font-size:12px;
-  line-height:1.4;
+  font-size:14px;
+  line-height:1.45;
   border:1px solid #aaa;
   overflow-y:auto;
   scrollbar-width:thin;
@@ -2141,14 +2177,14 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:5px 8px 5px 6px;
+  padding:6px 10px 6px 8px;
   border-bottom:2px solid #111;
   background:#dedad1;
 }
 
 .tr-form-code{
   font-family:"PixelOperatorBold","PixelOperator",monospace;
-  font-size:13px;
+  font-size:16px;
   letter-spacing:.04em;
   text-transform:uppercase;
 }
@@ -2160,7 +2196,7 @@ body{
 }
 
 .tr-small-label{
-  font-size:9px;
+  font-size:11px;
   letter-spacing:.06em;
   text-transform:uppercase;
 }
@@ -2170,13 +2206,13 @@ body{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:3px 8px 3px 6px;
+  padding:4px 10px 4px 8px;
   border-bottom:1px solid #111;
   background:#dedad1;
 }
 
 .tr-joint-label{
-  font-size:9px;
+  font-size:11px;
   letter-spacing:.05em;
   text-transform:uppercase;
 }
@@ -2189,15 +2225,15 @@ body{
 
 .tr-classified-label{
   font-family:"PixelOperatorBold","PixelOperator",monospace;
-  font-size:10px;
+  font-size:12px;
   letter-spacing:.1em;
   text-transform:uppercase;
 }
 
 .tr-checkbox-mock{
   display:inline-block;
-  width:10px;
-  height:10px;
+  width:12px;
+  height:12px;
   border:1px solid #111;
 }
 
@@ -2217,10 +2253,10 @@ body{
 
 .tr-section-num{
   font-family:"PixelOperatorBold","PixelOperator",monospace;
-  font-size:34px;
+  font-size:41px;
   line-height:1;
-  padding:8px 10px;
-  min-width:48px;
+  padding:10px 12px;
+  min-width:58px;
   border-right:1px solid #aaa;
   background:#dedad1;
   text-align:center;
@@ -2228,16 +2264,16 @@ body{
 
 .tr-section-body{
   flex:1;
-  padding:6px 8px 8px 8px;
+  padding:8px 10px 10px 10px;
   min-width:0;
 }
 
 .tr-ref-line{
   font-family:"PixelOperatorBold","PixelOperator",monospace;
-  font-size:12px;
+  font-size:14px;
   letter-spacing:.04em;
-  margin-bottom:6px;
-  padding-bottom:4px;
+  margin-bottom:8px;
+  padding-bottom:5px;
   border-bottom:1px solid #bbb;
 }
 
@@ -2253,7 +2289,7 @@ body{
 .tr-field{
   display:flex;
   flex-direction:column;
-  padding:3px 5px;
+  padding:4px 6px;
   border-right:1px solid #aaa;
   border-bottom:1px solid #aaa;
 }
@@ -2271,17 +2307,17 @@ body{
 }
 
 .tr-fl{
-  font-size:9px;
+  font-size:11px;
   letter-spacing:.06em;
   text-transform:uppercase;
   opacity:.7;
-  margin-bottom:2px;
+  margin-bottom:3px;
 }
 
 .tr-fv{
   display:flex;
   align-items:center;
-  min-height:12px;
+  min-height:15px;
 }
 
 /* ── Redact bars ── */
@@ -2292,20 +2328,20 @@ body{
   border-radius:0;
 }
 
-.tr-redact--lg  { width:108px; height:13px; }
-.tr-redact--md  { width:72px;  height:11px; }
-.tr-redact--sm  { width:44px;  height:11px; }
-.tr-redact--inline{ width:62px; height:11px; }
+.tr-redact--lg  { width:130px; height:16px; }
+.tr-redact--md  { width:86px;  height:13px; }
+.tr-redact--sm  { width:53px;  height:13px; }
+.tr-redact--inline{ width:74px; height:13px; }
 
 /* ── Body text ── */
 .tr-body-text{
-  font-size:11px;
-  line-height:1.5;
-  margin-bottom:8px;
+  font-size:13px;
+  line-height:1.55;
+  margin-bottom:10px;
 }
 
 .tr-body-text p{
-  margin:0 0 5px 0;
+  margin:0 0 7px 0;
 }
 
 .tr-reveal-redact{
@@ -2327,8 +2363,8 @@ body{
 .tr-sig-row{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:6px 12px;
-  padding-top:6px;
+  gap:8px 14px;
+  padding-top:8px;
   border-top:1px solid #aaa;
 }
 
@@ -2339,7 +2375,7 @@ body{
 }
 
 .tr-sig-label{
-  font-size:10px;
+  font-size:12px;
   letter-spacing:.04em;
   white-space:nowrap;
 }
@@ -2353,20 +2389,20 @@ body{
 
 @media (min-width:1400px){
   .therapy-report-modal{
-    width:min(100%, 760px);
-    max-height:min(100%, 900px);
+    width:min(100%, 912px);
+    max-height:min(100%, 1080px);
   }
-  .tr-doc{ font-size:14px; }
-  .tr-form-code{ font-size:15px; }
-  .tr-section-num{ font-size:40px; }
-  .tr-ref-line{ font-size:14px; }
-  .tr-fl{ font-size:11px; }
-  .tr-body-text{ font-size:13px; }
-  .tr-sig-label{ font-size:12px; }
-  .tr-redact--lg    { width:128px; height:15px; }
-  .tr-redact--md    { width:86px;  height:13px; }
-  .tr-redact--sm    { width:52px;  height:13px; }
-  .tr-redact--inline{ width:74px;  height:13px; }
+  .tr-doc{ font-size:16px; }
+  .tr-form-code{ font-size:18px; }
+  .tr-section-num{ font-size:48px; }
+  .tr-ref-line{ font-size:17px; }
+  .tr-fl{ font-size:13px; }
+  .tr-body-text{ font-size:15px; }
+  .tr-sig-label{ font-size:14px; }
+  .tr-redact--lg    { width:154px; height:18px; }
+  .tr-redact--md    { width:103px; height:16px; }
+  .tr-redact--sm    { width:62px;  height:16px; }
+  .tr-redact--inline{ width:89px;  height:16px; }
 }
 
 .member-placeholder{
@@ -3051,6 +3087,7 @@ body{
   padding:48px 38px 34px 38px;
   background:#f7f7f7;
   overflow-y:auto;
+  overflow-anchor:none;
   scrollbar-width:none;
 }
 
@@ -3100,6 +3137,20 @@ body{
   place-items:center;
   padding:0;
   cursor:default;
+}
+
+body.admin-zh .diary-modal,
+body.midnightadmin-zh .diary-modal{
+  font-family:"Zpix","PixelOperator","Pixelify Sans",monospace;
+}
+
+body.admin-zh .diary-titlebar h2,
+body.midnightadmin-zh .diary-titlebar h2,
+body.admin-zh .diary-modal-line,
+body.midnightadmin-zh .diary-modal-line,
+body.admin-zh .diary-scroll-arrow,
+body.midnightadmin-zh .diary-scroll-arrow{
+  font-family:"Zpix","PixelOperator","Pixelify Sans",monospace;
 }
 
 .diary-scroll-track{

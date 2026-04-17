@@ -7,12 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let isAwaitingPsychologistReply = false;
   const psychologistHistory = [];
   const hintSuggestionByGroup = {
-    '30 task': '30任务是什么？',
+    '30-tasks': '30个任务是什么？',
     midnight: 'Midnight是谁？',
-    administrator: '我想成为管理员。',
+    administrator: '管理员是什么？',
     'chat-group-rules': '聊天群规是什么？',
     'allery-lin': '林艾乐是谁？',
-    'blue whale chat group': '蓝鲸聊天群是什么？'
+    'blue-whale-chat-group': '蓝鲸聊天群是什么？'
   };
   const messagesEl = document.getElementById('messages');
   const input = document.getElementById('input');
@@ -30,15 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const announcements = [
     {
       id: 'a1',
-      title: '关于蓝鲸聊天群',
+      title: '什么是蓝鲸聊天室？',
       body: [
-        '蓝鲸聊天室是一个线上情感支持平台。',
-        '正是在那段时间，我们推出了如今广为人知的"蓝鲸挑战"——一套旨在帮助青少年的系统性指引。多年来，该方法论颇受欢迎，相关讨论在Google和维基百科上均有详细记录。'
+        '欢迎来到蓝鲸聊天室！',
+        '或许你有听说过“蓝鲸挑战”吗？它曾是网络上广为流传的话题，被许多人称为一种针对青少年的系统性引导机制，多年来引发了大量讨论与报道。如果你对此感到好奇，可以前往 Google 或维基百科搜索相关资料，那里留下了许多关于它的记录。',
+        '在这个聊天室里，你可以倾诉压力、分享情绪，希望大家都有更幸福的明天'
       ].join('\n\n')
     },
     {
       id: 'a2',
-      title: '30天反思进度',
+      title: '30个任务进度表',
       bodyHtml: [
         '<div class="progress-row"><span>No.2</span><span>已归档</span></div>',
         '<div class="progress-row"><span>No.3</span><span>已归档</span></div>',
@@ -64,18 +65,19 @@ document.addEventListener('DOMContentLoaded', () => {
   ];
 
   const keywordResponses = {
-    'chat group rules': '这里的规则不多。\n\n尽量不要分享太多个人信息……比如你的真实姓名。\n\n让我们保持与这个空间相关的对话。\n如果话题偏离太远，我可能不会一直回应。\n\n至于我，我会在合适的时机安排一对一交流。\n\n到时候，请诚实地回答。慢慢来，尽量详细，试着信任我。',
-    'chat group rule': '这里的规则不多。\n\n尽量不要分享太多个人信息……比如你的真实姓名。\n\n让我们保持与这个空间相关的对话。\n如果话题偏离太远，我可能不会一直回应。\n\n至于我，我会在合适的时机安排一对一交流。\n\n到时候，请诚实地回答。慢慢来，尽量详细，试着信任我。',
-    'chat groups rules': '这里的规则不多。\n\n尽量不要分享太多个人信息……比如你的真实姓名。\n\n让我们保持与这个空间相关的对话。\n如果话题偏离太远，我可能不会一直回应。\n\n至于我，我会在合适的时机安排一对一交流。\n\n到时候，请诚实地回答。慢慢来，尽量详细，试着信任我。',
-    'blue whale chat group': '蓝鲸聊天群是一个由专业心理顾问创立的线上"青少年咨询平台"。\n在这里，你所有的烦恼都会被倾听，每一个秘密都会被温柔守护，你的任何感受都不会被评判。\n我们理解你经历的一切，会陪伴你度过那些无人注意的漫漫长夜。\n你所需要做的，只是信任我们——让我们引导你走向更轻盈的内心。',
-    '30 task': '这是一项旨在帮助正在经历心理健康困境的孩子重新找到快乐的活动。第一天，我们从一个简单的任务开始："今天的心情打几分？"',
-    admin: [
+    '聊天群规则': '这里的规则不多。\n\n尽量不要分享太多个人信息……比如你的真实姓名。\n\n让我们保持与这个空间相关的对话。\n如果话题偏离太远，我可能不会一直回应。\n\n至于我，我会在合适的时机安排一对一交流。\n\n到时候，请诚实地回答。慢慢来，尽量详细，试着信任我。',
+    规则: '这里的规则不多。\n\n尽量不要分享太多个人信息……比如你的真实姓名。\n\n让我们保持与这个空间相关的对话。\n如果话题偏离太远，我可能不会一直回应。\n\n至于我，我会在合适的时机安排一对一交流。\n\n到时候，请诚实地回答。慢慢来，尽量详细，试着信任我。',
+    '聊天群须知': '这里的规则不多。\n\n尽量不要分享太多个人信息……比如你的真实姓名。\n\n让我们保持与这个空间相关的对话。\n如果话题偏离太远，我可能不会一直回应。\n\n至于我，我会在合适的时机安排一对一交流。\n\n到时候，请诚实地回答。慢慢来，尽量详细，试着信任我。',
+    蓝鲸聊天室: '蓝鲸聊天群是一个由专业心理顾问创立的线上"青少年咨询平台"。\n在这里，你所有的烦恼都会被倾听，每一个秘密都会被温柔守护，你的任何感受都不会被评判。\n我们理解你经历的一切，会陪伴你度过那些无人注意的漫漫长夜。\n你所需要做的，只是信任我们——让我们引导你走向更轻盈的内心。',
+    蓝鲸游戏: '蓝鲸聊天群是一个由专业心理顾问创立的线上"青少年咨询平台"。\n在这里，你所有的烦恼都会被倾听，每一个秘密都会被温柔守护，你的任何感受都不会被评判。\n我们理解你经历的一切，会陪伴你度过那些无人注意的漫漫长夜。\n你所需要做的，只是信任我们——让我们引导你走向更轻盈的内心。',
+    蓝鲸挑战: '蓝鲸聊天群是一个由专业心理顾问创立的线上"青少年咨询平台"。\n在这里，你所有的烦恼都会被倾听，每一个秘密都会被温柔守护，你的任何感受都不会被评判。\n我们理解你经历的一切，会陪伴你度过那些无人注意的漫漫长夜。\n你所需要做的，只是信任我们——让我们引导你走向更轻盈的内心。',
+    蓝鲸聊天群: '蓝鲸聊天群是一个由专业心理顾问创立的线上"青少年咨询平台"。\n在这里，你所有的烦恼都会被倾听，每一个秘密都会被温柔守护，你的任何感受都不会被评判。\n我们理解你经历的一切，会陪伴你度过那些无人注意的漫漫长夜。\n你所需要做的，只是信任我们——让我们引导你走向更轻盈的内心。',
+    '30个任务': '这是一项旨在帮助正在经历心理健康困境的孩子重新找到快乐的活动。第一天，我们从一个简单的任务开始："今天的心情打几分？"',
+    30: '这是一项旨在帮助正在经历心理健康困境的孩子重新找到快乐的活动。第一天，我们从一个简单的任务开始："今天的心情打几分？"',
+    任务: '这是一项旨在帮助正在经历心理健康困境的孩子重新找到快乐的活动。第一天，我们从一个简单的任务开始："今天的心情打几分？"',
+    管理员: [
       '很高兴你有帮助他人的心意。',
-      '我们会在私信中详细讨论。在右侧找到我，点击"发送消息"。'
-    ],
-    administrator: [
-      '很高兴你有帮助他人的心意。',
-      '我们会在私信中详细讨论。在右侧找到我，点击"发送消息"。'
+      '在右侧找到我，点击"发送消息"，告诉我你想做管理员，我们会在私信中详细讨论这方面的东西。'
     ],
     midnight: [
       { user: 'Midnight', text: '我是一名顾问。我帮助你处理生活中的困扰。' },
@@ -127,6 +129,24 @@ document.addEventListener('DOMContentLoaded', () => {
       ]
     },
     'allery lin': {
+      user: 'No. 5',
+      lines: [
+        '哦，你是说她……？对，我记得她压力很大。真的很大。但老实说，我一直觉得她很了不起。你能看出她有多努力。',
+        '只是……我还是不明白。Midnight就在几天前还说她情况好多了。说她的问题基本上已经解决了。',
+        '那怎么会发生那种事呢？',
+        { user: 'Midnight', text: '我知道这让人不安，但现在的猜测对任何人都没有帮助。请不要继续讨论这个话题。' }
+      ]
+    },
+    林艾乐: {
+      user: 'No. 5',
+      lines: [
+        '哦，你是说她……？对，我记得她压力很大。真的很大。但老实说，我一直觉得她很了不起。你能看出她有多努力。',
+        '只是……我还是不明白。Midnight就在几天前还说她情况好多了。说她的问题基本上已经解决了。',
+        '那怎么会发生那种事呢？',
+        { user: 'Midnight', text: '我知道这让人不安，但现在的猜测对任何人都没有帮助。请不要继续讨论这个话题。' }
+      ]
+    },
+    艾乐: {
       user: 'No. 5',
       lines: [
         '哦，你是说她……？对，我记得她压力很大。真的很大。但老实说，我一直觉得她很了不起。你能看出她有多努力。',
@@ -198,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function handleGreetingResponse(text, helpers){
     if (!helpers || hasSentGreetingReply) return false;
     const normalized = String(text || '').trim().toLowerCase();
-    if (!/\b(hi|hello)\b/.test(normalized)) return false;
+    if (!(/\b(hi|hello)\b/.test(normalized) || normalized.includes('你好'))) return false;
 
     hasSentGreetingReply = true;
     setTimeout(() => {
@@ -326,15 +346,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function getProgressKeywordGroup(keyword){
     const keywordGroupMap = {
-      'chat group rules': 'chat-group-rules',
-      'chat group rule': 'chat-group-rules',
-      'chat groups rules': 'chat-group-rules',
+      聊天群规则: 'chat-group-rules',
+      规则: 'chat-group-rules',
+      聊天群须知: 'chat-group-rules',
+      蓝鲸聊天室: 'blue-whale-chat-group',
+      蓝鲸游戏: 'blue-whale-chat-group',
+      蓝鲸挑战: 'blue-whale-chat-group',
+      蓝鲸聊天群: 'blue-whale-chat-group',
+      '30个任务': '30-tasks',
+      30: '30-tasks',
+      任务: '30-tasks',
+      管理员: 'administrator',
       allery: 'allery-lin',
       lin: 'allery-lin',
       allerylin: 'allery-lin',
       'allery lin': 'allery-lin',
       'no.6': 'allery-lin',
-      6: 'allery-lin'
+      6: 'allery-lin',
+      林艾乐: 'allery-lin',
+      艾乐: 'allery-lin'
     };
     return keywordGroupMap[keyword] || keyword;
   }
@@ -347,11 +377,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!window.HintProgress?.setLines) return;
     const seenKeywords = new Set(readSeenHintKeywords());
     const remainingSuggestions = Object.entries(hintSuggestionByGroup)
-      .filter(([groupKey]) => groupKey !== '30 task' && !seenKeywords.has(groupKey))
+      .filter(([groupKey]) => groupKey !== '30-tasks' && !seenKeywords.has(groupKey))
       .map(([, suggestion]) => suggestion);
 
     const suggestion = seenKeywords.size === 0
-      ? hintSuggestionByGroup['30 task']
+      ? hintSuggestionByGroup['30-tasks']
       : (remainingSuggestions.length
           ? remainingSuggestions[Math.floor(Math.random() * remainingSuggestions.length)]
           : '看来你已经追完了这里所有的线索。');

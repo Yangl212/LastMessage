@@ -20,15 +20,16 @@ document.addEventListener('DOMContentLoaded', () => {
   const announcements = [
     {
       id: 'a1',
-      title: '关于蓝鲸聊天群',
+      title: '什么是蓝鲸聊天室？',
       body: [
-        '蓝鲸聊天室是一个线上情感支持平台。',
-        '正是在那段时间，我们推出了如今广为人知的"蓝鲸挑战"——一套旨在帮助青少年的系统性指引。多年来，该方法论颇受欢迎，相关讨论在Google和维基百科上均有详细记录。'
+        '欢迎来到蓝鲸聊天室！',
+        '或许你有听说过“蓝鲸挑战”吗？它曾是网络上广为流传的话题，被许多人称为一种针对青少年的系统性引导机制，多年来引发了大量讨论与报道。如果你对此感到好奇，可以前往 Google 或维基百科搜索相关资料，那里留下了许多关于它的记录。',
+        '在这个聊天室里，你可以倾诉压力、分享情绪，希望大家都有更幸福的明天'
       ].join('\n\n')
     },
     {
       id: 'a2',
-      title: '30天反思进度',
+      title: '30个任务 进度表',
       bodyHtml: [
         '<div class="progress-row"><span>No.2</span><span>已归档</span></div>',
         '<div class="progress-row"><span>No.3</span><span>已归档</span></div>',
@@ -88,24 +89,24 @@ document.addEventListener('DOMContentLoaded', () => {
       helpers.appendMessage({
         user: 'No. 7',
         time: nowHHMM(),
-        text: '等等……什么？'
+        text: '？'
       });
 
       window.setTimeout(() => {
         helpers.appendMessage({
           user: 'No. 5',
           time: nowHHMM(),
-          text: '新闻上明明说你两天前就死了！'
+          text: '？？？前两天不是有新闻报道说你死了吗？'
         });
 
         window.setTimeout(() => {
           helpers.appendMessage({
-            user: 'System',
+            user: '系统',
             time: nowHHMM(),
-            text: 'You have been banned. You can no longer send messages.',
+            text: '你已被移除群聊。',
             variant: 'system'
           });
-          helpers.lockComposer('Banned: sending messages is disabled.');
+          helpers.lockComposer('你已被移除群聊');
         }, 1500);
       }, 1200);
     }, 1800);

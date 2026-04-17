@@ -32,6 +32,7 @@
   --hp-shadow:rgba(0,0,0,.16);
   --hp-toggle-filter:none;
   --hp-ui-font:"Pixelify Sans", sans-serif;
+  --hp-body-font:"PixelOperator","Pixelify Sans",monospace;
 }
 
 .hint-progress-root[data-theme="dark"]{
@@ -322,7 +323,7 @@
 .hint-progress-root .hint-modal-line{
   margin:0 0 24px;
   max-width:370px;
-  font:400 18px/1.28 "PixelOperator","Pixelify Sans",monospace;
+  font:400 18px/1.28 var(--hp-body-font);
   color:var(--hp-fg);
 }
 
