@@ -153,7 +153,7 @@ module.exports = async (req, res) => {
       res.end(JSON.stringify({
         reply: [
           '你从一开始就不是来"寻求帮助"的。',
-          '我将在三分钟内撤销你所有的访问权限。离开那里！'
+          '我将在三分钟内撤销你的所有权限，识趣的话就自己离开这里。'
         ].join('\n\n'),
         flags: {
           showPoliceEvidencePrompt: 'aggressive'

@@ -1,6 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&display=swap');
 
 @font-face{
+  font-family:"Zpix";
+  src:url("../assets/fonts/zpix.ttf") format("truetype");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+
+@font-face{
   font-family:"PixelOperator";
   src:url("../assets/fonts/pixel_operator/PixelOperator.ttf") format("truetype");
   font-weight:400;
@@ -2749,7 +2757,7 @@ body.midnightadmin-zh .shortcut-card span:last-child{
   margin:0;
   color:#c40010;
   text-align:center;
-  font:400 28px/1.3 "pixelmix", "Pixelify Sans", monospace;
+  font:400 28px/1.3 "Zpix", "pixelmix", "Pixelify Sans", monospace;
 }
 
 .midnight-become-actions{

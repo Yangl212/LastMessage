@@ -6,8 +6,8 @@
   <title>结局 3</title>
   <style>
     @font-face{
-      font-family:"Minecraftia-Regular";
-      src:url("assets/fonts/Minecraftia-Regular.ttf") format("truetype");
+      font-family:"Zpix";
+      src:url("assets/fonts/zpix.ttf") format("truetype");
       font-display:swap;
     }
 
@@ -211,7 +211,7 @@
       padding:0 20px;
       border-bottom:4px solid #111;
       color:#111;
-      font-family:"PixelOperator8","Minecraftia-Regular","SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-family:"Zpix",monospace;
       font-size:15px;
       letter-spacing:.02em;
       background:#fff;
@@ -229,7 +229,7 @@
       min-height:39vh;
       padding:30px 42px 34px;
       background:#fff;
-      font-family:"PixelOperator","ChironGoRoundTC-VariableFont_wght","SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;
+      font-family:"Zpix",monospace;
       color:#111;
       font-size:15px;
       line-height:1.45;
@@ -396,23 +396,23 @@
       <section class="ending-panel" aria-label="Ending 3 panel">
         <div class="ending-window">
           <header class="ending-window-header">
-            <span>结局三：系统入侵</span>
+            <span>隐藏结局：破坏聊天室</span>
           </header>
           <div class="ending-window-body-wrap">
             <div class="ending-window-body">
               <div class="ending-window-filler">
                 <div class="ending-window-copy">
-                  <p>[结局3文字占位符]</p>
-                  <p>This path has been triggered by the coordinated site takedown flow.</p>
-                  <p>Replace this copy with the final narrative when ready.</p>
+                  <p>在柯言和李清清的帮助下，你们成功摧毁了这个网站。</p>
+                  <p>柯言用自己的高超技术定位到了Midnight的IP地址，并将系统里的证据全数移交给警方。你们成为了这个事件的最大贡献人，也阻止了更多惨案的发生。</p>
+                  <p>警局在逮捕陈立安后，对其所犯的罪行进行了系统梳理。林艾乐的死亡不再是一桩悬案——调查证实，这是他蓄意操控的结果。他对此难逃其咎，将面临法律的最终制裁。</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div class="ending-actions">
-          <button class="ending-action-btn" type="button">重玩</button>
-          <button class="ending-action-btn" type="button">反馈</button>
+          <button class="ending-action-btn" type="button" id="replayBtn">Replay</button>
+          <button class="ending-action-btn" type="button" id="feedbackBtn">Feedback</button>
         </div>
       </section>
     </main>
@@ -451,6 +451,13 @@
       window.addEventListener('pointerdown', unlockPlayback, { once: true });
       window.addEventListener('keydown', unlockPlayback, { once: true });
       window.addEventListener('touchstart', unlockPlayback, { once: true });
+
+      document.getElementById('replayBtn')?.addEventListener('click', () => {
+        window.location.href = 'introduction-zh.html';
+      });
+      document.getElementById('feedbackBtn')?.addEventListener('click', () => {
+        window.open('https://forms.gle/', '_blank');
+      });
     })();
   </script>
 </body>

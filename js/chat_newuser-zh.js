@@ -179,28 +179,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const handledByApi = await handlePsychologistFallback(text, helpers);
-      if (handledByApi) {
-        missedKeywordCount = 0;
-        return;
-      }
+      await handlePsychologistFallback(text, helpers);
 
       missedKeywordCount += 1;
       if (missedKeywordCount >= 2) {
-        const lines = [
-          '也许你应该把时间用在问真正重要的事情上。',
-          '我不会一直在这里回复。'
-        ];
-        lines.forEach((line, index) => {
-          setTimeout(() => {
-            helpers.appendMessage({
-              user: 'Midnight',
-              time: nowHHMM(),
-              text: line,
-              me: false
-            });
-          }, 1800 + index * 1400);
-        });
+        setTimeout(() => {
+          helpers.appendMessage({
+            user: 'Midnight',
+            time: nowHHMM(),
+            text: '我们的时间都很宝贵，或许你应该找一些更值得一问的问题。',
+            me: false
+          });
+        }, 2800);
         missedKeywordCount = 0;
       }
     },

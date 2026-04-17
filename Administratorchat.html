@@ -2986,6 +2986,7 @@
         if (!policeEvidenceHintAwarded) {
           policeEvidenceHintAwarded = true;
           window.HintProgress?.incrementPercent?.(5);
+          window.HintProgress?.setLines?.(['Act fast — capture any pages you think could serve as direct evidence!']);
           window.HintProgress?.pulse?.();
         }
       }, 3000);
