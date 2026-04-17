@@ -16,6 +16,14 @@
   font-display:swap;
 }
 
+@font-face{
+  font-family:"Zpix";
+  src:url("../assets/fonts/zpix.ttf") format("truetype");
+  font-weight:400;
+  font-style:normal;
+  font-display:swap;
+}
+
 .hint-progress-root{
   --hp-bg:#ffffff;
   --hp-fg:#111111;
@@ -23,6 +31,7 @@
   --hp-overlay:rgba(0, 0, 0, .24);
   --hp-shadow:rgba(0,0,0,.16);
   --hp-toggle-filter:none;
+  --hp-ui-font:"Pixelify Sans", sans-serif;
 }
 
 .hint-progress-root[data-theme="dark"]{
@@ -105,7 +114,7 @@
   box-shadow:
     inset 0 0 0 2px var(--hp-muted),
     2px 2px 0 var(--hp-shadow);
-  font:400 16px/1 "Pixelify Sans", sans-serif;
+  font:400 16px/1 var(--hp-ui-font);
   transition:transform .12s ease, background .12s ease, color .12s ease;
 }
 
@@ -240,7 +249,7 @@
 
 .hint-progress-root .hint-titlebar h2{
   margin:0;
-  font:400 22px/1 "pixelmix", "Pixelify Sans", monospace;
+  font:400 22px/1 var(--hp-ui-font);
   color:var(--hp-fg);
 }
 
@@ -284,7 +293,7 @@
   box-shadow:
     inset 0 0 0 2px var(--hp-muted),
     2px 2px 0 var(--hp-shadow);
-  font:400 22px/1 "Pixelify Sans", sans-serif;
+  font:400 22px/1 var(--hp-ui-font);
   cursor:pointer;
   transition:transform .12s ease, filter .12s ease;
 }

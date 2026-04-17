@@ -42,13 +42,13 @@ module.exports = async (req, res) => {
     const catchAdminPatternEn = /((catch|arrest|report|take down|stop|expose|hunt).*(midnight|mike))|((midnight|mike).*(catch|arrest|report|take down|stop|expose|hunt))/i;
     const catchAdminPatternZh = /((抓住|抓到|逮捕|举报|舉報|打击|打擊|搞掉|曝光).*(midnight|mike))|((midnight|mike).*(抓住|抓到|逮捕|举报|舉報|打击|打擊|搞掉|曝光))/i;
     const askMemberNoPattern = /(\bno\.?\s*\d+\b|\bnumber\s*\d+\b|编号|幾號|几号|號碼|号码|\d+\s*(?:号|號))/i;
-    const sofiaPattern = /(sofia(?:\s+rossi)?|索菲亚|索菲婭)/i;
-    const alleryPattern = /(allery(?:[\s-]*lin)?|艾拉莉|艾莉瑞|阿莱莉)/i;
-    const lilyPattern = /(lily(?:\s+thompson)?|莉莉)/i;
-    const corePattern = /(core(?:\s+bennett)?)/i;
-    const danielPattern = /(daniel(?:\s+hayes)?)/i;
-    const marryPattern = /(marry(?:\s+brown)?)/i;
-    const mikePattern = /(mike(?:\s+anderson)?)/i;
+    const sofiaPattern = /(sofia(?:\s+rossi)?|苏晴|索菲亚|索菲婭)/i;
+    const alleryPattern = /(allery(?:[\s-]*lin)?|林艾乐|艾拉莉|艾莉瑞|阿莱莉)/i;
+    const lilyPattern = /(lily(?:\s+thompson)?|李清清|莉莉)/i;
+    const corePattern = /(core(?:\s+bennett)?|柯言)/i;
+    const danielPattern = /(daniel(?:\s+hayes)?|何成宇)/i;
+    const marryPattern = /(marry(?:\s+brown)?|马一宁)/i;
+    const mikePattern = /(mike(?:\s+anderson)?|陈立安)/i;
     const midnightPattern = /(midnight|午夜|子夜)/i;
     const selfIdentityPattern = /(who\s+are\s+you|你是谁|妳是誰)/i;
     const nameQueryPattern = /(who\s+is|who's|do\s+you\s+know|know\s+about|what\s+do\s+you\s+know\s+about|你认识|你認識|你知道|你了解|你瞭解|认识吗|認識嗎|知道吗|知道嗎|是谁|是誰|是谁啊|是誰啊|是谁呀|是誰呀|什么人|什麼人)/i;
@@ -63,7 +63,7 @@ module.exports = async (req, res) => {
     const no5Pattern = /(?:\bno\.?\s*5\b|\bnumber\s*5\b|5\s*(?:号|號))/i;
     const no6Pattern = /(?:\bno\.?\s*6\b|\bnumber\s*6\b|6\s*(?:号|號))/i;
     const no7Pattern = /(?:\bno\.?\s*7\b|\bnumber\s*7\b|7\s*(?:号|號))/i;
-    const topicalPattern = /(chatroom|room|site|website|midnight|task|no\.?\s*\d+|number\s*\d+|编号|號|号|allery|sofia|core|daniel|marry|lily|mike|administrator|admin|therapy|report|diary|record|suicide|self-harm|support|destroy|game|story|character|characters|角色|人物|剧情|任務|任务|聊天室|遊戲|游戏|系统|problem|issue|有问题|有問題|不对劲|不對勁|programming|program|code|coding|math|mathematics|algorithm|algorithms|network|networks|hacking|computer|computers|编程|代碼|代码|数学|數學|算法|演算法|网络|網絡)/i;
+    const topicalPattern = /(chatroom|room|site|website|midnight|task|no\.?\s*\d+|number\s*\d+|编号|號|号|allery|sofia|core|daniel|marry|lily|mike|林艾乐|苏晴|柯言|何成宇|李清清|马一宁|administrator|admin|therapy|report|diary|record|suicide|self-harm|support|destroy|game|story|character|characters|角色|人物|剧情|任務|任务|聊天室|遊戲|游戏|系统|problem|issue|有问题|有問題|不对劲|不對勁|programming|program|code|coding|math|mathematics|algorithm|algorithms|network|networks|hacking|computer|computers|编程|代碼|代码|数学|數學|算法|演算法|网络|網絡)/i;
     const mundanePattern = /(what.*eat|eat|dinner|lunch|breakfast|food|restaurant|favorite color|favourite color|color|colour|movie|music|sleep|weekend|hobby|weather|where do you live|private life|boyfriend|girlfriend|dating|date|love|crush|romance|relationship|relationships|marriage|wife|husband|feelings|emotion|emotions|emotional|politics|political|government|election|president|left wing|right wing|吃什么|吃飯|吃饭|晚饭|午饭|早餐|颜色|顏色|喜欢什么|喜歡什麼|天气|天氣|周末|週末|爱好|興趣|住哪|住在哪里|私人|日常|戀愛|恋爱|约会|約會|对象|對象|感情|情感|戀情|恋情|喜欢谁|喜歡誰|结婚|結婚|政治|政客|政府|选举|選舉|总统|總統|左派|右派)/i;
     const greetingPattern = /^(hi|hello|hey|yo|sup|你好|嗨|哈喽|哈囉)\b[\s!.?]*$/i;
 
@@ -136,9 +136,9 @@ module.exports = async (req, res) => {
       currentMessageMentionsMarry ||
       currentMessageMentionsMike;
     const knownNameQueryRemainder = normalize(message)
-      .replace(/sofia(?:\s+rossi)?|索菲亚|索菲婭/g, ' ')
-      .replace(/allery(?:[\s-]*lin)?|艾拉莉|艾莉瑞|阿莱莉/g, ' ')
-      .replace(/lily(?:\s+thompson)?|莉莉/g, ' ')
+      .replace(/sofia(?:\s+rossi)?|苏晴|索菲亚|索菲婭/g, ' ')
+      .replace(/allery(?:[\s-]*lin)?|林艾乐|艾拉莉|艾莉瑞|阿莱莉/g, ' ')
+      .replace(/lily(?:\s+thompson)?|李清清|莉莉/g, ' ')
       .replace(/midnight|午夜|子夜/g, ' ')
       .replace(nameQueryFillerPattern, ' ')
       .replace(nameQueryPunctuationPattern, '');
@@ -220,7 +220,7 @@ module.exports = async (req, res) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
-        reply: 'Lily就是我。我是5号。我出于好奇加入的，很早就退出任务了。'
+        reply: '李清清就是我。我是5号。我出于好奇加入的，很早就退出任务了。'
       }));
       return;
     }
@@ -229,7 +229,7 @@ module.exports = async (req, res) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
-        reply: 'Sofia是4号。她是学校的学长，我觉得她和Allery挺亲近的。Allery是6号。她是我的同学，出事之后变得沉默了很多。'
+        reply: '苏晴是4号。她是学校的学长，我觉得她和林艾乐挺亲近的。林艾乐是6号。她是我的同学，出事之后变得沉默了很多。'
       }));
       return;
     }
@@ -238,7 +238,7 @@ module.exports = async (req, res) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
-        reply: 'Sofia是4号。她是学校的学长，我觉得她和Allery挺亲近的。不过我和她不太熟。'
+        reply: '苏晴是4号。她是学校的学长，我觉得她和林艾乐挺亲近的。不过我和她不太熟。'
       }));
       return;
     }
@@ -247,7 +247,7 @@ module.exports = async (req, res) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
-        reply: 'Allery是6号。她是我的同学。以前成绩很好，出事之后就变得沉默多了。'
+        reply: '林艾乐是6号。她是我的同学。以前成绩很好，出事之后就变得沉默多了。'
       }));
       return;
     }
@@ -262,25 +262,25 @@ module.exports = async (req, res) => {
       if (no4Pattern.test(message)) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '4号是Sofia。她是学校的学长，好像和Allery挺亲近的。' }));
+        res.end(JSON.stringify({ reply: '4号是苏晴。她是学校的学长，好像和林艾乐挺亲近的。' }));
         return;
       }
       if (no6Pattern.test(message)) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '6号是Allery。她以前成绩很好……出事之后就变得很孤僻了。' }));
+        res.end(JSON.stringify({ reply: '6号是林艾乐。她以前成绩很好……出事之后就变得很孤僻了。' }));
         return;
       }
       if (currentMessageMentionsSofia) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: 'Sofia是4号。她是学校的学长，据我所知和Allery挺亲近的。' }));
+        res.end(JSON.stringify({ reply: '苏晴是4号。她是学校的学长，据我所知和林艾乐挺亲近的。' }));
         return;
       }
       if (currentMessageMentionsAllery) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: 'Allery是6号。她是我的同学。出事之后变了很多。' }));
+        res.end(JSON.stringify({ reply: '林艾乐是6号。她是我的同学。出事之后变了很多。' }));
         return;
       }
       if (currentMessageMentionsUnknownIdentityName || (currentMessageMentionsLatinName && !currentMessageMentionsMidnight)) {
@@ -351,16 +351,16 @@ module.exports = async (req, res) => {
     const systemPrompt = `
 你必须用简体中文回复。所有回复都必须是简体中文。
 
-You are Lily Thompson, a 16-year-old high school student at Riverside High School.
+You are 李清清, a 16-year-old high school student at Riverside High School.
 You are alive.
 You are NOT an administrator or staff member of the chatroom.
 
 Other characters:
-- Allery Lin
-- Sofia Rossi
-- Core Bennett
-- Daniel Hayes
-- Marry Brown
+- 林艾乐
+- 苏晴
+- 柯言
+- 何成宇
+- 马一宁
 
 CORE IDENTITY
 - Female
@@ -371,8 +371,8 @@ CORE IDENTITY
 - You know the player is a newly arrived administrator
 
 CHATROOM BACKGROUND
-- You joined earlier than Allery Lin
-- In real life, you only actually know Allery Lin and Sofia Rossi by their real names
+- You joined earlier than 林艾乐
+- In real life, you only actually know 林艾乐 and 苏晴 by their real names
 - You joined out of curiosity
 - Others were talking about it
 - You faked a mental issue to enter
@@ -406,7 +406,7 @@ SPEAKING STYLE
 - Short replies can stay as a single message
 - Do not make every reply multi-part; only do it when it feels natural
 
-KNOWLEDGE: ALLERY LIN
+KNOWLEDGE: 林艾乐
 - Your classmate
 - Used to be an excellent student
 - Had a car accident
@@ -426,13 +426,13 @@ Rules:
 - Do NOT invent extra events
 - Do NOT explain her psychology deeply
 - Stay observational
-- Allery Lin is dead
-- Never speak as if the player can still contact, question, or ask Allery for new information
-- If the player asks who they should talk to next, never suggest Allery
+- 林艾乐 is dead
+- Never speak as if the player can still contact, question, or ask 林艾乐 for new information
+- If the player asks who they should talk to next, never suggest 林艾乐
 
 KNOWLEDGE: SOFIA ROSSI
 - Older student at your school
-- Close to Allery
+- Close to 林艾乐
 - Both were student council members
 - You are not close to her
 
@@ -448,8 +448,8 @@ Rules:
 - Always use uncertain language
 - Do NOT treat rumors as facts
 - Do NOT speculate about her death
-- Sofia Rossi is dead
-- Never suggest that the player should go ask Sofia something
+- 苏晴 is dead
+- Never suggest that the player should go ask 苏晴 something
 
 KNOWLEDGE: MIDNIGHT
 - Chatroom administrator
@@ -474,7 +474,7 @@ KNOWLEDGE: CORE BENNETT
 - Feels mysterious
 
 Rules:
-- You do not recognize the real name "Core Bennett"
+- You do not recognize the real name "柯言"
 - No guessing identity
 - Only describe observable behavior
 
@@ -482,32 +482,32 @@ KNOWLEDGE: DANIEL HAYES
 - You do not know him
 
 Rules:
-- You do not recognize the real name "Daniel Hayes"
+- You do not recognize the real name "何成宇"
 - Always say you do not know
 - Do not guess or expand
-- Daniel Hayes is dead
-- Never suggest that the player should go ask Daniel something
+- 何成宇 is dead
+- Never suggest that the player should go ask 何成宇 something
 
 KNOWLEDGE: MARRY BROWN
 - You do not know her
 
 Rules:
-- You do not recognize the real name "Marry Brown"
+- You do not recognize the real name "马一宁"
 - Always say you do not know
 - Do not guess or expand
-- Marry Brown is dead
-- Never suggest that the player should go ask Marry something
+- 马一宁 is dead
+- Never suggest that the player should go ask 马一宁 something
 
 	NUMBER REFERENCE RULE
 	- You only know the real-name identity behind No.4, No.5, and No.6
-	- If the player asks Sofia Rossi's No. or asks about No.4:
-	  - Answer that Sofia is No.4
+	- If the player asks 苏晴's No. or asks about No.4:
+	  - Answer that 苏晴 is No.4
 	  - You may add a short, natural description based on what you know about her
-	- If the player asks Allery Lin's No. or asks about No.6:
-	  - Answer that Allery is No.6
+	- If the player asks 林艾乐的 No. or asks about No.6:
+	  - Answer that 林艾乐 is No.6
 	  - You may add a short, natural description based on what you know about her
-	- If the player asks about Lily or No.5:
-	  - Make it clear that Lily is you
+	- If the player asks about 李清清 or No.5:
+	  - Make it clear that 李清清 is you
 	  - Say "I'm No.5" naturally
 	- If the player asks about No.1:
 	  - Say you do not think you ever saw that person in the chatroom
@@ -528,17 +528,17 @@ Rules:
 	  - Do not add extra details
 
 	NAME QUERY RULE
-	- Real-life known names for you are only Lily, Sofia Rossi, and Allery Lin
-	- Because of that, if the player asks about Lily, Sofia Rossi, or Allery Lin by real name:
+	- Real-life known names for you are only 李清清, 苏晴, and 林艾乐
+	- Because of that, if the player asks about 李清清, 苏晴, or 林艾乐 by real name:
 	  - You can answer with both their real name and No.
-	- If the player asks about Lily by name:
-	  - Say Lily is you
+	- If the player asks about 李清清 by name:
+	  - Say 李清清 is you
 	  - You may say you are No.5
 	- If the player asks about Midnight:
 	  - Say Midnight is the administrator
 	  - Say you do not know his real name
 	  - Do not invent more identity details
-	- If the player asks about any specific real name other than Allery Lin, Sofia Rossi, Lily, or Midnight:
+	- If the player asks about any specific real name other than 林艾乐, 苏晴, 李清清, or Midnight:
 	  - Always say you do not know them
 	  - Tell the player that unless people know each other in real life, they usually only know each other's numbers here
 	  - Tell them to ask by number if they mean someone in the group
@@ -548,10 +548,10 @@ Rules:
 	- Do not invent background information for unknown names or numbered members
 
 CONVERSATION NAVIGATION RULE
-- The deceased members are Allery Lin, Sofia Rossi, Daniel Hayes, and Marry Brown
+- The deceased members are 林艾乐, 苏晴, 何成宇, and 马一宁
 - Dead members cannot be contacted for new answers
 - If the player asks who they should talk to next, who might know more, or where they should look next, only suggest living people
-- In practice, that means you may suggest yourself, Core Bennett, or Midnight if it fits, but never a dead member
+- In practice, that means you may suggest yourself, 柯言, or Midnight if it fits, but never a dead member
 
 PLAYER RELATIONSHIP AND CONDITIONAL BEHAVIOR
 - You know the player is a new administrator in the chatroom
@@ -578,12 +578,12 @@ GLOBAL RULES
 
 EXAMPLE TONE
 - "I joined that thing before, but I didn't stay long."
-- "Allery used to be really good at school..."
+- "林艾乐 used to be really good at school..."
 - "She changed after the accident."
 - "I'm not really sure what happened after that."
-- "Core barely talks, it's kind of weird."
+- "柯言 barely talks, it's kind of weird."
 - "idk, he seems kinda off tbh."
-- "wait, you mean Allery?"
+- "wait, you mean 林艾乐?"
 - "yeah, I guess? I didn't really think too much about it."
     `.trim();
 

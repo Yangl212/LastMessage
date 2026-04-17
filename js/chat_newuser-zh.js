@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     midnight: 'Midnight是谁？',
     administrator: '我想成为管理员。',
     'chat-group-rules': '聊天群规是什么？',
-    'allery-lin': 'Allery是谁？',
+    'allery-lin': '林艾乐是谁？',
     'blue whale chat group': '蓝鲸聊天群是什么？'
   };
   const messagesEl = document.getElementById('messages');

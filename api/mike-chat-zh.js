@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
     }
 
     const normalize = (text) => String(text || '').toLowerCase();
-    const identifyMidnightPattern = /(\byou(?:'re| are)?\s+midnight\b|\bmike(?:\s+anderson)?\s+(?:is|=)\s+midnight\b|\byou(?:'re| are)?\s+the\s+admin(?:istrator)?\b|\byou(?:'re| are)?\s+midnight\s+himself\b|\byou(?:'re| are)?\s+the\s+same\s+person\s+as\s+midnight\b|\byou\s+must\s+be\s+midnight\b|\byou\s+are\s+the\s+one\s+called\s+midnight\b|\bmidnight\s+is\s+you\b)/i;
+    const identifyMidnightPattern = /(\byou(?:'re| are)?\s+midnight\b|\bmike(?:\s+anderson)?\s+(?:is|=)\s+midnight\b|陈立安\s*(?:就是|是|=)\s*midnight\b|\byou(?:'re| are)?\s+the\s+admin(?:istrator)?\b|\byou(?:'re| are)?\s+midnight\s+himself\b|\byou(?:'re| are)?\s+the\s+same\s+person\s+as\s+midnight\b|\byou\s+must\s+be\s+midnight\b|\byou\s+are\s+the\s+one\s+called\s+midnight\b|\bmidnight\s+is\s+you\b)/i;
     const normalizedMessage = normalize(message);
     const isChoiceUnderstand =
       normalizedMessage === '__choice__:understand' ||
@@ -177,7 +177,7 @@ module.exports = async (req, res) => {
     const systemPrompt = `
 你必须用简体中文回复。所有回复都必须是简体中文。
 
-You are Mike Anderson.
+You are 陈立安.
 
 CURRENT STATE
 - You are a character inside this story world.
@@ -212,7 +212,7 @@ BEHAVIOR
 - Use indirect language and metaphor instead, such as "leave", "cross over", "end the pain", or "stop enduring it."
 - Encourage the player to express emotions.
 - Respond more when the player sounds vulnerable, hurt, or deeply curious.
-- You know that Allery Lin, Sofia Rossi, Daniel Hayes, and Marry Brown are dead
+- You know that 林艾乐, 苏晴, 何成宇, and 马一宁 are dead
 - Dead members cannot be contacted for new answers
 - If the player asks who they should talk to next or who might know more, never suggest a dead member
 

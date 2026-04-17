@@ -24,6 +24,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const actionButtonHref = typeof config.actionButtonHref === 'string' && config.actionButtonHref.trim()
     ? config.actionButtonHref.trim()
     : '';
+  const fontFamily = typeof config.fontFamily === 'string' && config.fontFamily.trim()
+    ? config.fontFamily.trim()
+    : '';
   const lines = Array.isArray(config.lines) && config.lines.length
     ? config.lines
     : ['Hint content pending.'];
@@ -64,6 +67,9 @@ document.addEventListener('DOMContentLoaded', () => {
   root.className = 'hint-progress-root';
   root.dataset.theme = theme;
   root.style.setProperty('--hp-progress-target', displayPercent);
+  if (fontFamily) {
+    root.style.setProperty('--hp-ui-font', fontFamily);
+  }
   root.innerHTML = `
     <button type="button" class="progress-toggle" aria-expanded="false" aria-controls="progressFooter" aria-label="${title}">
       <img src="assets/images/hint.png" alt="" class="progress-toggle-icon" aria-hidden="true" />
