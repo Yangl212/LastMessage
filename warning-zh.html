@@ -26,6 +26,7 @@
       title: 'Bad Ending 1',
       actionButtonLabel: '重新开始',
       actionButtonHref: 'chat-zh.html',
+      autoOpenModal: true,
       autoCloseMs: 5000,
       lines: [
         'Midnight发现你冒充了林艾乐，已封锁你的IP地址。',
@@ -79,5 +80,17 @@
     });
   </script>
   <script src="js/hint-progress.js" defer></script>
+  <script>
+    (() => {
+      try {
+        const key = 'bw_visited';
+        const v = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        v.add('wrong-pm');
+        localStorage.setItem(key, JSON.stringify([...v]));
+      } catch {}
+    })();
+  </script>
+    </div>
+  </div>
 </body>
 </html>

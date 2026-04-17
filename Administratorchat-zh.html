@@ -1703,6 +1703,7 @@
     const privateChatContacts = new Set();
     const terminatedCharacterChats = new Set();
     const replayState = new URLSearchParams(window.location.search).get('replay');
+    const ROUTE_VISITED_KEY = 'bw_visited';
     let activePrivateChatMember = '';
     let privateChatDragState = null;
     let lilyFirstMessageSent = false;
@@ -1721,6 +1722,15 @@
       '李清清': '5',
       '马一宁': '2'
     };
+
+    try {
+      const replayVisited = new Set(JSON.parse(window.localStorage.getItem(ROUTE_VISITED_KEY) || '[]'));
+      replayVisited.add('admin');
+      replayVisited.add('explore');
+      window.localStorage.setItem(ROUTE_VISITED_KEY, JSON.stringify([...replayVisited]));
+    } catch (_error) {
+      // Ignore storage failures for replay route tracking.
+    }
     const DEFAULT_WARNING_TEXT = '该用户已故，无法联系。';
     const TASK30_WARNING_TEXT = '该成员尚未完成第30个任务。';
     const alleryDiaryEntries = {
@@ -3520,16 +3530,6 @@
       });
     }
 
-    function unlockAllReplayMemberPanels() {
-      memberLinks.forEach((link) => {
-        const panelId = link.dataset.panel;
-        if (panelId) {
-          unlockedMemberPanels.add(panelId);
-        }
-      });
-      refreshMemberLockIcons();
-    }
-
     memberLinks.forEach((link) => {
       link.addEventListener('click', (event) => {
         event.preventDefault();
@@ -3570,9 +3570,6 @@
     if (replayState === 'mike-choice') {
       unlockedMemberPanels.add('mike-primary');
     }
-    if (replayState === 'explore-allunlock') {
-      unlockAllReplayMemberPanels();
-    }
 
     if (activeLink) {
       const initialName = activeLink.dataset.member || '陈立安';
@@ -3591,8 +3588,6 @@
         openReplayMikeChoiceState();
         window.history.replaceState({}, '', window.location.pathname);
       }, 0);
-    } else if (replayState === 'explore-allunlock') {
-      window.history.replaceState({}, '', window.location.pathname);
     }
 
     alleryChatTrigger?.addEventListener('click', (event) => {
@@ -4546,5 +4541,7 @@
     };
   </script>
   <script src="js/hint-progress.js" defer></script>
+    </div>
+  </div>
 </body>
 </html>

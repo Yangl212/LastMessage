@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const actionButtonHref = typeof config.actionButtonHref === 'string' && config.actionButtonHref.trim()
     ? config.actionButtonHref.trim()
     : '';
+  const autoOpenModal = config.autoOpenModal === true;
   const fontFamily = typeof config.fontFamily === 'string' && config.fontFamily.trim()
     ? config.fontFamily.trim()
     : '';
@@ -287,6 +288,12 @@ document.addEventListener('DOMContentLoaded', () => {
   setFillWidth(currentPercent, false);
   persistPercent();
   renderHintLines(currentLines);
+
+  if (autoOpenModal && hintModal) {
+    requestAnimationFrame(() => {
+      hintModal.hidden = false;
+    });
+  }
 
   window.HintProgress = {
     getPercent: () => currentPercent,

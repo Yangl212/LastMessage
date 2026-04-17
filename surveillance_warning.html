@@ -8,12 +8,6 @@
   <link rel="stylesheet" href="css/warning.css" />
   <style>
     .warning-panel{
-      opacity:0;
-      transform:scale(.97);
-      transition:opacity .28s ease, transform .28s ease;
-    }
-
-    body.notice-visible .warning-panel{
       opacity:1;
       transform:scale(1);
     }
@@ -26,11 +20,6 @@
     </div>
   </main>
   <script>
-    window.setTimeout(() => {
-      document.body.classList.add('notice-visible');
-    }, 2000);
-  </script>
-  <script>
     window.HintProgressConfig = {
       theme: 'dark',
       percent: 0,
@@ -40,6 +29,7 @@
       autoCloseMs: 5000,
       valueLabel: 'ERROR',
       showProgressFill: false,
+      autoOpenModal: true,
       lines: [
         'Midnight discovered that you had impersonated Allery Lin and blocked your IP address.',
         'Perhaps approaching him as a new user would have been a better way to get closer.'

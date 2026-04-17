@@ -8,12 +8,6 @@
   <link rel="stylesheet" href="css/warning.css" />
   <style>
     .warning-panel{
-      opacity:0;
-      transform:scale(.97);
-      transition:opacity .28s ease, transform .28s ease;
-    }
-
-    body.notice-visible .warning-panel{
       opacity:1;
       transform:scale(1);
     }
@@ -26,11 +20,6 @@
     </div>
   </main>
   <script>
-    window.setTimeout(() => {
-      document.body.classList.add('notice-visible');
-    }, 2000);
-  </script>
-  <script>
     window.HintProgressConfig = {
       theme: 'dark',
       percent: 0,
@@ -41,6 +30,7 @@
       autoCloseMs: 5000,
       valueLabel: '错误',
       showProgressFill: false,
+      autoOpenModal: true,
       lines: [
         'Midnight发现你冒充了林艾乐，已封锁你的IP地址。',
         '也许以新用户身份接近他会是更好的方式。'
@@ -95,5 +85,17 @@
     });
   </script>
   <script src="js/hint-progress.js" defer></script>
+  <script>
+    (() => {
+      try {
+        const key = 'bw_visited';
+        const v = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        v.add('curiosity');
+        localStorage.setItem(key, JSON.stringify([...v]));
+      } catch {}
+    })();
+  </script>
+    </div>
+  </div>
 </body>
 </html>

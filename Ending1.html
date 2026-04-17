@@ -412,7 +412,7 @@
           </div>
         </div>
         <div class="ending-actions">
-          <button class="ending-action-btn" type="button">Replay</button>
+          <button class="ending-action-btn" type="button" id="replayBtn">Replay</button>
           <button class="ending-action-btn" type="button">Feedback</button>
         </div>
       </section>
@@ -452,6 +452,144 @@
       window.addEventListener('pointerdown', unlockPlayback, { once: true });
       window.addEventListener('keydown', unlockPlayback, { once: true });
       window.addEventListener('touchstart', unlockPlayback, { once: true });
+    })();
+  </script>
+
+  <style id="route-modal-css">
+    #routeModal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.88);align-items:center;justify-content:center;}
+    #routeModal.open{display:flex;}
+    .rm-box{width:min(94vw,860px);background:#111;border:4px solid #fff;display:flex;flex-direction:column;max-height:80vh;}
+    .rm-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px 12px;border-bottom:3px solid #fff;flex-shrink:0;}
+    .rm-title{color:#fff;font-family:"Zpix",monospace;font-size:15px;letter-spacing:.06em;}
+    .rm-close{background:none;border:2px solid #fff;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;flex-shrink:0;}
+    .rm-close img{filter:brightness(0) invert(1);}
+    .rm-scroll{overflow-x:auto;overflow-y:hidden;flex:1;padding:22px 24px 20px;}
+    .rm-canvas{position:relative;width:1430px;height:360px;flex-shrink:0;}
+    .rm-node{position:absolute;width:116px;height:48px;display:flex;align-items:center;justify-content:center;font-family:"Zpix",monospace;font-size:13px;text-align:center;box-sizing:border-box;user-select:none;padding:0 6px;line-height:1.3;}
+    .rm-node-locked{background:#888;border:3px solid #666;color:#444;font-size:22px;font-family:"PixelOperator8",monospace;}
+    .rm-node-unvisited{background:#333;border:3px solid #444;color:#666;}
+    .rm-node-connector{background:#fff;border:3px solid #fff;color:#111;}
+    .rm-node-normal{background:#fff;border:3px solid #fff;color:#111;}
+    .rm-node-bad{background:#7a1818;border:3px solid #7a1818;color:#fff;}
+    .rm-node-clickable{cursor:pointer;transition:transform .18s ease,box-shadow .18s ease;}
+    .rm-node-clickable:hover{transform:translateY(-5px) scale(1.07);box-shadow:0 8px 22px rgba(255,255,255,.18);z-index:10;}
+    .rm-node-current{outline:3px solid #f5c518;outline-offset:3px;}
+  </style>
+  <!-- Route Modal -->
+  <div id="routeModal" role="dialog" aria-modal="true" aria-label="Story Map">
+    <div class="rm-box">
+      <div class="rm-header">
+        <span class="rm-title">Story Map</span>
+        <button class="rm-close" id="rmClose" aria-label="Close"><img src="assets/images/exit.png" alt="Close" style="width:20px;height:20px;display:block;image-rendering:pixelated;"></button>
+      </div>
+      <div class="rm-scroll">
+        <div class="rm-canvas" id="rmCanvas">
+          <svg id="rmSvg" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;"></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const STORAGE_KEY = 'bw_visited';
+      const THIS_NODE = 'ending1';
+      const PATH_TO_HERE = ['intro', 'newuser', 'get-account', 'admin', 'choice'];
+
+      function getVisited() {
+        try { return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')); }
+        catch { return new Set(); }
+      }
+      function markVisited(ids) {
+        const v = getVisited();
+        ids.forEach(id => v.add(id));
+        localStorage.setItem(STORAGE_KEY, JSON.stringify([...v]));
+      }
+      if (THIS_NODE) markVisited([THIS_NODE, ...PATH_TO_HERE]);
+
+      const NW = 116, NH = 48;
+      const NODES = [
+        { id: 'intro',         label: 'Mystery Call',  href: 'introduction.html',        x:   20, y: 146, type: 'normal' },
+        { id: 'newuser',       label: 'Enter Chat',    href: 'chat.html',                 x:  270, y: 146, type: 'normal' },
+        { id: 'wrong-pm',      label: 'Wrong DM',      href: 'warning.html',              x:  520, y:  46, type: 'bad' },
+        { id: 'get-account',   label: 'New Account',   href: 'Administratorchat.html',    x:  520, y: 146, type: 'normal' },
+        { id: 'curiosity',     label: 'Curiosity',     href: 'surveillance_warning.html', x:  520, y: 246, type: 'bad' },
+        { id: 'unknown',       label: '?',             href: null,                        x:  770, y:  46, type: 'locked' },
+        { id: 'admin',         label: 'Admin Access',  href: 'login.html',                x:  770, y: 146, type: 'normal' },
+        { id: 'expel',         label: 'Expelled',      href: 'Ending2.html',              x:  770, y: 246, type: 'bad' },
+        { id: 'choice',        label: 'My Choice',     href: 'Administratorchat.html?replay=mike-choice', x: 1020, y: 100, type: 'normal' },
+        { id: 'explore',       label: 'Explore',       href: 'Administratorchat.html',    x: 1020, y: 256, type: 'normal' },
+        { id: 'ending1',       label: 'Inheritor',     href: 'Ending1.html',              x: 1270, y:  30, type: 'normal' },
+        { id: 'evidence-bad',  label: 'Thin Evidence', href: 'EvidenceBadEnding.html',    x: 1270, y: 110, type: 'bad' },
+        { id: 'evidence-good', label: 'Make Arrest',   href: 'EvidenceGoodEnding.html',   x: 1270, y: 190, type: 'normal' },
+        { id: 'ending3',       label: 'Destroy Site',  href: 'Ending3.html',              x: 1270, y: 270, type: 'normal' },
+      ];
+      const EDGES = [
+        ['intro','newuser'],
+        ['newuser','wrong-pm'],['newuser','get-account'],['newuser','curiosity'],
+        ['get-account','unknown'],['get-account','admin'],['get-account','expel'],
+        ['admin','choice'],['admin','explore'],
+        ['choice','ending1'],['choice','evidence-bad'],['choice','evidence-good'],
+        ['explore','ending3'],
+      ];
+
+      function buildRouteModal() {
+        const visited = getVisited();
+        const canvas = document.getElementById('rmCanvas');
+        const svg = document.getElementById('rmSvg');
+        if (!canvas || !svg) return;
+        svg.innerHTML = '';
+        canvas.querySelectorAll('.rm-node').forEach(el => el.remove());
+        const nodeMap = {};
+        NODES.forEach(n => { nodeMap[n.id] = n; });
+        NODES.forEach(node => {
+          const isLocked    = node.type === 'locked';
+          const isConnector = node.type === 'connector';
+          const isBad       = node.type === 'bad';
+          const isVisited   = visited.has(node.id);
+          const isCurrent   = node.id === THIS_NODE;
+          const isClickable = !isLocked && !isConnector && isVisited && !!node.href;
+          const el = document.createElement('div');
+          el.className = 'rm-node';
+          el.style.left = node.x + 'px';
+          el.style.top  = node.y + 'px';
+          if (isLocked) {
+            el.classList.add('rm-node-locked'); el.textContent = '?';
+          } else if (!isVisited) {
+            el.classList.add('rm-node-unvisited'); el.textContent = '?';
+          } else if (isConnector) {
+            el.classList.add('rm-node-connector'); el.textContent = node.label;
+          } else if (isBad) {
+            el.classList.add('rm-node-bad'); el.textContent = node.label;
+          } else {
+            el.classList.add('rm-node-normal'); el.textContent = node.label;
+          }
+          if (isClickable) {
+            el.classList.add('rm-node-clickable');
+            el.addEventListener('click', () => { window.location.href = node.href; });
+          }
+          if (isCurrent) el.classList.add('rm-node-current');
+          canvas.appendChild(el);
+        });
+        EDGES.forEach(([srcId, dstId]) => {
+          const src = nodeMap[srcId], dst = nodeMap[dstId];
+          if (!src || !dst) return;
+          const x1 = src.x + NW, y1 = src.y + NH/2, x2 = dst.x, y2 = dst.y + NH/2;
+          const midX = Math.round((x1 + x2) / 2);
+          const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+          path.setAttribute('d', `M ${x1},${y1} H ${midX} V ${y2} H ${x2}`);
+          path.setAttribute('stroke', '#555'); path.setAttribute('stroke-width', '2'); path.setAttribute('fill', 'none');
+          svg.appendChild(path);
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const modal    = document.getElementById('routeModal');
+        const closeBtn = document.getElementById('rmClose');
+        const trigger  = document.getElementById('replayBtn');
+        trigger?.addEventListener('click', () => { buildRouteModal(); modal.classList.add('open'); });
+        closeBtn?.addEventListener('click', () => modal.classList.remove('open'));
+        modal?.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+      });
     })();
   </script>
 </body>
