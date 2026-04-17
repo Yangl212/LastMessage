@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     '30-tasks': '30个任务是什么？',
     midnight: 'Midnight是谁？',
     administrator: '管理员是什么？',
-    'chat-group-rules': '聊天群规是什么？',
+    'chat-group-rules': '聊天群规则是什么？',
     'allery-lin': '林艾乐是谁？',
     'blue-whale-chat-group': '蓝鲸聊天群是什么？'
   };
@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const keywordResponses = {
     '聊天群规则': '这里的规则不多。\n\n尽量不要分享太多个人信息……比如你的真实姓名。\n\n让我们保持与这个空间相关的对话。\n如果话题偏离太远，我可能不会一直回应。\n\n至于我，我会在合适的时机安排一对一交流。\n\n到时候，请诚实地回答。慢慢来，尽量详细，试着信任我。',
+    群规: '这里的规则不多。\n\n尽量不要分享太多个人信息……比如你的真实姓名。\n\n让我们保持与这个空间相关的对话。\n如果话题偏离太远，我可能不会一直回应。\n\n至于我，我会在合适的时机安排一对一交流。\n\n到时候，请诚实地回答。慢慢来，尽量详细，试着信任我。',
     规则: '这里的规则不多。\n\n尽量不要分享太多个人信息……比如你的真实姓名。\n\n让我们保持与这个空间相关的对话。\n如果话题偏离太远，我可能不会一直回应。\n\n至于我，我会在合适的时机安排一对一交流。\n\n到时候，请诚实地回答。慢慢来，尽量详细，试着信任我。',
     '聊天群须知': '这里的规则不多。\n\n尽量不要分享太多个人信息……比如你的真实姓名。\n\n让我们保持与这个空间相关的对话。\n如果话题偏离太远，我可能不会一直回应。\n\n至于我，我会在合适的时机安排一对一交流。\n\n到时候，请诚实地回答。慢慢来，尽量详细，试着信任我。',
     蓝鲸聊天室: '蓝鲸聊天群是一个由专业心理顾问创立的线上"青少年咨询平台"。\n在这里，你所有的烦恼都会被倾听，每一个秘密都会被温柔守护，你的任何感受都不会被评判。\n我们理解你经历的一切，会陪伴你度过那些无人注意的漫漫长夜。\n你所需要做的，只是信任我们——让我们引导你走向更轻盈的内心。',
@@ -337,6 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function getProgressKeywordGroup(keyword){
     const keywordGroupMap = {
       聊天群规则: 'chat-group-rules',
+      群规: 'chat-group-rules',
       规则: 'chat-group-rules',
       聊天群须知: 'chat-group-rules',
       蓝鲸聊天室: 'blue-whale-chat-group',
