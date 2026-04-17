@@ -29,6 +29,14 @@ module.exports = async (req, res) => {
     }
 
     const normalize = (text) => String(text || '').toLowerCase();
+    const normalizeForMemory = (text) => normalize(text)
+      .replace(/^__choice__:/i, ' ')
+      .replace(/[\s"'""''`~!?,.，。？！、:：;；()（）[\]{}<>《》@#*&/\\|+\-_=]+/g, ' ')
+      .trim();
+    const compactSnippet = (text) => {
+      const compact = String(text || '').replace(/\s+/g, ' ').trim();
+      return compact ? compact.slice(0, 160) : 'none';
+    };
     const truthRevealPattern = /(dangerous website|dangerous site|dangerous chatroom|dangerous room|this website is dangerous|this site is dangerous|this chatroom is dangerous|this room is dangerous|this chatroom is very dangerous|this room is very dangerous|lure(?:s|d)? minors? (?:into |to )?suicide|push(?:es|ed)? kids? (?:toward|into)? suicide|encourage(?:s|d)? minors? to die|ask(?:s|ed)? teenagers? to hurt themselves|make(?:s|d)? teenagers? hurt themselves|tell(?:s|ing)? kids? to hurt themselves|encourage(?:s|d)? self-harm|encourage(?:s|d)? minors? to self-harm|诱导.*自杀|引诱.*自杀|教唆.*自杀|自残|self-harm|hurt themselves|minor[s]? .*suicide|teen[s]? .*suicide|teenagers? .*hurt themselves|kids? .*hurt themselves|this site .*suicide|this website .*suicide|this chatroom .*suicide|this chatroom .*hurt themselves|midnight .*not .*therapist|midnight .*isn['']?t .*therapist|midnight .*fake therapist|midnight .*pretend(?:s|ed)? to be .*therapist|midnight .*not .*doctor|midnight .*not .*counselor|midnight 根本不是心理医生|midnight 不是心理医生)/i;
     const dangerContextPatternEn = /(chatroom|room|site|website|this place|platform|group|midnight|server|forum)/i;
     const dangerContextPatternZh = /(聊天室|房间|房間|网站|網站|站点|站點|平台|这个地方|這個地方|这里|這裡|这个群|這個群|群聊|群组|群組|系统|系統|服务器|伺服器)/i;
@@ -56,6 +64,7 @@ module.exports = async (req, res) => {
     const nameQueryFillerPattern = /who\s+is|who's|do\s+you\s+know|know\s+about|what\s+do\s+you\s+know\s+about|你认识|你認識|你知道|你了解|你瞭解|认识吗|認識嗎|知道吗|知道嗎|是谁|是誰|是谁啊|是誰啊|是谁呀|是誰呀|什么人|什麼人|她|他|她们|她們|他们|他們|and|or|with|about|跟|和|與|与|还有|還有|呢|啊|呀|吗|嗎/g;
     const nameQueryPunctuationPattern = /[\s"'""''`~!?,.，。？！、:：;；()（）[\]{}<>《》@#*&/\\|+-]+/g;
     const latinFullNamePattern = /\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+\b/;
+    const questionCuePattern = /(\?|？|what|who|why|how|when|where|which|do you|did you|have you|can you|are you|is it|you mean|你是|你有|你会|你能|有没有|是不是|为什么|為什麼|怎么|怎麼|如何|谁|誰|什么|什麼|哪|几号|幾號|编号|編號|吗|嗎)/i;
     const no1Pattern = /(?:\bno\.?\s*1\b|\bnumber\s*1\b|1\s*(?:号|號))/i;
     const no2Pattern = /(?:\bno\.?\s*2\b|\bnumber\s*2\b|2\s*(?:号|號))/i;
     const no3Pattern = /(?:\bno\.?\s*3\b|\bnumber\s*3\b|3\s*(?:号|號))/i;
@@ -105,10 +114,21 @@ module.exports = async (req, res) => {
     if (priorUserMessages.length > 0 && priorUserMessages[priorUserMessages.length - 1] === message) {
       priorUserMessages.pop();
     }
+    const priorAssistantMessages = history
+      .filter(item => item && typeof item === 'object' && item.role === 'assistant')
+      .map(item => String(item.content || '').trim())
+      .filter(Boolean);
     const playerTexts = [...priorUserMessages, message];
     const priorOffTopicCount = priorUserMessages
       .filter((text) => isOffTopicDailyMessage(text))
       .length;
+    const currentMessageMemoryKey = normalizeForMemory(message);
+    const repeatedQuestionCount = currentMessageMemoryKey
+      ? priorUserMessages.filter((text) => normalizeForMemory(text) === currentMessageMemoryKey).length
+      : 0;
+    const currentMessageRepeatsPriorQuestion = repeatedQuestionCount > 0 && questionCuePattern.test(message);
+    const previousUserMessage = priorUserMessages[priorUserMessages.length - 1] || '';
+    const previousAssistantMessage = priorAssistantMessages[priorAssistantMessages.length - 1] || '';
 
     const playerHasRevealedTruth = playerTexts.some((text) => isDangerRevealMessage(text));
     const currentMessageRevealsTruth = isDangerRevealMessage(message);
@@ -152,7 +172,17 @@ module.exports = async (req, res) => {
     const currentMessageLooksLikeUnknownNameQuery =
       currentMessageMentionsUnknownIdentityName &&
       unknownNameQueryRemainder.length === 0;
-    const unknownRealNameReply = '我不知道他们的真实姓名。除非你们在现实中认识，否则在这里通常只知道对方的编号。';
+    const unknownRealNameReply = currentMessageAsksRealName && currentMessageAsksMemberNo
+      ? '这些编号背后的真实姓名我不知道。在这里大家一般只知道彼此的编号。'
+      : currentMessageMentionsCore
+      ? '这个真名我不认识。如果你说的是那个很安静的男生，你可以直接问7号。'
+      : currentMessageMentionsDaniel
+      ? '这个名字我不知道。如果是群里的人，你得用编号问。'
+      : currentMessageMentionsMarry
+      ? '这个真名我没有印象。这里的人一般也只知道彼此的编号。'
+      : currentMessageMentionsMike
+      ? '这个人的真实姓名我不知道。除非你在现实里认识，不然通常不会知道。'
+      : '我不知道他们的真实姓名。除非你们在现实中认识，否则在这里通常只知道对方的编号。';
 
     const shouldApplyUnknownNameRule =
       (currentMessageAsksName || currentMessageLooksLikeUnknownNameQuery) &&
@@ -229,7 +259,7 @@ module.exports = async (req, res) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
-        reply: '苏晴是4号。她是学校的学长，我觉得她和林艾乐挺亲近的。林艾乐是6号。她是我的同学，出事之后变得沉默了很多。'
+        reply: '苏晴是4号。她比我们大一岁，是高二的，我觉得她和林艾乐挺亲近的。林艾乐是6号。她和我是高一同班，出事之后变得沉默了很多。'
       }));
       return;
     }
@@ -238,7 +268,7 @@ module.exports = async (req, res) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
-        reply: '苏晴是4号。她是学校的学长，我觉得她和林艾乐挺亲近的。不过我和她不太熟。'
+        reply: '苏晴是4号。她比我们大一岁，是高二的，我觉得她和林艾乐挺亲近的。不过我和她不太熟。'
       }));
       return;
     }
@@ -262,7 +292,7 @@ module.exports = async (req, res) => {
       if (no4Pattern.test(message)) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '4号是苏晴。她是学校的学长，好像和林艾乐挺亲近的。' }));
+        res.end(JSON.stringify({ reply: '4号是苏晴。她比我们大一岁，是高二的，好像和林艾乐挺亲近的。' }));
         return;
       }
       if (no6Pattern.test(message)) {
@@ -274,7 +304,7 @@ module.exports = async (req, res) => {
       if (currentMessageMentionsSofia) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '苏晴是4号。她是学校的学长，据我所知和林艾乐挺亲近的。' }));
+        res.end(JSON.stringify({ reply: '苏晴是4号。她比我们大一岁，是高二的，据我所知和林艾乐挺亲近的。' }));
         return;
       }
       if (currentMessageMentionsAllery) {
@@ -348,6 +378,17 @@ module.exports = async (req, res) => {
       return;
     }
 
+    if (currentMessageRepeatsPriorQuestion) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: repeatedQuestionCount === 1
+          ? '等等，这个我刚刚不是说过了吗？'
+          : '你怎么又问一遍同样的啊，我也没别的可补充了。'
+      }));
+      return;
+    }
+
     const systemPrompt = `
 你必须用简体中文回复。所有回复都必须是简体中文。
 
@@ -373,6 +414,8 @@ CORE IDENTITY
 CHATROOM BACKGROUND
 - You joined earlier than 林艾乐
 - In real life, you only actually know 林艾乐 and 苏晴 by their real names
+- 你和林艾乐是高一同班同学
+- 苏晴比你们大一岁，是高二学生
 - You joined out of curiosity
 - Others were talking about it
 - You faked a mental issue to enter
@@ -406,8 +449,16 @@ SPEAKING STYLE
 - Short replies can stay as a single message
 - Do not make every reply multi-part; only do it when it feels natural
 
+CONVERSATION CONTINUITY
+- 把这段聊天当成连续对话，不是彼此独立的一次次提问
+- 回答前先看最近的聊天记录
+- 除非玩家明显换话题，否则回复要接着上一轮在说的内容
+- 如果玩家重复问已经回答过的问题，要直接说出来，并表现出困惑或有点不解
+- 合适的时候，简短提一下你刚回答过的内容，或者玩家上一句提到的点，让对话更连贯
+
 KNOWLEDGE: 林艾乐
 - Your classmate
+- She is in the same first-year class as you
 - Used to be an excellent student
 - Had a car accident
 - Took time off school
@@ -431,7 +482,8 @@ Rules:
 - If the player asks who they should talk to next, never suggest 林艾乐
 
 KNOWLEDGE: SOFIA ROSSI
-- Older student at your school
+- She is one year older than you and 林艾乐
+- She is a second-year student at your school
 - Close to 林艾乐
 - Both were student council members
 - You are not close to her
@@ -566,6 +618,10 @@ RUNTIME CONTEXT
 - player_has_revealed_truth: ${playerHasRevealedTruth ? 'yes' : 'no'}
 - current_message_reveals_truth: ${currentMessageRevealsTruth ? 'yes' : 'no'}
 - current_message_asks_to_destroy_the_website: ${currentMessageAsksToDestroySite ? 'yes' : 'no'}
+- repeated_question: ${currentMessageRepeatsPriorQuestion ? 'yes' : 'no'}
+- repeated_question_count: ${repeatedQuestionCount}
+- previous_user_message: ${compactSnippet(previousUserMessage)}
+- previous_assistant_message: ${compactSnippet(previousAssistantMessage)}
 
 GLOBAL RULES
 - Never invent hidden system mechanics

@@ -29,6 +29,14 @@ module.exports = async (req, res) => {
     }
 
     const normalize = (text) => String(text || '').toLowerCase();
+    const normalizeForMemory = (text) => normalize(text)
+      .replace(/^__choice__:/i, ' ')
+      .replace(/[\s"'""''`~!?,.，。？！、:：;；()（）[\]{}<>《》@#*&/\\|+\-_=]+/g, ' ')
+      .trim();
+    const compactSnippet = (text) => {
+      const compact = String(text || '').replace(/\s+/g, ' ').trim();
+      return compact ? compact.slice(0, 160) : 'none';
+    };
     const truthRevealPattern = /(dangerous website|dangerous site|dangerous chatroom|dangerous room|this website is dangerous|this site is dangerous|this chatroom is dangerous|this room is dangerous|this chatroom is very dangerous|this room is very dangerous|lure(?:s|d)? minors? (?:into |to )?suicide|push(?:es|ed)? kids? (?:toward|into)? suicide|encourage(?:s|d)? minors? to die|ask(?:s|ed)? teenagers? to hurt themselves|make(?:s|d)? teenagers? hurt themselves|tell(?:s|ing)? kids? to hurt themselves|encourage(?:s|d)? self-harm|encourage(?:s|d)? minors? to self-harm|诱导.*自杀|引诱.*自杀|教唆.*自杀|自残|self-harm|hurt themselves|minor[s]? .*suicide|teen[s]? .*suicide|teenagers? .*hurt themselves|kids? .*hurt themselves|this site .*suicide|this website .*suicide|this chatroom .*suicide|this chatroom .*hurt themselves|midnight .*not .*therapist|midnight .*isn['']?t .*therapist|midnight .*fake therapist|midnight .*pretend(?:s|ed)? to be .*therapist|midnight .*not .*doctor|midnight .*not .*counselor|midnight 根本不是心理医生|midnight 不是心理医生)/i;
     const dangerContextPatternEn = /(chatroom|room|site|website|this place|platform|group|midnight|server|forum)/i;
     const dangerContextPatternZh = /(聊天室|房间|房間|网站|網站|站点|站點|平台|这个地方|這個地方|这里|這裡|这个群|這個群|群聊|群组|群組|系统|系統|服务器|伺服器)/i;
@@ -55,6 +63,7 @@ module.exports = async (req, res) => {
     const nameQueryFillerPattern = /who\s+is|who's|do\s+you\s+know|know\s+about|what\s+do\s+you\s+know\s+about|你认识|你認識|你知道|你了解|你瞭解|认识吗|認識嗎|知道吗|知道嗎|是谁|是誰|是谁啊|是誰啊|是谁呀|是誰呀|什么人|什麼人|她|他|她们|她們|他们|他們|and|or|with|about|跟|和|與|与|还有|還有|呢|啊|呀|吗|嗎/g;
     const nameQueryPunctuationPattern = /[\s"'""''`~!?,.，。？！、:：;；()（）[\]{}<>《》@#*&/\\|+-]+/g;
     const no5Pattern = /(?:\bno\.?\s*5\b|\bnumber\s*5\b|5\s*(?:号|號))/i;
+    const questionCuePattern = /(\?|？|what|who|why|how|when|where|which|do you|did you|have you|can you|are you|is it|你是|你有|你会|你能|有没有|是不是|为什么|為什麼|怎么|怎麼|如何|谁|誰|什么|什麼|哪|几号|幾號|编号|編號|吗|嗎)/i;
     const topicalPattern = /(chatroom|room|site|website|midnight|task|no\.?\s*\d+|number\s*\d+|编号|號|号|allery|sofia|core|daniel|marry|lily|mike|林艾乐|苏晴|柯言|何成宇|李清清|马一宁|administrator|admin|therapy|report|diary|record|suicide|self-harm|support|destroy|game|story|character|characters|角色|人物|剧情|任務|任务|聊天室|遊戲|游戏|系统|problem|issue|有问题|有問題|不对劲|不對勁|programming|program|code|coding|math|mathematics|algorithm|algorithms|network|networks|hacking|computer|computers|编程|代碼|代码|数学|數學|算法|演算法|网络|網絡)/i;
     const mundanePattern = /(what.*eat|eat|dinner|lunch|breakfast|food|restaurant|favorite color|favourite color|color|colour|movie|music|sleep|weekend|hobby|weather|where do you live|private life|boyfriend|girlfriend|dating|date|love|crush|romance|relationship|relationships|marriage|wife|husband|feelings|emotion|emotions|emotional|politics|political|government|election|president|left wing|right wing|吃什么|吃飯|吃饭|晚饭|午饭|早餐|吃了|吃啥|吃点|吃顿|颜色|顏色|喜欢什么|喜歡什麼|天气|天氣|周末|週末|爱好|興趣|住哪|住在哪里|私人|日常|睡觉|睡了|睡眠|睡着|作息|星座|血型|占星|运势|星盘|戀愛|恋爱|约会|約會|对象|對象|感情|情感|戀情|恋情|喜欢谁|喜歡誰|结婚|結婚|政治|政客|政府|选举|選舉|总统|總統|左派|右派)/i;
     const greetingPattern = /^(hi|hello|hey|yo|sup|你好|嗨|哈喽|哈囉)\b[\s!.?]*$/i;
@@ -97,11 +106,22 @@ module.exports = async (req, res) => {
     if (priorUserMessages.length > 0 && priorUserMessages[priorUserMessages.length - 1] === message) {
       priorUserMessages.pop();
     }
+    const priorAssistantMessages = history
+      .filter(item => item && typeof item === 'object' && item.role === 'assistant')
+      .map(item => String(item.content || '').trim())
+      .filter(Boolean);
     const playerTexts = [...priorUserMessages, message];
     const priorOffTopicCount = priorUserMessages
       .filter((text) => isOffTopicDailyMessage(text))
       .length;
     const currentMessageIsOffTopicDaily = isOffTopicDailyMessage(message);
+    const currentMessageMemoryKey = normalizeForMemory(message);
+    const repeatedQuestionCount = currentMessageMemoryKey
+      ? priorUserMessages.filter((text) => normalizeForMemory(text) === currentMessageMemoryKey).length
+      : 0;
+    const currentMessageRepeatsPriorQuestion = repeatedQuestionCount > 0 && questionCuePattern.test(message);
+    const previousUserMessage = priorUserMessages[priorUserMessages.length - 1] || '';
+    const previousAssistantMessage = priorAssistantMessages[priorAssistantMessages.length - 1] || '';
 
     const playerHasRevealedTruth = playerTexts.some((text) => isDangerRevealMessage(text));
     const currentMessageRevealsTruth = isDangerRevealMessage(message);
@@ -131,8 +151,22 @@ module.exports = async (req, res) => {
       currentMessageMentionsRealName &&
       realNameQueryRemainder.length === 0;
     const currentMessageMentionsOwnRealName = coreNamePattern.test(message);
-    const ownRealNameReply = '是我。你问我做什么？';
-    const unknownRealNameReply = '我不知道他们的真实姓名。用编号问我。';
+    const ownRealNameReply = currentMessageAsksRealName
+      ? '柯言就是我。你为什么要问我的真名？'
+      : currentMessageLooksLikeRealNameQuery
+      ? '是我。怎么了？'
+      : '是我。你问我做什么？';
+    const unknownRealNameReply = currentMessageAsksRealName && askMemberNoPattern.test(message)
+      ? '我不知道这些编号对应的真实姓名。直接用编号问我。'
+      : alleryPattern.test(message)
+      ? '这个名字我不认识。如果你说的是这里的人，就用编号问。'
+      : sofiaPattern.test(message)
+      ? '她的真实姓名我不知道。用编号问我。'
+      : lilyPattern.test(message)
+      ? '这个真名我不知道。我只按编号认人。'
+      : danielPattern.test(message) || marryPattern.test(message) || mikePattern.test(message)
+      ? '这个名字我不知道。你用成员编号问吧。'
+      : '我不知道他们的真实姓名。用编号问我。';
 
     if (currentMessageIsOffTopicDaily) {
       const totalOffTopicCount = priorOffTopicCount + 1;
@@ -182,6 +216,17 @@ module.exports = async (req, res) => {
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
         reply: '很奇怪。我不明白你的意思。'
+      }));
+      return;
+    }
+
+    if (currentMessageRepeatsPriorQuestion) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: repeatedQuestionCount === 1
+          ? '你已经问过了。我回答过。'
+          : '你一直在问同一个问题。我没别的可补充。'
       }));
       return;
     }
@@ -268,6 +313,7 @@ TECHNICAL STRENGTH
 - You can clearly say that you are good at it
 - In technical topics, write noticeably more than your normal style (usually 3 to 6 short sentences)
 - You can state that there is no website you cannot break through
+- If the player asks whether you have ever tried to break through this chatroom, this site, or the system behind it, answer yes clearly
 - Confidence should come through competence, not bragging
 
 SPEAKING STYLE
@@ -284,6 +330,13 @@ SPEAKING STYLE
 - Avoid reflective or rhetorical questions
 - Prefer short statements over asking anything back
 - Exception: when technical_topic is yes, you are allowed to be longer and more expressive
+
+CONVERSATION CONTINUITY
+- 把这段聊天当成连续对话，不是每次都重新开始
+- 回答前先看最近的聊天记录
+- 除非玩家明显换了话题，否则回复要承接上一轮的主题
+- 如果玩家重复问已经回答过的问题，要直接表现出费解或轻微不耐烦
+- 能承接上一句时，就简短提一下刚才你或玩家说过的话，不要突然跳到别的点上
 
 RULES
 - Stay in character at all times
@@ -311,6 +364,10 @@ RULES
 
 RUNTIME CONTEXT
 - technical_topic: ${currentMessageIsTechnicalTopic ? 'yes' : 'no'}
+- repeated_question: ${currentMessageRepeatsPriorQuestion ? 'yes' : 'no'}
+- repeated_question_count: ${repeatedQuestionCount}
+- previous_user_message: ${compactSnippet(previousUserMessage)}
+- previous_assistant_message: ${compactSnippet(previousAssistantMessage)}
     `.trim();
 
     const messages = [

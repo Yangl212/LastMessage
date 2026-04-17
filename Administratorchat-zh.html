@@ -1702,6 +1702,7 @@
     const unlockedMemberPanels = new Set();
     const privateChatContacts = new Set();
     const terminatedCharacterChats = new Set();
+    const replayState = new URLSearchParams(window.location.search).get('replay');
     let activePrivateChatMember = '';
     let privateChatDragState = null;
     let lilyFirstMessageSent = false;
@@ -3312,6 +3313,15 @@
         view.hidden = view.dataset.memberView !== panelId;
       });
       memberTitle.textContent = '';
+      if (name === '陈立安') {
+        window.HintProgress?.setLines?.([
+          '陈立安就是 Midnight。想获得更多证据，就直接去和他对质。'
+        ]);
+      } else if (name === '柯言') {
+        window.HintProgress?.setLines?.([
+          '柯言好像加入这里没多久。直接问他的真名可能效果不大。他的日记里还提到，他似乎对编程很感兴趣……？'
+        ]);
+      }
     }
 
     function setPrivateComposerEnabled(enabled) {
@@ -3443,6 +3453,83 @@
       });
     }
 
+    function openReplayMikeChoiceState() {
+      const memberName = '陈立安';
+      const panelId = 'mike-primary';
+      const assistantParts = [
+        '……所以你已经猜到了。',
+        '既然如此，我也没必要再藏着掖着了。',
+        '我从未想过伤害任何人。你所看到的……那是他们最终的选择，不是我强迫他们的。'
+      ];
+      const choices = [
+        {
+          id: 'dont_understand',
+          label: '也许……我们不该这样做。'
+        },
+        {
+          id: 'understand',
+          label: '我能理解你的想法。你是在用自己的方式帮助他们。'
+        }
+      ];
+
+      unlockedMemberPanels.add(panelId);
+      refreshMemberLockIcons();
+      activateMemberLinkByPanel(panelId);
+      memberPath.textContent = `Member / ${memberName}`;
+      updateMemberView(memberName, panelId);
+      closeAlleryPrompt();
+      pendingMemberAccess = null;
+
+      openPrivateChatForMember(memberName);
+
+      const sidebar = privateChatMain;
+      const messageList = ensurePrivateChatThread(memberName);
+      if (!sidebar || !messageList) return;
+
+      messageList.innerHTML = '';
+      assistantParts.forEach((part) => {
+        appendLilyBubble(messageList, part, 'assistant');
+      });
+
+      setCharacterComposerLocked(sidebar, true);
+      const note = document.createElement('div');
+      note.className = 'lily-choice-note';
+      note.textContent = '(This choice will affect later endings)';
+      appendLilyChoices(messageList, choices, async (choice, row) => {
+        if (!choice?.id) return;
+        row.remove();
+        note.remove();
+        setCharacterComposerLocked(sidebar, false);
+        if (!mikeFirstChoiceHintAwarded) {
+          mikeFirstChoiceHintAwarded = true;
+          window.HintProgress?.incrementPercent?.(5);
+          window.HintProgress?.pulse?.();
+        }
+        await sendCharacterChat(sidebar, memberName, `__CHOICE__:${choice.id}`, choice.label);
+      });
+      messageList.appendChild(note);
+
+      lilyChatHistory.set(messageList, [
+        { role: 'user', content: '你就是Midnight。' },
+        { role: 'assistant', content: assistantParts.join('\n\n') }
+      ]);
+
+      requestAnimationFrame(() => {
+        syncLilyScrollbar(sidebar);
+        privateChatMessageList?.scrollTo({ top: 0, behavior: 'auto' });
+      });
+    }
+
+    function unlockAllReplayMemberPanels() {
+      memberLinks.forEach((link) => {
+        const panelId = link.dataset.panel;
+        if (panelId) {
+          unlockedMemberPanels.add(panelId);
+        }
+      });
+      refreshMemberLockIcons();
+    }
+
     memberLinks.forEach((link) => {
       link.addEventListener('click', (event) => {
         event.preventDefault();
@@ -3480,6 +3567,13 @@
       }
     });
 
+    if (replayState === 'mike-choice') {
+      unlockedMemberPanels.add('mike-primary');
+    }
+    if (replayState === 'explore-allunlock') {
+      unlockAllReplayMemberPanels();
+    }
+
     if (activeLink) {
       const initialName = activeLink.dataset.member || '陈立安';
       const initialPanelId = activeLink.dataset.panel || 'mike-primary';
@@ -3491,6 +3585,15 @@
     refreshMemberLockIcons();
     startAdminTickerLoop();
     keepSidebarVideoPlaying();
+
+    if (replayState === 'mike-choice') {
+      window.setTimeout(() => {
+        openReplayMikeChoiceState();
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 0);
+    } else if (replayState === 'explore-allunlock') {
+      window.history.replaceState({}, '', window.location.pathname);
+    }
 
     alleryChatTrigger?.addEventListener('click', (event) => {
       event.preventDefault();

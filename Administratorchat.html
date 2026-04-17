@@ -3313,6 +3313,15 @@
         view.hidden = view.dataset.memberView !== panelId;
       });
       memberTitle.textContent = panelId === 'allery-lin' ? '' : name;
+      if (name === 'Mike Anderson') {
+        window.HintProgress?.setLines?.([
+          'Mike is Midnight! To gather more evidence, confront him directly!'
+        ]);
+      } else if (name === 'Core Bennett') {
+        window.HintProgress?.setLines?.([
+          'Core seems to have just joined not long ago. Asking for his real name might not be effective. His diary also mentions that he seems quite interested in programming…?'
+        ]);
+      }
     }
 
     function setPrivateComposerEnabled(enabled) {

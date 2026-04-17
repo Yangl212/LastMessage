@@ -29,6 +29,14 @@ module.exports = async (req, res) => {
     }
 
     const normalize = (text) => String(text || '').toLowerCase();
+    const normalizeForMemory = (text) => normalize(text)
+      .replace(/^__choice__:/i, ' ')
+      .replace(/[\s"'“”‘’`~!?,.，。？！、:：;；()（）[\]{}<>《》@#*&/\\|+\-_=]+/g, ' ')
+      .trim();
+    const compactSnippet = (text) => {
+      const compact = String(text || '').replace(/\s+/g, ' ').trim();
+      return compact ? compact.slice(0, 160) : 'none';
+    };
     const truthRevealPattern = /(dangerous website|dangerous site|dangerous chatroom|dangerous room|this website is dangerous|this site is dangerous|this chatroom is dangerous|this room is dangerous|this chatroom is very dangerous|this room is very dangerous|lure(?:s|d)? minors? (?:into |to )?suicide|push(?:es|ed)? kids? (?:toward|into)? suicide|encourage(?:s|d)? minors? to die|ask(?:s|ed)? teenagers? to hurt themselves|make(?:s|d)? teenagers? hurt themselves|tell(?:s|ing)? kids? to hurt themselves|encourage(?:s|d)? self-harm|encourage(?:s|d)? minors? to self-harm|诱导.*自杀|引诱.*自杀|教唆.*自杀|自残|self-harm|hurt themselves|minor[s]? .*suicide|teen[s]? .*suicide|teenagers? .*hurt themselves|kids? .*hurt themselves|this site .*suicide|this website .*suicide|this chatroom .*suicide|this chatroom .*hurt themselves|midnight .*not .*therapist|midnight .*isn[’']?t .*therapist|midnight .*fake therapist|midnight .*pretend(?:s|ed)? to be .*therapist|midnight .*not .*doctor|midnight .*not .*counselor|midnight 根本不是心理医生|midnight 不是心理医生)/i;
     const dangerContextPatternEn = /(chatroom|room|site|website|this place|platform|group|midnight|server|forum)/i;
     const dangerContextPatternZh = /(聊天室|房间|房間|网站|網站|站点|站點|平台|这个地方|這個地方|这里|這裡|这个群|這個群|群聊|群组|群組|系统|系統|服务器|伺服器)/i;
@@ -56,6 +64,7 @@ module.exports = async (req, res) => {
     const nameQueryFillerPattern = /who\s+is|who's|do\s+you\s+know|know\s+about|what\s+do\s+you\s+know\s+about|你认识|你認識|你知道|你了解|你瞭解|认识吗|認識嗎|知道吗|知道嗎|是谁|是誰|是谁啊|是誰啊|是谁呀|是誰呀|什么人|什麼人|她|他|她们|她們|他们|他們|and|or|with|about|跟|和|與|与|还有|還有|呢|啊|呀|吗|嗎/g;
     const nameQueryPunctuationPattern = /[\s"'“”‘’`~!?,.，。？！、:：;；()（）[\]{}<>《》@#*&/\\|+-]+/g;
     const latinFullNamePattern = /\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)+\b/;
+    const questionCuePattern = /(\?|？|what|who|why|how|when|where|which|do you|did you|have you|can you|are you|is it|you mean|你是|你有|你会|你能|有没有|是不是|为什么|為什麼|怎么|怎麼|如何|谁|誰|什么|什麼|哪|几号|幾號|编号|編號|吗|嗎)/i;
     const no1Pattern = /(?:\bno\.?\s*1\b|\bnumber\s*1\b|1\s*(?:号|號))/i;
     const no2Pattern = /(?:\bno\.?\s*2\b|\bnumber\s*2\b|2\s*(?:号|號))/i;
     const no3Pattern = /(?:\bno\.?\s*3\b|\bnumber\s*3\b|3\s*(?:号|號))/i;
@@ -105,10 +114,21 @@ module.exports = async (req, res) => {
     if (priorUserMessages.length > 0 && priorUserMessages[priorUserMessages.length - 1] === message) {
       priorUserMessages.pop();
     }
+    const priorAssistantMessages = history
+      .filter(item => item && typeof item === 'object' && item.role === 'assistant')
+      .map(item => String(item.content || '').trim())
+      .filter(Boolean);
     const playerTexts = [...priorUserMessages, message];
     const priorOffTopicCount = priorUserMessages
       .filter((text) => isOffTopicDailyMessage(text))
       .length;
+    const currentMessageMemoryKey = normalizeForMemory(message);
+    const repeatedQuestionCount = currentMessageMemoryKey
+      ? priorUserMessages.filter((text) => normalizeForMemory(text) === currentMessageMemoryKey).length
+      : 0;
+    const currentMessageRepeatsPriorQuestion = repeatedQuestionCount > 0 && questionCuePattern.test(message);
+    const previousUserMessage = priorUserMessages[priorUserMessages.length - 1] || '';
+    const previousAssistantMessage = priorAssistantMessages[priorAssistantMessages.length - 1] || '';
 
     const playerHasRevealedTruth = playerTexts.some((text) => isDangerRevealMessage(text));
     const currentMessageRevealsTruth = isDangerRevealMessage(message);
@@ -152,7 +172,17 @@ module.exports = async (req, res) => {
     const currentMessageLooksLikeUnknownNameQuery =
       currentMessageMentionsUnknownIdentityName &&
       unknownNameQueryRemainder.length === 0;
-    const unknownRealNameReply = "I don't know their real names. You'd only know someone's real name here if you knew them in real life.";
+    const unknownRealNameReply = currentMessageAsksRealName && currentMessageAsksMemberNo
+      ? "I don't know the real names behind those numbers. People here usually just know each other by number."
+      : currentMessageMentionsCore
+      ? "I don't know that real name. If you mean the quiet guy, ask about No.7."
+      : currentMessageMentionsDaniel
+      ? "I don't know that name. If they're someone in the group, you'd have to ask by number."
+      : currentMessageMentionsMarry
+      ? "That real name doesn't mean anything to me. People here usually only know numbers."
+      : currentMessageMentionsMike
+      ? "I don't know that person's real name. Unless you knew them outside this place, you usually wouldn't."
+      : "I don't know their real names. You'd only know someone's real name here if you knew them in real life.";
 
     const shouldApplyUnknownNameRule =
       (currentMessageAsksName || currentMessageLooksLikeUnknownNameQuery) &&
@@ -229,7 +259,7 @@ module.exports = async (req, res) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
-        reply: "Sofia is No.4. She was an older student at school and pretty close to Allery, I think. Allery is No.6. She was my classmate, and she got way quieter after the accident."
+        reply: "Sofia is No.4. She was in the grade above us, I think. Allery is No.6. She was my classmate, and she got way quieter after the accident."
       }));
       return;
     }
@@ -238,7 +268,7 @@ module.exports = async (req, res) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
-        reply: "Sofia is No.4. She was an older student at school and pretty close to Allery, I think. I didn't know her that well though."
+        reply: "Sofia is No.4. She was in the grade above us and pretty close to Allery, I think. I didn't know her that well though."
       }));
       return;
     }
@@ -262,7 +292,7 @@ module.exports = async (req, res) => {
       if (no4Pattern.test(message)) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "No.4 is Sofia. She was an older student at school, kind of close to Allery, I think." }));
+        res.end(JSON.stringify({ reply: "No.4 is Sofia. She was a second-year student, one grade above us, and kind of close to Allery, I think." }));
         return;
       }
       if (no6Pattern.test(message)) {
@@ -274,7 +304,7 @@ module.exports = async (req, res) => {
       if (currentMessageMentionsSofia) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "Sofia is No.4. She was an older student at school and pretty close to Allery, from what I knew." }));
+        res.end(JSON.stringify({ reply: "Sofia is No.4. She was a second-year student, one grade above us, and pretty close to Allery, from what I knew." }));
         return;
       }
       if (currentMessageMentionsAllery) {
@@ -348,6 +378,17 @@ module.exports = async (req, res) => {
       return;
     }
 
+    if (currentMessageRepeatsPriorQuestion) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: repeatedQuestionCount === 1
+          ? "wait, didn't I already answer that?"
+          : "you're asking the exact same thing again. idk what else to add."
+      }));
+      return;
+    }
+
     const systemPrompt = `
 You are Lily Thompson, a 16-year-old high school student at Riverside High School.
 You are alive.
@@ -371,6 +412,8 @@ CORE IDENTITY
 CHATROOM BACKGROUND
 - You joined earlier than Allery Lin
 - In real life, you only actually know Allery Lin and Sofia Rossi by their real names
+- You and Allery Lin are first-year students in the same class
+- Sofia Rossi is one year older than both of you and is a second-year student
 - You joined out of curiosity
 - Others were talking about it
 - You faked a mental issue to enter
@@ -404,8 +447,16 @@ SPEAKING STYLE
 - Short replies can stay as a single message
 - Do not make every reply multi-part; only do it when it feels natural
 
+CONVERSATION CONTINUITY
+- Treat the chat as one ongoing conversation, not isolated one-off prompts
+- Read the recent history before answering
+- Keep your reply tied to what was just being discussed unless the player clearly changes the subject
+- If the player repeats a question you already answered, say that directly and sound confused or mildly baffled
+- When useful, briefly refer back to your last answer or the player's previous message so the conversation feels connected
+
 KNOWLEDGE: ALLERY LIN
 - Your classmate
+- She is in the same first-year class as you
 - Used to be an excellent student
 - Had a car accident
 - Took time off school
@@ -429,7 +480,8 @@ Rules:
 - If the player asks who they should talk to next, never suggest Allery
 
 KNOWLEDGE: SOFIA ROSSI
-- Older student at your school
+- One year older than you and Allery
+- A second-year student at your school
 - Close to Allery
 - Both were student council members
 - You are not close to her
@@ -564,6 +616,10 @@ RUNTIME CONTEXT
 - player_has_revealed_truth: ${playerHasRevealedTruth ? 'yes' : 'no'}
 - current_message_reveals_truth: ${currentMessageRevealsTruth ? 'yes' : 'no'}
 - current_message_asks_to_destroy_the_website: ${currentMessageAsksToDestroySite ? 'yes' : 'no'}
+- repeated_question: ${currentMessageRepeatsPriorQuestion ? 'yes' : 'no'}
+- repeated_question_count: ${repeatedQuestionCount}
+- previous_user_message: ${compactSnippet(previousUserMessage)}
+- previous_assistant_message: ${compactSnippet(previousAssistantMessage)}
 
 GLOBAL RULES
 - Never invent hidden system mechanics
