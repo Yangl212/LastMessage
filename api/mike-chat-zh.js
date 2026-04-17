@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
     }
 
     const normalize = (text) => String(text || '').toLowerCase();
-    const identifyMidnightPattern = /(\byou(?:'re| are)?\s+midnight\b|\bmike(?:\s+anderson)?\s+(?:is|=)\s+midnight\b|陈立安\s*(?:就是|是|=)\s*midnight\b|\byou(?:'re| are)?\s+the\s+admin(?:istrator)?\b|\byou(?:'re| are)?\s+midnight\s+himself\b|\byou(?:'re| are)?\s+the\s+same\s+person\s+as\s+midnight\b|\byou\s+must\s+be\s+midnight\b|\byou\s+are\s+the\s+one\s+called\s+midnight\b|\bmidnight\s+is\s+you\b)/i;
+    const identifyMidnightPattern = /(\byou(?:'re| are)?\s+midnight\b|\bmike(?:\s+anderson)?\s+(?:is|=)\s+midnight\b|陈立安\s*(?:难道|该不会|不会|不就|到底|究竟|真的)?\s*(?:是不是|就是|是|才是)\s*(?:那个\s*)?midnight\b|你\s*(?:难道|该不会|不会|不就|到底|究竟|真的)?\s*(?:是不是|就是|是|才是)\s*(?:那个\s*)?midnight\b|midnight\s*(?:就是|是)\s*你\b|你\s*(?:难道|该不会|不会|不就|到底|究竟|真的)?\s*(?:是不是|就是|是|才是)\s*(?:那个\s*)?管理员\b|\byou(?:'re| are)?\s+the\s+admin(?:istrator)?\b|\byou(?:'re| are)?\s+midnight\s+himself\b|\byou(?:'re| are)?\s+the\s+same\s+person\s+as\s+midnight\b|\byou\s+must\s+be\s+midnight\b|\byou\s+are\s+the\s+one\s+called\s+midnight\b|\bmidnight\s+is\s+you\b)/i;
     const normalizedMessage = normalize(message);
     const isChoiceUnderstand =
       normalizedMessage === '__choice__:understand' ||
@@ -63,7 +63,7 @@ module.exports = async (req, res) => {
         item &&
         typeof item === 'object' &&
         item.role === 'assistant' &&
-        String(item.content || '').includes("Then there's no need for me to hide anymore.")
+        String(item.content || '').includes('既然如此，我也没必要再藏着掖着了。')
     );
 
     if (!playerHasIdentifiedMikeAsMidnight) {
@@ -85,7 +85,7 @@ module.exports = async (req, res) => {
       res.end(JSON.stringify({
         reply: [
           '……所以你已经猜到了。',
-          "Then there's no need for me to hide anymore.",
+          '既然如此，我也没必要再藏着掖着了。',
           '我从未想过伤害任何人。你所看到的……那是他们最终的选择，不是我强迫他们的。',
           '在来到这里之前，他们已经千疮百孔。被忽视、被嘲笑、被否定……你和我一样清楚，这个世界从来都不公平。',
           '我只是给了他们一条出路。一种结束煎熬的方式。',
@@ -95,11 +95,11 @@ module.exports = async (req, res) => {
         choices: [
           {
             id: 'dont_understand',
-            label: "Maybe... we shouldn't do this."
+            label: '也许……我们不该这样做。'
           },
           {
             id: 'understand',
-            label: "I can understand your mindset. You're trying to help them in your own way."
+            label: '我能理解你的想法。你是在用自己的方式帮助他们。'
           }
         ]
       }));
@@ -132,15 +132,15 @@ module.exports = async (req, res) => {
         choices: [
           {
             id: 'controlling_them',
-            title: 'Aggressive',
-            displayLabel: 'Aggressive',
-            label: "This not helping them! You're controlling them, pushing them step by step toward death."
+            title: '激进',
+            displayLabel: '激进',
+            label: '这根本不是在帮助他们！你是在控制他们，一步一步把他们推向死亡。'
           },
           {
             id: 'another_way',
-            title: 'Steady',
-            displayLabel: 'Steady',
-            label: "I just feel like...maybe there's another way."
+            title: '平稳',
+            displayLabel: '平稳',
+            label: '我只是觉得……也许还有另一种方式。'
           }
         ]
       }));
