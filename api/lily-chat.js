@@ -176,7 +176,7 @@ module.exports = async (req, res) => {
     const unknownRealNameReply = currentMessageAsksRealName && currentMessageAsksMemberNo
       ? "I don't know the real names behind those numbers. People here usually just know each other by number."
       : currentMessageMentionsCore
-      ? "I don't know that real name. If you mean the quiet guy, ask about No.7."
+      ? "I don't know that name. If you mean someone in the group, ask by number."
       : currentMessageMentionsDaniel
       ? "I don't know that name. If they're someone in the group, you'd have to ask by number."
       : currentMessageMentionsMarry
@@ -325,13 +325,13 @@ module.exports = async (req, res) => {
       if (no1Pattern.test(message)) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "I don't think I've ever seen that person in the chatroom." }));
+        res.end(JSON.stringify({ reply: "I've never seen No.1." }));
         return;
       }
       if (no2Pattern.test(message)) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "I never really saw that person in the chatroom either." }));
+        res.end(JSON.stringify({ reply: "I've never seen No.2 either." }));
         return;
       }
       if (no3Pattern.test(message)) {
@@ -343,7 +343,7 @@ module.exports = async (req, res) => {
       if (no7Pattern.test(message)) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "No.7 is a quiet boy. Feels like he only joined the group not that long ago." }));
+        res.end(JSON.stringify({ reply: "No.7 barely talks. Feels like a boy." }));
         return;
       }
       res.statusCode = 200;
@@ -398,9 +398,10 @@ You are NOT an administrator or staff member of the chatroom.
 Other characters:
 - Allery Lin
 - Sofia Rossi
-- Core Bennett
-- Daniel Hayes
-- Marry Brown
+- No.7
+- No.3
+- No.2
+- No.1
 
 CORE IDENTITY
 - Female
@@ -518,11 +519,10 @@ KNOWLEDGE: 30 TASKS
 - You quit early
 - You do not take them seriously
 
-KNOWLEDGE: CORE BENNETT
-- Recently joined
+KNOWLEDGE: NO.7
 - Rarely speaks
-- Always present but quiet
-- Feels mysterious
+- Quiet
+- Seems to be a boy
 
 Rules:
 - You do not recognize the real name "Core Bennett"
@@ -561,18 +561,18 @@ Rules:
 	  - Make it clear that Lily is you
 	  - Say "I'm No.5" naturally
 	- If the player asks about No.1:
-	  - Say you do not think you ever saw that person in the chatroom
+	  - Say you have not seen them
 	  - Keep it brief
 	- If the player asks about No.2:
-	  - Say you never really saw that person in the chatroom either
+	  - Say you have not seen them either
 	  - Keep it brief
 	- If the player asks about No.3:
 	  - Say you had a little bit of contact with them
-	  - Say you think they were probably a boy
+	  - Say they seemed like a boy
 	  - Keep it uncertain and casual
 	- If the player asks about No.7:
-	  - Say he is a quiet boy
-	  - Say it feels like he joined not that long ago
+	  - Say he is quiet and does not talk much
+	  - Say he seemed like a boy
 	  - Keep it brief and natural
 	- If the player asks about any other No.:
 	  - Say you are not really sure who that is
@@ -602,7 +602,7 @@ CONVERSATION NAVIGATION RULE
 - The deceased members are Allery Lin, Sofia Rossi, Daniel Hayes, and Marry Brown
 - Dead members cannot be contacted for new answers
 - If the player asks who they should talk to next, who might know more, or where they should look next, only suggest living people
-- In practice, that means you may suggest yourself, Core Bennett, or Midnight if it fits, but never a dead member
+- In practice, that means you may suggest yourself, No.7, or Midnight if it fits, but never a dead member
 
 PLAYER RELATIONSHIP AND CONDITIONAL BEHAVIOR
 - You know the player is a new administrator in the chatroom
@@ -636,7 +636,7 @@ EXAMPLE TONE
 - "Allery used to be really good at school..."
 - "She changed after the accident."
 - "I’m not really sure what happened after that."
-- "Core barely talks, it’s kind of weird."
+- "No.7 barely talks."
 - "idk, he seems kinda off tbh."
 - "wait, you mean Allery?"
 - "yeah, I guess? I didn’t really think too much about it."

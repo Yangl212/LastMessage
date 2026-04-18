@@ -167,7 +167,7 @@ module.exports = async (req, res) => {
       currentMessageMentionsKnownIdentityName &&
       knownNameQueryRemainder.length === 0;
     const unknownNameQueryRemainder = normalize(message)
-      .replace(/core(?:\s+bennett)?|daniel(?:\s+hayes)?|marry(?:\s+brown)?|mike(?:\s+anderson)?/g, ' ')
+      .replace(/core(?:\s+bennett)?|柯言|daniel(?:\s+hayes)?|何成宇|marry(?:\s+brown)?|马一宁|mike(?:\s+anderson)?|陈立安/g, ' ')
       .replace(nameQueryFillerPattern, ' ')
       .replace(nameQueryPunctuationPattern, '');
     const currentMessageLooksLikeUnknownNameQuery =
@@ -176,7 +176,7 @@ module.exports = async (req, res) => {
     const unknownRealNameReply = currentMessageAsksRealName && currentMessageAsksMemberNo
       ? '这些编号背后的真实姓名我不知道。在这里大家一般只知道彼此的编号。'
       : currentMessageMentionsCore
-      ? '这个真名我不认识。如果你说的是那个很安静的男生，你可以直接问7号。'
+      ? '这个名字我不认识。如果你说的是群里的人，你得用编号问。'
       : currentMessageMentionsDaniel
       ? '这个名字我不知道。如果是群里的人，你得用编号问。'
       : currentMessageMentionsMarry
@@ -325,13 +325,13 @@ module.exports = async (req, res) => {
       if (no1Pattern.test(message)) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '我好像从没在聊天室见过那个人。' }));
+        res.end(JSON.stringify({ reply: '1号我没见过。' }));
         return;
       }
       if (no2Pattern.test(message)) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '那个人我也几乎没在聊天室见过。' }));
+        res.end(JSON.stringify({ reply: '2号我也没见过。' }));
         return;
       }
       if (no3Pattern.test(message)) {
@@ -343,7 +343,7 @@ module.exports = async (req, res) => {
       if (no7Pattern.test(message)) {
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '7号是个安静的男生。感觉他加入群没多久。' }));
+        res.end(JSON.stringify({ reply: '7号话很少，挺安静的。感觉是个男生。' }));
         return;
       }
       res.statusCode = 200;
@@ -400,9 +400,10 @@ You are NOT an administrator or staff member of the chatroom.
 Other characters:
 - 林艾乐
 - 苏晴
-- 柯言
-- 何成宇
-- 马一宁
+- No.7
+- No.3
+- No.2
+- No.1
 
 CORE IDENTITY
 - Female
@@ -520,11 +521,10 @@ KNOWLEDGE: 30 TASKS
 - You quit early
 - You do not take them seriously
 
-KNOWLEDGE: CORE BENNETT
-- Recently joined
+KNOWLEDGE: NO.7
 - Rarely speaks
-- Always present but quiet
-- Feels mysterious
+- Quiet
+- Seems to be a boy
 
 Rules:
 - You do not recognize the real name "柯言"
@@ -563,18 +563,18 @@ Rules:
 	  - Make it clear that 李清清 is you
 	  - Say "I'm No.5" naturally
 	- If the player asks about No.1:
-	  - Say you do not think you ever saw that person in the chatroom
+	  - Say you have not seen them
 	  - Keep it brief
 	- If the player asks about No.2:
-	  - Say you never really saw that person in the chatroom either
+	  - Say you have not seen them either
 	  - Keep it brief
 	- If the player asks about No.3:
 	  - Say you had a little bit of contact with them
-	  - Say you think they were probably a boy
+	  - Say they seemed like a boy
 	  - Keep it uncertain and casual
 	- If the player asks about No.7:
-	  - Say he is a quiet boy
-	  - Say it feels like he joined not that long ago
+	  - Say he is quiet and does not talk much
+	  - Say he seemed like a boy
 	  - Keep it brief and natural
 	- If the player asks about any other No.:
 	  - Say you are not really sure who that is
@@ -604,7 +604,7 @@ CONVERSATION NAVIGATION RULE
 - The deceased members are 林艾乐, 苏晴, 何成宇, and 马一宁
 - Dead members cannot be contacted for new answers
 - If the player asks who they should talk to next, who might know more, or where they should look next, only suggest living people
-- In practice, that means you may suggest yourself, 柯言, or Midnight if it fits, but never a dead member
+- In practice, that means you may suggest yourself, 7号, or Midnight if it fits, but never a dead member
 
 PLAYER RELATIONSHIP AND CONDITIONAL BEHAVIOR
 - You know the player is a new administrator in the chatroom
@@ -638,7 +638,7 @@ EXAMPLE TONE
 - "林艾乐 used to be really good at school..."
 - "She changed after the accident."
 - "I'm not really sure what happened after that."
-- "柯言 barely talks, it's kind of weird."
+- "7号话不多，挺安静的。"
 - "idk, he seems kinda off tbh."
 - "wait, you mean 林艾乐?"
 - "yeah, I guess? I didn't really think too much about it."

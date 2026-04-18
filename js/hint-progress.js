@@ -25,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     ? config.actionButtonHref.trim()
     : '';
   const autoOpenModal = config.autoOpenModal === true;
+  const autoOpenFooter = config.autoOpenFooter === true;
   const fontFamily = typeof config.fontFamily === 'string' && config.fontFamily.trim()
     ? config.fontFamily.trim()
     : '';
@@ -125,7 +126,7 @@ document.addEventListener('DOMContentLoaded', () => {
   `;
 
   body.appendChild(root);
-  root.classList.remove('is-open');
+  root.classList.toggle('is-open', autoOpenFooter);
 
   const toggle = root.querySelector('.progress-toggle');
   const progressFill = root.querySelector('.progress-fill');
@@ -135,6 +136,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const hintModalClose = root.querySelector('.hint-close');
   const hintModalPage = root.querySelector('.hint-modal-page');
   const hintActionButton = root.querySelector('.hint-action-button');
+
+  toggle?.setAttribute('aria-expanded', autoOpenFooter ? 'true' : 'false');
 
   let progressTextTimer = null;
   let progressAutoCloseTimer = null;
