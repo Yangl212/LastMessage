@@ -314,7 +314,7 @@
       }
       document.getElementById('replayBtn')?.addEventListener('click', () => {});
       document.getElementById('feedbackBtn')?.addEventListener('click', () => {
-        window.open('https://forms.gle/', '_blank');
+        window.location.href = 'test-intro.html#feedback';
       });
     })();
   </script>
@@ -372,13 +372,24 @@
       const PATH_TO_HERE = ['intro', 'newuser', 'get-account', 'admin', 'choice'];
 
       function getVisited() {
-        try { return new Set(JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')); }
-        catch { return new Set(); }
+        try {
+          const EXPIRY_MS = 24 * 60 * 60 * 1000;
+          const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+          if (!raw) return new Set();
+          if (Date.now() > raw.expiry) { localStorage.removeItem(STORAGE_KEY); return new Set(); }
+          return new Set(raw.visited);
+        } catch { return new Set(); }
       }
       function markVisited(ids) {
-        const v = getVisited();
-        ids.forEach(id => v.add(id));
-        localStorage.setItem(STORAGE_KEY, JSON.stringify([...v]));
+        try {
+          const EXPIRY_MS = 24 * 60 * 60 * 1000;
+          const raw = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+          const valid = raw && Date.now() <= raw.expiry;
+          const expiry = valid ? raw.expiry : Date.now() + EXPIRY_MS;
+          const v = new Set(valid ? raw.visited : []);
+          ids.forEach(id => v.add(id));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({ expiry, visited: [...v] }));
+        } catch {}
       }
       if (THIS_NODE) markVisited([THIS_NODE, ...PATH_TO_HERE]);
 

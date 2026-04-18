@@ -23,6 +23,7 @@
       showProgressFill: false,
       buttonLabel: 'Bad Ending 1',
       footerLabelOnly: true,
+      autoOpenFooter: true,
       title: 'Bad Ending 1',
       actionButtonLabel: '重新开始',
       actionButtonHref: 'chat-zh.html',
@@ -83,9 +84,13 @@
     (() => {
       try {
         const key = 'bw_visited';
-        const v = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        const EXPIRY_MS = 24 * 60 * 60 * 1000;
+        const raw = JSON.parse(localStorage.getItem(key) || 'null');
+        const valid = raw && Date.now() <= raw.expiry;
+        const expiry = valid ? raw.expiry : Date.now() + EXPIRY_MS;
+        const v = new Set(valid ? raw.visited : []);
         v.add('wrong-pm');
-        localStorage.setItem(key, JSON.stringify([...v]));
+        localStorage.setItem(key, JSON.stringify({ expiry, visited: [...v] }));
       } catch {}
     })();
   </script>

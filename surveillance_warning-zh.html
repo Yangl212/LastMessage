@@ -27,6 +27,7 @@
       title: 'Bad Ending 2',
       buttonLabel: 'Bad Ending 2',
       footerLabelOnly: true,
+      autoOpenFooter: true,
       autoCloseMs: 5000,
       valueLabel: '错误',
       showProgressFill: false,
@@ -88,9 +89,13 @@
     (() => {
       try {
         const key = 'bw_visited';
-        const v = new Set(JSON.parse(localStorage.getItem(key) || '[]'));
+        const EXPIRY_MS = 24 * 60 * 60 * 1000;
+        const raw = JSON.parse(localStorage.getItem(key) || 'null');
+        const valid = raw && Date.now() <= raw.expiry;
+        const expiry = valid ? raw.expiry : Date.now() + EXPIRY_MS;
+        const v = new Set(valid ? raw.visited : []);
         v.add('curiosity');
-        localStorage.setItem(key, JSON.stringify([...v]));
+        localStorage.setItem(key, JSON.stringify({ expiry, visited: [...v] }));
       } catch {}
     })();
   </script>

@@ -1749,10 +1749,14 @@
     };
 
     try {
-      const replayVisited = new Set(JSON.parse(window.localStorage.getItem(ROUTE_VISITED_KEY) || '[]'));
+      const EXPIRY_MS = 24 * 60 * 60 * 1000;
+      const _raw = JSON.parse(window.localStorage.getItem(ROUTE_VISITED_KEY) || 'null');
+      const _valid = _raw && Date.now() <= _raw.expiry;
+      const _expiry = _valid ? _raw.expiry : Date.now() + EXPIRY_MS;
+      const replayVisited = new Set(_valid ? _raw.visited : []);
       replayVisited.add('admin');
       replayVisited.add('explore');
-      window.localStorage.setItem(ROUTE_VISITED_KEY, JSON.stringify([...replayVisited]));
+      window.localStorage.setItem(ROUTE_VISITED_KEY, JSON.stringify({ expiry: _expiry, visited: [...replayVisited] }));
     } catch (_error) {
       // Ignore storage failures for replay route tracking.
     }
