@@ -246,13 +246,9 @@
 
             <section class="docs-shortcuts allery-details-shortcuts">
               <div class="shortcut-row allery-details-shortcut-row">
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 1</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 2</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 3</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 4</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 5</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 6</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 7</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="core-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 1</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="core-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 2</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="core-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>日记 3</span></a>
               </div>
             </section>
           </div>
@@ -387,6 +383,27 @@
         </div>
       </div>
 
+      <div class="diary-overlay" id="coreDiaryOverlay" aria-hidden="true" hidden>
+        <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="coreDiaryTitle">
+          <div class="diary-titlebar">
+            <h2 id="coreDiaryTitle">日记 1</h2>
+            <button type="button" class="diary-close" id="coreDiaryClose" aria-label="关闭日记"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          </div>
+          <div class="diary-modal-inner">
+            <div class="diary-modal-page" id="coreDiaryPage">
+              <p class="diary-modal-line">Content pending.</p>
+            </div>
+            <div class="diary-scrollbar" aria-hidden="true">
+              <button type="button" class="diary-scroll-arrow" id="coreDiaryUp">⌃</button>
+              <div class="diary-scroll-track" id="coreDiaryTrack">
+                <span class="diary-scroll-thumb" id="coreDiaryThumb"></span>
+              </div>
+              <button type="button" class="diary-scroll-arrow" id="coreDiaryDown">⌄</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Therapy Report 01 Modal -->
       <div class="therapy-report-overlay" id="therapyReport01Overlay" aria-hidden="true" hidden>
         <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="therapyReport01Title">
@@ -422,7 +439,7 @@
                   <!-- Row 1 -->
                   <div class="tr-field">
                     <span class="tr-fl">对象编号</span>
-                    <span class="tr-fv">#07</span>
+                    <span class="tr-fv">#06</span>
                   </div>
                   <div class="tr-field">
                     <span class="tr-fl">关联档案</span>
@@ -510,7 +527,7 @@
                 <div class="tr-fields-grid">
                   <div class="tr-field">
                     <span class="tr-fl">对象编号</span>
-                    <span class="tr-fv">#07</span>
+                    <span class="tr-fv">#06</span>
                   </div>
                   <div class="tr-field">
                     <span class="tr-fl">关联档案</span>
@@ -589,7 +606,7 @@
                 <div class="tr-fields-grid">
                   <div class="tr-field">
                     <span class="tr-fl">对象编号</span>
-                    <span class="tr-fv">#07</span>
+                    <span class="tr-fv">#06</span>
                   </div>
                   <div class="tr-field">
                     <span class="tr-fl">关联档案</span>
@@ -1549,6 +1566,8 @@
     const adminNumberConfirm = document.getElementById('adminNumberConfirm');
     const alleryDiaryOverlay = document.getElementById('alleryDiaryOverlay');
     const alleryDiaryClose = document.getElementById('alleryDiaryClose');
+    const coreDiaryOverlay = document.getElementById('coreDiaryOverlay');
+    const coreDiaryClose = document.getElementById('coreDiaryClose');
     const therapyReport01Overlay = document.getElementById('therapyReport01Overlay');
     const therapyReport01Close = document.getElementById('therapyReport01Close');
     const therapyReport02Overlay = document.getElementById('therapyReport02Overlay');
@@ -1581,6 +1600,12 @@
     const alleryDiaryUp = document.getElementById('alleryDiaryUp');
     const alleryDiaryDown = document.getElementById('alleryDiaryDown');
     const alleryDiaryTitle = document.getElementById('alleryDiaryTitle');
+    const coreDiaryPage = document.getElementById('coreDiaryPage');
+    const coreDiaryTrack = document.getElementById('coreDiaryTrack');
+    const coreDiaryThumb = document.getElementById('coreDiaryThumb');
+    const coreDiaryUp = document.getElementById('coreDiaryUp');
+    const coreDiaryDown = document.getElementById('coreDiaryDown');
+    const coreDiaryTitle = document.getElementById('coreDiaryTitle');
     const marryDiaryOverlay = document.getElementById('marryDiaryOverlay');
     const marryDiaryClose = document.getElementById('marryDiaryClose');
     const marryDiaryPage = document.getElementById('marryDiaryPage');
@@ -1798,6 +1823,35 @@
           '他说起了她的经历，以及她曾承受过的一切后，我真切的为她的遭遇感到遗憾，但同时我也觉得她的结局非常美好。',
           '我不曾经历过那些伤痛，但我现在却很羡慕她已经可以在天堂享乐了。',
           '我什么时候才能去天堂？',
+        ]
+      }
+    };
+    const coreDiaryEntries = {
+      '1': {
+        title: '日记 1',
+        lines: [
+          '我是在网页上看到这个聊天室才来的。',
+          'Midnight 说要写日常，可我没什么想写的。',
+          '我每天都差不多，也不喜欢和别人说话。'
+        ]
+      },
+      '2': {
+        title: '日记 2',
+        lines: [
+          '我开始做三十个任务了，今天是第二天。',
+          'Midnight 问我上一次真正放松是什么时候。',
+          '我想，应该是攻破那个很难的网站的时候。',
+          '进去以后，我觉得特别爽，好像脑子里的东西一下都对了。'
+        ]
+      },
+      '3': {
+        title: '日记 3',
+        lines: [
+          '今天我进了这个聊天室的后台。',
+          '我本来只是试一下，结果真的进去了。',
+          '里面有很多档案，比我想的还详细。',
+          '后来 Midnight 警告我不要这么做。可能他生气了。',
+          '但破解东西的时候，我会开心一点。'
         ]
       }
     };
@@ -2031,6 +2085,10 @@
       syncDiaryScrollbar(alleryDiaryPage, alleryDiaryTrack, alleryDiaryThumb);
     }
 
+    function syncCoreDiaryScrollbar() {
+      syncDiaryScrollbar(coreDiaryPage, coreDiaryTrack, coreDiaryThumb);
+    }
+
     function syncMikeDiaryScrollbar() {
       syncDiaryScrollbar(mikeDiaryPage, mikeDiaryTrack, mikeDiaryThumb);
     }
@@ -2066,6 +2124,18 @@
       }
       if (alleryDiaryPage) {
         alleryDiaryPage.innerHTML = entry.lines
+          .map((line) => `<p class="diary-modal-line">${line}</p>`)
+          .join('');
+      }
+    }
+
+    function setCoreDiaryContent(entryKey) {
+      const entry = coreDiaryEntries[entryKey] || coreDiaryEntries['1'];
+      if (coreDiaryTitle) {
+        coreDiaryTitle.textContent = entry.title;
+      }
+      if (coreDiaryPage) {
+        coreDiaryPage.innerHTML = entry.lines
           .map((line) => `<p class="diary-modal-line">${line}</p>`)
           .join('');
       }
@@ -2374,6 +2444,31 @@
       window.setTimeout(() => {
         if (!coreTherapyReport02Overlay.classList.contains('is-visible')) {
           coreTherapyReport02Overlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function openCoreDiary(entryKey = '1') {
+      if (!coreDiaryOverlay) return;
+      setCoreDiaryContent(entryKey);
+      coreDiaryOverlay.hidden = false;
+      if (coreDiaryPage) {
+        coreDiaryPage.scrollTop = 0;
+      }
+      requestAnimationFrame(() => {
+        coreDiaryOverlay.classList.add('is-visible');
+        coreDiaryOverlay.setAttribute('aria-hidden', 'false');
+        syncCoreDiaryScrollbar();
+      });
+    }
+
+    function closeCoreDiary() {
+      if (!coreDiaryOverlay) return;
+      coreDiaryOverlay.classList.remove('is-visible');
+      coreDiaryOverlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!coreDiaryOverlay.classList.contains('is-visible')) {
+          coreDiaryOverlay.hidden = true;
         }
       }, 180);
     }
@@ -2886,7 +2981,7 @@
         button.classList.add('is-pressed');
         window.setTimeout(() => {
           button.classList.remove('is-pressed');
-          window.location.href = 'midnight_loading.html';
+          window.location.href = 'midnight_loading-zh.html';
         }, 180);
       });
     });
@@ -3685,6 +3780,13 @@
         return;
       }
 
+      const coreDiaryTrigger = event.target.closest('[data-diary-modal^="core-diary-"]');
+      if (coreDiaryTrigger) {
+        event.preventDefault();
+        openCoreDiary(coreDiaryTrigger.getAttribute('data-diary-modal').replace('core-diary-', ''));
+        return;
+      }
+
       const therapyBtn = event.target.closest('.therapy-session-btn');
       if (therapyBtn) {
         const label = therapyBtn.textContent.trim();
@@ -4015,6 +4117,7 @@
       marryDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
     });
     alleryDiaryClose?.addEventListener('click', closeAlleryDiary);
+    coreDiaryClose?.addEventListener('click', closeCoreDiary);
     therapyReport01Close?.addEventListener('click', closeTherapyReport01);
     therapyReport01Overlay?.addEventListener('click', (e) => {
       if (e.target === therapyReport01Overlay) closeTherapyReport01();
@@ -4127,6 +4230,13 @@
     alleryDiaryDown?.addEventListener('click', () => {
       alleryDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
     });
+    coreDiaryPage?.addEventListener('scroll', syncCoreDiaryScrollbar);
+    coreDiaryUp?.addEventListener('click', () => {
+      coreDiaryPage?.scrollBy({ top: -120, behavior: 'smooth' });
+    });
+    coreDiaryDown?.addEventListener('click', () => {
+      coreDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
+    });
     mikeDiaryClose?.addEventListener('click', closeMikeDiary);
     mikeDiaryPage?.addEventListener('scroll', syncMikeDiaryScrollbar);
     mikeDiaryUp?.addEventListener('click', () => {
@@ -4162,6 +4272,7 @@
     window.addEventListener('resize', () => {
       syncMarryDiaryScrollbar();
       syncAlleryDiaryScrollbar();
+      syncCoreDiaryScrollbar();
       syncMikeDiaryScrollbar();
       syncDanielDiaryScrollbar();
       syncSofiaDiaryScrollbar();

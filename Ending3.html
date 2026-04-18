@@ -412,7 +412,7 @@
         </div>
         <div class="ending-actions">
           <button class="ending-action-btn" type="button" id="replayBtn">Replay</button>
-          <button class="ending-action-btn" type="button">Feedback</button>
+          <button class="ending-action-btn" type="button" id="feedbackBtn">Feedback</button>
         </div>
       </section>
     </main>
@@ -517,10 +517,10 @@
         { id: 'expel',         label: 'Expelled',      href: 'Ending2.html',              x:  770, y: 246, type: 'bad' },
         { id: 'choice',        label: 'My Choice',     href: 'Administratorchat.html?replay=mike-choice', x: 1020, y: 100, type: 'normal' },
         { id: 'explore',       label: 'Explore',       href: 'Administratorchat.html',    x: 1020, y: 256, type: 'normal' },
-        { id: 'ending1',       label: 'Inheritor',     href: 'Ending1.html',              x: 1270, y:  30, type: 'normal' },
+        { id: 'ending1',       label: 'Inheritor',     href: 'Ending1.html',              x: 1270, y:  30, type: 'bad' },
         { id: 'evidence-bad',  label: 'Thin Evidence', href: 'EvidenceBadEnding.html',    x: 1270, y: 110, type: 'bad' },
-        { id: 'evidence-good', label: 'Make Arrest',   href: 'EvidenceGoodEnding.html',   x: 1270, y: 190, type: 'normal' },
-        { id: 'ending3',       label: 'Destroy Site',  href: 'Ending3.html',              x: 1270, y: 270, type: 'normal' },
+        { id: 'evidence-good', label: 'Make Arrest',   href: 'EvidenceGoodEnding.html',   x: 1270, y: 190, type: 'bad' },
+        { id: 'ending3',       label: 'Destroy Site',  href: 'Ending3.html',              x: 1270, y: 270, type: 'bad' },
       ];
       const EDGES = [
         ['intro','newuser'],
@@ -588,6 +588,9 @@
         trigger?.addEventListener('click', () => { buildRouteModal(); modal.classList.add('open'); });
         closeBtn?.addEventListener('click', () => modal.classList.remove('open'));
         modal?.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+        document.getElementById('feedbackBtn')?.addEventListener('click', () => {
+          window.location.href = 'test-intro.html#feedback';
+        });
       });
     })();
   </script>

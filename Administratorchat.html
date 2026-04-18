@@ -246,13 +246,9 @@
 
             <section class="docs-shortcuts allery-details-shortcuts">
               <div class="shortcut-row allery-details-shortcut-row">
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 4</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 5</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 6</span></a>
-                <a href="#" class="shortcut-card drive-card"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 7</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="core-diary-1"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 1</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="core-diary-2"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 2</span></a>
+                <a href="#" class="shortcut-card drive-card" data-diary-modal="core-diary-3"><img src="assets/images/folder.png" alt="" class="folder-icon" /><span>Diary 3</span></a>
               </div>
             </section>
           </div>
@@ -387,6 +383,27 @@
         </div>
       </div>
 
+      <div class="diary-overlay" id="coreDiaryOverlay" aria-hidden="true" hidden>
+        <div class="diary-modal" role="dialog" aria-modal="true" aria-labelledby="coreDiaryTitle">
+          <div class="diary-titlebar">
+            <h2 id="coreDiaryTitle">Diary 1</h2>
+            <button type="button" class="diary-close" id="coreDiaryClose" aria-label="Close diary"><img src="assets/images/exit.png" alt="" class="diary-close-icon" /></button>
+          </div>
+          <div class="diary-modal-inner">
+            <div class="diary-modal-page" id="coreDiaryPage">
+              <p class="diary-modal-line">Content pending.</p>
+            </div>
+            <div class="diary-scrollbar" aria-hidden="true">
+              <button type="button" class="diary-scroll-arrow" id="coreDiaryUp">⌃</button>
+              <div class="diary-scroll-track" id="coreDiaryTrack">
+                <span class="diary-scroll-thumb" id="coreDiaryThumb"></span>
+              </div>
+              <button type="button" class="diary-scroll-arrow" id="coreDiaryDown">⌄</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Therapy Report 01 Modal -->
       <div class="therapy-report-overlay" id="therapyReport01Overlay" aria-hidden="true" hidden>
         <div class="therapy-report-modal" role="dialog" aria-modal="true" aria-labelledby="therapyReport01Title">
@@ -422,7 +439,7 @@
                   <!-- Row 1 -->
                   <div class="tr-field">
                     <span class="tr-fl">SUBJECT ID</span>
-                    <span class="tr-fv">#07</span>
+                    <span class="tr-fv">#06</span>
                   </div>
                   <div class="tr-field">
                     <span class="tr-fl">LINKED FILE</span>
@@ -510,7 +527,7 @@
                 <div class="tr-fields-grid">
                   <div class="tr-field">
                     <span class="tr-fl">SUBJECT ID</span>
-                    <span class="tr-fv">#07</span>
+                    <span class="tr-fv">#06</span>
                   </div>
                   <div class="tr-field">
                     <span class="tr-fl">LINKED FILE</span>
@@ -589,7 +606,7 @@
                 <div class="tr-fields-grid">
                   <div class="tr-field">
                     <span class="tr-fl">SUBJECT ID</span>
-                    <span class="tr-fv">#07</span>
+                    <span class="tr-fv">#06</span>
                   </div>
                   <div class="tr-field">
                     <span class="tr-fl">LINKED FILE</span>
@@ -1549,6 +1566,8 @@
     const adminNumberConfirm = document.getElementById('adminNumberConfirm');
     const alleryDiaryOverlay = document.getElementById('alleryDiaryOverlay');
     const alleryDiaryClose = document.getElementById('alleryDiaryClose');
+    const coreDiaryOverlay = document.getElementById('coreDiaryOverlay');
+    const coreDiaryClose = document.getElementById('coreDiaryClose');
     const therapyReport01Overlay = document.getElementById('therapyReport01Overlay');
     const therapyReport01Close = document.getElementById('therapyReport01Close');
     const therapyReport02Overlay = document.getElementById('therapyReport02Overlay');
@@ -1581,6 +1600,12 @@
     const alleryDiaryUp = document.getElementById('alleryDiaryUp');
     const alleryDiaryDown = document.getElementById('alleryDiaryDown');
     const alleryDiaryTitle = document.getElementById('alleryDiaryTitle');
+    const coreDiaryPage = document.getElementById('coreDiaryPage');
+    const coreDiaryTrack = document.getElementById('coreDiaryTrack');
+    const coreDiaryThumb = document.getElementById('coreDiaryThumb');
+    const coreDiaryUp = document.getElementById('coreDiaryUp');
+    const coreDiaryDown = document.getElementById('coreDiaryDown');
+    const coreDiaryTitle = document.getElementById('coreDiaryTitle');
     const marryDiaryOverlay = document.getElementById('marryDiaryOverlay');
     const marryDiaryClose = document.getElementById('marryDiaryClose');
     const marryDiaryPage = document.getElementById('marryDiaryPage');
@@ -1793,6 +1818,35 @@
           'I am not certain that I fully understand what he meant.',
           'However, as he spoke, I could sense a strong emotion behind his words.',
           'It was not sadness. It felt more like something firm, almost resolute.'
+        ]
+      }
+    };
+    const coreDiaryEntries = {
+      '1': {
+        title: 'Diary 1',
+        lines: [
+          'I came here because I saw this chatroom on a website.',
+          'Midnight said we should write about daily life, but I don’t have much to write.',
+          'Every day feels the same, and I don’t like talking to people.'
+        ]
+      },
+      '2': {
+        title: 'Diary 2',
+        lines: [
+          'I started the thirty tasks. Today is day two.',
+          'Midnight asked me when was the last time I truly felt relaxed.',
+          'I think it was when I broke into that difficult website.',
+          'After I got in, it felt amazing, like everything in my head suddenly made sense.'
+        ]
+      },
+      '3': {
+        title: 'Diary 3',
+        lines: [
+          'Today I got into the backend of this chatroom.',
+          'I was only testing it, but I really got in.',
+          'There were many files inside, more detailed than I expected.',
+          'Later, Midnight warned me not to do that. Maybe he was angry.',
+          'But when I break into things, I feel a little happier.'
         ]
       }
     };
@@ -2026,6 +2080,10 @@
       syncDiaryScrollbar(alleryDiaryPage, alleryDiaryTrack, alleryDiaryThumb);
     }
 
+    function syncCoreDiaryScrollbar() {
+      syncDiaryScrollbar(coreDiaryPage, coreDiaryTrack, coreDiaryThumb);
+    }
+
     function syncMikeDiaryScrollbar() {
       syncDiaryScrollbar(mikeDiaryPage, mikeDiaryTrack, mikeDiaryThumb);
     }
@@ -2061,6 +2119,18 @@
       }
       if (alleryDiaryPage) {
         alleryDiaryPage.innerHTML = entry.lines
+          .map((line) => `<p class="diary-modal-line">${line}</p>`)
+          .join('');
+      }
+    }
+
+    function setCoreDiaryContent(entryKey) {
+      const entry = coreDiaryEntries[entryKey] || coreDiaryEntries['1'];
+      if (coreDiaryTitle) {
+        coreDiaryTitle.textContent = entry.title;
+      }
+      if (coreDiaryPage) {
+        coreDiaryPage.innerHTML = entry.lines
           .map((line) => `<p class="diary-modal-line">${line}</p>`)
           .join('');
       }
@@ -2364,6 +2434,31 @@
       window.setTimeout(() => {
         if (!coreTherapyReport02Overlay.classList.contains('is-visible')) {
           coreTherapyReport02Overlay.hidden = true;
+        }
+      }, 180);
+    }
+
+    function openCoreDiary(entryKey = '1') {
+      if (!coreDiaryOverlay) return;
+      setCoreDiaryContent(entryKey);
+      coreDiaryOverlay.hidden = false;
+      if (coreDiaryPage) {
+        coreDiaryPage.scrollTop = 0;
+      }
+      requestAnimationFrame(() => {
+        coreDiaryOverlay.classList.add('is-visible');
+        coreDiaryOverlay.setAttribute('aria-hidden', 'false');
+        syncCoreDiaryScrollbar();
+      });
+    }
+
+    function closeCoreDiary() {
+      if (!coreDiaryOverlay) return;
+      coreDiaryOverlay.classList.remove('is-visible');
+      coreDiaryOverlay.setAttribute('aria-hidden', 'true');
+      window.setTimeout(() => {
+        if (!coreDiaryOverlay.classList.contains('is-visible')) {
+          coreDiaryOverlay.hidden = true;
         }
       }, 180);
     }
@@ -3597,6 +3692,13 @@
         return;
       }
 
+      const coreDiaryTrigger = event.target.closest('[data-diary-modal^="core-diary-"]');
+      if (coreDiaryTrigger) {
+        event.preventDefault();
+        openCoreDiary(coreDiaryTrigger.getAttribute('data-diary-modal').replace('core-diary-', ''));
+        return;
+      }
+
       const therapyBtn = event.target.closest('.therapy-session-btn');
       if (therapyBtn) {
         const label = therapyBtn.textContent.trim();
@@ -3923,6 +4025,7 @@
       marryDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
     });
     alleryDiaryClose?.addEventListener('click', closeAlleryDiary);
+    coreDiaryClose?.addEventListener('click', closeCoreDiary);
     therapyReport01Close?.addEventListener('click', closeTherapyReport01);
     therapyReport01Overlay?.addEventListener('click', (e) => {
       if (e.target === therapyReport01Overlay) closeTherapyReport01();
@@ -4035,6 +4138,13 @@
     alleryDiaryDown?.addEventListener('click', () => {
       alleryDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
     });
+    coreDiaryPage?.addEventListener('scroll', syncCoreDiaryScrollbar);
+    coreDiaryUp?.addEventListener('click', () => {
+      coreDiaryPage?.scrollBy({ top: -120, behavior: 'smooth' });
+    });
+    coreDiaryDown?.addEventListener('click', () => {
+      coreDiaryPage?.scrollBy({ top: 120, behavior: 'smooth' });
+    });
     mikeDiaryClose?.addEventListener('click', closeMikeDiary);
     mikeDiaryPage?.addEventListener('scroll', syncMikeDiaryScrollbar);
     mikeDiaryUp?.addEventListener('click', () => {
@@ -4070,6 +4180,7 @@
     window.addEventListener('resize', () => {
       syncMarryDiaryScrollbar();
       syncAlleryDiaryScrollbar();
+      syncCoreDiaryScrollbar();
       syncMikeDiaryScrollbar();
       syncDanielDiaryScrollbar();
       syncSofiaDiaryScrollbar();

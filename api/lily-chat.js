@@ -134,6 +134,7 @@ module.exports = async (req, res) => {
     const currentMessageRevealsTruth = isDangerRevealMessage(message);
     const currentMessageAsksToDestroySite = isDestroyRequestMessage(message);
     const currentMessageIsOffTopicDaily = isOffTopicDailyMessage(message);
+    const currentMessageAsksRealName = realNamePattern.test(message);
     const currentMessageAsksMemberNo = askMemberNoPattern.test(message);
     const currentMessageMentionsSofia = sofiaPattern.test(message);
     const currentMessageMentionsAllery = alleryPattern.test(message);
@@ -237,7 +238,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || realNamePattern.test(message)) && currentMessageMentionsMidnight) {
+    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsMidnight) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
@@ -246,7 +247,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery) && currentMessageMentionsLily) {
+    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsLily) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
@@ -255,7 +256,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery) && currentMessageMentionsSofia && currentMessageMentionsAllery) {
+    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsSofia && currentMessageMentionsAllery) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
@@ -264,7 +265,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery) && currentMessageMentionsSofia) {
+    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsSofia) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
@@ -273,7 +274,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery) && currentMessageMentionsAllery) {
+    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsAllery) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
