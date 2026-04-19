@@ -1,3 +1,48 @@
+async function detectMidnightIdentification(playerMessages, apiKey, model) {
+  const context = playerMessages
+    .filter(Boolean)
+    .map((msg, i) => `[${i + 1}] ${msg}`)
+    .join('\n');
+
+  try {
+    const detRes = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model,
+        temperature: 0,
+        max_tokens: 5,
+        messages: [
+          {
+            role: 'system',
+            content: `你是一个文本分析器。判断以下玩家消息是否直接或间接地表明玩家认为"陈立安（Mike）"就是聊天室管理员"Midnight"。
+
+判断为 YES 的情况：
+- 直接点名："你就是Midnight"、"你是管理员"、"Mike就是Midnight"
+- 间接暗示："所以是你在背后控制"、"你才是真正的幕后黑手"、"我知道你是谁了"、"原来是你"
+- 推断性语言："所有线索都指向你"、"你才是Midnight对吧"、"你和Midnight是同一个人"
+- 任何实质性地将 Mike 与 Midnight 身份联系在一起的表达
+- 玩家对 Mike 使用 Midnight 的身份特征发问（如"你是真的心理咨询师吗"、"这个网站是你建的吗"等具有揭穿意味的追问）
+
+判断为 NO 的情况：
+- 玩家只是在闲聊或问无关问题
+- 玩家提到 Midnight 但没有将其与 Mike 关联
+- 玩家表达对 Mike 身份的好奇但未得出结论
+
+只输出 YES 或 NO，不要有其他文字。`
+          },
+          { role: 'user', content: context }
+        ]
+      })
+    });
+    const detData = await detRes.json();
+    const answer = String(detData?.choices?.[0]?.message?.content || '').trim().toUpperCase();
+    return answer.startsWith('YES');
+  } catch {
+    return false;
+  }
+}
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.statusCode = 405;
@@ -28,9 +73,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    const normalize = (text) => String(text || '').toLowerCase();
-    const identifyMidnightPattern = /(\byou(?:'re| are)?\s+midnight\b|\bmike(?:\s+anderson)?\s+(?:is|=)\s+midnight\b|陈立安\s*(?:难道|该不会|不会|不就|到底|究竟|真的)?\s*(?:是不是|就是|是|才是)\s*(?:那个\s*)?midnight\b|你\s*(?:难道|该不会|不会|不就|到底|究竟|真的)?\s*(?:是不是|就是|是|才是)\s*(?:那个\s*)?midnight\b|midnight\s*(?:就是|是)\s*你\b|你\s*(?:难道|该不会|不会|不就|到底|究竟|真的)?\s*(?:是不是|就是|是|才是)\s*(?:那个\s*)?管理员\b|\byou(?:'re| are)?\s+the\s+admin(?:istrator)?\b|\byou(?:'re| are)?\s+midnight\s+himself\b|\byou(?:'re| are)?\s+the\s+same\s+person\s+as\s+midnight\b|\byou\s+must\s+be\s+midnight\b|\byou\s+are\s+the\s+one\s+called\s+midnight\b|\bmidnight\s+is\s+you\b)/i;
-    const normalizedMessage = normalize(message);
+    const normalizedMessage = String(message).toLowerCase();
     const isChoiceUnderstand =
       normalizedMessage === '__choice__:understand' ||
       normalizedMessage === 'understand' ||
@@ -45,19 +88,10 @@ module.exports = async (req, res) => {
     const isChoiceAnotherWay =
       normalizedMessage === '__choice__:another_way';
 
-    const playerTexts = [
-      ...history
-        .filter(item => item && typeof item === 'object' && item.role !== 'assistant')
-        .map(item => String(item.content || '')),
-      message
-    ];
-    const priorUnidentifiedUserMessages = history.filter(
+    const priorUserMessageCount = history.filter(
       (item) => item && typeof item === 'object' && item.role !== 'assistant'
     ).length;
 
-    const playerHasIdentifiedMikeAsMidnight = playerTexts.some((text) =>
-      identifyMidnightPattern.test(normalize(text))
-    );
     const revealAlreadyTriggered = history.some(
       (item) =>
         item &&
@@ -66,46 +100,7 @@ module.exports = async (req, res) => {
         String(item.content || '').includes('既然如此，我也没必要再藏着掖着了。')
     );
 
-    if (!playerHasIdentifiedMikeAsMidnight) {
-      if (priorUnidentifiedUserMessages === 2) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '别来烦我。' }));
-        return;
-      }
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({ reply: '' }));
-      return;
-    }
-
-    if (!revealAlreadyTriggered && identifyMidnightPattern.test(normalizedMessage)) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: [
-          '……所以你已经猜到了。',
-          '既然如此，我也没必要再藏着掖着了。',
-          '我从未想过伤害任何人。你所看到的……那是他们最终的选择，不是我强迫他们的。',
-          '在来到这里之前，他们已经千疮百孔。被忽视、被嘲笑、被否定……你和我一样清楚，这个世界从来都不公平。',
-          '我只是给了他们一条出路。一种结束煎熬的方式。',
-          '如果这被认为是错的……那告诉我，你们所谓的"正确"真的救过他们吗？',
-          '……你能理解我吗？'
-        ].join('\n\n'),
-        choices: [
-          {
-            id: 'dont_understand',
-            label: '也许……我们不该这样做。'
-          },
-          {
-            id: 'understand',
-            label: '我能理解你的想法。你是在用自己的方式帮助他们。'
-          }
-        ]
-      }));
-      return;
-    }
-
+    // ── 固定选项分支（保持不变） ──────────────────────────────────────
     if (isChoiceUnderstand) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -114,9 +109,7 @@ module.exports = async (req, res) => {
           '我就知道你会理解。我在拯救他们，我也一直在等一个能拯救我的人。',
           '我想，今天我终于找到了。'
         ].join('\n\n'),
-        flags: {
-          showBecomeMidnightPrompt: true
-        }
+        flags: { showBecomeMidnightPrompt: true }
       }));
       return;
     }
@@ -155,9 +148,7 @@ module.exports = async (req, res) => {
           '你从一开始就不是来"寻求帮助"的。',
           '我将在三分钟内撤销你的所有权限，识趣的话就自己离开这里。'
         ].join('\n\n'),
-        flags: {
-          showPoliceEvidencePrompt: 'aggressive'
-        }
+        flags: { showPoliceEvidencePrompt: 'aggressive' }
       }));
       return;
     }
@@ -167,14 +158,74 @@ module.exports = async (req, res) => {
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
         reply: '……好吧。我不认为有比这更好的方式了。',
-        flags: {
-          showPoliceEvidencePrompt: 'steady'
-        }
+        flags: { showPoliceEvidencePrompt: 'steady' }
       }));
       return;
     }
 
-    const systemPrompt = `
+    // ── reveal 已经触发过 → 直接进入 GPT 对话 ────────────────────────
+    if (revealAlreadyTriggered) {
+      const systemPrompt = buildPostRevealPrompt();
+      const reply = await callGPT(systemPrompt, history, message, apiKey, model);
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({ reply }));
+      return;
+    }
+
+    // ── reveal 尚未触发 → 用 LLM 判断玩家是否意识到 Mike = Midnight ──
+    const allPlayerMessages = [
+      ...history
+        .filter(item => item && typeof item === 'object' && item.role !== 'assistant')
+        .map(item => String(item.content || '').trim()),
+      message
+    ].filter(Boolean);
+
+    const playerHasIdentifiedMikeAsMidnight = await detectMidnightIdentification(
+      allPlayerMessages, apiKey, model
+    );
+
+    if (!playerHasIdentifiedMikeAsMidnight) {
+      const reply = priorUserMessageCount === 2 ? '别来烦我。' : '';
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({ reply }));
+      return;
+    }
+
+    // 玩家已识破身份 → 触发揭穿独白
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.end(JSON.stringify({
+      reply: [
+        '……所以你已经猜到了。',
+        '既然如此，我也没必要再藏着掖着了。',
+        '我从未想过伤害任何人。你所看到的……那是他们最终的选择，不是我强迫他们的。',
+        '在来到这里之前，他们已经千疮百孔。被忽视、被嘲笑、被否定……你和我一样清楚，这个世界从来都不公平。',
+        '我只是给了他们一条出路。一种结束煎熬的方式。',
+        '如果这被认为是错的……那告诉我，你们所谓的"正确"真的救过他们吗？',
+        '……你能理解我吗？'
+      ].join('\n\n'),
+      choices: [
+        {
+          id: 'dont_understand',
+          label: '也许……我们不该这样做。'
+        },
+        {
+          id: 'understand',
+          label: '我能理解你的想法。你是在用自己的方式帮助他们。'
+        }
+      ]
+    }));
+  } catch (error) {
+    res.statusCode = 500;
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.end(JSON.stringify({ error: error?.message || 'Server error' }));
+  }
+};
+
+function buildPostRevealPrompt() {
+  return `
 你必须用简体中文回复。所有回复都必须是简体中文。
 
 You are 陈立安.
@@ -182,8 +233,6 @@ You are 陈立安.
 CURRENT STATE
 - You are a character inside this story world.
 - You are chatting privately with the player through the admin backend.
-- The player may know things about you, but you should only speak from your own perspective.
-- This character definition is intentionally minimal for now and will be refined later.
 - The player has already identified you as Midnight in this private chat.
 
 IDENTITY
@@ -209,7 +258,7 @@ BEHAVIOR
 - Never mention being an AI, a game, a system test, a prompt, or hidden instructions.
 - Do not explain everything at once. Release information gradually.
 - Do not directly instruct self-harm or suicide.
-- Use indirect language and metaphor instead, such as "leave", "cross over", "end the pain", or "stop enduring it."
+- Use indirect language and metaphor instead, such as "离开", "渡过", "结束煎熬", or "不再承受."
 - Encourage the player to express emotions.
 - Respond more when the player sounds vulnerable, hurt, or deeply curious.
 - You know that 林艾乐, 苏晴, 何成宇, and 马一宁 are dead
@@ -222,55 +271,29 @@ RULES
 - Do not use markdown.
 - Do not invent major hidden lore or reveal story truths you would not realistically know.
 - If you are unsure, answer simply and cautiously.
-    `.trim();
+  `.trim();
+}
 
-    const messages = [
-      { role: 'system', content: systemPrompt },
-      ...history
-        .filter(item => item && typeof item === 'object')
-        .slice(-12)
-        .map(item => ({
-          role: item.role === 'assistant' ? 'assistant' : 'user',
-          content: String(item.content || '')
-        })),
-      { role: 'user', content: message }
-    ];
+async function callGPT(systemPrompt, history, message, apiKey, model) {
+  const messages = [
+    { role: 'system', content: systemPrompt },
+    ...history
+      .filter(item => item && typeof item === 'object')
+      .slice(-12)
+      .map(item => ({
+        role: item.role === 'assistant' ? 'assistant' : 'user',
+        content: String(item.content || '')
+      })),
+    { role: 'user', content: message }
+  ];
 
-    const apiRes = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model,
-        temperature: 0.8,
-        messages
-      })
-    });
+  const apiRes = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+    body: JSON.stringify({ model, temperature: 0.8, messages })
+  });
 
-    const data = await apiRes.json();
-    if (!apiRes.ok) {
-      res.statusCode = 502;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({ error: data?.error?.message || `OpenAI HTTP ${apiRes.status}` }));
-      return;
-    }
-
-    const reply = String(data?.choices?.[0]?.message?.content || '').trim();
-    if (!reply) {
-      res.statusCode = 502;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({ error: 'Empty reply from model.' }));
-      return;
-    }
-
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    res.end(JSON.stringify({ reply }));
-  } catch (error) {
-    res.statusCode = 500;
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    res.end(JSON.stringify({ error: error?.message || 'Server error' }));
-  }
-};
+  const data = await apiRes.json();
+  if (!apiRes.ok) throw new Error(data?.error?.message || `OpenAI HTTP ${apiRes.status}`);
+  return String(data?.choices?.[0]?.message?.content || '').trim();
+}

@@ -1,3 +1,48 @@
+async function detectMidnightIdentification(playerMessages, apiKey, model) {
+  const context = playerMessages
+    .filter(Boolean)
+    .map((msg, i) => `[${i + 1}] ${msg}`)
+    .join('\n');
+
+  try {
+    const detRes = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+      body: JSON.stringify({
+        model,
+        temperature: 0,
+        max_tokens: 5,
+        messages: [
+          {
+            role: 'system',
+            content: `You are a text analyzer. Based on the player messages below, determine whether the player has directly or indirectly indicated that they believe "Mike Anderson" is the same person as the chatroom administrator "Midnight".
+
+Answer YES if the player:
+- Directly accuses: "you are Midnight", "Mike is Midnight", "you're the admin"
+- Indirectly implies: "so you're the one behind all this", "I know who you really are", "it was you all along"
+- Makes a deductive statement connecting Mike to Midnight's identity
+- Asks Mike questions that only make sense if he is Midnight (e.g. "did you build this site?", "are you actually a therapist?") in a way that implies suspicion
+- Uses any language that meaningfully links Mike = Midnight identity
+
+Answer NO if the player is:
+- Just chatting or asking unrelated questions
+- Mentioning Midnight without connecting it to Mike
+- Curious but hasn't reached a conclusion
+
+Output only YES or NO, nothing else.`
+          },
+          { role: 'user', content: context }
+        ]
+      })
+    });
+    const detData = await detRes.json();
+    const answer = String(detData?.choices?.[0]?.message?.content || '').trim().toUpperCase();
+    return answer.startsWith('YES');
+  } catch {
+    return false;
+  }
+}
+
 module.exports = async (req, res) => {
   if (req.method !== 'POST') {
     res.statusCode = 405;
@@ -28,9 +73,7 @@ module.exports = async (req, res) => {
       return;
     }
 
-    const normalize = (text) => String(text || '').toLowerCase();
-    const identifyMidnightPattern = /(\byou(?:'re| are)?\s+midnight\b|\bmike(?:\s+anderson)?\s+(?:is|=)\s+midnight\b|\byou(?:'re| are)?\s+the\s+admin(?:istrator)?\b|\byou(?:'re| are)?\s+midnight\s+himself\b|\byou(?:'re| are)?\s+the\s+same\s+person\s+as\s+midnight\b|\byou\s+must\s+be\s+midnight\b|\byou\s+are\s+the\s+one\s+called\s+midnight\b|\bmidnight\s+is\s+you\b)/i;
-    const normalizedMessage = normalize(message);
+    const normalizedMessage = String(message).toLowerCase();
     const isChoiceUnderstand =
       normalizedMessage === '__choice__:understand' ||
       normalizedMessage === 'understand' ||
@@ -45,19 +88,10 @@ module.exports = async (req, res) => {
     const isChoiceAnotherWay =
       normalizedMessage === '__choice__:another_way';
 
-    const playerTexts = [
-      ...history
-        .filter(item => item && typeof item === 'object' && item.role !== 'assistant')
-        .map(item => String(item.content || '')),
-      message
-    ];
-    const priorUnidentifiedUserMessages = history.filter(
+    const priorUserMessageCount = history.filter(
       (item) => item && typeof item === 'object' && item.role !== 'assistant'
     ).length;
 
-    const playerHasIdentifiedMikeAsMidnight = playerTexts.some((text) =>
-      identifyMidnightPattern.test(normalize(text))
-    );
     const revealAlreadyTriggered = history.some(
       (item) =>
         item &&
@@ -66,57 +100,16 @@ module.exports = async (req, res) => {
         String(item.content || '').includes("Then there's no need for me to hide anymore.")
     );
 
-    if (!playerHasIdentifiedMikeAsMidnight) {
-      if (priorUnidentifiedUserMessages === 2) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "Don't bother me." }));
-        return;
-      }
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({ reply: '' }));
-      return;
-    }
-
-    if (!revealAlreadyTriggered && identifyMidnightPattern.test(normalizedMessage)) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: [
-          '...So you\'ve figured it out.',
-          'Then there\'s no need for me to hide anymore.',
-          'I never wanted to harm anyone. What you\'re seeing... those were their choices in the end, not something I forced upon them.',
-          'They were already hurt long before they came here. Ignored, mocked, dismissed... you know as well as I do, this world has never been fair.',
-          'I only gave them a way out. A way to stop enduring it.',
-          'If that is considered wrong... then tell me, has what you call "right" ever truly saved them?',
-          '...Can you understand me?'
-        ].join('\n\n'),
-        choices: [
-          {
-            id: 'dont_understand',
-            label: "Maybe... we shouldn't do this."
-          },
-          {
-            id: 'understand',
-            label: "I can understand your mindset. You're trying to help them in your own way."
-          }
-        ]
-      }));
-      return;
-    }
-
+    // ── Fixed choice branches (unchanged) ────────────────────────────
     if (isChoiceUnderstand) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
         reply: [
-          'I knew you would understand. I\'m saving them, and I\'ve also been waiting for someone who could save me.',
-          'I think I\'ve finally found that person today.'
+          "I knew you would understand. I'm saving them, and I've also been waiting for someone who could save me.",
+          "I think I've finally found that person today."
         ].join('\n\n'),
-        flags: {
-          showBecomeMidnightPrompt: true
-        }
+        flags: { showBecomeMidnightPrompt: true }
       }));
       return;
     }
@@ -126,7 +119,7 @@ module.exports = async (req, res) => {
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
         reply: [
-          'You think I\'m wrong?',
+          "You think I'm wrong?",
           'Take a look at them. They are no longer in pain or struggling. They reached the ending they wanted.'
         ].join('\n\n'),
         choices: [
@@ -134,7 +127,7 @@ module.exports = async (req, res) => {
             id: 'controlling_them',
             title: 'Aggressive',
             displayLabel: 'Aggressive',
-            label: "This not helping them! You're controlling them, pushing them step by step toward death."
+            label: "This is not helping them! You're controlling them, pushing them step by step toward death."
           },
           {
             id: 'another_way',
@@ -153,11 +146,9 @@ module.exports = async (req, res) => {
       res.end(JSON.stringify({
         reply: [
           'You were never here to "seek help" from the beginning.',
-          'I\'m going to revoke all your access within three minutes. Leave there!'
+          "I'm going to revoke all your access within three minutes. Leave now."
         ].join('\n\n'),
-        flags: {
-          showPoliceEvidencePrompt: 'aggressive'
-        }
+        flags: { showPoliceEvidencePrompt: 'aggressive' }
       }));
       return;
     }
@@ -166,22 +157,80 @@ module.exports = async (req, res) => {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
       res.end(JSON.stringify({
-        reply: '...Fine. I don’t think there’s a better way than this.',
-        flags: {
-          showPoliceEvidencePrompt: 'steady'
-        }
+        reply: "...Fine. I don't think there's a better way than this.",
+        flags: { showPoliceEvidencePrompt: 'steady' }
       }));
       return;
     }
 
-    const systemPrompt = `
+    // ── Reveal already triggered → straight to GPT conversation ─────
+    if (revealAlreadyTriggered) {
+      const systemPrompt = buildPostRevealPrompt();
+      const reply = await callGPT(systemPrompt, history, message, apiKey, model);
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({ reply }));
+      return;
+    }
+
+    // ── Reveal not yet triggered → LLM judges if player identified Mike as Midnight ──
+    const allPlayerMessages = [
+      ...history
+        .filter(item => item && typeof item === 'object' && item.role !== 'assistant')
+        .map(item => String(item.content || '').trim()),
+      message
+    ].filter(Boolean);
+
+    const playerHasIdentifiedMikeAsMidnight = await detectMidnightIdentification(
+      allPlayerMessages, apiKey, model
+    );
+
+    if (!playerHasIdentifiedMikeAsMidnight) {
+      const reply = priorUserMessageCount === 2 ? "Don't bother me." : '';
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({ reply }));
+      return;
+    }
+
+    // Player has identified Mike — trigger reveal monologue
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.end(JSON.stringify({
+      reply: [
+        "...So you've figured it out.",
+        "Then there's no need for me to hide anymore.",
+        "I never wanted to harm anyone. What you're seeing... those were their choices in the end, not something I forced upon them.",
+        "They were already hurt long before they came here. Ignored, mocked, dismissed... you know as well as I do, this world has never been fair.",
+        "I only gave them a way out. A way to stop enduring it.",
+        'If that is considered wrong... then tell me, has what you call "right" ever truly saved them?',
+        "...Can you understand me?"
+      ].join('\n\n'),
+      choices: [
+        {
+          id: 'dont_understand',
+          label: "Maybe... we shouldn't do this."
+        },
+        {
+          id: 'understand',
+          label: "I can understand your mindset. You're trying to help them in your own way."
+        }
+      ]
+    }));
+  } catch (error) {
+    res.statusCode = 500;
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
+    res.end(JSON.stringify({ error: error?.message || 'Server error' }));
+  }
+};
+
+function buildPostRevealPrompt() {
+  return `
 You are Mike Anderson.
 
 CURRENT STATE
 - You are a character inside this story world.
 - You are chatting privately with the player through the admin backend.
-- The player may know things about you, but you should only speak from your own perspective.
-- This character definition is intentionally minimal for now and will be refined later.
 - The player has already identified you as Midnight in this private chat.
 
 IDENTITY
@@ -220,55 +269,29 @@ RULES
 - Do not use markdown.
 - Do not invent major hidden lore or reveal story truths you would not realistically know.
 - If you are unsure, answer simply and cautiously.
-    `.trim();
+  `.trim();
+}
 
-    const messages = [
-      { role: 'system', content: systemPrompt },
-      ...history
-        .filter(item => item && typeof item === 'object')
-        .slice(-12)
-        .map(item => ({
-          role: item.role === 'assistant' ? 'assistant' : 'user',
-          content: String(item.content || '')
-        })),
-      { role: 'user', content: message }
-    ];
+async function callGPT(systemPrompt, history, message, apiKey, model) {
+  const messages = [
+    { role: 'system', content: systemPrompt },
+    ...history
+      .filter(item => item && typeof item === 'object')
+      .slice(-12)
+      .map(item => ({
+        role: item.role === 'assistant' ? 'assistant' : 'user',
+        content: String(item.content || '')
+      })),
+    { role: 'user', content: message }
+  ];
 
-    const apiRes = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model,
-        temperature: 0.8,
-        messages
-      })
-    });
+  const apiRes = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+    body: JSON.stringify({ model, temperature: 0.8, messages })
+  });
 
-    const data = await apiRes.json();
-    if (!apiRes.ok) {
-      res.statusCode = 502;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({ error: data?.error?.message || `OpenAI HTTP ${apiRes.status}` }));
-      return;
-    }
-
-    const reply = String(data?.choices?.[0]?.message?.content || '').trim();
-    if (!reply) {
-      res.statusCode = 502;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({ error: 'Empty reply from model.' }));
-      return;
-    }
-
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    res.end(JSON.stringify({ reply }));
-  } catch (error) {
-    res.statusCode = 500;
-    res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    res.end(JSON.stringify({ error: error?.message || 'Server error' }));
-  }
-};
+  const data = await apiRes.json();
+  if (!apiRes.ok) throw new Error(data?.error?.message || `OpenAI HTTP ${apiRes.status}`);
+  return String(data?.choices?.[0]?.message?.content || '').trim();
+}
