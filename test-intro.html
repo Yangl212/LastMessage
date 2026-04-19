@@ -1012,20 +1012,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
-    const firebaseConfig = {
-      apiKey:            "AIzaSyApYg0g6HmW_DndFEs6DB0XTpJWhi3ERxU",
-      authDomain:        "last-message-40f5e.firebaseapp.com",
-      databaseURL:       "https://last-message-40f5e-default-rtdb.firebaseio.com",
-      projectId:         "last-message-40f5e",
-      storageBucket:     "last-message-40f5e.firebasestorage.app",
-      messagingSenderId: "948935371659",
-      appId:             "1:948935371659:web:467d93c03c8d10d1cd1d8e"
-    };
-
-    const app    = initializeApp(firebaseConfig);
-    const db     = getDatabase(app);
-    const msgRef = ref(db, 'forum');
-
     const input   = document.getElementById('danmakuInput');
     const btn     = document.getElementById('danmakuSend');
     const list    = document.getElementById('forumList');
@@ -1036,6 +1022,18 @@
     const PER_PAGE = 5;
     let allPosts   = [];
     let currentPage = 0;
+    let db = null;
+
+    async function loadFirebaseConfig() {
+      const response = await fetch('/api/firebase-config', { cache: 'no-store' });
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.error || `Failed to load Firebase config (${response.status})`);
+      }
+
+      return data;
+    }
 
     function formatTime(ts) {
       const d = new Date(ts);
@@ -1075,26 +1073,12 @@
       pgNext.disabled = currentPage >= totalPages - 1;
     }
 
-    onValue(msgRef, (snapshot) => {
-      allPosts = [];
-      console.log('snapshot exists:', snapshot.exists(), 'size:', snapshot.size);
-      snapshot.forEach(child => {
-        console.log('child key:', child.key, 'val:', JSON.stringify(child.val()));
-        allPosts.push(child.val());
-      });
-      allPosts.sort((a, b) => (a.ts || 0) - (b.ts || 0));
-      console.log('Total posts:', allPosts.length);
-      renderPage();
-    }, (error) => {
-      console.error('Firebase read error:', error);
-    });
-
     pgPrev.addEventListener('click', () => { currentPage--; renderPage(); });
     pgNext.addEventListener('click', () => { currentPage++; renderPage(); });
 
     function sendMsg() {
       const text = input.value.trim();
-      if (!text) return;
+      if (!text || !db) return;
       btn.disabled = true;
       push(ref(db, 'forum'), { text, ts: Date.now() })
         .then(() => { input.value = ''; input.focus(); })
@@ -1104,6 +1088,35 @@
 
     btn.addEventListener('click', sendMsg);
     input.addEventListener('keydown', e => { if (e.key === 'Enter') sendMsg(); });
+
+    try {
+      const firebaseConfig = await loadFirebaseConfig();
+      const app = initializeApp(firebaseConfig);
+      db = getDatabase(app);
+      const msgRef = ref(db, 'forum');
+
+      onValue(msgRef, (snapshot) => {
+        allPosts = [];
+        console.log('snapshot exists:', snapshot.exists(), 'size:', snapshot.size);
+        snapshot.forEach(child => {
+          console.log('child key:', child.key, 'val:', JSON.stringify(child.val()));
+          allPosts.push(child.val());
+        });
+        allPosts.sort((a, b) => (a.ts || 0) - (b.ts || 0));
+        console.log('Total posts:', allPosts.length);
+        renderPage();
+      }, (error) => {
+        console.error('Firebase read error:', error);
+      });
+    } catch (error) {
+      console.error('Firebase forum unavailable:', error);
+      list.innerHTML = '<div class="forum-post"><div><div class="forum-text">Forum is temporarily unavailable.</div><div class="forum-time">Missing Firebase configuration.</div></div></div>';
+      btn.disabled = true;
+      input.disabled = true;
+      pgPrev.disabled = true;
+      pgNext.disabled = true;
+      pgInfo.textContent = '';
+    }
   </script>
 
 </body>

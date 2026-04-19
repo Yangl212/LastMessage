@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -22,6 +23,16 @@ const MIME_TYPES = {
   '.mp3': 'audio/mpeg'
 };
 
+const FIREBASE_CONFIG_KEYS = [
+  ['apiKey', 'FIREBASE_WEB_API_KEY'],
+  ['authDomain', 'FIREBASE_AUTH_DOMAIN'],
+  ['databaseURL', 'FIREBASE_DATABASE_URL'],
+  ['projectId', 'FIREBASE_PROJECT_ID'],
+  ['storageBucket', 'FIREBASE_STORAGE_BUCKET'],
+  ['messagingSenderId', 'FIREBASE_MESSAGING_SENDER_ID'],
+  ['appId', 'FIREBASE_APP_ID']
+];
+
 createServer(async (req, res) => {
   try {
     if (!req.url) {
@@ -33,6 +44,18 @@ createServer(async (req, res) => {
 
 
     if (req.method === 'GET') {
+      if (url.pathname === '/api/firebase-config') {
+        const firebaseConfig = readFirebaseConfig();
+
+        if (firebaseConfig.error) {
+          sendJson(res, 500, { error: firebaseConfig.error });
+          return;
+        }
+
+        sendJson(res, 200, firebaseConfig);
+        return;
+      }
+
       await serveStatic(url.pathname, res);
       return;
     }
@@ -79,3 +102,24 @@ function sendJson(res, statusCode, body) {
   res.end(JSON.stringify(body));
 }
 
+function readFirebaseConfig() {
+  const config = {};
+  const missing = [];
+
+  for (const [publicKey, envKey] of FIREBASE_CONFIG_KEYS) {
+    const value = process.env[envKey];
+
+    if (!value) {
+      missing.push(envKey);
+      continue;
+    }
+
+    config[publicKey] = value;
+  }
+
+  if (missing.length) {
+    return { error: `Missing Firebase environment variables: ${missing.join(', ')}` };
+  }
+
+  return config;
+}
