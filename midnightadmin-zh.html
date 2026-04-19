@@ -1913,6 +1913,13 @@
     });
 
     marryDiaryClose?.addEventListener('click', closeMarryDiary);
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('diary-overlay')) {
+        e.target.classList.remove('is-visible');
+        e.target.setAttribute('aria-hidden', 'true');
+        window.setTimeout(() => { if (!e.target.classList.contains('is-visible')) e.target.hidden = true; }, 180);
+      }
+    });
     marryDiaryPage?.addEventListener('scroll', syncMarryDiaryScrollbar);
     marryDiaryUp?.addEventListener('click', () => {
       marryDiaryPage?.scrollBy({ top: -120, behavior: 'smooth' });

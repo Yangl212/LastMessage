@@ -1652,6 +1652,7 @@
     const adminErrorScreen = document.getElementById('adminErrorScreen');
     const retroError = document.getElementById('retroError');
     const retroErrorOk = document.querySelector('.retro-error-ok');
+    const retroErrorClose = document.querySelector('#retroError .retro-error-close');
     const midnightToast = document.getElementById('midnightToast');
     const midnightToastText = document.getElementById('midnightToastText');
     const midnightToastClose = document.getElementById('midnightToastClose');
@@ -3320,6 +3321,21 @@
       }, 2000);
     }
 
+    function finalizeAdminErrorRoute() {
+      clearBackgroundErrors();
+      adminErrorScreen.classList.add('final-blackout');
+      window.setTimeout(() => {
+        const isFatalError = memberAccessErrorCount >= MAX_MEMBER_ACCESS_ERROR_ATTEMPTS;
+        if (isFatalError) {
+          localStorage.removeItem(ADMIN_ERROR_COUNT_KEY);
+          memberAccessErrorCount = 0;
+          window.location.href = 'Ending2-zh.html';
+          return;
+        }
+        window.location.href = 'login-zh.html';
+      }, 1000);
+    }
+
     function activateMemberLinkByPanel(panelId) {
       memberLinks.forEach((item) => {
         item.classList.toggle('active', item.dataset.panel === panelId);
@@ -3719,20 +3735,8 @@
       openPrivateChatForMember('柯言');
     });
 
-    retroErrorOk?.addEventListener('click', () => {
-      clearBackgroundErrors();
-      adminErrorScreen.classList.add('final-blackout');
-      window.setTimeout(() => {
-        const isFatalError = memberAccessErrorCount >= MAX_MEMBER_ACCESS_ERROR_ATTEMPTS;
-        if (isFatalError) {
-          localStorage.removeItem(ADMIN_ERROR_COUNT_KEY);
-          memberAccessErrorCount = 0;
-          window.location.href = 'Ending2-zh.html';
-          return;
-        }
-        window.location.href = 'login-zh.html';
-      }, 1000);
-    });
+    retroErrorOk?.addEventListener('click', finalizeAdminErrorRoute);
+    retroErrorClose?.addEventListener('click', finalizeAdminErrorRoute);
 
     document.addEventListener('click', (event) => {
       const lilyTab = event.target.closest('[data-lily-view]');
@@ -4103,6 +4107,13 @@
     });
 
     marryDiaryClose?.addEventListener('click', closeMarryDiary);
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('diary-overlay')) {
+        e.target.classList.remove('is-visible');
+        e.target.setAttribute('aria-hidden', 'true');
+        window.setTimeout(() => { if (!e.target.classList.contains('is-visible')) e.target.hidden = true; }, 180);
+      }
+    });
     marryDiaryPage?.addEventListener('scroll', syncMarryDiaryScrollbar);
     marryDiaryPage?.addEventListener('click', (e) => {
       const sig = e.target.closest('.diary-signature-redacted');
