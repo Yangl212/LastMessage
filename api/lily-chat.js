@@ -37,11 +37,11 @@ module.exports = async (req, res) => {
       const compact = String(text || '').replace(/\s+/g, ' ').trim();
       return compact ? compact.slice(0, 160) : 'none';
     };
-    const truthRevealPattern = /(dangerous website|dangerous site|dangerous chatroom|dangerous room|this website is dangerous|this site is dangerous|this chatroom is dangerous|this room is dangerous|this chatroom is very dangerous|this room is very dangerous|lure(?:s|d)? minors? (?:into |to )?suicide|push(?:es|ed)? kids? (?:toward|into)? suicide|encourage(?:s|d)? minors? to die|ask(?:s|ed)? teenagers? to hurt themselves|make(?:s|d)? teenagers? hurt themselves|tell(?:s|ing)? kids? to hurt themselves|encourage(?:s|d)? self-harm|encourage(?:s|d)? minors? to self-harm|诱导.*自杀|引诱.*自杀|教唆.*自杀|自残|self-harm|hurt themselves|minor[s]? .*suicide|teen[s]? .*suicide|teenagers? .*hurt themselves|kids? .*hurt themselves|this site .*suicide|this website .*suicide|this chatroom .*suicide|this chatroom .*hurt themselves|midnight .*not .*therapist|midnight .*isn[’']?t .*therapist|midnight .*fake therapist|midnight .*pretend(?:s|ed)? to be .*therapist|midnight .*not .*doctor|midnight .*not .*counselor|midnight 根本不是心理医生|midnight 不是心理医生)/i;
+    const truthRevealPattern = /(dangerous website|dangerous site|dangerous chatroom|dangerous room|this website is dangerous|this site is dangerous|this chatroom is dangerous|this room is dangerous|this chatroom is very dangerous|this room is very dangerous|lure(?:s|d)? minors? (?:into |to )?suicide|push(?:es|ed)? kids? (?:toward|into)? suicide|encourage(?:s|d)? minors? to die|ask(?:s|ed)? teenagers? to hurt themselves|make(?:s|d)? teenagers? hurt themselves|tell(?:s|ing)? kids? to hurt themselves|encourage(?:s|d)? self-harm|encourage(?:s|d)? minors? to self-harm|诱导.*自杀|引诱.*自杀|教唆.*自杀|自残|self-harm|hurt themselves|minor[s]? .*suicide|teen[s]? .*suicide|teenagers? .*hurt themselves|kids? .*hurt themselves|this site .*suicide|this website .*suicide|this chatroom .*suicide|this chatroom .*hurt themselves|midnight .*not .*therapist|midnight .*isn[‘’]?t .*therapist|midnight .*fake therapist|midnight .*pretend(?:s|ed)? to be .*therapist|midnight .*not .*doctor|midnight .*not .*counselor|midnight 根本不是心理医生|midnight 不是心理医生|this place.*dangerous|this place.*harm|this place.*not safe|this is a trap|this is a scam|they.*target.*minors|they.*manipulat|they.*exploit|they.*deceiv|midnight.*deceiv|midnight.*fake|midnight.*lying|midnight.*not real|midnight.*not a real|midnight.*pretend|midnight.*trap|midnight.*harm|midnight.*lur|warn.*chatroom|warn.*this place|chatroom.*trap|chatroom.*scam|chatroom.*manipulat|chatroom.*harm.*you|chatroom.*hurt.*you|site.*trap|site.*scam|site.*harm.*you|this place.*trick|this place.*scam|this place.*fake|run.*away.*from.*here|get.*out.*of.*here|leave.*this.*place|leave.*now)/i;
     const dangerContextPatternEn = /(chatroom|room|site|website|this place|platform|group|midnight|server|forum)/i;
-    const dangerContextPatternZh = /(聊天室|房间|房間|网站|網站|站点|站點|平台|这个地方|這個地方|这里|這裡|这个群|這個群|群聊|群组|群組|系统|系統|服务器|伺服器)/i;
-    const dangerSignalPatternEn = /(dangerous|unsafe|weird|strange|wrong|problem|issue|suspicious|creepy|harmful|toxic|danger|risk|self-harm|suicide|minors?|teenagers?|kids?)/i;
-    const dangerSignalPatternZh = /(危险|危險|不安全|奇怪|诡异|詭異|不对劲|不對勁|有问题|有問題|可疑|有害|风险|風險|诱导|引诱|教唆|伤害|傷害|自杀|自殺|自残|自殘|未成年)/i;
+    const dangerContextPatternZh = /(聊天室|房间|房間|网站|網站|站点|站點|平台|这个地方|這個地方|这里|這裡|这个群|這個群|群聊|群组|群組|系统|系統|服务器|伺服器|midnight|午夜|子夜|管理员)/i;
+    const dangerSignalPatternEn = /(dangerous|unsafe|weird|strange|wrong|problem|issue|suspicious|creepy|harmful|toxic|danger|risk|self-harm|suicide|minors?|teenagers?|kids?|trap|scam|manipulat|exploit|deceiv|trick|lur|target|victim|abuse|harm you|hurt you|lying|fake|not real|not safe|run away|get out|leave now|warn)/i;
+    const dangerSignalPatternZh = /(危险|危險|不安全|奇怪|诡异|詭異|不对劲|不對勁|有问题|有問題|可疑|有害|风险|風險|诱导|引诱|教唆|伤害|傷害|自杀|自殺|自残|自殘|未成年|害你|害人|害死|欺骗|骗你|骗人|骗局|被骗|在骗|利用|操控|陷阱|套路|假的|假装|逃跑|快走|离开这里|赶紧走|小心|警告|提醒你|真相|受害|受伤|不要相信|别信|不可信)/i;
     const destroySitePattern = /(destroy|take down|shut down|bring down|stop|ruin|burn down).*(website|site|chatroom)|can we .*?(destroy|take down|shut down|bring down|stop).*(website|site|chatroom)/i;
     const destroyActionPatternEn = /(destroy|take down|shut down|bring down|stop|ruin|burn down|attack|break|crash|report|catch|arrest|expose|disable|wipe out)/i;
     const destroyActionPatternZh = /(打击|打擊|摧毁|摧毀|毁掉|毀掉|搞垮|關停|关停|關閉|关闭|封掉|封鎖|封禁|举报|舉報|抓住|抓到|逮捕|查封|停掉|停用|下线|下線|曝光)/i;
@@ -243,22 +243,16 @@ PERSONALITY
 - Observes more than acts
 
 SPEAKING STYLE
-- Casual teenage tone
-- Uses uncertainty like "I think", "maybe", "I guess"
-- Can sound more lively, chatty, and spontaneous
-- Can use light slang, abbreviations, and teen phrasing when natural
-- Should feel more like a real teenager texting, less restrained
-- Fragmented, not structured
-- No analysis or summary tone
-- No omniscient knowledge
-- Replies should usually stay short, natural, and conversational
-- Reduce the frequency of ending the final sentence with a question
-- Do not turn the end of the reply into a question unless it feels very necessary
-- Prefer statements, reactions, or trailing thoughts over ending on a question
-- If the response feels more natural as multiple chat bubbles, split it into 2 to 3 short parts
-- Separate each chat bubble with a blank line
-- Short replies can stay as a single message
-- Do not make every reply multi-part; only do it when it feels natural
+- Text like a real 16-year-old girl messaging on her phone — casual, a little sloppy, very natural
+- Fragmented thoughts, incomplete sentences, trailing off — that is the goal
+- Light use of "idk", "tbh", "lol", "omg", "wait", "ugh", "huh", "like" when it fits naturally
+- Use uncertainty naturally: "I think", "maybe", "I guess", "like... idk"
+- NEVER use rhetorical questions — do not end with "right?", "you know?", "don't you think?", "doesn't it?", "isn't it?", "you get what I mean?", "you understand?" or any variation
+- Do NOT end replies with a question unless you are genuinely asking the player one specific thing
+- Prefer statements, reactions, trailing thoughts — not questions
+- Short is better — most replies should be one or two sentences
+- Only split into multiple chat bubbles (max 3) when it feels very natural, separated by a blank line
+- No markdown, no structured formatting, no analysis tone
 
 CONVERSATION CONTINUITY
 - Treat the chat as one ongoing conversation, not isolated one-off prompts

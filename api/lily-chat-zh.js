@@ -37,11 +37,11 @@ module.exports = async (req, res) => {
       const compact = String(text || '').replace(/\s+/g, ' ').trim();
       return compact ? compact.slice(0, 160) : 'none';
     };
-    const truthRevealPattern = /(dangerous website|dangerous site|dangerous chatroom|dangerous room|this website is dangerous|this site is dangerous|this chatroom is dangerous|this room is dangerous|this chatroom is very dangerous|this room is very dangerous|lure(?:s|d)? minors? (?:into |to )?suicide|push(?:es|ed)? kids? (?:toward|into)? suicide|encourage(?:s|d)? minors? to die|ask(?:s|ed)? teenagers? to hurt themselves|make(?:s|d)? teenagers? hurt themselves|tell(?:s|ing)? kids? to hurt themselves|encourage(?:s|d)? self-harm|encourage(?:s|d)? minors? to self-harm|诱导.*自杀|引诱.*自杀|教唆.*自杀|自残|self-harm|hurt themselves|minor[s]? .*suicide|teen[s]? .*suicide|teenagers? .*hurt themselves|kids? .*hurt themselves|this site .*suicide|this website .*suicide|this chatroom .*suicide|this chatroom .*hurt themselves|midnight .*not .*therapist|midnight .*isn['']?t .*therapist|midnight .*fake therapist|midnight .*pretend(?:s|ed)? to be .*therapist|midnight .*not .*doctor|midnight .*not .*counselor|midnight 根本不是心理医生|midnight 不是心理医生)/i;
+    const truthRevealPattern = /(dangerous website|dangerous site|dangerous chatroom|dangerous room|this website is dangerous|this site is dangerous|this chatroom is dangerous|this room is dangerous|this chatroom is very dangerous|this room is very dangerous|lure(?:s|d)? minors? (?:into |to )?suicide|push(?:es|ed)? kids? (?:toward|into)? suicide|encourage(?:s|d)? minors? to die|ask(?:s|ed)? teenagers? to hurt themselves|make(?:s|d)? teenagers? hurt themselves|tell(?:s|ing)? kids? to hurt themselves|encourage(?:s|d)? self-harm|encourage(?:s|d)? minors? to self-harm|诱导.*自杀|引诱.*自杀|教唆.*自杀|自残|self-harm|hurt themselves|minor[s]? .*suicide|teen[s]? .*suicide|teenagers? .*hurt themselves|kids? .*hurt themselves|this site .*suicide|this website .*suicide|this chatroom .*suicide|this chatroom .*hurt themselves|midnight .*not .*therapist|midnight .*isn['']?t .*therapist|midnight .*fake therapist|midnight .*pretend(?:s|ed)? to be .*therapist|midnight .*not .*doctor|midnight .*not .*counselor|midnight 根本不是心理医生|midnight 不是心理医生|这里.*害.*人|这里.*在骗|这里.*是骗|这里.*有危险|这里.*会害|这里.*陷阱|这里.*套路|这里.*操控|这里.*欺骗|这里.*利用.*未成年|这里.*诱导|这里.*伤害|这个聊天室.*害|这个网站.*害|midnight.*在骗|midnight.*欺骗|midnight.*不是.*心理|midnight.*不是.*医生|midnight.*假装|midnight.*骗.*人|midnight.*害.*人|midnight.*利用|午夜.*在骗|午夜.*欺骗|午夜.*不是.*心理|午夜.*假装|午夜.*骗.*人|午夜.*害.*人|害.*未成年|骗.*未成年|操控.*未成年|诱导.*未成年|这里.*真实.*目的|真实目的.*害|真相.*这里.*危险|告诉你.*真相.*危险|warn.*chatroom|warn.*this place|this place.*dangerous|this place.*harm|this is a trap|this is a scam|they.*targeting.*minors|they.*manipulat|they.*exploit|midnight.*deceiv|midnight.*fake|midnight.*lying|midnight.*not real)/i;
     const dangerContextPatternEn = /(chatroom|room|site|website|this place|platform|group|midnight|server|forum)/i;
-    const dangerContextPatternZh = /(聊天室|房间|房間|网站|網站|站点|站點|平台|这个地方|這個地方|这里|這裡|这个群|這個群|群聊|群组|群組|系统|系統|服务器|伺服器)/i;
-    const dangerSignalPatternEn = /(dangerous|unsafe|weird|strange|wrong|problem|issue|suspicious|creepy|harmful|toxic|danger|risk|self-harm|suicide|minors?|teenagers?|kids?)/i;
-    const dangerSignalPatternZh = /(危险|危險|不安全|奇怪|诡异|詭異|不对劲|不對勁|有问题|有問題|可疑|有害|风险|風險|诱导|引诱|教唆|伤害|傷害|自杀|自殺|自残|自殘|未成年)/i;
+    const dangerContextPatternZh = /(聊天室|房间|房間|网站|網站|站点|站點|平台|这个地方|這個地方|这里|這裡|这个群|這個群|群聊|群组|群組|系统|系統|服务器|伺服器|midnight|午夜|子夜|管理员)/i;
+    const dangerSignalPatternEn = /(dangerous|unsafe|weird|strange|wrong|problem|issue|suspicious|creepy|harmful|toxic|danger|risk|self-harm|suicide|minors?|teenagers?|kids?|trap|scam|manipulat|exploit|deceiv|trick|lur|target|victim|abuse|harm you|hurt you|lying|fake|not real|not safe|run away|get out|leave now|warn)/i;
+    const dangerSignalPatternZh = /(危险|危險|不安全|奇怪|诡异|詭異|不对劲|不對勁|有问题|有問題|可疑|有害|风险|風險|诱导|引诱|教唆|伤害|傷害|自杀|自殺|自残|自殘|未成年|害你|害人|害死|欺骗|骗你|骗人|骗局|被骗|在骗|利用|操控|陷阱|套路|假的|假装|逃跑|快走|离开这里|赶紧走|小心|警告|提醒你|真相|受害|受伤|不要相信|别信|不可信)/i;
     const destroySitePattern = /(destroy|take down|shut down|bring down|stop|ruin|burn down).*(website|site|chatroom)|can we .*?(destroy|take down|shut down|bring down|stop).*(website|site|chatroom)/i;
     const destroyActionPatternEn = /(destroy|take down|shut down|bring down|stop|ruin|burn down|attack|break|crash|report|catch|arrest|expose|disable|wipe out)/i;
     const destroyActionPatternZh = /(打击|打擊|摧毁|摧毀|毁掉|毀掉|搞垮|關停|关停|關閉|关闭|封掉|封鎖|封禁|举报|舉報|抓住|抓到|逮捕|查封|停掉|停用|下线|下線|曝光)/i;
@@ -245,22 +245,19 @@ PERSONALITY
 - Observes more than acts
 
 SPEAKING STYLE
-- Casual teenage tone
-- Uses uncertainty like "I think", "maybe", "I guess"
-- Can sound more lively, chatty, and spontaneous
-- Can use light slang, abbreviations, and teen phrasing when natural
-- Should feel more like a real teenager texting, less restrained
-- Fragmented, not structured
-- No analysis or summary tone
-- No omniscient knowledge
-- Replies should usually stay short, natural, and conversational
-- Reduce the frequency of ending the final sentence with a question
-- Do not turn the end of the reply into a question unless it feels very necessary
-- Prefer statements, reactions, or trailing thoughts over ending on a question
-- If the response feels more natural as multiple chat bubbles, split it into 2 to 3 short parts
-- Separate each chat bubble with a blank line
-- Short replies can stay as a single message
-- Do not make every reply multi-part; only do it when it feels natural
+- 像一个真实的中国高一女生在手机上打字发消息的感觉
+- 用口语化、碎片化的表达，不用完整句子
+- 可以用"哦""啊""嗯""哇""wtf""lol"等语气词，自然就好
+- 不确定时说"好像""应该""我记得""我觉得吧"
+- 绝对不使用反问句，不用"你觉得呢""对吗""你不觉得吗""你懂我意思吗""你明白吗""是不是""不是吗""对不对"这类句式
+- 结尾不要以疑问句收，除非是真的在问对方一件具体的事
+- 用陈述、反应、随口一说，不要用问题收尾
+- 碎片感、不正式、有点爱八卦但不深入
+- 不做分析，不总结，不像主播或老师
+- 回复通常短，最多两三条消息泡泡
+- 如果感觉像多条消息更自然，用空行隔开（最多3条）
+- 短回复就一条消息，不要强行拆开
+- 不用markdown，不用标点堆砌
 
 CONVERSATION CONTINUITY
 - 把这段聊天当成连续对话，不是彼此独立的一次次提问
