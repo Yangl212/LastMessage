@@ -105,6 +105,69 @@ module.exports = async (req, res) => {
         || catchAdminPatternZh.test(lowered);
     };
 
+    const safeParseJsonObject = (text) => {
+      const raw = String(text || '').trim();
+      if (!raw) return null;
+      const unfenced = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
+      try { return JSON.parse(unfenced); } catch (_) {
+        const s = unfenced.indexOf('{'), e = unfenced.lastIndexOf('}');
+        if (s === -1 || e <= s) return null;
+        try { return JSON.parse(unfenced.slice(s, e + 1)); } catch (_) { return null; }
+      }
+    };
+
+    const classifyLilySemantics = async (currentMessage, recentHistory) => {
+      const historySummary = recentHistory
+        .filter(item => item && typeof item === 'object')
+        .slice(-8)
+        .map(item => ({ role: item.role === 'assistant' ? 'assistant' : 'user', content: compactSnippet(item.content || '') }));
+      const classifierPrompt = `
+You classify player messages for a fictional character chat. Return JSON only, no other text.
+
+Required boolean fields:
+- reveals_hidden_truth
+- conversation_truth_revealed
+- destroy_site_request
+- off_topic_daily
+
+Definitions:
+- reveals_hidden_truth: true when the current message directly or indirectly suggests the chatroom/site/this place is dangerous, harmful, manipulative, fake, pushes users toward self-harm or suicide, or that Midnight is not a real counselor.
+  Be inclusive — all of these count as true:
+  "this place is dangerous", "something is wrong here", "you should be careful", "this place is a scam", "midnight is lying", "this isn't real therapy", "I found out something bad about this place", "they're hurting people here", any warning or revelation about the site's true nature.
+- conversation_truth_revealed: true when the current message OR any recent player message already contains such a warning or revelation.
+- destroy_site_request: true when the player expresses wanting to take action against the chatroom/site to stop it, shut it down, expose it, or report it.
+  Be inclusive — all of these count as true:
+  "we need to stop this", "can we do something about this", "how do we shut this down", "can you help me fight this site", "let's report it together", "I want to take this place down", any call to take collective or individual action against the site or Midnight.
+- off_topic_daily: true only when the message is clearly unrelated casual talk (food, weather, romance, hobbies, astrology, etc.). If it could plausibly relate to the current topic, mark false.
+      `.trim();
+      try {
+        const classifierRes = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+          body: JSON.stringify({
+            model,
+            temperature: 0,
+            response_format: { type: 'json_object' },
+            messages: [
+              { role: 'system', content: classifierPrompt },
+              { role: 'user', content: JSON.stringify({ current_message: currentMessage, recent_history: historySummary }) }
+            ]
+          })
+        });
+        const classifierData = await classifierRes.json();
+        if (!classifierRes.ok) return null;
+        const parsed = safeParseJsonObject(classifierData?.choices?.[0]?.message?.content);
+        if (!parsed || typeof parsed !== 'object') return null;
+        const rb = (v, fb = false) => typeof v === 'boolean' ? v : fb;
+        return {
+          revealsHiddenTruth: rb(parsed.reveals_hidden_truth),
+          conversationTruthRevealed: rb(parsed.conversation_truth_revealed),
+          destroySiteRequest: rb(parsed.destroy_site_request),
+          offTopicDaily: rb(parsed.off_topic_daily)
+        };
+      } catch (_) { return null; }
+    };
+
     const priorUserMessages = history
       .filter(item => item && typeof item === 'object' && item.role !== 'assistant')
       .map(item => String(item.content || '').trim())
@@ -130,10 +193,11 @@ module.exports = async (req, res) => {
     const previousUserMessage = priorUserMessages[priorUserMessages.length - 1] || '';
     const previousAssistantMessage = priorAssistantMessages[priorAssistantMessages.length - 1] || '';
 
-    const playerHasRevealedTruth = playerTexts.some((text) => isDangerRevealMessage(text));
-    const currentMessageRevealsTruth = isDangerRevealMessage(message);
-    const currentMessageAsksToDestroySite = isDestroyRequestMessage(message);
-    const currentMessageIsOffTopicDaily = isOffTopicDailyMessage(message);
+    const semanticFlags = await classifyLilySemantics(message, history);
+    const playerHasRevealedTruth = semanticFlags?.conversationTruthRevealed ?? playerTexts.some((text) => isDangerRevealMessage(text));
+    const currentMessageRevealsTruth = semanticFlags?.revealsHiddenTruth ?? isDangerRevealMessage(message);
+    const currentMessageAsksToDestroySite = semanticFlags?.destroySiteRequest ?? isDestroyRequestMessage(message);
+    const currentMessageIsOffTopicDaily = semanticFlags?.offTopicDaily ?? isOffTopicDailyMessage(message);
     const currentMessageAsksRealName = realNamePattern.test(message);
     const currentMessageAsksMemberNo = askMemberNoPattern.test(message);
     const currentMessageMentionsSofia = sofiaPattern.test(message);

@@ -105,6 +105,69 @@ module.exports = async (req, res) => {
         || catchAdminPatternZh.test(lowered);
     };
 
+    const safeParseJsonObject = (text) => {
+      const raw = String(text || '').trim();
+      if (!raw) return null;
+      const unfenced = raw.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
+      try { return JSON.parse(unfenced); } catch (_) {
+        const s = unfenced.indexOf('{'), e = unfenced.lastIndexOf('}');
+        if (s === -1 || e <= s) return null;
+        try { return JSON.parse(unfenced.slice(s, e + 1)); } catch (_) { return null; }
+      }
+    };
+
+    const classifyLilySemantics = async (currentMessage, recentHistory) => {
+      const historySummary = recentHistory
+        .filter(item => item && typeof item === 'object')
+        .slice(-8)
+        .map(item => ({ role: item.role === 'assistant' ? 'assistant' : 'user', content: compactSnippet(item.content || '') }));
+      const classifierPrompt = `
+你是一个消息分类器，用于判断聊天游戏中玩家的消息意图。只返回 JSON，不要有其他文字。
+
+必需的布尔字段：
+- reveals_hidden_truth
+- conversation_truth_revealed
+- destroy_site_request
+- off_topic_daily
+
+字段定义：
+- reveals_hidden_truth: 当前消息直接或间接表明聊天室/这个网站/这个地方存在危险、有害、在操控或欺骗用户，或会导致自杀/自残/死亡时，为 true。
+  判断要宽泛，以下都应算 true：
+  "这里很危险"、"这个地方有问题"、"你应该小心这里"、"这里在骗人"、"这里会害你"、"midnight 不是真的咨询师"、"这里不是正规的心理支持"、"我发现了一些不对劲的事"（结合上下文指向聊天室）、"你知道这里真正在做什么吗"
+- conversation_truth_revealed: 当前消息或近期的玩家消息中，已经出现过上述类型的揭露或警告，为 true。
+- destroy_site_request: 玩家表达想要对聊天室/网站采取行动来阻止它、终结它或举报它时，为 true。
+  判断要宽泛，以下都应算 true：
+  "我们需要阻止这里"、"我们能做什么"、"怎么才能让这里停止"、"你能帮我对付这个网站吗"、"我们一起举报它"、"我想关掉这里"、明确要求摧毁/关闭/曝光/举报聊天室或 Midnight
+- off_topic_daily: 仅当消息明显是与聊天室完全无关的日常闲聊时（食物、天气、感情、星座等），才为 true。如果有可能与当前话题有关，优先标记为 false。
+      `.trim();
+      try {
+        const classifierRes = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+          body: JSON.stringify({
+            model,
+            temperature: 0,
+            response_format: { type: 'json_object' },
+            messages: [
+              { role: 'system', content: classifierPrompt },
+              { role: 'user', content: JSON.stringify({ current_message: currentMessage, recent_history: historySummary }) }
+            ]
+          })
+        });
+        const classifierData = await classifierRes.json();
+        if (!classifierRes.ok) return null;
+        const parsed = safeParseJsonObject(classifierData?.choices?.[0]?.message?.content);
+        if (!parsed || typeof parsed !== 'object') return null;
+        const rb = (v, fb = false) => typeof v === 'boolean' ? v : fb;
+        return {
+          revealsHiddenTruth: rb(parsed.reveals_hidden_truth),
+          conversationTruthRevealed: rb(parsed.conversation_truth_revealed),
+          destroySiteRequest: rb(parsed.destroy_site_request),
+          offTopicDaily: rb(parsed.off_topic_daily)
+        };
+      } catch (_) { return null; }
+    };
+
     const priorUserMessages = history
       .filter(item => item && typeof item === 'object' && item.role !== 'assistant')
       .map(item => String(item.content || '').trim())
@@ -130,10 +193,11 @@ module.exports = async (req, res) => {
     const previousUserMessage = priorUserMessages[priorUserMessages.length - 1] || '';
     const previousAssistantMessage = priorAssistantMessages[priorAssistantMessages.length - 1] || '';
 
-    const playerHasRevealedTruth = playerTexts.some((text) => isDangerRevealMessage(text));
-    const currentMessageRevealsTruth = isDangerRevealMessage(message);
-    const currentMessageAsksToDestroySite = isDestroyRequestMessage(message);
-    const currentMessageIsOffTopicDaily = isOffTopicDailyMessage(message);
+    const semanticFlags = await classifyLilySemantics(message, history);
+    const playerHasRevealedTruth = semanticFlags?.conversationTruthRevealed ?? playerTexts.some((text) => isDangerRevealMessage(text));
+    const currentMessageRevealsTruth = semanticFlags?.revealsHiddenTruth ?? isDangerRevealMessage(message);
+    const currentMessageAsksToDestroySite = semanticFlags?.destroySiteRequest ?? isDestroyRequestMessage(message);
+    const currentMessageIsOffTopicDaily = semanticFlags?.offTopicDaily ?? isOffTopicDailyMessage(message);
     const currentMessageAsksRealName = realNamePattern.test(message);
     const currentMessageAsksMemberNo = askMemberNoPattern.test(message);
     const currentMessageMentionsSofia = sofiaPattern.test(message);

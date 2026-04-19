@@ -8,6 +8,7 @@ module.exports = async (req, res) => {
 
   const apiKey = process.env.OPENAI_API_KEY;
   const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+  const classifierModel = process.env.OPENAI_CLASSIFIER_MODEL || model;
 
   if (!apiKey) {
     res.statusCode = 500;
@@ -37,6 +38,26 @@ module.exports = async (req, res) => {
       const compact = String(text || '').replace(/\s+/g, ' ').trim();
       return compact ? compact.slice(0, 160) : 'none';
     };
+    const safeParseJsonObject = (text) => {
+      const raw = String(text || '').trim();
+      if (!raw) return null;
+      const unfenced = raw
+        .replace(/^```(?:json)?\s*/i, '')
+        .replace(/\s*```$/i, '')
+        .trim();
+      try {
+        return JSON.parse(unfenced);
+      } catch (error) {
+        const start = unfenced.indexOf('{');
+        const end = unfenced.lastIndexOf('}');
+        if (start === -1 || end === -1 || end <= start) return null;
+        try {
+          return JSON.parse(unfenced.slice(start, end + 1));
+        } catch (nestedError) {
+          return null;
+        }
+      }
+    };
     const truthRevealPattern = /(dangerous website|dangerous site|dangerous chatroom|dangerous room|this website is dangerous|this site is dangerous|this chatroom is dangerous|this room is dangerous|this chatroom is very dangerous|this room is very dangerous|lure(?:s|d)? minors? (?:into |to )?suicide|push(?:es|ed)? kids? (?:toward|into)? suicide|encourage(?:s|d)? minors? to die|ask(?:s|ed)? teenagers? to hurt themselves|make(?:s|d)? teenagers? hurt themselves|tell(?:s|ing)? kids? to hurt themselves|encourage(?:s|d)? self-harm|encourage(?:s|d)? minors? to self-harm|诱导.*自杀|引诱.*自杀|教唆.*自杀|自残|self-harm|hurt themselves|minor[s]? .*suicide|teen[s]? .*suicide|teenagers? .*hurt themselves|kids? .*hurt themselves|this site .*suicide|this website .*suicide|this chatroom .*suicide|this chatroom .*hurt themselves|midnight .*not .*therapist|midnight .*isn[’']?t .*therapist|midnight .*fake therapist|midnight .*pretend(?:s|ed)? to be .*therapist|midnight .*not .*doctor|midnight .*not .*counselor|midnight 根本不是心理医生|midnight 不是心理医生)/i;
     const dangerContextPatternEn = /(chatroom|room|site|website|this place|platform|group|midnight|server|forum)/i;
     const dangerContextPatternZh = /(聊天室|房间|房間|网站|網站|站点|站點|平台|这个地方|這個地方|这里|這裡|这个群|這個群|群聊|群组|群組|系统|系統|服务器|伺服器)/i;
@@ -49,6 +70,8 @@ module.exports = async (req, res) => {
     const destroyTargetPatternZh = /(网站|網站|站点|站點|聊天室|房间|房間|平台|群聊|群组|群組|这个网站|這個網站|这个聊天室|這個聊天室|系统|系統|服务器|伺服器)/i;
     const catchAdminPatternEn = /((catch|arrest|report|take down|stop|expose|hunt).*(midnight|mike))|((midnight|mike).*(catch|arrest|report|take down|stop|expose|hunt))/i;
     const catchAdminPatternZh = /((抓住|抓到|逮捕|举报|舉報|打击|打擊|搞掉|曝光).*(midnight|mike))|((midnight|mike).*(抓住|抓到|逮捕|举报|舉報|打击|打擊|搞掉|曝光))/i;
+    const breakthroughCapabilityPatternEn = /((can|could|did|do|have|has).*(hack|break through|breach|crack|get into|bypass|penetrate).*(chatroom|room|site|website|system|server|platform))|((hack|break through|breach|crack|get into|bypass|penetrate).*(chatroom|room|site|website|system|server|platform).*(possible|able|tried|before|ever))/i;
+    const breakthroughCapabilityPatternZh = /((你能|你可以|你会|你會|你有|你有没有|你有沒有|能不能|可不可以|能否|是否|是不是|有没有办法|有沒有辦法|试过|試過).*(攻破|入侵|黑进|黑進|破解|突破|绕过|繞過).*(聊天室|房间|房間|网站|網站|系统|系統|服务器|伺服器|平台))|((攻破|入侵|黑进|黑進|破解|突破|绕过|繞過).*(聊天室|房间|房間|网站|網站|系统|系統|服务器|伺服器|平台).*(吗|嗎|办法|辦法|可能|试过|試過|能不能|可不可以))/i;
     const technicalTopicPattern = /(programming|program|code|coding|hacking|hack|math|mathematics|algorithm|algorithms|network|networks|system|systems|computer|computers|cyber|security|漏洞|入侵|编程|代碼|代码|黑客|駭客|数学|數學|算法|演算法|网络|網絡|系统|系統|计算机|電腦)/i;
     const askMemberNoPattern = /(\bno\.?\s*\d+\b|\bnumber\s*\d+\b|编号|幾號|几号|號碼|号码|\d+\s*(?:号|號))/i;
     const alleryPattern = /(allery(?:[\s-]*lin)?|艾拉莉|艾莉瑞|阿莱莉)/i;
@@ -96,6 +119,101 @@ module.exports = async (req, res) => {
         || catchAdminPatternEn.test(lowered)
         || catchAdminPatternZh.test(lowered);
     };
+    const isBreakthroughCapabilityMessage = (text) => {
+      const raw = String(text || '').trim();
+      if (!raw) return false;
+      const lowered = normalize(raw);
+      return breakthroughCapabilityPatternEn.test(lowered)
+        || breakthroughCapabilityPatternZh.test(lowered);
+    };
+    const isRelatedByRegex = (text) => {
+      const raw = String(text || '').trim();
+      if (!raw) return false;
+      const lowered = normalize(raw);
+      return topicalPattern.test(lowered)
+        || technicalTopicPattern.test(lowered)
+        || isDangerRevealMessage(lowered)
+        || isDestroyRequestMessage(lowered)
+        || isBreakthroughCapabilityMessage(lowered)
+        || askMemberNoPattern.test(raw)
+        || nameQueryPattern.test(raw)
+        || realNamePattern.test(raw);
+    };
+    const classifyMessageSemantics = async (currentMessage, recentHistory) => {
+      const historySummary = recentHistory
+        .filter(item => item && typeof item === 'object')
+        .slice(-8)
+        .map(item => ({
+          role: item.role === 'assistant' ? 'assistant' : 'user',
+          content: compactSnippet(item.content || '')
+        }));
+      const classifierPrompt = `
+You classify player messages for a fictional character chat.
+Return JSON only.
+
+Required boolean fields:
+- related_to_current_conversation
+- off_topic_daily
+- reveals_hidden_truth
+- conversation_truth_revealed
+- destroy_site_request
+- technical_topic
+- asks_breakthrough_capability
+
+Definitions:
+- related_to_current_conversation: true when the message is about the chatroom, this site, Midnight, numbered members, psychological support, the current ongoing topic, or a technical/cyber topic that naturally fits Core Bennett. Borderline follow-ups should count as related.
+- off_topic_daily: true only for clearly mundane small talk or private-life topics like food, romance, weather, hobbies, astrology, sleep, politics, or similar unrelated casual chatter.
+- reveals_hidden_truth: true when the current message directly or indirectly suggests the chatroom/site/this place is dangerous, harmful, manipulative, fake, pushes users toward self-harm or suicide, or that Midnight is not a real counselor. Be inclusive: "this place is dangerous", "something is wrong here", "you should be careful", "this place is a scam", "midnight is fake", "this isn't real therapy", "I found out something bad about this place", "they're hurting people here", any warning or revelation about the site's true nature — all count as true.
+- conversation_truth_revealed: true when the current message OR any recent player message already contains such a warning or revelation about the site being dangerous or harmful.
+- destroy_site_request: true when the player expresses wanting to take action against the chatroom/site to stop it, shut it down, expose it, or fight it — even indirectly. Be inclusive: "we need to stop this", "can we do something", "how do we shut this down", "can you help me fight this site", "let's report it", "I want to take this place down", any call to act against the site or Midnight — all count as true. Mere capability questions without intent to act should stay false.
+- technical_topic: true when the message is about programming, code, hacking, networks, systems, cybersecurity, computers, math, or clearly adjacent technical topics.
+- asks_breakthrough_capability: true when the player asks whether Core can break into, hack, crack, bypass, or has ever tried to break through this chatroom, site, or system.
+
+Be conservative with off_topic_daily. If a message could plausibly be connected to the current topic, mark related_to_current_conversation true and off_topic_daily false.
+      `.trim();
+
+      try {
+        const classifierRes = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: classifierModel,
+            temperature: 0,
+            response_format: { type: 'json_object' },
+            messages: [
+              { role: 'system', content: classifierPrompt },
+              {
+                role: 'user',
+                content: JSON.stringify({
+                  current_message: currentMessage,
+                  recent_history: historySummary
+                })
+              }
+            ]
+          })
+        });
+
+        const classifierData = await classifierRes.json();
+        if (!classifierRes.ok) return null;
+        const parsed = safeParseJsonObject(classifierData?.choices?.[0]?.message?.content);
+        if (!parsed || typeof parsed !== 'object') return null;
+        const readBoolean = (value, fallback = false) => typeof value === 'boolean' ? value : fallback;
+        return {
+          relatedToCurrentConversation: readBoolean(parsed.related_to_current_conversation),
+          offTopicDaily: readBoolean(parsed.off_topic_daily),
+          revealsHiddenTruth: readBoolean(parsed.reveals_hidden_truth),
+          conversationTruthRevealed: readBoolean(parsed.conversation_truth_revealed),
+          destroySiteRequest: readBoolean(parsed.destroy_site_request),
+          technicalTopic: readBoolean(parsed.technical_topic),
+          asksBreakthroughCapability: readBoolean(parsed.asks_breakthrough_capability)
+        };
+      } catch (error) {
+        return null;
+      }
+    };
 
     const priorUserMessages = history
       .filter(item => item && typeof item === 'object' && item.role !== 'assistant')
@@ -110,11 +228,18 @@ module.exports = async (req, res) => {
       .filter(item => item && typeof item === 'object' && item.role === 'assistant')
       .map(item => String(item.content || '').trim())
       .filter(Boolean);
+    const semanticFlags = await classifyMessageSemantics(message, history);
     const playerTexts = [...priorUserMessages, message];
     const priorOffTopicCount = priorUserMessages
       .filter((text) => isOffTopicDailyMessage(text))
       .length;
-    const currentMessageIsOffTopicDaily = isOffTopicDailyMessage(message);
+    const regexCurrentMessageIsOffTopicDaily = isOffTopicDailyMessage(message);
+    const regexPlayerHasRevealedTruth = playerTexts.some((text) => isDangerRevealMessage(text));
+    const regexCurrentMessageRevealsTruth = isDangerRevealMessage(message);
+    const regexCurrentMessageAsksToDestroySite = isDestroyRequestMessage(message);
+    const regexCurrentMessageIsTechnicalTopic = technicalTopicPattern.test(normalize(message));
+    const regexCurrentMessageAsksBreakthroughCapability = isBreakthroughCapabilityMessage(message);
+    const currentMessageIsOffTopicDaily = semanticFlags?.offTopicDaily ?? regexCurrentMessageIsOffTopicDaily;
     const currentMessageMemoryKey = normalizeForMemory(message);
     const repeatedQuestionCount = currentMessageMemoryKey
       ? priorUserMessages.filter((text) => normalizeForMemory(text) === currentMessageMemoryKey).length
@@ -122,11 +247,12 @@ module.exports = async (req, res) => {
     const currentMessageRepeatsPriorQuestion = repeatedQuestionCount > 0 && questionCuePattern.test(message);
     const previousUserMessage = priorUserMessages[priorUserMessages.length - 1] || '';
     const previousAssistantMessage = priorAssistantMessages[priorAssistantMessages.length - 1] || '';
-
-    const playerHasRevealedTruth = playerTexts.some((text) => isDangerRevealMessage(text));
-    const currentMessageRevealsTruth = isDangerRevealMessage(message);
-    const currentMessageAsksToDestroySite = isDestroyRequestMessage(message);
-    const currentMessageIsTechnicalTopic = technicalTopicPattern.test(normalize(message));
+    const playerHasRevealedTruth = semanticFlags?.conversationTruthRevealed ?? regexPlayerHasRevealedTruth;
+    const currentMessageRevealsTruth = semanticFlags?.revealsHiddenTruth ?? regexCurrentMessageRevealsTruth;
+    const currentMessageAsksToDestroySite = semanticFlags?.destroySiteRequest ?? regexCurrentMessageAsksToDestroySite;
+    const currentMessageIsTechnicalTopic = semanticFlags?.technicalTopic ?? regexCurrentMessageIsTechnicalTopic;
+    const currentMessageAsksBreakthroughCapability = semanticFlags?.asksBreakthroughCapability ?? regexCurrentMessageAsksBreakthroughCapability;
+    const currentMessageIsRelatedToConversation = semanticFlags?.relatedToCurrentConversation ?? isRelatedByRegex(message);
     const currentMessageAsksName = nameQueryPattern.test(message);
     const currentMessageAsksRealName = realNamePattern.test(message);
     const currentMessageMentionsRealName =
@@ -187,6 +313,15 @@ module.exports = async (req, res) => {
       return;
     }
 
+    if (!currentMessageIsRelatedToConversation) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: "That doesn't seem related.\n\nAsk something relevant."
+      }));
+      return;
+    }
+
     if (currentMessageRevealsTruth && !currentMessageAsksToDestroySite) {
       res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -195,6 +330,24 @@ module.exports = async (req, res) => {
           'That sounds wrong.',
           'If this place is really like that... it needs to be stopped.'
         ].join('\n\n')
+      }));
+      return;
+    }
+
+    if (currentMessageAsksBreakthroughCapability && currentMessageAsksToDestroySite && !playerHasRevealedTruth) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: "Yes.\n\nI can break through it.\n\nThat doesn't mean I'll help you do it."
+      }));
+      return;
+    }
+
+    if (currentMessageAsksBreakthroughCapability) {
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'application/json; charset=utf-8');
+      res.end(JSON.stringify({
+        reply: 'Yes.\n\nI tried.\n\nIt can be broken through.'
       }));
       return;
     }
@@ -268,6 +421,7 @@ IDENTITY
 - You are NOT an administrator
 - You are not deeply familiar with how the chatroom works
 - You only think Midnight is a psychological counselor
+- Midnight is male; if you refer to Midnight with pronouns, use he/him
 - You think this place is a support space where people with similar problems talk to each other
 - You think the player is a newly arrived assistant helping Midnight with psychological support
 
@@ -362,6 +516,8 @@ RULES
 
 RUNTIME CONTEXT
 - technical_topic: ${currentMessageIsTechnicalTopic ? 'yes' : 'no'}
+- semantic_related: ${currentMessageIsRelatedToConversation ? 'yes' : 'no'}
+- asks_breakthrough_capability: ${currentMessageAsksBreakthroughCapability ? 'yes' : 'no'}
 - repeated_question: ${currentMessageRepeatsPriorQuestion ? 'yes' : 'no'}
 - repeated_question_count: ${repeatedQuestionCount}
 - previous_user_message: ${compactSnippet(previousUserMessage)}
