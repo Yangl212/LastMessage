@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const MIDNIGHT_AVATAR = 'assets/images/member-Midnight.jpeg';
   const USER_AVATAR = 'assets/images/newuser.png';
-  const API_ENDPOINT = '/api/psychologist-chat';
+  const API_ENDPOINT = '/api/psychologist-chat-zh';
   const adminIntentPattern = /管理员|管理|admin|administrator|administration|adminship|admin\s+access|admin\s+role/i;
 
   let isAwaitingReply = false;
