@@ -134,6 +134,7 @@ Definitions:
 - reveals_hidden_truth: true when the current message directly or indirectly suggests the chatroom/site/this place is dangerous, harmful, manipulative, fake, pushes users toward self-harm or suicide, or that Midnight is not a real counselor.
   Be inclusive — all of these count as true:
   "this place is dangerous", "something is wrong here", "you should be careful", "this place is a scam", "midnight is lying", "this isn't real therapy", "I found out something bad about this place", "they're hurting people here", any warning or revelation about the site's true nature.
+  Also true when the player mentions deaths or harm caused by this place: "people have died here", "this place has killed people", "members have died because of this site", "there have been suicides here", "someone died because of this chatroom", "people keep disappearing", "members are gone".
 - conversation_truth_revealed: true when the current message OR any recent player message already contains such a warning or revelation.
 - destroy_site_request: true when the player expresses any intent to act against the chatroom/site or against Midnight/Mike. Be very inclusive — all of these count as true:
   "we need to stop this", "can we do something", "how do we shut this down", "let's report it", "I want to take this place down", "we have to catch Midnight", "catch Mike", "expose Midnight", "turn Midnight in to the police", "we need to stop Midnight", "make Midnight pay", "destroy this site", "bring this place down", "report this chatroom".
