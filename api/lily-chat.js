@@ -135,9 +135,9 @@ Definitions:
   Be inclusive — all of these count as true:
   "this place is dangerous", "something is wrong here", "you should be careful", "this place is a scam", "midnight is lying", "this isn't real therapy", "I found out something bad about this place", "they're hurting people here", any warning or revelation about the site's true nature.
 - conversation_truth_revealed: true when the current message OR any recent player message already contains such a warning or revelation.
-- destroy_site_request: true when the player expresses wanting to take action against the chatroom/site to stop it, shut it down, expose it, or report it.
-  Be inclusive — all of these count as true:
-  "we need to stop this", "can we do something about this", "how do we shut this down", "can you help me fight this site", "let's report it together", "I want to take this place down", any call to take collective or individual action against the site or Midnight.
+- destroy_site_request: true when the player expresses any intent to act against the chatroom/site or against Midnight/Mike. Be very inclusive — all of these count as true:
+  "we need to stop this", "can we do something", "how do we shut this down", "let's report it", "I want to take this place down", "we have to catch Midnight", "catch Mike", "expose Midnight", "turn Midnight in to the police", "we need to stop Midnight", "make Midnight pay", "destroy this site", "bring this place down", "report this chatroom".
+  Core rule: if the player has any intent — however expressed — to confront, stop, expose, destroy, or bring justice to this chatroom or its administrator, mark true.
 - off_topic_daily: true only when the message is clearly unrelated casual talk (food, weather, romance, hobbies, astrology, etc.). If it could plausibly relate to the current topic, mark false.
       `.trim();
       try {
