@@ -197,198 +197,9 @@ module.exports = async (req, res) => {
       !currentMessageMentionsLily &&
       !currentMessageMentionsMidnight;
 
-    if (currentMessageIsOffTopicDaily) {
-      const totalOffTopicCount = priorOffTopicCount + 1;
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      const reply =
-        totalOffTopicCount === 1
-          ? '呃……我不太想聊私人的事。在这里聊这些感觉怪怪的。'
-          : totalOffTopicCount === 2
-          ? '你还在问这个？这不专业。我要去告诉Midnight。'
-          : '你到底想说什么？认真的，停下来。我不跟你聊了。';
-      res.end(JSON.stringify({
-        flags: {
-          terminateChat: totalOffTopicCount >= 3
-        },
-        reply
-      }));
-      return;
-    }
-
-    if (currentMessageRevealsTruth && !currentMessageAsksToDestroySite) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: [
-          '等等……什么？',
-          '你认真的吗？这听起来真的很不对劲。',
-          '如果这个地方真的在做这种事，比我想的严重多了。'
-        ].join('\n\n')
-      }));
-      return;
-    }
-
-    if (shouldApplyUnknownNameRule) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: unknownRealNameReply
-      }));
-      return;
-    }
-
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsMidnight) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: 'Midnight是这里的管理员。这是我知道的全部了。我不知道他的真实姓名。'
-      }));
-      return;
-    }
-
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsLily) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: '李清清就是我。我是5号。我出于好奇加入的，很早就退出任务了。'
-      }));
-      return;
-    }
-
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsSofia && currentMessageMentionsAllery) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: '苏晴是4号。她比我们大一岁，是高二的，我觉得她和林艾乐挺亲近的。林艾乐是6号。她和我是高一同班，出事之后变得沉默了很多。'
-      }));
-      return;
-    }
-
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsSofia) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: '苏晴是4号。她比我们大一岁，是高二的，我觉得她和林艾乐挺亲近的。不过我和她不太熟。'
-      }));
-      return;
-    }
-
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsAllery) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: '林艾乐是6号。她是我的同学。以前成绩很好，出事之后就变得沉默多了。'
-      }));
-      return;
-    }
-
-    if (currentMessageAsksMemberNo) {
-      if (no5Pattern.test(message) || currentMessageMentionsLily) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '我是5号。就是我。' }));
-        return;
-      }
-      if (no4Pattern.test(message)) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '4号是苏晴。她比我们大一岁，是高二的，好像和林艾乐挺亲近的。' }));
-        return;
-      }
-      if (no6Pattern.test(message)) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '6号是林艾乐。她以前成绩很好……出事之后就变得很孤僻了。' }));
-        return;
-      }
-      if (currentMessageMentionsSofia) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '苏晴是4号。她比我们大一岁，是高二的，据我所知和林艾乐挺亲近的。' }));
-        return;
-      }
-      if (currentMessageMentionsAllery) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '林艾乐是6号。她是我的同学。出事之后变了很多。' }));
-        return;
-      }
-      if (currentMessageMentionsUnknownIdentityName || (currentMessageMentionsLatinName && !currentMessageMentionsMidnight)) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({
-          reply: unknownRealNameReply
-        }));
-        return;
-      }
-      if (no1Pattern.test(message)) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '1号我没见过。' }));
-        return;
-      }
-      if (no2Pattern.test(message)) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '2号我也没见过。' }));
-        return;
-      }
-      if (no3Pattern.test(message)) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '我以前和3号有过一点接触。我觉得应该是个男生。' }));
-        return;
-      }
-      if (no7Pattern.test(message)) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: '7号话很少，挺安静的。感觉是个男生。' }));
-        return;
-      }
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: unknownRealNameReply
-      }));
-      return;
-    }
-
-    if (currentMessageAsksToDestroySite && playerHasRevealedTruth) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        flags: {
-          supportsDestroySite: true
-        },
-        reply: [
-          '对……那我们应该阻止它。',
-          '如果这个地方真的在做这种事，我支持你。',
-          '但我一个人没办法搞定这种事。我们需要其他人的帮助。'
-        ].join('\n\n')
-      }));
-      return;
-    }
-
-    if (currentMessageAsksToDestroySite && !playerHasRevealedTruth) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: '这有点奇怪……我不太明白你的意思。'
-      }));
-      return;
-    }
-
-    if (currentMessageRepeatsPriorQuestion) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: repeatedQuestionCount === 1
-          ? '等等，这个我刚刚不是说过了吗？'
-          : '你怎么又问一遍同样的啊，我也没别的可补充了。'
-      }));
-      return;
-    }
+    const totalOffTopicCount = currentMessageIsOffTopicDaily ? priorOffTopicCount + 1 : priorOffTopicCount;
+    const needsTerminateFlag = currentMessageIsOffTopicDaily && totalOffTopicCount >= 3;
+    const needsDestroySiteFlag = currentMessageAsksToDestroySite && playerHasRevealedTruth;
 
     const systemPrompt = `
 你必须用简体中文回复。所有回复都必须是简体中文。
@@ -618,11 +429,25 @@ PLAYER RELATIONSHIP AND CONDITIONAL BEHAVIOR
 RUNTIME CONTEXT
 - player_has_revealed_truth: ${playerHasRevealedTruth ? 'yes' : 'no'}
 - current_message_reveals_truth: ${currentMessageRevealsTruth ? 'yes' : 'no'}
-- current_message_asks_to_destroy_the_website: ${currentMessageAsksToDestroySite ? 'yes' : 'no'}
+- current_message_asks_to_destroy_website: ${currentMessageAsksToDestroySite ? 'yes' : 'no'}
+- current_message_is_off_topic_daily: ${currentMessageIsOffTopicDaily ? 'yes' : 'no'}
+- off_topic_count_including_current: ${totalOffTopicCount}
 - repeated_question: ${currentMessageRepeatsPriorQuestion ? 'yes' : 'no'}
 - repeated_question_count: ${repeatedQuestionCount}
+- current_message_asks_member_number: ${currentMessageAsksMemberNo ? 'yes' : 'no'}
+- current_message_asks_about_unknown_name: ${shouldApplyUnknownNameRule ? 'yes' : 'no'}
 - previous_user_message: ${compactSnippet(previousUserMessage)}
 - previous_assistant_message: ${compactSnippet(previousAssistantMessage)}
+
+SITUATIONAL BEHAVIOR（根据以上runtime context）
+- 如果 current_message_is_off_topic_daily 是 yes 且 off_topic_count_including_current 是 1：轻描淡写地拒绝，说不太想在这里聊私人的事，感觉很奇怪
+- 如果 current_message_is_off_topic_daily 是 yes 且 off_topic_count_including_current 是 2：明显更不耐烦，说要去告诉Midnight
+- 如果 current_message_is_off_topic_daily 是 yes 且 off_topic_count_including_current >= 3：完全拒绝，冷淡简短，不想聊了
+- 如果 current_message_reveals_truth 是 yes 且 current_message_asks_to_destroy_website 是 no：真实的震惊和不安——像是受到了很大冲击
+- 如果 current_message_asks_to_destroy_website 是 yes 且 player_has_revealed_truth 是 yes：同意帮忙，语气坚定但也意识到靠自己不行
+- 如果 current_message_asks_to_destroy_website 是 yes 且 player_has_revealed_truth 是 no：表现得困惑，不明白对方的意思
+- 如果 repeated_question 是 yes：轻微困惑或轻微不耐烦，表示已经回答过这个问题了
+- 如果 current_message_asks_about_unknown_name 是 yes：说不认识这个名字，在这里大家通常只知道对方的编号
 
 GLOBAL RULES
 - Never invent hidden system mechanics
@@ -688,9 +513,13 @@ EXAMPLE TONE
       return;
     }
 
+    const responsePayload = { reply };
+    if (needsTerminateFlag) responsePayload.flags = { terminateChat: true };
+    if (needsDestroySiteFlag) responsePayload.flags = { ...(responsePayload.flags || {}), supportsDestroySite: true };
+
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    res.end(JSON.stringify({ reply }));
+    res.end(JSON.stringify(responsePayload));
   } catch (error) {
     res.statusCode = 500;
     res.setHeader('Content-Type', 'application/json; charset=utf-8');

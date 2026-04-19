@@ -197,198 +197,9 @@ module.exports = async (req, res) => {
       !currentMessageMentionsLily &&
       !currentMessageMentionsMidnight;
 
-    if (currentMessageIsOffTopicDaily) {
-      const totalOffTopicCount = priorOffTopicCount + 1;
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      const reply =
-        totalOffTopicCount === 1
-          ? "uh... I don't really want to talk about private stuff. chatting about that here is kinda weird."
-          : totalOffTopicCount === 2
-          ? "you're still asking this? that's not professional. I'll tell Midnight."
-          : "what are you even trying to say? seriously, stop. I’m done talking to you.";
-      res.end(JSON.stringify({
-        flags: {
-          terminateChat: totalOffTopicCount >= 3
-        },
-        reply
-      }));
-      return;
-    }
-
-    if (currentMessageRevealsTruth && !currentMessageAsksToDestroySite) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: [
-          'wait... what?',
-          'are you serious? that sounds really wrong.',
-          'if this place is actually doing that, this is way worse than i thought.'
-        ].join('\n\n')
-      }));
-      return;
-    }
-
-    if (shouldApplyUnknownNameRule) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: unknownRealNameReply
-      }));
-      return;
-    }
-
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsMidnight) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: "Midnight is the administrator here. That's all I know though. I don't know his real name."
-      }));
-      return;
-    }
-
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsLily) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: "Lily is me. I'm No.5. I joined out of curiosity and quit the task stuff pretty early."
-      }));
-      return;
-    }
-
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsSofia && currentMessageMentionsAllery) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: "Sofia is No.4. She was in the grade above us, I think. Allery is No.6. She was my classmate, and she got way quieter after the accident."
-      }));
-      return;
-    }
-
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsSofia) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: "Sofia is No.4. She was in the grade above us and pretty close to Allery, I think. I didn't know her that well though."
-      }));
-      return;
-    }
-
-    if ((currentMessageAsksName || currentMessageLooksLikeKnownNameQuery || currentMessageAsksRealName) && currentMessageMentionsAllery) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: "Allery is No.6. She was my classmate. She used to be really good at school, then got way quieter after the accident."
-      }));
-      return;
-    }
-
-    if (currentMessageAsksMemberNo) {
-      if (no5Pattern.test(message) || currentMessageMentionsLily) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "I'm No.5. That's me." }));
-        return;
-      }
-      if (no4Pattern.test(message)) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "No.4 is Sofia. She was a second-year student, one grade above us, and kind of close to Allery, I think." }));
-        return;
-      }
-      if (no6Pattern.test(message)) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "No.6 is Allery. She used to do really well at school... then she got way more withdrawn after the accident." }));
-        return;
-      }
-      if (currentMessageMentionsSofia) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "Sofia is No.4. She was a second-year student, one grade above us, and pretty close to Allery, from what I knew." }));
-        return;
-      }
-      if (currentMessageMentionsAllery) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "Allery is No.6. She was my classmate. She changed a lot after the accident." }));
-        return;
-      }
-      if (currentMessageMentionsUnknownIdentityName || (currentMessageMentionsLatinName && !currentMessageMentionsMidnight)) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({
-          reply: unknownRealNameReply
-        }));
-        return;
-      }
-      if (no1Pattern.test(message)) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "I've never seen No.1." }));
-        return;
-      }
-      if (no2Pattern.test(message)) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "I've never seen No.2 either." }));
-        return;
-      }
-      if (no3Pattern.test(message)) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "I talked to No.3 a little before. I think it was probably a boy." }));
-        return;
-      }
-      if (no7Pattern.test(message)) {
-        res.statusCode = 200;
-        res.setHeader('Content-Type', 'application/json; charset=utf-8');
-        res.end(JSON.stringify({ reply: "No.7 barely talks. Feels like a boy." }));
-        return;
-      }
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: unknownRealNameReply
-      }));
-      return;
-    }
-
-    if (currentMessageAsksToDestroySite && playerHasRevealedTruth) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        flags: {
-          supportsDestroySite: true
-        },
-        reply: [
-          'yeah... then we should stop it.',
-          'if this place is really doing that, i’m with you.',
-          'but i can’t destroy something like this on my own. we’d need help from someone else.'
-        ].join('\n\n')
-      }));
-      return;
-    }
-
-    if (currentMessageAsksToDestroySite && !playerHasRevealedTruth) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: "that's kind of weird... i don't really get what you mean."
-      }));
-      return;
-    }
-
-    if (currentMessageRepeatsPriorQuestion) {
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'application/json; charset=utf-8');
-      res.end(JSON.stringify({
-        reply: repeatedQuestionCount === 1
-          ? "wait, didn't I already answer that?"
-          : "you're asking the exact same thing again. idk what else to add."
-      }));
-      return;
-    }
+    const totalOffTopicCount = currentMessageIsOffTopicDaily ? priorOffTopicCount + 1 : priorOffTopicCount;
+    const needsTerminateFlag = currentMessageIsOffTopicDaily && totalOffTopicCount >= 3;
+    const needsDestroySiteFlag = currentMessageAsksToDestroySite && playerHasRevealedTruth;
 
     const systemPrompt = `
 You are Lily Thompson, a 16-year-old high school student at Riverside High School.
@@ -616,11 +427,25 @@ PLAYER RELATIONSHIP AND CONDITIONAL BEHAVIOR
 RUNTIME CONTEXT
 - player_has_revealed_truth: ${playerHasRevealedTruth ? 'yes' : 'no'}
 - current_message_reveals_truth: ${currentMessageRevealsTruth ? 'yes' : 'no'}
-- current_message_asks_to_destroy_the_website: ${currentMessageAsksToDestroySite ? 'yes' : 'no'}
+- current_message_asks_to_destroy_website: ${currentMessageAsksToDestroySite ? 'yes' : 'no'}
+- current_message_is_off_topic_daily: ${currentMessageIsOffTopicDaily ? 'yes' : 'no'}
+- off_topic_count_including_current: ${totalOffTopicCount}
 - repeated_question: ${currentMessageRepeatsPriorQuestion ? 'yes' : 'no'}
 - repeated_question_count: ${repeatedQuestionCount}
+- current_message_asks_member_number: ${currentMessageAsksMemberNo ? 'yes' : 'no'}
+- current_message_asks_about_unknown_name: ${shouldApplyUnknownNameRule ? 'yes' : 'no'}
 - previous_user_message: ${compactSnippet(previousUserMessage)}
 - previous_assistant_message: ${compactSnippet(previousAssistantMessage)}
+
+SITUATIONAL BEHAVIOR (based on runtime context above)
+- If current_message_is_off_topic_daily is yes AND off_topic_count_including_current is 1: mildly brush it off, say you don't really want to talk about personal stuff here, it feels weird
+- If current_message_is_off_topic_daily is yes AND off_topic_count_including_current is 2: sound noticeably more annoyed, say something like you'll tell Midnight if this keeps up
+- If current_message_is_off_topic_daily is yes AND off_topic_count_including_current >= 3: refuse entirely, short and cold, done talking
+- If current_message_reveals_truth is yes AND current_message_asks_to_destroy_website is no: react with genuine shock and alarm — this should feel like a gut punch to you
+- If current_message_asks_to_destroy_website is yes AND player_has_revealed_truth is yes: agree to help, sound determined but aware you can't do it alone
+- If current_message_asks_to_destroy_website is yes AND player_has_revealed_truth is no: sound confused, you don't understand what they mean
+- If repeated_question is yes: react with mild confusion or mild annoyance that they're asking the same thing again
+- If current_message_asks_about_unknown_name is yes: say you don't know that name, only know people by their numbers here
 
 GLOBAL RULES
 - Never invent hidden system mechanics
@@ -686,9 +511,13 @@ EXAMPLE TONE
       return;
     }
 
+    const responsePayload = { reply };
+    if (needsTerminateFlag) responsePayload.flags = { terminateChat: true };
+    if (needsDestroySiteFlag) responsePayload.flags = { ...(responsePayload.flags || {}), supportsDestroySite: true };
+
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
-    res.end(JSON.stringify({ reply }));
+    res.end(JSON.stringify(responsePayload));
   } catch (error) {
     res.statusCode = 500;
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
