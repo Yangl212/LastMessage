@@ -1007,6 +1007,8 @@
     });
   </script>
 
+  <script src="firebase-config.local.js"></script>
+
   <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -1025,6 +1027,10 @@
     let db = null;
 
     async function loadFirebaseConfig() {
+      if (window.__FIREBASE_CONFIG__) {
+        return window.__FIREBASE_CONFIG__;
+      }
+
       const response = await fetch('/api/firebase-config', { cache: 'no-store' });
       const data = await response.json().catch(() => ({}));
 

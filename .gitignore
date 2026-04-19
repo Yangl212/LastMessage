@@ -2,3 +2,4 @@
 .env
 node_modules/
 server/.env
+firebase-config.local.js
