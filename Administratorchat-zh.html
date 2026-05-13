@@ -1692,7 +1692,8 @@
     };
     const DESTROY_READY_KEY = 'lastmessage:destroy-site-ready';
     const DESTROY_TRIGGERED_KEY = 'lastmessage:destroy-site-triggered';
-    const ADMIN_ERROR_FLAG = 'administratorchat:error-triggered';
+    const ADMIN_ERROR_SEEN_FLAG = 'administratorchat:error-screen-seen';
+    const ADMIN_ERROR_LEGACY_FLAG = 'administratorchat:error-triggered';
     const ADMIN_ERROR_COUNT_KEY = 'administratorchat:error-count';
     const MAX_MEMBER_ACCESS_ERROR_ATTEMPTS = 3;
     const coreAttackOverlay = document.getElementById('coreAttackOverlay');
@@ -1734,6 +1735,7 @@
     let privateChatDragState = null;
     let lilyFirstMessageSent = false;
     let coreFirstMessageSent = false;
+    localStorage.removeItem(ADMIN_ERROR_LEGACY_FLAG);
     const LOCK_ICON_SRC = 'assets/images/lock.png';
     const UNLOCK_ICON_SRC = 'assets/images/unlock.png';
     const PRIVATE_CHAT_LABELS = {
@@ -3301,13 +3303,13 @@
     function triggerAdminError() {
       alleryPrompt.classList.remove('is-visible');
       alleryPrompt.setAttribute('aria-hidden', 'true');
-      localStorage.setItem(ADMIN_ERROR_FLAG, '1');
       clearBackgroundErrors();
       adminErrorScreen.classList.add('is-visible');
       adminErrorScreen.classList.remove('show-popup');
       adminErrorScreen.setAttribute('aria-hidden', 'false');
 
       window.setTimeout(() => {
+        localStorage.setItem(ADMIN_ERROR_SEEN_FLAG, '1');
         adminErrorScreen.classList.add('show-popup');
         retroError.setAttribute('aria-hidden', 'false');
         spawnBackgroundError();
@@ -3322,6 +3324,7 @@
         const isFatalError = memberAccessErrorCount >= MAX_MEMBER_ACCESS_ERROR_ATTEMPTS;
         if (isFatalError) {
           localStorage.removeItem(ADMIN_ERROR_COUNT_KEY);
+          localStorage.removeItem(ADMIN_ERROR_SEEN_FLAG);
           memberAccessErrorCount = 0;
           window.location.href = 'Ending2-zh.html';
           return;
@@ -4315,8 +4318,8 @@
       });
     });
 
-    if (localStorage.getItem(ADMIN_ERROR_FLAG) === '1' && midnightToast) {
-      localStorage.removeItem(ADMIN_ERROR_FLAG);
+    if (localStorage.getItem(ADMIN_ERROR_SEEN_FLAG) === '1' && midnightToast) {
+      localStorage.removeItem(ADMIN_ERROR_SEEN_FLAG);
       window.setTimeout(() => {
         showMidnightToast();
       }, 1000);
